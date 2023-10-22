@@ -5,8 +5,7 @@
   },
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
-    "@typescript-eslint/space-before-function-paren": ["error", "never"],
-    "lines-between-class-members": ["error", "always"]
+    "@typescript-eslint/space-before-function-paren": ["error", "never"]
   },
   "ignorePatterns": ["jest.config.ts"]
 }
