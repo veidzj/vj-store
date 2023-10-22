@@ -1,0 +1,12 @@
+{
+  "name": "vj-store",
+  "version": "0.0.0",
+  "description": "E-Commerce API using TypeScript, TDD and Clean Architecture",
+  "author": "João Victor Veidz",
+  "license": "ISC",
+  "repository": "https://github.com/veidzj/vj-store",
+  "homepage": "https://github.com/veidzj/vj-store",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
