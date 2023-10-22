@@ -8,5 +8,9 @@
   "homepage": "https://github.com/veidzj/vj-store",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "typescript": "^5.2.2"
   }
 }
