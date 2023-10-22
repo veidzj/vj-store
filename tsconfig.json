@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "module": "ESNext",
     "target": "ES6",
-    "esModuleInterop": true
-  }
+    "rootDirs": ["src", "tests"],
+    "baseUrl": "src",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+  },
+  "include": ["src", "tests"],
+  "exclude": []
 }
