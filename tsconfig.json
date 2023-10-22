@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
+    "moduleResolution": "Node"
   },
   "include": ["src", "tests"],
   "exclude": []
