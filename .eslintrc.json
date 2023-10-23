@@ -7,5 +7,5 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/space-before-function-paren": ["error", "never"]
   },
-  "ignorePatterns": ["jest.config.ts"]
+  "ignorePatterns": ["jest.config.ts", "jest-unit.config.ts", "jest-integration.config.ts"]
 }
