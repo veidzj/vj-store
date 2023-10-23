@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
-import { badRequest, serverError } from '../../../src/presentation/helpers/http-helper'
+import { badRequest, forbidden, serverError } from '../../../src/presentation/helpers/http-helper'
 import { AddAccountSpy } from '../mocks/mock-account'
 import { ServerError } from '../../../src/presentation/errors/server-error'
+import { EmailInUseError } from '../../../src/presentation/errors/email-in-use-error'
 
 interface Sut {
   sut: SignUpController
@@ -59,6 +60,13 @@ describe('SignUpController', () => {
         email: request.email,
         password: request.password
       })
+    })
+
+    test('Should return Forbidden if AddAccount returns false', async() => {
+      const { sut, addAccountSpy } = makeSut()
+      addAccountSpy.output = false
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
     })
 
     test('Should return Server Error if AddAccount throws', async() => {
