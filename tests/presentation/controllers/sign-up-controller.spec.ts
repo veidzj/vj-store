@@ -2,18 +2,22 @@ import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
 import { badRequest } from '../../../src/presentation/helpers/http-helper'
+import { AddAccountSpy } from '../mocks/mock-account'
 
 interface Sut {
   sut: SignUpController
   validationSpy: ValidationSpy
+  addAccountSpy: AddAccountSpy
 }
 
 const makeSut = (): Sut => {
   const validationSpy = new ValidationSpy()
-  const sut = new SignUpController(validationSpy)
+  const addAccountSpy = new AddAccountSpy()
+  const sut = new SignUpController(validationSpy, addAccountSpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addAccountSpy
   }
 }
 
@@ -28,17 +32,32 @@ const mockRequest = (): SignUpController.Request => {
 }
 
 describe('SignUpController', () => {
-  test('Should call Validation with correct values', async() => {
-    const { sut, validationSpy } = makeSut()
-    const request = mockRequest()
-    await sut.handle(request)
-    expect(validationSpy.input).toEqual(request)
+  describe('Validation', () => {
+    test('Should call Validation with correct values', async() => {
+      const { sut, validationSpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(validationSpy.input).toEqual(request)
+    })
+
+    test('Should return Bad Request if Validation returns an error', async() => {
+      const { sut, validationSpy } = makeSut()
+      validationSpy.error = new Error(faker.word.words())
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(badRequest(validationSpy.error))
+    })
   })
 
-  test('Should return Bad Request if Validation returns an error', async() => {
-    const { sut, validationSpy } = makeSut()
-    validationSpy.error = new Error(faker.word.words())
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(badRequest(validationSpy.error))
+  describe('AddAccount', () => {
+    test('Should call AddAccount with correct values', async() => {
+      const { sut, addAccountSpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(addAccountSpy.input).toEqual({
+        name: request.name,
+        email: request.email,
+        password: request.password
+      })
+    })
   })
 })
