@@ -8,6 +8,7 @@
   "homepage": "https://github.com/veidzj/vj-store",
   "scripts": {
     "test": "jest",
+    "test:staged": "jest",
     "prepare": "husky install"
   },
   "devDependencies": {
