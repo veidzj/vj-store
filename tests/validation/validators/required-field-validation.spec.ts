@@ -9,7 +9,7 @@ const makeSut = (): RequiredFieldValidation => {
 }
 
 describe('RequiredFieldValidation', () => {
-  test('Should return a MissingParamError if validation fails', () => {
+  test('Should return MissingParamError if validation fails', () => {
     const sut = makeSut()
     const error = sut.validate({ invalidField: faker.word.words() })
     expect(error).toEqual(new MissingParamError(field))

@@ -10,7 +10,7 @@ const makeSut = (): CompareFieldsValidation => {
 }
 
 describe('CompareFieldsValidation', () => {
-  test('Should return an InvalidParamError if validation fails', () => {
+  test('Should return InvalidParamError if validation fails', () => {
     const sut = makeSut()
     const error = sut.validate({
       [field]: faker.word.words(),
