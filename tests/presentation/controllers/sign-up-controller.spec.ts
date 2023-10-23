@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
 import { MissingParamError } from '../../../src/presentation/errors/missing-param-error'
+import { badRequest } from '../../../src/presentation/helpers/http-helper'
 
 interface Sut {
   sut: SignUpController
@@ -39,9 +40,6 @@ describe('SignUpController', () => {
     const { sut, validationSpy } = makeSut()
     validationSpy.error = new MissingParamError('name')
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: new MissingParamError('name')
-    })
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')))
   })
 })
