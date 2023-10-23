@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
-import { badRequest } from '../../../src/presentation/helpers/http-helper'
+import { badRequest, serverError } from '../../../src/presentation/helpers/http-helper'
 import { AddAccountSpy } from '../mocks/mock-account'
+import { ServerError } from '../../../src/presentation/errors/server-error'
 
 interface Sut {
   sut: SignUpController
@@ -58,6 +59,13 @@ describe('SignUpController', () => {
         email: request.email,
         password: request.password
       })
+    })
+
+    test('Should return Server Error if AddAccount throws', async() => {
+      const { sut, addAccountSpy } = makeSut()
+      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new Error() })
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
     })
   })
 })
