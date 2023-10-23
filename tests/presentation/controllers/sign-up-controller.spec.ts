@@ -5,6 +5,7 @@ import { badRequest, forbidden, ok, serverError } from '../../../src/presentatio
 import { AddAccountSpy, AuthenticationSpy } from '../mocks/mock-account'
 import { ServerError } from '../../../src/presentation/errors/server-error'
 import { EmailInUseError } from '../../../src/presentation/errors/email-in-use-error'
+import { throwError } from '../../domain/mocks/test-helper'
 
 interface Sut {
   sut: SignUpController
@@ -74,7 +75,7 @@ describe('SignUpController', () => {
 
     test('Should return Server Error if AddAccount throws', async() => {
       const { sut, addAccountSpy } = makeSut()
-      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
     })
@@ -93,7 +94,7 @@ describe('SignUpController', () => {
 
     test('Should return Server Error if Authentication throws', async() => {
       const { sut, authenticationSpy } = makeSut()
-      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
     })
