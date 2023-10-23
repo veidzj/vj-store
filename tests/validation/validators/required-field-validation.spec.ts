@@ -14,4 +14,10 @@ describe('RequiredFieldValidation', () => {
     const error = sut.validate({ invalidField: faker.word.words() })
     expect(error).toEqual(new MissingParamError(field))
   })
+
+  test('Should return null if validation succeeds', () => {
+    const sut = makeSut()
+    const error = sut.validate({ [field]: faker.word.words() })
+    expect(error).toBeNull()
+  })
 })
