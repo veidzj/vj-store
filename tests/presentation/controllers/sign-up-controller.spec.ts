@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
-import { badRequest, forbidden, serverError } from '../../../src/presentation/helpers/http-helper'
+import { badRequest, forbidden, ok, serverError } from '../../../src/presentation/helpers/http-helper'
 import { AddAccountSpy, AuthenticationSpy } from '../mocks/mock-account'
 import { ServerError } from '../../../src/presentation/errors/server-error'
 import { EmailInUseError } from '../../../src/presentation/errors/email-in-use-error'
@@ -96,6 +96,12 @@ describe('SignUpController', () => {
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw new Error() })
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
+    })
+
+    test('Should return OK if valid data is provided', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(ok(authenticationSpy.output))
     })
   })
 })
