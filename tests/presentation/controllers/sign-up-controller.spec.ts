@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '../mocks/mock-validation'
 import { SignUpController } from '../../../src/presentation/controllers/sign-up-controller'
 import { badRequest, forbidden, serverError } from '../../../src/presentation/helpers/http-helper'
-import { AddAccountSpy } from '../mocks/mock-account'
+import { AddAccountSpy, AuthenticationSpy } from '../mocks/mock-account'
 import { ServerError } from '../../../src/presentation/errors/server-error'
 import { EmailInUseError } from '../../../src/presentation/errors/email-in-use-error'
 
@@ -10,16 +10,19 @@ interface Sut {
   sut: SignUpController
   validationSpy: ValidationSpy
   addAccountSpy: AddAccountSpy
+  authenticationSpy: AuthenticationSpy
 }
 
 const makeSut = (): Sut => {
   const validationSpy = new ValidationSpy()
   const addAccountSpy = new AddAccountSpy()
-  const sut = new SignUpController(validationSpy, addAccountSpy)
+  const authenticationSpy = new AuthenticationSpy()
+  const sut = new SignUpController(validationSpy, addAccountSpy, authenticationSpy)
   return {
     sut,
     validationSpy,
-    addAccountSpy
+    addAccountSpy,
+    authenticationSpy
   }
 }
 
@@ -74,6 +77,18 @@ describe('SignUpController', () => {
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new Error() })
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
+    })
+  })
+
+  describe('Authentication', () => {
+    test('Should call Authentication with correct values', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(authenticationSpy.input).toEqual({
+        email: request.email,
+        password: request.password
+      })
     })
   })
 })
