@@ -6,7 +6,7 @@ import { badRequest } from '../helpers/http-helper'
 export class SignUpController implements Controller {
   constructor(private readonly validation: Validation) {}
 
-  public handle = async(request: any): Promise<HttpResponse> => {
+  public handle = async(request: SignUpController.Request): Promise<HttpResponse> => {
     const error = this.validation.validate(request)
     if (error) {
       return badRequest(error)
@@ -16,5 +16,14 @@ export class SignUpController implements Controller {
       statusCode: 500,
       body: ''
     }
+  }
+}
+
+export namespace SignUpController {
+  export interface Request {
+    name: string
+    email: string
+    password: string
+    passwordConfirmation: string
   }
 }

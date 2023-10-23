@@ -18,7 +18,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): any => {
+const mockRequest = (): SignUpController.Request => {
   const password = faker.internet.password()
   return {
     name: faker.person.firstName(),
@@ -38,8 +38,8 @@ describe('SignUpController', () => {
 
   test('Should return Bad Request if Validation returns an error', async() => {
     const { sut, validationSpy } = makeSut()
-    validationSpy.error = new MissingParamError('name')
+    validationSpy.error = new MissingParamError(faker.word.words())
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')))
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 })
