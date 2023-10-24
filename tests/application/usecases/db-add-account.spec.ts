@@ -47,4 +47,13 @@ describe('DbAddAccount', () => {
       expect(isValid).toBe(false)
     })
   })
+
+  describe('Hasher', () => {
+    test('Should call Hasher with correct value', async() => {
+      const { sut, hasherSpy } = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      await sut.add(addAccountInput)
+      expect(hasherSpy.plainText).toEqual(addAccountInput.password)
+    })
+  })
 })
