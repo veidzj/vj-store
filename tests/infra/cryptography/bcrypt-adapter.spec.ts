@@ -29,5 +29,11 @@ describe('BcryptAdapter', () => {
       const promise = sut.hash('any_value')
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return a hashed value if hash succeeds', async() => {
+      const sut = makeSut()
+      const hashedValue = await sut.hash('any_value')
+      expect(hashedValue).toBe('hashed_value')
+    })
   })
 })
