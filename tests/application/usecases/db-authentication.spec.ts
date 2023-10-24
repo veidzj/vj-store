@@ -1,6 +1,7 @@
 import { mockAuthenticationInput } from '../../domain/mocks/mock-account'
 import { GetAccountByEmailRepositorySpy } from '../mocks/mock-db-account'
 import { DbAuthentication } from '../../../src/application/usecases/db-authentication'
+import { throwError } from '../../domain/mocks/test-helper'
 
 interface Sut {
   sut: DbAuthentication
@@ -23,6 +24,13 @@ describe('DbAuthentication', () => {
       const authenticationInput = mockAuthenticationInput()
       await sut.auth(authenticationInput)
       expect(getAccountByEmailRepositorySpy.email).toBe(authenticationInput.email)
+    })
+
+    test('Should throw if GetAccountByEmailRepository throws', async() => {
+      const { sut, getAccountByEmailRepositorySpy } = makeSut()
+      jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(throwError)
+      const promise = sut.auth(mockAuthenticationInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
