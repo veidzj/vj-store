@@ -63,4 +63,17 @@ describe('DbAddAccount', () => {
       await expect(promise).rejects.toThrow()
     })
   })
+
+  describe('AddAccountRepository', () => {
+    test('Should call AddAccountRepository with correct values', async() => {
+      const { sut, addAccountRepositorySpy, hasherSpy } = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      await sut.add(addAccountInput)
+      expect(addAccountRepositorySpy.input).toEqual({
+        name: addAccountInput.name,
+        email: addAccountInput.email,
+        password: hasherSpy.digest
+      })
+    })
+  })
 })
