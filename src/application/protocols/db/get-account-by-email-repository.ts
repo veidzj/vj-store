@@ -1,5 +1,5 @@
 export interface GetAccountByEmailRepository {
-  getByEmail: (email: string) => Promise<GetAccountByEmailRepository.Output>
+  getByEmail: (email: string) => Promise<GetAccountByEmailRepository.Output | null>
 }
 
 export namespace GetAccountByEmailRepository {

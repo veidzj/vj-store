@@ -25,13 +25,13 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
 
 export class GetAccountByEmailRepositorySpy implements GetAccountByEmailRepository {
   public email: string
-  public output: GetAccountByEmailRepository.Output = {
+  public output: GetAccountByEmailRepository.Output | null = {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
     password: faker.internet.password()
   }
 
-  public getByEmail = async(email: string): Promise<GetAccountByEmailRepository.Output> => {
+  public getByEmail = async(email: string): Promise<GetAccountByEmailRepository.Output | null> => {
     this.email = email
     return this.output
   }
