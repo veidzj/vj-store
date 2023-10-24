@@ -75,5 +75,12 @@ describe('DbAddAccount', () => {
         password: hasherSpy.digest
       })
     })
+
+    test('Should throw if AddAccountRepository throws', async() => {
+      const { sut, addAccountRepositorySpy } = makeSut()
+      jest.spyOn(addAccountRepositorySpy, 'add').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddAccountInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
