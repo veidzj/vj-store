@@ -5,6 +5,10 @@ import { throwError } from '../../domain/mocks/test-helper'
 jest.mock('bcrypt', () => ({
   async hash(): Promise<string> {
     return 'hashed_value'
+  },
+
+  async compare(): Promise<boolean> {
+    return true
   }
 }))
 
@@ -34,6 +38,15 @@ describe('BcryptAdapter', () => {
       const sut = makeSut()
       const hashedValue = await sut.hash('any_value')
       expect(hashedValue).toBe('hashed_value')
+    })
+  })
+
+  describe('compare', () => {
+    test('Should call compare with correct values', async() => {
+      const sut = makeSut()
+      const hashSpy = jest.spyOn(bcrypt, 'compare')
+      await sut.compare('any_value', 'any_hash')
+      expect(hashSpy).toHaveBeenCalledWith('any_value', 'any_hash')
     })
   })
 })
