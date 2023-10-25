@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { type Hasher } from '../../../src/application/protocols/cryptography/hasher'
 import { type HashComparer } from '../../../src/application/protocols/cryptography/hash-comparer'
+import { type Encrypter } from '../../../src/application/protocols/cryptography/encrypter'
 
 export class HasherSpy implements Hasher {
   public plainText: string
@@ -21,5 +22,15 @@ export class HashComparerSpy implements HashComparer {
     this.plainText = plainText
     this.digest = digest
     return this.isValid
+  }
+}
+
+export class EncrypterSpy implements Encrypter {
+  public plainText: string
+  public cipherText: string = faker.string.uuid()
+
+  public encrypt = async(plainText: string): Promise<string> => {
+    this.plainText = plainText
+    return this.cipherText
   }
 }

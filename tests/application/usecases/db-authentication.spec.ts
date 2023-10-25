@@ -2,22 +2,25 @@ import { mockAuthenticationInput } from '../../domain/mocks/mock-account'
 import { GetAccountByEmailRepositorySpy } from '../mocks/mock-db-account'
 import { DbAuthentication } from '../../../src/application/usecases/db-authentication'
 import { throwError } from '../../domain/mocks/test-helper'
-import { HashComparerSpy } from '../mocks/mock-cryptography'
+import { EncrypterSpy, HashComparerSpy } from '../mocks/mock-cryptography'
 
 interface Sut {
   sut: DbAuthentication
   getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
   hashComparerSpy: HashComparerSpy
+  encrypterSpy: EncrypterSpy
 }
 
 const makeSut = (): Sut => {
   const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
   const hashComparerSpy = new HashComparerSpy()
-  const sut = new DbAuthentication(getAccountByEmailRepositorySpy, hashComparerSpy)
+  const encrypterSpy = new EncrypterSpy()
+  const sut = new DbAuthentication(getAccountByEmailRepositorySpy, hashComparerSpy, encrypterSpy)
   return {
     sut,
     getAccountByEmailRepositorySpy,
-    hashComparerSpy
+    hashComparerSpy,
+    encrypterSpy
   }
 }
 
@@ -67,6 +70,14 @@ describe('DbAuthentication', () => {
       const authenticationInput = mockAuthenticationInput()
       const authenticationModel = await sut.auth(authenticationInput)
       expect(authenticationModel).toBeNull()
+    })
+  })
+
+  describe('Encrypter', () => {
+    test('Should call Encrypter with correct value (id)', async() => {
+      const { sut, encrypterSpy, getAccountByEmailRepositorySpy } = makeSut()
+      await sut.auth(mockAuthenticationInput())
+      expect(encrypterSpy.plainText).toBe(getAccountByEmailRepositorySpy.output?.id)
     })
   })
 })
