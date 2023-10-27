@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { EmailValidation } from '../../../src/validation/validators/email-validation'
-import { EmailValidatorSpy } from '../mocks/mock-email-validator'
-import { InvalidParamError } from '../../../src/presentation/errors/invalid-param-error'
-import { throwError } from '../../domain/mocks/test-helper'
+import { EmailValidation } from '@/validation/validators/email-validation'
+import { EmailValidatorSpy } from '@/tests/validation/mocks/mock-email-validator'
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { throwError } from '@/tests/domain/mocks/test-helper'
 
 interface Sut {
   sut: EmailValidation

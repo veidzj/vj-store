@@ -1,8 +1,8 @@
-import { mockAuthenticationInput } from '../../domain/mocks/mock-account'
-import { GetAccountByEmailRepositorySpy } from '../mocks/mock-db-account'
-import { DbAuthentication } from '../../../src/application/usecases/db-authentication'
-import { throwError } from '../../domain/mocks/test-helper'
-import { EncrypterSpy, HashComparerSpy } from '../mocks/mock-cryptography'
+import { DbAuthentication } from '@/application/usecases/db-authentication'
+import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/mock-db-account'
+import { EncrypterSpy, HashComparerSpy } from '@/tests/application/mocks/mock-cryptography'
+import { mockAuthenticationInput } from '@/tests/domain/mocks/mock-account'
+import { throwError } from '@/tests/domain/mocks/test-helper'
 
 interface Sut {
   sut: DbAuthentication
