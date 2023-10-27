@@ -1,7 +1,8 @@
-import { type Collection } from 'mongodb'
+import { Collection } from 'mongodb'
 import { AccountMongoRepository } from '../../../../src/infra/db/mongodb/account-mongo-repository'
 import { MongoHelper } from '../../../../src/infra/db/mongodb/mongo-helper'
 import { mockAddAccountInput } from '../../../domain/mocks/mock-account'
+import { throwError } from '../../../domain/mocks/test-helper'
 
 let accountCollection: Collection
 
@@ -29,6 +30,13 @@ describe('AccountMongoRepository', () => {
       const addAccountInput = mockAddAccountInput()
       const isValid = await sut.add(addAccountInput)
       expect(isValid).toBe(true)
+    })
+
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddAccountInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
