@@ -48,5 +48,12 @@ describe('AccountMongoRepository', () => {
       const exists = await sut.checkByEmail(addAccountInput.email)
       expect(exists).toBe(true)
     })
+
+    test('Should return false if email does not exists', async() => {
+      const sut = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      const exists = await sut.checkByEmail(addAccountInput.email)
+      expect(exists).toBe(false)
+    })
   })
 })
