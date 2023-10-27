@@ -1,5 +1,5 @@
 export interface AddAccount {
-  add: (input: AddAccount.Input) => Promise<AddAccount.Output>
+  add: (input: AddAccount.Input) => Promise<boolean>
 }
 
 export namespace AddAccount {
@@ -8,6 +8,4 @@ export namespace AddAccount {
     email: string
     password: string
   }
-
-  export type Output = boolean
 }

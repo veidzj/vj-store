@@ -4,10 +4,10 @@ import { type AddAccount } from '../../../domain/usecases/add-account'
 import { MongoHelper } from './mongo-helper'
 
 export class AccountMongoRepository implements CheckAccountByEmailRepository, AddAccountRepository {
-  public checkByEmail = async(input: string): Promise<boolean> => {
+  public checkByEmail = async(email: string): Promise<boolean> => {
     const accountCollection = MongoHelper.getCollection('account')
     const account = await accountCollection.findOne({
-      email: input
+      email
     }, {
       projection: {
         _id: 1
