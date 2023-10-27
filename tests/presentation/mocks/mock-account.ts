@@ -4,9 +4,9 @@ import { type Authentication } from '../../../src/domain/usecases/authentication
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
-  public output: AddAccount.Output = true
+  public output: boolean = true
 
-  add = async(input: AddAccount.Input): Promise<AddAccount.Output> => {
+  add = async(input: AddAccount.Input): Promise<boolean> => {
     this.input = input
     return this.output
   }

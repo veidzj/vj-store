@@ -4,20 +4,20 @@ import { type AddAccountRepository } from '../../../src/application/protocols/db
 import { type GetAccountByEmailRepository } from '../../../src/application/protocols/db/get-account-by-email-repository'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
-  public input: CheckAccountByEmailRepository.Input
-  public output: CheckAccountByEmailRepository.Output = false
+  public email: string
+  public output: boolean = false
 
-  public checkByEmail = async(input: CheckAccountByEmailRepository.Input): Promise<CheckAccountByEmailRepository.Output> => {
-    this.input = input
+  public checkByEmail = async(email: string): Promise<boolean> => {
+    this.email = email
     return this.output
   }
 }
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   public input: AddAccountRepository.Input
-  public output: AddAccountRepository.Output = true
+  public output: boolean = true
 
-  public add = async(input: AddAccountRepository.Input): Promise<AddAccountRepository.Output> => {
+  public add = async(input: AddAccountRepository.Input): Promise<boolean> => {
     this.input = input
     return this.output
   }

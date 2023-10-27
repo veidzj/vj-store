@@ -30,7 +30,7 @@ describe('DbAddAccount', () => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
-      expect(checkAccountByEmailRepositorySpy.input).toEqual(addAccountInput.email)
+      expect(checkAccountByEmailRepositorySpy.email).toEqual(addAccountInput.email)
     })
 
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
