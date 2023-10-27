@@ -65,6 +65,13 @@ describe('AccountMongoRepository', () => {
   })
 
   describe('getByEmail', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+      const promise = sut.getByEmail(mockAddAccountInput().email)
+      await expect(promise).rejects.toThrow()
+    })
+
     test('Should return an account if email exists', async() => {
       const sut = makeSut()
       const addAccountInput = mockAddAccountInput()
