@@ -3,6 +3,7 @@ import { AccountMongoRepository } from '../../../../src/infra/db/mongodb/account
 import { MongoHelper } from '../../../../src/infra/db/mongodb/mongo-helper'
 import { mockAddAccountInput } from '../../../domain/mocks/mock-account'
 import { throwError } from '../../../domain/mocks/test-helper'
+import { faker } from '@faker-js/faker'
 
 let accountCollection: Collection
 
@@ -69,11 +70,16 @@ describe('AccountMongoRepository', () => {
       const addAccountInput = mockAddAccountInput()
       await accountCollection.insertOne(addAccountInput)
       const account = await sut.getByEmail(addAccountInput.email)
-      console.log(account)
       expect(account).toBeTruthy()
       expect(account?.id).toBeTruthy()
       expect(account?.name).toBe(addAccountInput.name)
       expect(account?.password).toBe(addAccountInput.password)
+    })
+
+    test('Should return null if email does not exists', async() => {
+      const sut = makeSut()
+      const account = await sut.getByEmail(faker.internet.email())
+      expect(account).toBeNull()
     })
   })
 })
