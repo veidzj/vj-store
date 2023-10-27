@@ -10,7 +10,7 @@ export class DbAddAccount implements AddAccount {
     private readonly addAccountRepository: AddAccountRepository
   ) {}
 
-  public add = async(input: AddAccount.Input): Promise<AddAccount.Output> => {
+  public add = async(input: AddAccount.Input): Promise<boolean> => {
     const accountExists = await this.checkAccountByEmailRepository.checkByEmail(input.email)
     let isValid = false
     if (!accountExists) {
