@@ -25,22 +25,29 @@ describe('AccountMongoRepository', () => {
   })
 
   describe('add', () => {
-    test('Should return true on success', async() => {
-      const sut = makeSut()
-      const addAccountInput = mockAddAccountInput()
-      const isValid = await sut.add(addAccountInput)
-      expect(isValid).toBe(true)
-    })
-
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(throwError)
       const promise = sut.add(mockAddAccountInput())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return true on success', async() => {
+      const sut = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      const isValid = await sut.add(addAccountInput)
+      expect(isValid).toBe(true)
+    })
   })
 
   describe('checkByEmail', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+      const promise = sut.checkByEmail(mockAddAccountInput().email)
+      await expect(promise).rejects.toThrow()
+    })
+
     test('Should return true if email exists', async() => {
       const sut = makeSut()
       const addAccountInput = mockAddAccountInput()
@@ -51,8 +58,7 @@ describe('AccountMongoRepository', () => {
 
     test('Should return false if email does not exists', async() => {
       const sut = makeSut()
-      const addAccountInput = mockAddAccountInput()
-      const exists = await sut.checkByEmail(addAccountInput.email)
+      const exists = await sut.checkByEmail(mockAddAccountInput().email)
       expect(exists).toBe(false)
     })
   })
