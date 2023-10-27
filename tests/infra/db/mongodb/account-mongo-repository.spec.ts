@@ -39,4 +39,14 @@ describe('AccountMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
   })
+
+  describe('checkByEmail', () => {
+    test('Should return true if email exists', async() => {
+      const sut = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      await accountCollection.insertOne(addAccountInput)
+      const exists = await sut.checkByEmail(addAccountInput.email)
+      expect(exists).toBe(true)
+    })
+  })
 })
