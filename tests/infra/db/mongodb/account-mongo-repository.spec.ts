@@ -62,4 +62,18 @@ describe('AccountMongoRepository', () => {
       expect(exists).toBe(false)
     })
   })
+
+  describe('getByEmail', () => {
+    test('Should return an account if email exists', async() => {
+      const sut = makeSut()
+      const addAccountInput = mockAddAccountInput()
+      await accountCollection.insertOne(addAccountInput)
+      const account = await sut.getByEmail(addAccountInput.email)
+      console.log(account)
+      expect(account).toBeTruthy()
+      expect(account?.id).toBeTruthy()
+      expect(account?.name).toBe(addAccountInput.name)
+      expect(account?.password).toBe(addAccountInput.password)
+    })
+  })
 })
