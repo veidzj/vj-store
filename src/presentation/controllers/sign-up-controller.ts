@@ -1,10 +1,10 @@
-import { type Controller } from '../protocols/controller'
-import { type Validation } from '../protocols/validation'
-import { type HttpResponse } from '../protocols/http'
-import { badRequest, forbidden, ok, serverError } from '../helpers/http-helper'
-import { type AddAccount } from '../../domain/usecases/add-account'
-import { EmailInUseError } from '../errors/email-in-use-error'
-import { type Authentication } from '../../domain/usecases/authentication'
+import { type Controller } from '@/presentation/protocols/controller'
+import { type Validation } from '@/presentation/protocols/validation'
+import { type HttpResponse } from '@/presentation/protocols/http'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
+import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
+import { type AddAccount } from '@/domain/usecases/add-account'
+import { type Authentication } from '@/domain/usecases/authentication'
 
 export class SignUpController implements Controller {
   constructor(

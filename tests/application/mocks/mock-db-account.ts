@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { type CheckAccountByEmailRepository } from '../../../src/application/protocols/db/check-account-by-email-repository'
-import { type AddAccountRepository } from '../../../src/application/protocols/db/add-account-repository'
-import { type GetAccountByEmailRepository } from '../../../src/application/protocols/db/get-account-by-email-repository'
+import { type CheckAccountByEmailRepository } from '@/application/protocols/db/check-account-by-email-repository'
+import { type AddAccountRepository } from '@/application/protocols/db/add-account-repository'
+import { type GetAccountByEmailRepository } from '@/application/protocols/db/get-account-by-email-repository'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string

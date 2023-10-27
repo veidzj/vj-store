@@ -1,8 +1,8 @@
-import { type CheckAccountByEmailRepository } from '../../../application/protocols/db/check-account-by-email-repository'
-import { type AddAccountRepository } from '../../../application/protocols/db/add-account-repository'
-import { type GetAccountByEmailRepository } from '../../../application/protocols/db/get-account-by-email-repository'
-import { type AddAccount } from '../../../domain/usecases/add-account'
-import { MongoHelper } from './mongo-helper'
+import { type CheckAccountByEmailRepository } from '@/application/protocols/db/check-account-by-email-repository'
+import { type AddAccountRepository } from '@/application/protocols/db/add-account-repository'
+import { type GetAccountByEmailRepository } from '@/application/protocols/db/get-account-by-email-repository'
+import { type AddAccount } from '@/domain/usecases/add-account'
+import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 
 export class AccountMongoRepository implements CheckAccountByEmailRepository, AddAccountRepository, GetAccountByEmailRepository {
   public checkByEmail = async(email: string): Promise<boolean> => {

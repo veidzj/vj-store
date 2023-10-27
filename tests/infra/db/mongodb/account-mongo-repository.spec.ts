@@ -1,9 +1,9 @@
-import { Collection } from 'mongodb'
-import { AccountMongoRepository } from '../../../../src/infra/db/mongodb/account-mongo-repository'
-import { MongoHelper } from '../../../../src/infra/db/mongodb/mongo-helper'
-import { mockAddAccountInput } from '../../../domain/mocks/mock-account'
-import { throwError } from '../../../domain/mocks/test-helper'
 import { faker } from '@faker-js/faker'
+import { Collection } from 'mongodb'
+import { AccountMongoRepository } from '@/infra/db/mongodb/account-mongo-repository'
+import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
+import { mockAddAccountInput } from '@/tests/domain/mocks/mock-account'
+import { throwError } from '@/tests/domain/mocks/test-helper'
 
 let accountCollection: Collection
 

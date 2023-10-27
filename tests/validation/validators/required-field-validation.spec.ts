@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { RequiredFieldValidation } from '../../../src/validation/validators/required-field-validation'
-import { MissingParamError } from '../../../src/presentation/errors/missing-param-error'
+import { RequiredFieldValidation } from '@/validation/validators/required-field-validation'
+import { MissingParamError } from '@/presentation/errors/missing-param-error'
 
 const field = faker.word.words()
 

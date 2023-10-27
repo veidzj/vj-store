@@ -1,4 +1,4 @@
-import { type Validation } from '../../../src/presentation/protocols/validation'
+import { type Validation } from '@/presentation/protocols/validation'
 
 export class ValidationSpy implements Validation {
   public input: any
