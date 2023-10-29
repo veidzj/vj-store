@@ -16,7 +16,7 @@ describe('CompareFieldsValidation', () => {
       [field]: faker.word.words(),
       [fieldToCompare]: faker.word.words()
     })
-    expect(error).toEqual(new InvalidParamError(fieldToCompare))
+    expect(error).toEqual(new InvalidParamError(fieldToCompare, `needs to be equal to ${field}`))
   })
 
   test('Should return null if validation succeeds', () => {

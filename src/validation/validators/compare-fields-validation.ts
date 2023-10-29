@@ -9,7 +9,7 @@ export class CompareFieldsValidation implements Validation {
 
   public validate = (input: any): Error | null => {
     if (input[this.field] !== input[this.fieldToCompare]) {
-      return new InvalidParamError(this.fieldToCompare)
+      return new InvalidParamError(this.fieldToCompare, `needs to be equal to ${this.field}`)
     }
     return null
   }
