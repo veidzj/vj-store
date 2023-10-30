@@ -5,7 +5,7 @@ export class PasswordValidation implements Validation {
   constructor(private readonly field: string) {}
 
   public validate = (input: any): Error | null => {
-    if (input.length < 6) {
+    if (input[this.field].length < 6) {
       return new InvalidParamError(this.field, 'must be at least 6 characters long')
     }
     return null
