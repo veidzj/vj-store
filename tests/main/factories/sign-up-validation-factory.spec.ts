@@ -25,6 +25,7 @@ describe('SignUpValidation Factory', () => {
         expect.objectContaining({ fieldName: 'passwordConfirmation', validate: expect.any(Function) }),
         expect.objectContaining({ field: 'password', fieldToCompare: 'passwordConfirmation', validate: expect.any(Function) }),
         expect.objectContaining({ usernameValidator: expect.any(Object), field: 'username', validate: expect.any(Function) }),
+        expect.objectContaining({ field: 'password', validate: expect.any(Function) }),
         expect.objectContaining({ emailValidator: expect.any(Object), field: 'email', validate: expect.any(Function) })
       ])
     )
