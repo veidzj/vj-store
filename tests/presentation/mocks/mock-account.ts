@@ -15,7 +15,7 @@ export class AddAccountSpy implements AddAccount {
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
   public output: Authentication.Output = {
-    name: faker.person.fullName(),
+    username: faker.person.firstName(),
     accessToken: faker.string.uuid()
   }
 

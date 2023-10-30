@@ -9,7 +9,7 @@ export namespace Authentication {
   }
 
   export interface Output {
-    name: string
+    username: string
     accessToken: string
   }
 }

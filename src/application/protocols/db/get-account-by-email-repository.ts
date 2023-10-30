@@ -5,7 +5,7 @@ export interface GetAccountByEmailRepository {
 export namespace GetAccountByEmailRepository {
   export interface Output {
     id: string
-    name: string
+    username: string
     password: string
   }
 }

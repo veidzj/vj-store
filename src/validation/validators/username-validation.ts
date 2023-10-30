@@ -1,15 +1,15 @@
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import { type Validation } from '@/presentation/protocols/validation'
-import { type NameValidator } from '@/validation/protocols/name-validator'
+import { type UsernameValidator } from '@/validation/protocols/username-validator'
 
-export class NameValidation implements Validation {
+export class UsernameValidation implements Validation {
   constructor(
     private readonly field: string,
-    private readonly nameValidator: NameValidator
+    private readonly usernameValidator: UsernameValidator
   ) {}
 
   public validate = (input: any): Error | null => {
-    const isValid = this.nameValidator.isValid(input[this.field])
+    const isValid = this.usernameValidator.isValid(input[this.field])
     if (!isValid) {
       return new InvalidParamError(this.field)
     }

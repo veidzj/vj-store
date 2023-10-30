@@ -87,10 +87,10 @@ describe('DbAuthentication', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return a name and access token on success', async() => {
+    test('Should return an username and access token on success', async() => {
       const { sut, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
       const authenticationModel = await sut.auth(mockAuthenticationInput())
-      expect(authenticationModel?.name).toBe(getAccountByEmailRepositorySpy.output?.name)
+      expect(authenticationModel?.username).toBe(getAccountByEmailRepositorySpy.output?.username)
       expect(authenticationModel?.accessToken).toBe(encrypterSpy.cipherText)
     })
   })

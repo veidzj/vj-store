@@ -79,7 +79,7 @@ describe('AccountMongoRepository', () => {
       const account = await sut.getByEmail(addAccountInput.email)
       expect(account).toBeTruthy()
       expect(account?.id).toBeTruthy()
-      expect(account?.name).toBe(addAccountInput.name)
+      expect(account?.username).toBe(addAccountInput.username)
       expect(account?.password).toBe(addAccountInput.password)
     })
 

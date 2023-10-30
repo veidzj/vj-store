@@ -3,7 +3,7 @@ import { type AddAccount } from '@/domain/usecases/add-account'
 import { type Authentication } from '@/domain/usecases/authentication'
 
 export const mockAddAccountInput = (): AddAccount.Input => ({
-  name: faker.person.fullName(),
+  username: faker.person.firstName(),
   email: faker.internet.email(),
   password: faker.internet.password()
 })

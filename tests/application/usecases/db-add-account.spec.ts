@@ -70,7 +70,7 @@ describe('DbAddAccount', () => {
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
       expect(addAccountRepositorySpy.input).toEqual({
-        name: addAccountInput.name,
+        username: addAccountInput.username,
         email: addAccountInput.email,
         password: hasherSpy.digest
       })

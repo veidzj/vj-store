@@ -30,7 +30,7 @@ const makeSut = (): Sut => {
 const mockRequest = (): SignUpController.Request => {
   const password = faker.internet.password()
   return {
-    name: faker.person.firstName(),
+    username: faker.person.firstName(),
     email: faker.internet.email(),
     password,
     passwordConfirmation: password
@@ -60,7 +60,7 @@ describe('SignUpController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(addAccountSpy.input).toEqual({
-        name: request.name,
+        username: request.username,
         email: request.email,
         password: request.password
       })

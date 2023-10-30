@@ -30,7 +30,7 @@ export class AccountMongoRepository implements CheckAccountByEmailRepository, Ad
     }, {
       projection: {
         _id: 1,
-        name: 1,
+        username: 1,
         password: 1
       }
     })

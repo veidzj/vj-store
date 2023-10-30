@@ -27,7 +27,7 @@ export class GetAccountByEmailRepositorySpy implements GetAccountByEmailReposito
   public email: string
   public output: GetAccountByEmailRepository.Output | null = {
     id: faker.string.uuid(),
-    name: faker.person.fullName(),
+    username: faker.person.firstName(),
     password: faker.internet.password()
   }
 

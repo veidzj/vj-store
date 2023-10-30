@@ -4,7 +4,7 @@ export interface AddAccount {
 
 export namespace AddAccount {
   export interface Input {
-    name: string
+    username: string
     email: string
     password: string
   }
