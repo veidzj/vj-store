@@ -14,4 +14,10 @@ describe('PasswordValidation', () => {
     const error = sut.validate(faker.internet.password({ length: 5 }))
     expect(error).toEqual(new InvalidParamError(field, 'must be at least 6 characters long'))
   })
+
+  test('Should return null if validation succeeds', () => {
+    const sut = makeSut()
+    const error = sut.validate(faker.internet.password())
+    expect(error).toBeNull()
+  })
 })
