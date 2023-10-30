@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 import { NameValidation } from '@/validation/validators/name-validation'
 import { NameValidatorSpy } from '@/tests/validation/mocks/mock-name-validator'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { throwError } from '@/tests/domain/mocks/test-helper'
 
 interface Sut {
   sut: NameValidation
@@ -33,5 +34,11 @@ describe('NameValidation', () => {
     const name = faker.internet.userName()
     const isValid = sut.validate({ [field]: name })
     expect(isValid).toEqual(new InvalidParamError(field))
+  })
+
+  test('Should throw if NameValidator throws', () => {
+    const { sut, nameValidatorSpy } = makeSut()
+    jest.spyOn(nameValidatorSpy, 'isValid').mockImplementationOnce(throwError)
+    expect(sut.validate).toThrow()
   })
 })
