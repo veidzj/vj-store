@@ -25,4 +25,10 @@ describe('NameValidatorAdapter', () => {
     const isValid = sut.isValid('invalid_name')
     expect(isValid).toBe(false)
   })
+
+  test('Should return true if validator returns true', () => {
+    const sut = makeSut()
+    const isValid = sut.isValid('valid_name')
+    expect(isValid).toBe(true)
+  })
 })
