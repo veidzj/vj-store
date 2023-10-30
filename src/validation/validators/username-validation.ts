@@ -11,7 +11,7 @@ export class UsernameValidation implements Validation {
   public validate = (input: any): Error | null => {
     const isValid = this.usernameValidator.isValid(input[this.field])
     if (!isValid) {
-      return new InvalidParamError(this.field)
+      return new InvalidParamError(this.field, 'must include only letters')
     }
     return null
   }

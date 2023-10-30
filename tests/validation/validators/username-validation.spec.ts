@@ -33,7 +33,7 @@ describe('UsernameValidation', () => {
     nameValidatorSpy.isNameValid = false
     const username = faker.internet.userName()
     const error = sut.validate({ [field]: username })
-    expect(error).toEqual(new InvalidParamError(field))
+    expect(error).toEqual(new InvalidParamError(field, 'must include only letters'))
   })
 
   test('Should throw if UsernameValidator throws', () => {
