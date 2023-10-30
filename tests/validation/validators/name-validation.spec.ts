@@ -32,13 +32,20 @@ describe('NameValidation', () => {
     const { sut, nameValidatorSpy } = makeSut()
     nameValidatorSpy.isNameValid = false
     const name = faker.internet.userName()
-    const isValid = sut.validate({ [field]: name })
-    expect(isValid).toEqual(new InvalidParamError(field))
+    const error = sut.validate({ [field]: name })
+    expect(error).toEqual(new InvalidParamError(field))
   })
 
   test('Should throw if NameValidator throws', () => {
     const { sut, nameValidatorSpy } = makeSut()
     jest.spyOn(nameValidatorSpy, 'isValid').mockImplementationOnce(throwError)
     expect(sut.validate).toThrow()
+  })
+
+  test('Should return null if NameValidator returns true', () => {
+    const { sut } = makeSut()
+    const name = faker.internet.userName()
+    const error = sut.validate({ [field]: name })
+    expect(error).toBeNull()
   })
 })
