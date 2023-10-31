@@ -6,7 +6,8 @@
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/space-before-function-paren": ["error", "never"],
-    "lines-between-class-members": ["error", "always"]
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   },
-  "ignorePatterns": ["jest.config.ts"]
+  "ignorePatterns": ["jest.config.ts", "jest-unit.config.ts", "jest-integration.config.ts", "jest-mongodb-config.ts"]
 }
