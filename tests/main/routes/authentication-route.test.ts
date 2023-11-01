@@ -13,8 +13,22 @@ describe('Authentication Route', () => {
     test('Should return status 400 if any field is missing', async() => {
       const response = await request(app)
         .post('/api/signup')
-        .send({ username: 'any_name' })
+        .send({ username: 'username' })
       expect(response.statusCode).toBe(400)
+      expect(response.body.message).toBe('email is required')
+    })
+
+    test('Should return status 400 if any field is invalid', async() => {
+      const response = await request(app)
+        .post('/api/signup')
+        .send({
+          username: 'username',
+          email: 'invalid_email',
+          password: 'any_password',
+          passwordConfirmation: 'any_password'
+        })
+      expect(response.statusCode).toBe(400)
+      expect(response.body.message).toBe('email is invalid')
     })
   })
 })
