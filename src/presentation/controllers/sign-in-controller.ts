@@ -2,7 +2,7 @@ import { type Controller } from '@/presentation/protocols/controller'
 import { type Validation } from '@/presentation/protocols/validation'
 import { type Authentication } from '@/domain/usecases/authentication'
 import { type HttpResponse } from '@/presentation/protocols/http'
-import { badRequest } from '@/presentation/helpers/http-helper'
+import { badRequest, unauthorized } from '@/presentation/helpers/http-helper'
 
 export class SignInController implements Controller {
   constructor(
@@ -16,7 +16,10 @@ export class SignInController implements Controller {
       return badRequest(error)
     }
 
-    await this.authentication.auth(request)
+    const authenticationModel = await this.authentication.auth(request)
+    if (!authenticationModel) {
+      return unauthorized()
+    }
     return {
       statusCode: 400,
       body: ''
