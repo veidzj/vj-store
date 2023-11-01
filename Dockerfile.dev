@@ -1,0 +1,13 @@
+FROM node:18
+
+WORKDIR /usr/src/vj-store
+
+COPY ./dist/ /usr/src/vj-store/dist/
+COPY ./package.json /usr/src/vj-store/package.json
+
+RUN npm install
+
+EXPOSE 5000
+EXPOSE 9222
+
+CMD ["npm", "run", "debug"]
