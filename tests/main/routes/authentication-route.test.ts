@@ -40,5 +40,16 @@ describe('Authentication Route', () => {
       expect(response.statusCode).toBe(400)
       expect(response.body.message).toBe('password is required')
     })
+
+    test('Should return status 400 if email is invalid', async() => {
+      const response = await request(app)
+        .post('/api/signin')
+        .send({
+          email: 'invalid_email',
+          password: 'any_password'
+        })
+      expect(response.statusCode).toBe(400)
+      expect(response.body.message).toBe('email is invalid')
+    })
   })
 })
