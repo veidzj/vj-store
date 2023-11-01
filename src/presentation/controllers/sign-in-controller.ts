@@ -2,7 +2,7 @@ import { type Controller } from '@/presentation/protocols/controller'
 import { type Validation } from '@/presentation/protocols/validation'
 import { type Authentication } from '@/domain/usecases/authentication'
 import { type HttpResponse } from '@/presentation/protocols/http'
-import { badRequest, unauthorized } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, unauthorized } from '@/presentation/helpers/http-helper'
 
 export class SignInController implements Controller {
   constructor(
@@ -20,9 +20,6 @@ export class SignInController implements Controller {
     if (!authenticationModel) {
       return unauthorized()
     }
-    return {
-      statusCode: 400,
-      body: ''
-    }
+    return ok(authenticationModel)
   }
 }
