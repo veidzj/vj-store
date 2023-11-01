@@ -24,7 +24,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): any => ({
+const mockRequest = (): SignInController.Request => ({
   email: faker.internet.email(),
   password: faker.internet.password()
 })
