@@ -2,8 +2,10 @@ import { faker } from '@faker-js/faker'
 import { SignInController } from '@/presentation/controllers/sign-in-controller'
 import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { badRequest, ok, unauthorized } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http-helper'
 import { AuthenticationSpy } from '@/tests/presentation/mocks/mock-account'
+import { throwError } from '@/tests/domain/mocks/test-helper'
+import { ServerError } from '@/presentation/errors/server-error'
 
 interface Sut {
   sut: SignInController
@@ -51,6 +53,13 @@ describe('SignInController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(authenticationSpy.input).toEqual(request)
+    })
+
+    test('Should return Server Error if Authentication throws', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
     })
 
     test('Should return Unauthorized if invalid credentials are provided', async() => {
