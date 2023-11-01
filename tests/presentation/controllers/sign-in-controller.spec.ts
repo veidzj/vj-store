@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { SignInController } from '@/presentation/controllers/sign-in-controller'
 import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { badRequest, unauthorized } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, unauthorized } from '@/presentation/helpers/http-helper'
 import { AuthenticationSpy } from '@/tests/presentation/mocks/mock-account'
 
 interface Sut {
@@ -59,6 +59,12 @@ describe('SignInController', () => {
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
       expect(httpResponse).toEqual(unauthorized())
+    })
+
+    test('Should return Ok if valid credentials are provided', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(ok(authenticationSpy.output))
     })
   })
 })
