@@ -1,8 +1,6 @@
-import { type Controller } from '@/presentation/protocols/controller'
-import { type Validation } from '@/presentation/protocols/validation'
+import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
+import { badRequest, unauthorized, ok, serverError } from '@/presentation/helpers'
 import { type Authentication } from '@/domain/usecases/authentication'
-import { type HttpResponse } from '@/presentation/protocols/http'
-import { badRequest, unauthorized, ok, serverError } from '@/presentation/helpers/http-helper'
 
 export class SignInController implements Controller {
   constructor(
