@@ -89,13 +89,6 @@ describe('DbAuthentication', () => {
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
-
-    test('Should return an username and access token on success', async() => {
-      const { sut, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
-      const authenticationModel = await sut.auth(mockAuthenticationInput())
-      expect(authenticationModel?.username).toBe(getAccountByEmailRepositorySpy.output?.username)
-      expect(authenticationModel?.accessToken).toBe(encrypterSpy.cipherText)
-    })
   })
 
   describe('UpdateAccessTokenRepository', () => {
@@ -104,6 +97,13 @@ describe('DbAuthentication', () => {
       await sut.auth(mockAuthenticationInput())
       expect(updateAccessTokenRepositorySpy.input.id).toBe(getAccountByEmailRepositorySpy.output?.id)
       expect(updateAccessTokenRepositorySpy.input.token).toBe(encrypterSpy.cipherText)
+    })
+
+    test('Should return an username and access token on success', async() => {
+      const { sut, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
+      const authenticationModel = await sut.auth(mockAuthenticationInput())
+      expect(authenticationModel?.username).toBe(getAccountByEmailRepositorySpy.output?.username)
+      expect(authenticationModel?.accessToken).toBe(encrypterSpy.cipherText)
     })
   })
 })
