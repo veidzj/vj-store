@@ -1,6 +1,5 @@
-import { type GetAccountByEmailRepository } from '@/application/protocols/db/get-account-by-email-repository'
-import { type HashComparer } from '@/application/protocols/cryptography/hash-comparer'
-import { type Encrypter } from '@/application/protocols/cryptography/encrypter'
+import { type GetAccountByEmailRepository } from '@/application/protocols/db/static/authentication'
+import { type HashComparer, type Encrypter } from '@/application/protocols/cryptography'
 import { type Authentication } from '@/domain/usecases/authentication'
 
 export class DbAuthentication implements Authentication {
