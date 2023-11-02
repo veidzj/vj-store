@@ -1,11 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { SignUpController } from '@/presentation/controllers/sign-up-controller'
-import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
-import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
-import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/mock-account'
-import { ServerError } from '@/presentation/errors/server-error'
-import { EmailInUseError } from '@/presentation/errors/email-in-use-error'
+import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks/test-helper'
+import { SignUpController } from '@/presentation/controllers/authentication'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
+import { EmailInUseError, ServerError } from '@/presentation/errors'
 
 interface Sut {
   sut: SignUpController

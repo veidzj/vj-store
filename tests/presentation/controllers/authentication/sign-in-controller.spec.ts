@@ -1,11 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { SignInController } from '@/presentation/controllers/sign-in-controller'
-import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
-import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http-helper'
-import { AuthenticationSpy } from '@/tests/presentation/mocks/mock-account'
+import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks/test-helper'
-import { ServerError } from '@/presentation/errors/server-error'
+import { SignInController } from '@/presentation/controllers/authentication'
+import { MissingParamError, ServerError } from '@/presentation/errors'
+import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers'
 
 interface Sut {
   sut: SignInController

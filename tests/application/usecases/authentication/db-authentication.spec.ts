@@ -1,5 +1,5 @@
-import { DbAuthentication } from '@/application/usecases/db-authentication'
-import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/mock-db-account'
+import { DbAuthentication } from '@/application/usecases/authentication/db-authentication'
+import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/mock-db-authentication'
 import { EncrypterSpy, HashComparerSpy } from '@/tests/application/mocks/mock-cryptography'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/mock-account'
 import { throwError } from '@/tests/domain/mocks/test-helper'

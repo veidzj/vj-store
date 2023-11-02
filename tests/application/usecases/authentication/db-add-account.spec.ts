@@ -1,8 +1,7 @@
-import { DbAddAccount } from '@/application/usecases/db-add-account'
-import { HasherSpy } from '@/tests/application/mocks/mock-cryptography'
-import { AddAccountRepositorySpy, CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/mock-db-account'
+import { DbAddAccount } from '@/application/usecases/authentication'
+import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
 import { mockAddAccountInput } from '@/tests/domain/mocks/mock-account'
-import { throwError } from '@/tests/domain/mocks/test-helper'
+import { throwError } from '@/tests/domain/mocks'
 
 interface Sut {
   sut: DbAddAccount
