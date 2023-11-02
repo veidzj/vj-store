@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { UsernameValidatorAdapter } from '@/infra/validators/username-validator-adapter'
+import { UsernameValidatorAdapter } from '@/infra/validators'
 
 jest.mock('validator', () => ({
   isAlpha(): boolean {

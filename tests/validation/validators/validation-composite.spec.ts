@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
-import { ValidationComposite } from '@/validation/validators/validation-composite'
-import { MissingParamError } from '@/presentation/errors/missing-param-error'
+import { ValidationSpy } from '@/tests/presentation/mocks'
+import { ValidationComposite } from '@/validation/validators'
+import { MissingParamError } from '@/presentation/errors'
 
 const field = faker.word.words()
 

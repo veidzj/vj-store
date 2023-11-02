@@ -1,7 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Hasher } from '@/application/protocols/cryptography/hasher'
-import { type HashComparer } from '@/application/protocols/cryptography/hash-comparer'
-import { type Encrypter } from '@/application/protocols/cryptography/encrypter'
+import { type Hasher, type HashComparer, type Encrypter } from '@/application/protocols/cryptography'
 
 export class HasherSpy implements Hasher {
   public plainText: string

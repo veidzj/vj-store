@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { UsernameValidation } from '@/validation/validators/username-validation'
-import { UsernameValidatorSpy } from '@/tests/validation/mocks/mock-username-validator'
-import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
-import { throwError } from '@/tests/domain/mocks/test-helper'
+import { UsernameValidatorSpy } from '@/tests/validation/mocks'
+import { throwError } from '@/tests/domain/mocks'
+import { UsernameValidation } from '@/validation/validators'
+import { InvalidParamError } from '@/presentation/errors'
 
 interface Sut {
   sut: UsernameValidation

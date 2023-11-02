@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { CompareFieldsValidation } from '@/validation/validators/compare-fields-validation'
-import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { CompareFieldsValidation } from '@/validation/validators'
+import { InvalidParamError } from '@/presentation/errors'
 
 const field = faker.word.words()
 const fieldToCompare = faker.word.words()

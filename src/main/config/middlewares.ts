@@ -3,7 +3,7 @@ import { bodyParser } from '@/main/middlewares/body-parser'
 import { contentType } from '@/main/middlewares/content-type'
 import { cors } from '@/main/middlewares/cors'
 
-export default (app: Express): void => {
+export const setupMiddlewares = (app: Express): void => {
   app.use(bodyParser)
   app.use(contentType)
   app.use(cors)

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { PasswordValidation } from '@/validation/validators/password-validation'
-import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { PasswordValidation } from '@/validation/validators'
+import { InvalidParamError } from '@/presentation/errors'
 
 const field = faker.word.words()
 
