@@ -1,8 +1,10 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
-import { badRequest, unauthorized, ok, serverError } from '@/presentation/helpers'
+import { HttpHelper } from '@/presentation/helpers'
 import { type Authentication } from '@/domain/usecases/authentication'
 
 export class SignInController implements Controller {
+  private readonly httpHelper = new HttpHelper()
+
   constructor(
     private readonly validation: Validation,
     private readonly authentication: Authentication
@@ -12,16 +14,16 @@ export class SignInController implements Controller {
     try {
       const error = this.validation.validate(request)
       if (error) {
-        return badRequest(error)
+        return this.httpHelper.badRequest(error)
       }
 
       const authenticationModel = await this.authentication.auth(request)
       if (!authenticationModel) {
-        return unauthorized()
+        return this.httpHelper.unauthorized()
       }
-      return ok(authenticationModel)
+      return this.httpHelper.ok(authenticationModel)
     } catch (error) {
-      return serverError(error)
+      return this.httpHelper.serverError(error)
     }
   }
 }

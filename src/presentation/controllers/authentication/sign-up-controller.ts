@@ -1,9 +1,11 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
-import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
+import { HttpHelper } from '@/presentation/helpers'
 import { EmailInUseError } from '@/presentation/errors'
 import { type AddAccount, type Authentication } from '@/domain/usecases/authentication'
 
 export class SignUpController implements Controller {
+  private readonly httpHelper = new HttpHelper()
+
   constructor(
     private readonly validation: Validation,
     private readonly addAccount: AddAccount,
@@ -14,19 +16,19 @@ export class SignUpController implements Controller {
     try {
       const error = this.validation.validate(request)
       if (error) {
-        return badRequest(error)
+        return this.httpHelper.badRequest(error)
       }
 
       const { username, email, password } = request
       const isValid = await this.addAccount.add({ username, email, password })
       if (!isValid) {
-        return forbidden(new EmailInUseError())
+        return this.httpHelper.forbidden(new EmailInUseError())
       }
 
       const authenticationModel = await this.authentication.auth({ email, password })
-      return ok(authenticationModel)
+      return this.httpHelper.ok(authenticationModel)
     } catch (error) {
-      return serverError(error)
+      return this.httpHelper.serverError(error)
     }
   }
 }

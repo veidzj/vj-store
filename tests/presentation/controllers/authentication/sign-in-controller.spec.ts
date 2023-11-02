@@ -3,7 +3,7 @@ import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks/test-helper'
 import { SignInController } from '@/presentation/controllers/authentication'
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: SignInController
@@ -28,6 +28,8 @@ const mockRequest = (): SignInController.Request => ({
 })
 
 describe('SignInController', () => {
+  const httpHelper = new HttpHelper()
+
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -41,7 +43,7 @@ describe('SignInController', () => {
       validationSpy.error = new MissingParamError(faker.word.words())
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(badRequest(validationSpy.error))
+      expect(httpResponse).toEqual(httpHelper.badRequest(validationSpy.error))
     })
   })
 
@@ -57,7 +59,7 @@ describe('SignInController', () => {
       const { sut, authenticationSpy } = makeSut()
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(serverError(new ServerError(undefined)))
+      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return Unauthorized if invalid credentials are provided', async() => {
@@ -65,13 +67,13 @@ describe('SignInController', () => {
       authenticationSpy.output = null
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(unauthorized())
+      expect(httpResponse).toEqual(httpHelper.unauthorized())
     })
 
     test('Should return Ok if valid credentials are provided', async() => {
       const { sut, authenticationSpy } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(ok(authenticationSpy.output))
+      expect(httpResponse).toEqual(httpHelper.ok(authenticationSpy.output))
     })
   })
 })
