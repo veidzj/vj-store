@@ -2,12 +2,19 @@ import { Collection } from 'mongodb'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/authentication'
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
+import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/authentication'
+import { faker } from '@faker-js/faker'
 
 let accountCollection: Collection
 
 const makeSut = (): DynamicAccountMongoRepository => {
   return new DynamicAccountMongoRepository()
 }
+
+const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({
+  id: faker.string.uuid(),
+  token: faker.string.alphanumeric(12)
+})
 
 describe('DynamicAccountMongoRepository', () => {
   beforeAll(async() => {
@@ -36,6 +43,15 @@ describe('DynamicAccountMongoRepository', () => {
       const addAccountInput = mockAddAccountInput()
       const isValid = await sut.add(addAccountInput)
       expect(isValid).toBe(true)
+    })
+  })
+
+  describe('updateAccessToken', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
+      const promise = sut.updateAccessToken(mockUpdateAccessTokenInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
