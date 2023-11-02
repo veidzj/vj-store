@@ -99,6 +99,13 @@ describe('DbAuthentication', () => {
       expect(updateAccessTokenRepositorySpy.input.token).toBe(encrypterSpy.cipherText)
     })
 
+    test('Should throw if UpdateAccessTokenRepository throws', async() => {
+      const { sut, updateAccessTokenRepositorySpy } = makeSut()
+      jest.spyOn(updateAccessTokenRepositorySpy, 'updateAccessToken').mockImplementationOnce(throwError)
+      const promise = sut.auth(mockAuthenticationInput())
+      await expect(promise).rejects.toThrow()
+    })
+
     test('Should return an username and access token on success', async() => {
       const { sut, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
       const authenticationModel = await sut.auth(mockAuthenticationInput())
