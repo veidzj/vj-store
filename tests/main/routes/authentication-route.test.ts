@@ -54,4 +54,32 @@ describe('Authentication Routes', () => {
         .expect(403)
     })
   })
+
+  describe('POST /signin', () => {
+    test('Should return 200 on success', async() => {
+      const password = await hash('123456', 12)
+      await accountCollection.insertOne({
+        username: 'joe',
+        email: 'joedoe@mail.com',
+        password
+      })
+      await request(app)
+        .post('/api/signin')
+        .send({
+          email: 'joedoe@mail.com',
+          password: '123456'
+        })
+        .expect(200)
+    })
+
+    test('Should return 401 if credentials are invalid', async() => {
+      await request(app)
+        .post('/api/signin')
+        .send({
+          email: 'joedoe@mail.com',
+          password: '123456'
+        })
+        .expect(200)
+    })
+  })
 })
