@@ -79,7 +79,7 @@ describe('Authentication Routes', () => {
           email: 'joedoe@mail.com',
           password: '123456'
         })
-        .expect(200)
+        .expect(401)
     })
   })
 })
