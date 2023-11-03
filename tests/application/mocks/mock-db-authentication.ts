@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository } from '@/application/protocols/db/static/authentication'
-import { type AddAccountRepository } from '@/application/protocols/db/dynamic/authentication'
+import { type UpdateAccessTokenRepository, type AddAccountRepository } from '@/application/protocols/db/dynamic/authentication'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string
@@ -19,6 +19,14 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
   public add = async(input: AddAccountRepository.Input): Promise<boolean> => {
     this.input = input
     return this.output
+  }
+}
+
+export class UpdateAccessTokenRepositorySpy implements UpdateAccessTokenRepository {
+  public input: UpdateAccessTokenRepository.Input
+
+  public updateAccessToken = async(input: UpdateAccessTokenRepository.Input): Promise<void> => {
+    this.input = input
   }
 }
 
