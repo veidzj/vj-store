@@ -26,7 +26,7 @@ describe('DynamicAccountMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    accountCollection = MongoHelper.getCollection('account')
+    accountCollection = MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
 
