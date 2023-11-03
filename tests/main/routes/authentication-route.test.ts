@@ -3,6 +3,7 @@ import { type Collection } from 'mongodb'
 import request from 'supertest'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { setupApp } from '@/main/config'
+import { hash } from 'bcrypt'
 
 let accountCollection: Collection
 let app: Express
@@ -36,6 +37,12 @@ describe('Authentication Routes', () => {
     })
 
     test('Should return 403 if email is already in use', async() => {
+      const password = await hash('123456', 12)
+      await accountCollection.insertOne({
+        username: 'joe',
+        email: 'joedoe@mail.com',
+        password
+      })
       await request(app)
         .post('/api/signup')
         .send({
