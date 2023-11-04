@@ -27,9 +27,9 @@ export class AuthenticationSpy implements Authentication {
 export class GetAccountByTokenSpy implements GetAccountByToken {
   public accessToken: string
   public role?: string
-  public id: string = faker.string.uuid()
+  public id: string | null = faker.string.uuid()
 
-  public get = async(accessToken: string, role?: string): Promise<string> => {
+  public get = async(accessToken: string, role?: string): Promise<string | null> => {
     this.accessToken = accessToken
     this.role = role
     return this.id
