@@ -2,6 +2,7 @@ import { GetAccountByTokenSpy } from '@/tests/presentation/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
+import { throwError } from '@/tests/domain/mocks'
 
 interface Sut {
   sut: AuthMiddleware
@@ -46,5 +47,12 @@ describe('AuthMiddleware', () => {
     expect(httpResponse).toEqual(httpHelper.ok({
       accountId: getAccountByTokenSpy.id
     }))
+  })
+
+  test('Should return ServerError if GetAccountByToken throws', async() => {
+    const { sut, getAccountByTokenSpy } = makeSut()
+    jest.spyOn(getAccountByTokenSpy, 'get').mockImplementationOnce(throwError)
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
   })
 })
