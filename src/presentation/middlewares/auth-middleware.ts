@@ -1,7 +1,7 @@
 import { type Middleware, type HttpResponse } from '@/presentation/protocols'
+import { HttpHelper } from '@/presentation/helpers'
+import { AccessDeniedError } from '@/presentation/errors'
 import { type GetAccountByToken } from '@/domain/usecases/authentication'
-import { HttpHelper } from '../helpers'
-import { AccessDeniedError } from '../errors'
 
 export class AuthMiddleware implements Middleware {
   private readonly httpHelper = new HttpHelper()
@@ -16,10 +16,7 @@ export class AuthMiddleware implements Middleware {
     if (!accountId) {
       return this.httpHelper.forbidden(new AccessDeniedError())
     }
-    return {
-      statusCode: 500,
-      body: ''
-    }
+    return this.httpHelper.ok({ accountId })
   }
 }
 
