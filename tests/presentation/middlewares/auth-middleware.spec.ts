@@ -39,4 +39,12 @@ describe('AuthMiddleware', () => {
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(httpHelper.forbidden(new AccessDeniedError()))
   })
+
+  test('Should return OK if GetAccountByToken returns an account id', async() => {
+    const { sut, getAccountByTokenSpy } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(httpHelper.ok({
+      accountId: getAccountByTokenSpy.id
+    }))
+  })
 })
