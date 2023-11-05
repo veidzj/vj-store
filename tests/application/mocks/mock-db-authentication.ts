@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository } from '@/application/protocols/db/static/authentication'
+import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/authentication'
 import { type UpdateAccessTokenRepository, type AddAccountRepository } from '@/application/protocols/db/dynamic/authentication'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
@@ -41,5 +41,17 @@ export class GetAccountByEmailRepositorySpy implements GetAccountByEmailReposito
   public getByEmail = async(email: string): Promise<GetAccountByEmailRepository.Output | null> => {
     this.email = email
     return this.output
+  }
+}
+
+export class GetAccountByTokenRepositorySpy implements GetAccountByTokenRepository {
+  public token: string
+  public role: string | undefined
+  public id: string = faker.string.uuid()
+
+  public getByToken = async(token: string, role?: string): Promise<string | null> => {
+    this.token = token
+    this.role = role
+    return this.id
   }
 }
