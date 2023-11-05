@@ -34,5 +34,12 @@ describe('DbGetAccountByToken', () => {
       await sut.getByToken(token, role)
       expect(decrypterSpy.cipherText).toBe(token)
     })
+
+    test('Should return null if Decrypter returns null', async() => {
+      const { sut, decrypterSpy } = makeSut()
+      decrypterSpy.plainText = null
+      const accountId = await sut.getByToken(token, role)
+      expect(accountId).toBeNull()
+    })
   })
 })

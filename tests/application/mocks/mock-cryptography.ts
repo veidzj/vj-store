@@ -34,11 +34,11 @@ export class EncrypterSpy implements Encrypter {
 }
 
 export class DecrypterSpy implements Decrypter {
-  public plaintext: string = faker.internet.password()
+  public plainText: string | null = faker.internet.password()
   public cipherText: string
 
-  public decrypt = async(cipherText: string): Promise<string> => {
+  public decrypt = async(cipherText: string): Promise<string | null> => {
     this.cipherText = cipherText
-    return this.plaintext
+    return this.plainText
   }
 }
