@@ -7,7 +7,8 @@ export class DbGetAccountByToken implements GetAccountByToken {
   ) {}
 
   public getByToken = async(accessToken: string, role?: string): Promise<string | null> => {
-    await this.decrypter.decrypt(accessToken)
-    return null
+    const token = await this.decrypter.decrypt(accessToken)
+    if (!token) return null
+    return ''
   }
 }
