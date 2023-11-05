@@ -51,7 +51,7 @@ describe('AuthMiddleware', () => {
 
   test('Should return ServerError if GetAccountByToken throws', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
-    jest.spyOn(getAccountByTokenSpy, 'get').mockImplementationOnce(throwError)
+    jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
   })

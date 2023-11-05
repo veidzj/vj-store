@@ -29,7 +29,7 @@ export class GetAccountByTokenSpy implements GetAccountByToken {
   public role?: string
   public id: string | null = faker.string.uuid()
 
-  public get = async(accessToken: string, role?: string): Promise<string | null> => {
+  public getByToken = async(accessToken: string, role?: string): Promise<string | null> => {
     this.accessToken = accessToken
     this.role = role
     return this.id

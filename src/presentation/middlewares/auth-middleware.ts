@@ -13,7 +13,7 @@ export class AuthMiddleware implements Middleware {
 
   public handle = async(request: AuthMiddleware.Request): Promise<HttpResponse> => {
     try {
-      const accountId = await this.getAccountByToken.get(request.accessToken, this.role)
+      const accountId = await this.getAccountByToken.getByToken(request.accessToken, this.role)
       if (!accountId) {
         return this.httpHelper.forbidden(new AccessDeniedError())
       }
