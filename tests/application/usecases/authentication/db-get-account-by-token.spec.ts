@@ -11,7 +11,7 @@ interface Sut {
 const makeSut = (): Sut => {
   const decrypterSpy = new DecrypterSpy()
   const getAccountByTokenRepositorySpy = new GetAccountByTokenRepositorySpy()
-  const sut = new DbGetAccountByToken(decrypterSpy)
+  const sut = new DbGetAccountByToken(decrypterSpy, getAccountByTokenRepositorySpy)
   return {
     sut,
     decrypterSpy,
@@ -40,6 +40,15 @@ describe('DbGetAccountByToken', () => {
       decrypterSpy.plainText = null
       const accountId = await sut.getByToken(token, role)
       expect(accountId).toBeNull()
+    })
+  })
+
+  describe('GetAccountByTokenRepository', () => {
+    test('Should call GetAccountByTokenRepository with correct values', async() => {
+      const { sut, getAccountByTokenRepositorySpy } = makeSut()
+      await sut.getByToken(token, role)
+      expect(getAccountByTokenRepositorySpy.token).toBe(token)
+      expect(getAccountByTokenRepositorySpy.role).toBe(role)
     })
   })
 })
