@@ -50,5 +50,12 @@ describe('DbGetAccountByToken', () => {
       expect(getAccountByTokenRepositorySpy.token).toBe(token)
       expect(getAccountByTokenRepositorySpy.role).toBe(role)
     })
+
+    test('Should return null if GetAccountByTokenRepository returns null', async() => {
+      const { sut, getAccountByTokenRepositorySpy } = makeSut()
+      getAccountByTokenRepositorySpy.id = null
+      const accountId = await sut.getByToken(token, role)
+      expect(accountId).toBeNull()
+    })
   })
 })
