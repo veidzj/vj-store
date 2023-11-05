@@ -11,7 +11,8 @@ export class DbGetAccountByToken implements GetAccountByToken {
   public getByToken = async(accessToken: string, role?: string): Promise<string | null> => {
     const token = await this.decrypter.decrypt(accessToken)
     if (!token) return null
-    await this.getAccountByTokenRepository.getByToken(accessToken, role)
+    const accountId = await this.getAccountByTokenRepository.getByToken(accessToken, role)
+    if (!accountId) return null
     return ''
   }
 }
