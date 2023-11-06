@@ -72,4 +72,30 @@ describe('StaticAccountMongoRepository', () => {
       expect(account).toBeNull()
     })
   })
+
+  describe('getByToken', () => {
+    let name = faker.person.firstName()
+    let email = faker.internet.email()
+    let password = faker.internet.password()
+    let accessToken = faker.string.uuid()
+
+    beforeEach(() => {
+      name = faker.person.firstName()
+      email = faker.internet.email()
+      password = faker.internet.password()
+      accessToken = faker.string.uuid()
+    })
+
+    test('Should return an account without role on success', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken
+      })
+      const accountId = await sut.getByToken(accessToken)
+      expect(accountId).toBeTruthy()
+    })
+  })
 })
