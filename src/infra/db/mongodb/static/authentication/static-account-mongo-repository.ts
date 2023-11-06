@@ -30,7 +30,7 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
 
   public getByToken = async(token: string, role?: string): Promise<string | null> => {
     const accountCollection = MongoHelper.getCollection('accounts')
-    const accountId = await accountCollection.findOne({
+    const account = await accountCollection.findOne({
       accessToken: token,
       $or: [{
         role
@@ -42,6 +42,7 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
         }
       }]
     })
-    return accountId && MongoHelper.map(accountId)
+    const accountId = MongoHelper.map(account).id
+    return accountId
   }
 }
