@@ -53,5 +53,11 @@ describe('JwtAdapter', () => {
       const promise = sut.decrypt('any_token')
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return a decoded token on success', async() => {
+      const sut = makeSut()
+      const decodedToken = await sut.decrypt('any_token')
+      expect(decodedToken).toBe('any_value')
+    })
   })
 })
