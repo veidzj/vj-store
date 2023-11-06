@@ -122,5 +122,18 @@ describe('StaticAccountMongoRepository', () => {
       const accountId = await sut.getByToken(accessToken, 'admin')
       expect(accountId).toBeNull()
     })
+
+    test('Should return an account id if user is admin and no role is provided', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken,
+        role: 'admin'
+      })
+      const accountId = await sut.getByToken(accessToken)
+      expect(accountId).toBeTruthy()
+    })
   })
 })
