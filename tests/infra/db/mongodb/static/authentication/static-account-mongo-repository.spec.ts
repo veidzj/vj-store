@@ -110,5 +110,17 @@ describe('StaticAccountMongoRepository', () => {
       const accountId = await sut.getByToken(accessToken, 'admin')
       expect(accountId).toBeTruthy()
     })
+
+    test('Should return null if invalid role is provided', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken
+      })
+      const accountId = await sut.getByToken(accessToken, 'admin')
+      expect(accountId).toBeNull()
+    })
   })
 })
