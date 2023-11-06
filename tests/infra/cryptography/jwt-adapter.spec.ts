@@ -5,6 +5,10 @@ import { throwError } from '@/tests/domain/mocks'
 jest.mock('jsonwebtoken', () => ({
   sign(): string {
     return 'any_token'
+  },
+
+  async verify(): Promise<string> {
+    return 'any_value'
   }
 }))
 
@@ -32,6 +36,15 @@ describe('JwtAdapter', () => {
       const sut = makeSut()
       const token = await sut.encrypt('any_id')
       expect(token).toBe('any_token')
+    })
+  })
+
+  describe('verify', () => {
+    test('Should call verify with correct values', async() => {
+      const sut = makeSut()
+      const verifySpy = jest.spyOn(jwt, 'verify')
+      await sut.decrypt('any_token')
+      expect(verifySpy).toHaveBeenLastCalledWith('any_token', 'secret')
     })
   })
 })
