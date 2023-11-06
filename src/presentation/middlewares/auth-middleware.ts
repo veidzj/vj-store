@@ -13,11 +13,14 @@ export class AuthMiddleware implements Middleware {
 
   public handle = async(request: AuthMiddleware.Request): Promise<HttpResponse> => {
     try {
-      const accountId = await this.getAccountByToken.getByToken(request.accessToken, this.role)
-      if (!accountId) {
-        return this.httpHelper.forbidden(new AccessDeniedError())
+      const { accessToken } = request
+      if (accessToken) {
+        const accountId = await this.getAccountByToken.getByToken(accessToken, this.role)
+        if (accountId) {
+          return this.httpHelper.ok({ accountId })
+        }
       }
-      return this.httpHelper.ok({ accountId })
+      return this.httpHelper.forbidden(new AccessDeniedError())
     } catch (error) {
       return this.httpHelper.serverError(error)
     }
@@ -26,6 +29,6 @@ export class AuthMiddleware implements Middleware {
 
 export namespace AuthMiddleware {
   export interface Request {
-    accessToken: string
+    accessToken?: string
   }
 }
