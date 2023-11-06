@@ -42,6 +42,9 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
         }
       }]
     })
+    if (!account) {
+      return null
+    }
     const accountId = MongoHelper.map(account).id
     return accountId
   }
