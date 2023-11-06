@@ -86,7 +86,7 @@ describe('StaticAccountMongoRepository', () => {
       accessToken = faker.string.uuid()
     })
 
-    test('Should return an account without role on success', async() => {
+    test('Should return an account id without role on success', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
         name,
@@ -95,6 +95,19 @@ describe('StaticAccountMongoRepository', () => {
         accessToken
       })
       const accountId = await sut.getByToken(accessToken)
+      expect(accountId).toBeTruthy()
+    })
+
+    test('Should return an account id with admin role on success', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken,
+        role: 'admin'
+      })
+      const accountId = await sut.getByToken(accessToken, 'admin')
       expect(accountId).toBeTruthy()
     })
   })
