@@ -135,5 +135,11 @@ describe('StaticAccountMongoRepository', () => {
       const accountId = await sut.getByToken(accessToken)
       expect(accountId).toBeTruthy()
     })
+
+    test('Should return null on failure', async() => {
+      const sut = makeSut()
+      const accountId = await sut.getByToken(accessToken)
+      expect(accountId).toBeNull()
+    })
   })
 })
