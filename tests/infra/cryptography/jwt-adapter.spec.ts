@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { JwtAdapter } from '@/infra/cryptography'
 import { throwError } from '@/tests/domain/mocks'
+import { InvalidTokenError } from '@/application/errors'
 
 jest.mock('jsonwebtoken', () => ({
   sign(): string {
@@ -52,6 +53,15 @@ describe('JwtAdapter', () => {
       jest.spyOn(jwt, 'verify').mockImplementationOnce(throwError)
       const promise = sut.decrypt('any_token')
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should throw InvalidTokenError if verify throws JsonWebTokenError', async() => {
+      const sut = makeSut()
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => {
+        throw new jwt.JsonWebTokenError('any_error')
+      })
+      const promise = sut.decrypt('any_token')
+      await expect(promise).rejects.toThrow(new InvalidTokenError())
     })
 
     test('Should return a decoded token on success', async() => {
