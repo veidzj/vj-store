@@ -1,6 +1,7 @@
-export class InvalidTokenError extends Error {
+import { TokenError } from '@/domain/errors/token-error'
+
+export class InvalidTokenError extends TokenError {
   constructor() {
     super('Invalid token')
-    this.name = 'InvalidTokenError'
   }
 }
