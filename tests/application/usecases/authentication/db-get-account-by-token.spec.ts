@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { DecrypterSpy, GetAccountByTokenRepositorySpy } from '@/tests/application/mocks'
-import { DbGetAccountByToken } from '@/application/usecases/authentication'
 import { throwError } from '@/tests/domain/mocks'
+import { DbGetAccountByToken } from '@/application/usecases/authentication'
 
 interface Sut {
   sut: DbGetAccountByToken

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { LogControllerDecorator } from '@/main/decorators/log'
-import { LogErrorRepositorySpy } from '@/tests/application/mocks'
 import { ControllerSpy } from '@/tests/presentation/mocks'
+import { LogErrorRepositorySpy } from '@/tests/application/mocks'
+import { LogControllerDecorator } from '@/main/decorators/log'
 import { HttpHelper } from '@/presentation/helpers'
 import { type HttpResponse } from '@/presentation/protocols'
 

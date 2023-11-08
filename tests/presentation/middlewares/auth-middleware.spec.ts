@@ -1,8 +1,8 @@
 import { GetAccountByTokenSpy } from '@/tests/presentation/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
-import { throwError } from '@/tests/domain/mocks'
 
 interface Sut {
   sut: AuthMiddleware
