@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { type Encrypter, type Decrypter } from '@/application/protocols/cryptography'
-import { ExpiredTokenError } from '@/application/errors'
+import { ExpiredTokenError, InvalidTokenError } from '@/application/errors'
 
 export class JwtAdapter implements Encrypter, Decrypter {
   constructor(private readonly secret: string) {}
@@ -18,7 +18,7 @@ export class JwtAdapter implements Encrypter, Decrypter {
       if (error.name === 'TokenExpiredError') {
         throw new ExpiredTokenError()
       } else {
-        throw new Error()
+        throw new InvalidTokenError()
       }
     }
   }
