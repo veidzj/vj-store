@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken'
+import { throwError } from '@/tests/domain/mocks'
 import { JwtAdapter } from '@/infra/cryptography'
 import { ExpiredTokenError, InvalidTokenError } from '@/application/errors'
-import { throwError } from '@/tests/domain/mocks'
 
 jest.mock('jsonwebtoken', () => ({
   sign(): string {
     return 'any_token'
   },
 
-  async verify(): Promise<string> {
+  verify(): string {
     return 'any_value'
   }
 }))
