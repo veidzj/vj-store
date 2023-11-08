@@ -8,21 +8,8 @@ export class DbGetAccountByToken implements GetAccountByToken {
     private readonly getAccountByTokenRepository: GetAccountByTokenRepository
   ) {}
 
-  public getByToken = async(accessToken: string, role?: string): Promise<string | null> => {
-    let token: string
-    try {
-      token = await this.decrypter.decrypt(accessToken)
-    } catch (error) {
-      return null
-    }
-
-    if (token) {
-      const accountId = await this.getAccountByTokenRepository.getByToken(accessToken, role)
-      if (accountId) {
-        return accountId
-      }
-    }
-
-    return null
+  public getByToken = async(accessToken: string, role?: string): Promise<GetAccountByToken.Output> => {
+    await this.decrypter.decrypt(accessToken)
+    return await this.getAccountByTokenRepository.getByToken(accessToken, role)
   }
 }

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { type Encrypter, type Decrypter } from '@/application/protocols/cryptography'
-import { ExpiredTokenError, InvalidTokenError } from '@/application/errors'
+import { ExpiredTokenError, InvalidTokenError } from '@/application/errors/authentication'
 
 export class JwtAdapter implements Encrypter, Decrypter {
   constructor(private readonly secret: string) {}

@@ -1,1 +1,1 @@
-export * from './token-error'
+export * from './authentication-error'
