@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { JwtAdapter } from '@/infra/cryptography'
+import { ExpiredTokenError } from '@/application/errors'
 import { throwError } from '@/tests/domain/mocks'
 
 jest.mock('jsonwebtoken', () => ({
@@ -47,11 +48,15 @@ describe('JwtAdapter', () => {
       expect(verifySpy).toHaveBeenLastCalledWith('any_token', 'secret')
     })
 
-    test('Should throw if verify throws', async() => {
+    test('Should throw ExpiredTokenError if verify throws TokenExpiredError', async() => {
       const sut = makeSut()
-      jest.spyOn(jwt, 'verify').mockImplementationOnce(throwError)
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => {
+        const error = new Error()
+        error.name = 'TokenExpiredError'
+        throw error
+      })
       const promise = sut.decrypt('any_token')
-      await expect(promise).rejects.toThrow()
+      await expect(promise).rejects.toThrow(ExpiredTokenError)
     })
 
     test('Should return a decoded token on success', async() => {
