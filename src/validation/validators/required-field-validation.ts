@@ -4,10 +4,9 @@ import { type Validation } from '@/presentation/protocols'
 export class RequiredFieldValidation implements Validation {
   constructor(private readonly fieldName: string) {}
 
-  validate = (input: any): Error | null => {
+  validate = (input: any): void => {
     if (!input[this.fieldName]) {
-      return new MissingParamError(this.fieldName)
+      throw new MissingParamError(this.fieldName)
     }
-    return null
   }
 }

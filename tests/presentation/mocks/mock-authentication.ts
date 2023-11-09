@@ -27,11 +27,13 @@ export class AuthenticationSpy implements Authentication {
 export class GetAccountByTokenSpy implements GetAccountByToken {
   public accessToken: string
   public role?: string
-  public id: string | null = faker.string.uuid()
+  public account = {
+    id: faker.string.uuid()
+  }
 
-  public getByToken = async(accessToken: string, role?: string): Promise<string | null> => {
+  public getByToken = async(accessToken: string, role?: string): Promise<GetAccountByToken.Output> => {
     this.accessToken = accessToken
     this.role = role
-    return this.id
+    return this.account
   }
 }

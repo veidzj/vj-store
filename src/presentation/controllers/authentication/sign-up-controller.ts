@@ -2,6 +2,7 @@ import { type Controller, type Validation, type HttpResponse } from '@/presentat
 import { HttpHelper } from '@/presentation/helpers'
 import { EmailInUseError } from '@/presentation/errors'
 import { type AddAccount, type Authentication } from '@/domain/usecases/authentication'
+import { ValidationError } from '@/domain/errors'
 
 export class SignUpController implements Controller {
   private readonly httpHelper = new HttpHelper()
@@ -14,10 +15,7 @@ export class SignUpController implements Controller {
 
   public handle = async(request: SignUpController.Request): Promise<HttpResponse> => {
     try {
-      const error = this.validation.validate(request)
-      if (error) {
-        return this.httpHelper.badRequest(error)
-      }
+      this.validation.validate(request)
 
       const { username, email, password } = request
       const isValid = await this.addAccount.add({ username, email, password })
@@ -28,6 +26,9 @@ export class SignUpController implements Controller {
       const authenticationModel = await this.authentication.auth({ email, password })
       return this.httpHelper.ok(authenticationModel)
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return this.httpHelper.badRequest(error)
+      }
       return this.httpHelper.serverError(error)
     }
   }

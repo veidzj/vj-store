@@ -8,11 +8,10 @@ export class UsernameValidation implements Validation {
     private readonly usernameValidator: UsernameValidator
   ) {}
 
-  public validate = (input: any): Error | null => {
+  public validate = (input: any): void => {
     const isValid = this.usernameValidator.isValid(input[this.field])
     if (!isValid) {
-      return new InvalidParamError(this.field, 'must include only letters')
+      throw new InvalidParamError(this.field, 'must include only letters')
     }
-    return null
   }
 }

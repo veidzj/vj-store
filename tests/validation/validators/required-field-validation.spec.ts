@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { RequiredFieldValidation } from '@/validation/validators'
-import { MissingParamError } from '@/presentation/errors'
+import { MissingParamError } from '@/validation/errors'
 
 const field = faker.word.words()
 
@@ -9,15 +9,19 @@ const makeSut = (): RequiredFieldValidation => {
 }
 
 describe('RequiredFieldValidation', () => {
-  test('Should return MissingParamError if validation fails', () => {
+  test('Should throw MissingParamError if validation fails', () => {
     const sut = makeSut()
-    const error = sut.validate({ invalidField: faker.word.words() })
-    expect(error).toEqual(new MissingParamError(field))
+    const error = (): void => {
+      sut.validate({ invalidField: faker.word.words() })
+    }
+    expect(error).toThrow(new MissingParamError(field))
   })
 
-  test('Should return null if validation succeeds', () => {
+  test('Should not throw if validation succeeds', () => {
     const sut = makeSut()
-    const error = sut.validate({ [field]: faker.word.words() })
-    expect(error).toBeNull()
+    const error = (): void => {
+      sut.validate({ [field]: faker.word.words() })
+    }
+    expect(error).not.toThrow()
   })
 })
