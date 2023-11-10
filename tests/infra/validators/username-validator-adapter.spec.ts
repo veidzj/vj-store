@@ -4,6 +4,10 @@ import { UsernameValidatorAdapter } from '@/infra/validators'
 jest.mock('validator', () => ({
   isAlpha(): boolean {
     return true
+  },
+
+  isLength(): boolean {
+    return true
   }
 }))
 
