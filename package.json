@@ -1,6 +1,6 @@
 {
   "name": "vj-store",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "E-Commerce API using TypeScript, TDD and Clean Architecture",
   "author": "João Victor Veidz",
   "license": "ISC",
