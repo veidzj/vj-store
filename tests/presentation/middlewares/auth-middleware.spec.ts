@@ -3,6 +3,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
+import { AuthenticationError } from '@/domain/errors'
 
 interface Sut {
   sut: AuthMiddleware
@@ -34,19 +35,11 @@ describe('AuthMiddleware', () => {
     expect(getAccountByTokenSpy.role).toBe(role)
   })
 
-  test('Should return Forbidden if GetAccountByToken returns null', async() => {
+  test('Should return Forbidden if GetAccountByToken throws an AuthenticationError', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
-    getAccountByTokenSpy.id = null
+    jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError('any_error') })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(httpHelper.forbidden(new AccessDeniedError()))
-  })
-
-  test('Should return OK if GetAccountByToken returns an account id', async() => {
-    const { sut, getAccountByTokenSpy } = makeSut()
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.ok({
-      accountId: getAccountByTokenSpy.id
-    }))
   })
 
   test('Should return ServerError if GetAccountByToken throws', async() => {
@@ -54,5 +47,13 @@ describe('AuthMiddleware', () => {
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
+  })
+
+  test('Should return OK if GetAccountByToken returns an account', async() => {
+    const { sut, getAccountByTokenSpy } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(httpHelper.ok({
+      accountId: getAccountByTokenSpy.account.id
+    }))
   })
 })
