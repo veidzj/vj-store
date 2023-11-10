@@ -1,8 +1,8 @@
-import { type CheckAccountByEmailRepository } from '@/application/protocols/db/static/authentication/check-account-by-email-repository'
-import { type GetAccountByEmailRepository } from '@/application/protocols/db/static/authentication/get-account-by-email-repository'
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
+import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/authentication'
+import { AccountNotFoundError } from '@/application/errors/authentication'
 
-export class StaticAccountMongoRepository implements CheckAccountByEmailRepository, GetAccountByEmailRepository {
+export class StaticAccountMongoRepository implements CheckAccountByEmailRepository, GetAccountByEmailRepository, GetAccountByTokenRepository {
   public checkByEmail = async(email: string): Promise<boolean> => {
     const accountCollection = MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({
@@ -27,5 +27,22 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
       }
     })
     return account && MongoHelper.map(account)
+  }
+
+  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output> => {
+    const accountCollection = MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne({
+      accessToken: token,
+      $or: [
+        { role },
+        { role: 'admin' }
+      ]
+    }, {
+      projection: { _id: 1 }
+    })
+    if (!account) {
+      throw new AccountNotFoundError()
+    }
+    return MongoHelper.map(account)
   }
 }

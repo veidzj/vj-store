@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { EmailValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { EmailValidation } from '@/validation/validators'
-import { InvalidParamError } from '@/presentation/errors'
+import { InvalidParamError } from '@/validation/errors'
 
 interface Sut {
   sut: EmailValidation
@@ -28,12 +28,14 @@ describe('EmailValidation', () => {
     expect(emailValidatorSpy.email).toBe(email)
   })
 
-  test('Should return InvalidParamError if EmailValidator returns false', () => {
+  test('Should throw InvalidParamError if EmailValidator returns false', () => {
     const { sut, emailValidatorSpy } = makeSut()
     emailValidatorSpy.isEmailValid = false
     const email = faker.internet.email()
-    const error = sut.validate({ [field]: email })
-    expect(error).toEqual(new InvalidParamError(field))
+    const error = (): void => {
+      sut.validate({ [field]: email })
+    }
+    expect(error).toThrow(new InvalidParamError(field))
   })
 
   test('Should throw if EmailValidator throws', () => {

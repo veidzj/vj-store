@@ -1,9 +1,9 @@
 import { Collection } from 'mongodb'
+import { faker } from '@faker-js/faker'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/authentication'
-import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
+import { MongoHelper } from '@/infra/db/mongodb'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/authentication'
-import { faker } from '@faker-js/faker'
 
 let accountCollection: Collection
 

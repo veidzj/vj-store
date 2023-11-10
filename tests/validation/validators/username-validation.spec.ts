@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { UsernameValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { UsernameValidation } from '@/validation/validators'
-import { InvalidParamError } from '@/presentation/errors'
+import { InvalidParamError } from '@/validation/errors'
 
 interface Sut {
   sut: UsernameValidation
@@ -28,12 +28,13 @@ describe('UsernameValidation', () => {
     expect(nameValidatorSpy.username).toBe(username)
   })
 
-  test('Should return InvalidParamError if validation returns false', () => {
+  test('Should throw InvalidParamError if UsernameValidator returns false', () => {
     const { sut, nameValidatorSpy } = makeSut()
     nameValidatorSpy.isNameValid = false
-    const username = faker.internet.userName()
-    const error = sut.validate({ [field]: username })
-    expect(error).toEqual(new InvalidParamError(field, 'must include only letters'))
+    const error = (): void => {
+      sut.validate({ [field]: faker.internet.userName() })
+    }
+    expect(error).toThrow(new InvalidParamError(field, 'must include only letters and a maximum of 12 characters'))
   })
 
   test('Should throw if UsernameValidator throws', () => {
@@ -42,10 +43,11 @@ describe('UsernameValidation', () => {
     expect(sut.validate).toThrow()
   })
 
-  test('Should return null if UsernameValidator returns true', () => {
+  test('Should not throw if UsernameValidator returns true', () => {
     const { sut } = makeSut()
-    const username = faker.internet.userName()
-    const error = sut.validate({ [field]: username })
-    expect(error).toBeNull()
+    const error = (): void => {
+      sut.validate({ [field]: faker.internet.userName() })
+    }
+    expect(error).not.toThrow()
   })
 })

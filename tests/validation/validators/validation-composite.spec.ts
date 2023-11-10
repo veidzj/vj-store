@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import { ValidationComposite } from '@/validation/validators'
-import { MissingParamError } from '@/presentation/errors'
+import { InvalidParamError, MissingParamError } from '@/validation/errors'
 
 const field = faker.word.words()
 
@@ -23,24 +23,32 @@ const makeSut = (): Sut => {
 }
 
 describe('ValidationComposite', () => {
-  test('Should return an error if any validation fails', () => {
+  test('Should throw an error if any validation fails', () => {
     const { sut, validationSpies } = makeSut()
-    validationSpies[1].error = new MissingParamError(field)
-    const error = sut.validate({ [field]: faker.word.words() })
-    expect(error).toEqual(validationSpies[1].error)
+    validationSpies[1].hasError = true
+    const error = (): void => {
+      sut.validate({ [field]: faker.word.words() })
+    }
+    expect(error).toThrow(validationSpies[1].error)
   })
 
-  test('Should return the first error if more than one validation fails', () => {
+  test('Should thow the first error if more than one validation fails', () => {
     const { sut, validationSpies } = makeSut()
-    validationSpies[0].error = new Error()
-    validationSpies[1].error = new MissingParamError(field)
-    const error = sut.validate({ [field]: faker.word.words() })
-    expect(error).toEqual(validationSpies[0].error)
+    validationSpies[0].hasError = true
+    validationSpies[0].error = new MissingParamError(field)
+    validationSpies[1].hasError = true
+    validationSpies[1].error = new InvalidParamError(field)
+    const error = (): void => {
+      sut.validate({ [field]: faker.word.words() })
+    }
+    expect(error).toThrow(validationSpies[0].error)
   })
 
-  test('Should return null if validation succeeds', () => {
+  test('Should not throw if validation succeeds', () => {
     const { sut } = makeSut()
-    const error = sut.validate({ [field]: faker.word.words() })
-    expect(error).toBeNull()
+    const error = (): void => {
+      sut.validate({ [field]: faker.word.words() })
+    }
+    expect(error).not.toThrow()
   })
 })

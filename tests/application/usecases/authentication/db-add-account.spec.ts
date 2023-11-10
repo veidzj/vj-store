@@ -1,7 +1,6 @@
-import { DbAddAccount } from '@/application/usecases/authentication'
 import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
-import { mockAddAccountInput } from '@/tests/domain/mocks/mock-account'
-import { throwError } from '@/tests/domain/mocks'
+import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
+import { DbAddAccount } from '@/application/usecases/authentication'
 
 interface Sut {
   sut: DbAddAccount

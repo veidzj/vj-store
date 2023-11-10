@@ -1,8 +1,9 @@
-import { faker } from '@faker-js/faker'
 import { Collection } from 'mongodb'
+import { faker } from '@faker-js/faker'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/authentication'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { AccountNotFoundError } from '@/application/errors/authentication'
 
 let accountCollection: Collection
 
@@ -70,6 +71,76 @@ describe('StaticAccountMongoRepository', () => {
       const sut = makeSut()
       const account = await sut.getByEmail(faker.internet.email())
       expect(account).toBeNull()
+    })
+  })
+
+  describe('getByToken', () => {
+    let name = faker.person.firstName()
+    let email = faker.internet.email()
+    let password = faker.internet.password()
+    let accessToken = faker.string.uuid()
+
+    beforeEach(() => {
+      name = faker.person.firstName()
+      email = faker.internet.email()
+      password = faker.internet.password()
+      accessToken = faker.string.uuid()
+    })
+
+    test('Should return an account without role on success', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken
+      })
+      const account = await sut.getByToken(accessToken)
+      expect(account).toBeTruthy()
+    })
+
+    test('Should return an account with admin role on success', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken,
+        role: 'admin'
+      })
+      const account = await sut.getByToken(accessToken, 'admin')
+      expect(account).toBeTruthy()
+    })
+
+    test('Should throw an AccoutNotFoundError if invalid role is provided', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken
+      })
+      const promise = sut.getByToken(accessToken, 'admin')
+      await expect(promise).rejects.toThrow(new AccountNotFoundError())
+    })
+
+    test('Should return an account if user is admin and no role is provided', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name,
+        email,
+        password,
+        accessToken,
+        role: 'admin'
+      })
+      const account = await sut.getByToken(accessToken)
+      expect(account).toBeTruthy()
+    })
+
+    test('Should throw an AccoutNotFoundError on failure', async() => {
+      const sut = makeSut()
+      const promise = sut.getByToken(accessToken)
+      await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
   })
 })

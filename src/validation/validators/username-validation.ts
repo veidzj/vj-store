@@ -1,6 +1,6 @@
 import { type UsernameValidator } from '@/validation/protocols'
+import { InvalidParamError } from '@/validation/errors'
 import { type Validation } from '@/presentation/protocols'
-import { InvalidParamError } from '@/presentation/errors'
 
 export class UsernameValidation implements Validation {
   constructor(
@@ -8,11 +8,10 @@ export class UsernameValidation implements Validation {
     private readonly usernameValidator: UsernameValidator
   ) {}
 
-  public validate = (input: any): Error | null => {
+  public validate = (input: any): void => {
     const isValid = this.usernameValidator.isValid(input[this.field])
     if (!isValid) {
-      return new InvalidParamError(this.field, 'must include only letters')
+      throw new InvalidParamError(this.field, 'must include only letters and a maximum of 12 characters')
     }
-    return null
   }
 }
