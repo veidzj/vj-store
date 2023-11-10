@@ -36,11 +36,11 @@ describe('DbGetAccountByToken', () => {
       expect(decrypterSpy.cipherText).toBe(token)
     })
 
-    test('Should return null if Decrypter throws', async() => {
+    test('Should throw if Decrypter throws', async() => {
       const { sut, decrypterSpy } = makeSut()
       jest.spyOn(decrypterSpy, 'decrypt').mockImplementationOnce(throwError)
-      const accountId = await sut.getByToken(token, role)
-      expect(accountId).toBeNull()
+      const promise = sut.getByToken(token, role)
+      await expect(promise).rejects.toThrow(new Error())
     })
   })
 
@@ -52,13 +52,6 @@ describe('DbGetAccountByToken', () => {
       expect(getAccountByTokenRepositorySpy.role).toBe(role)
     })
 
-    test('Should return null if GetAccountByTokenRepository returns null', async() => {
-      const { sut, getAccountByTokenRepositorySpy } = makeSut()
-      getAccountByTokenRepositorySpy.id = null
-      const accountId = await sut.getByToken(token, role)
-      expect(accountId).toBeNull()
-    })
-
     test('Should throw if GetAccountByTokenRepository throws', async() => {
       const { sut, getAccountByTokenRepositorySpy } = makeSut()
       jest.spyOn(getAccountByTokenRepositorySpy, 'getByToken').mockImplementationOnce(throwError)
@@ -66,10 +59,10 @@ describe('DbGetAccountByToken', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return an account id on success', async() => {
+    test('Should return an account on success', async() => {
       const { sut, getAccountByTokenRepositorySpy } = makeSut()
-      const accountId = await sut.getByToken(token, role)
-      expect(accountId).toBe(getAccountByTokenRepositorySpy.id)
+      const account = await sut.getByToken(token, role)
+      expect(account).toBe(getAccountByTokenRepositorySpy.account)
     })
   })
 })
