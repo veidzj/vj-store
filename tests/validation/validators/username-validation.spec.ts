@@ -28,12 +28,11 @@ describe('UsernameValidation', () => {
     expect(nameValidatorSpy.username).toBe(username)
   })
 
-  test('Should throw InvalidParamError if validation returns false', () => {
+  test('Should throw InvalidParamError if UsernameValidator returns false', () => {
     const { sut, nameValidatorSpy } = makeSut()
     nameValidatorSpy.isNameValid = false
-    const username = faker.internet.userName()
     const error = (): void => {
-      sut.validate({ [field]: username })
+      sut.validate({ [field]: faker.internet.userName() })
     }
     expect(error).toThrow(new InvalidParamError(field, 'must include only letters'))
   })
@@ -46,9 +45,8 @@ describe('UsernameValidation', () => {
 
   test('Should not throw if UsernameValidator returns true', () => {
     const { sut } = makeSut()
-    const username = faker.internet.userName()
     const error = (): void => {
-      sut.validate({ [field]: username })
+      sut.validate({ [field]: faker.internet.userName() })
     }
     expect(error).not.toThrow()
   })
