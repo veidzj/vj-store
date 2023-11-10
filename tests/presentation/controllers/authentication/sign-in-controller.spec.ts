@@ -3,7 +3,8 @@ import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { SignInController } from '@/presentation/controllers/authentication'
 import { HttpHelper } from '@/presentation/helpers'
-import { MissingParamError, ServerError } from '@/presentation/errors'
+import { ServerError } from '@/presentation/errors'
+import { MissingParamError } from '@/validation/errors'
 
 interface Sut {
   sut: SignInController
@@ -38,12 +39,16 @@ describe('SignInController', () => {
       expect(validationSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if Validation returns an error', async() => {
+    test('Should return Bad Request if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
-      validationSpy.error = new MissingParamError(faker.word.words())
+
+      validationSpy.validate = jest.fn(() => {
+        throw new MissingParamError('any_error')
+      })
+
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.badRequest(validationSpy.error))
+      expect(httpResponse).toEqual(httpHelper.badRequest(new MissingParamError('any_error')))
     })
   })
 
