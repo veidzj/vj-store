@@ -34,7 +34,7 @@ describe('UsernameValidation', () => {
     const error = (): void => {
       sut.validate({ [field]: faker.internet.userName() })
     }
-    expect(error).toThrow(new InvalidParamError(field, 'must include only letters'))
+    expect(error).toThrow(new InvalidParamError(field, 'must include only letters and a maximum of 12 characters'))
   })
 
   test('Should throw if UsernameValidator throws', () => {
