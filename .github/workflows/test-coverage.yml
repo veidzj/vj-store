@@ -19,13 +19,8 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test
-  
-  coverage:
-    runs-on: ubuntu-latest
-
-    needs: test
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+        run: |
+          npx jest --coverage --coverageReporters json-summary
+      
+      - name: Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
