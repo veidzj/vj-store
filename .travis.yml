@@ -1,8 +1,0 @@
-language: node_js
-node_js:
-  - 14
-install:
-  - npm install
-script:
-  - eslint 'src/**'
-  - npm test
