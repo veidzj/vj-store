@@ -43,7 +43,7 @@ describe('SignInController', () => {
       const { sut, validationSpy } = makeSut()
 
       validationSpy.validate = jest.fn(() => {
-        throw new MissingParamError('any_erro')
+        throw new MissingParamError('any_error')
       })
 
       const request = mockRequest()
