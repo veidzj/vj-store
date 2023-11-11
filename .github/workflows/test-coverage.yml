@@ -1,9 +1,6 @@
 name: Test Coverage
 
-on:
-  pull_request:
-    branches:
-        - setup/gh-actions
+on: [push]
 
 jobs:
   # test:
