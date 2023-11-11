@@ -16,5 +16,4 @@ jobs:
         run: |
           npx jest --coverage --coverageReporters json-summary
 
-      - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
+      - uses: ArtiomTr/jest-coverage-report-action@v2
