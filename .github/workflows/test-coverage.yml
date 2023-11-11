@@ -1,6 +1,6 @@
 name: Test Coverage
 
-on: pull_request
+on: pull_request_target
 
 jobs:
   test:
@@ -21,9 +21,6 @@ jobs:
       - name: Run tests
         run: |
           npx jest --coverage --coverageReporters json-summary
-      
-      - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
   
   coverage:
     needs: test
