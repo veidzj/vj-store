@@ -1,33 +1,25 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.1.0
+
 jobs:
-  build:
-    docker:
-      - image: node:18
-
-    working_directory: ~/app
-
+  test:
+    executor: node/default
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: Install dependencies
-          command: |
-            npm install
-            apt-get update
-            apt-get install gdebi-core -y
-            wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1n-0+deb11u4_amd64.deb
-            gdebi --non-interactive libssl1.1_1.1.1n-0+deb11u4_amd64.deb
-
-      - save_cache:
+          command: npm run test
+          name: Run tests
+      - store_test_results:
+          path: test-results
+      - persist_to_workspace:
+          root: ~/project
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run:
-          name: Run Tests
-          command: npm test
+            - .
+workflows:
+  coverage:
+    jobs:
+      - test
