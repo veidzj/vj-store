@@ -1,25 +1,25 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@5.1.0
-
 jobs:
   test:
-    executor: node/default
+    docker:
+      - image: docker:stable
+
+    working_directory: ~/app
+
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+
       - run:
-          command: npm run test
-          name: Run tests
-      - store_test_results:
-          path: test-results
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - .
+          name: Build Docker image
+          command: docker build -t vj-store-test -f Dockerfile.test .
+
+      - run:
+          name: Run Tests in Docker
+          command: docker run vj-store-test
+
 workflows:
-  coverage:
+  build_and_test:
     jobs:
       - test
+  
