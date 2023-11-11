@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,3 +24,13 @@ jobs:
       
       - name: Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
+  
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - uses: artiomtr/jest-coverage-report-action@v2
+          with:
+              github-token: ${{ secrets.GITHUB_TOKEN }}
+              threshold: 90
