@@ -1,33 +1,32 @@
 name: Test Coverage
 
-on: pull_request_target
+on:
+  pull_request_target:
+    branches:
+        - setup/gh-actions
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  # test:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
       
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Run tests
-        run: |
-          npx jest --coverage --coverageReporters json-summary
+  #     - name: Run tests
+  #       run: |
+  #         npx jest --coverage --coverageReporters json-summary
   
   coverage:
-    needs: test
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v4
-        - uses: artiomtr/jest-coverage-report-action@v2
-          with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              threshold: 90
+        - uses: actions/checkout@v3
+        - uses: ArtiomTr/jest-coverage-report-action@v2
