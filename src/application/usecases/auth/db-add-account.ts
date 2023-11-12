@@ -2,6 +2,7 @@ import { type CheckAccountByEmailRepository } from '@/application/protocols/db/s
 import { type Hasher } from '@/application/protocols/cryptography'
 import { type AddAccountRepository } from '@/application/protocols/db/dynamic/auth'
 import { type AddAccount } from '@/domain/usecases/auth'
+import { EmailInUseError } from '@/application/errors/auth/email-in-use-error'
 
 export class DbAddAccount implements AddAccount {
   constructor(
@@ -12,11 +13,10 @@ export class DbAddAccount implements AddAccount {
 
   public add = async(input: AddAccount.Input): Promise<boolean> => {
     const accountExists = await this.checkAccountByEmailRepository.checkByEmail(input.email)
-    let isValid = false
-    if (!accountExists) {
-      const hashedPassword = await this.hasher.hash(input.password)
-      isValid = await this.addAccountRepository.add({ ...input, password: hashedPassword })
+    if (accountExists) {
+      throw new EmailInUseError()
     }
-    return isValid
+    const hashedPassword = await this.hasher.hash(input.password)
+    return await this.addAccountRepository.add({ ...input, password: hashedPassword })
   }
 }

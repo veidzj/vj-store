@@ -3,8 +3,10 @@ import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/present
 import { throwError } from '@/tests/domain/mocks'
 import { SignUpController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
-import { EmailInUseError, ServerError } from '@/presentation/errors'
+import { ServerError } from '@/presentation/errors'
 import { MissingParamError } from '@/validation/errors'
+import { AuthenticationError } from '@/domain/errors'
+import { EmailInUseError } from '@/application/errors/auth'
 
 interface Sut {
   sut: SignUpController
@@ -69,11 +71,11 @@ describe('SignUpController', () => {
       })
     })
 
-    test('Should return Forbidden if AddAccount returns false', async() => {
+    test('Should return Forbidden if AddAccount throws an EmailInUseError', async() => {
       const { sut, addAccountSpy } = makeSut()
-      addAccountSpy.output = false
+      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new EmailInUseError() })
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.forbidden(new EmailInUseError()))
+      expect(httpResponse).toEqual(httpHelper.forbidden(new AuthenticationError('Email is already in use')))
     })
 
     test('Should return Server Error if AddAccount throws', async() => {

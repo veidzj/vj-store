@@ -1,6 +1,7 @@
 import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DbAddAccount } from '@/application/usecases/auth'
+import { EmailInUseError } from '@/application/errors/auth'
 
 interface Sut {
   sut: DbAddAccount
@@ -38,11 +39,11 @@ describe('DbAddAccount', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return false if CheckAccountByEmailRepository returns true', async() => {
+    test('Should throw EmailInUseError if CheckAccountByEmailRepository returns true', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       checkAccountByEmailRepositorySpy.output = true
-      const isValid = await sut.add(mockAddAccountInput())
-      expect(isValid).toBe(false)
+      const promise = sut.add(mockAddAccountInput())
+      await expect(promise).rejects.toThrow(new EmailInUseError())
     })
   })
 
