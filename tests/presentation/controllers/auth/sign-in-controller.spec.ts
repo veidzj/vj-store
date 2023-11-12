@@ -42,14 +42,13 @@ describe('SignInController', () => {
 
     test('Should return Bad Request if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
-
+      const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
-        throw new MissingParamError('any_error')
+        throw new MissingParamError(errorMessage)
       })
-
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.badRequest(new MissingParamError('any_error')))
+      expect(httpResponse).toEqual(httpHelper.badRequest(new MissingParamError(errorMessage)))
     })
   })
 
@@ -70,10 +69,11 @@ describe('SignInController', () => {
 
     test('Should return Unauthorized if invalid credentials are provided', async() => {
       const { sut, authenticationSpy } = makeSut()
-      authenticationSpy.output = null
+      const errorMessage = faker.word.words()
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw new AuthenticationError(errorMessage) })
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError('Invalid credentials')))
+      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError(errorMessage)))
     })
 
     test('Should return Ok if valid credentials are provided', async() => {

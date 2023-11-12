@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { AccountNotFoundError } from '@/application/errors/auth'
+import { AccessDeniedError } from '@/application/errors/auth'
 
 let accountCollection: Collection
 
@@ -112,7 +112,7 @@ describe('StaticAccountMongoRepository', () => {
       expect(account).toBeTruthy()
     })
 
-    test('Should throw an AccoutNotFoundError if invalid role is provided', async() => {
+    test('Should throw an AccessDeniedError if invalid role is provided', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
         name,
@@ -121,7 +121,7 @@ describe('StaticAccountMongoRepository', () => {
         accessToken
       })
       const promise = sut.getByToken(accessToken, 'admin')
-      await expect(promise).rejects.toThrow(new AccountNotFoundError())
+      await expect(promise).rejects.toThrow(new AccessDeniedError())
     })
 
     test('Should return an account if user is admin and no role is provided', async() => {
@@ -137,10 +137,10 @@ describe('StaticAccountMongoRepository', () => {
       expect(account).toBeTruthy()
     })
 
-    test('Should throw an AccoutNotFoundError on failure', async() => {
+    test('Should throw an AccessDeniedError on failure', async() => {
       const sut = makeSut()
       const promise = sut.getByToken(accessToken)
-      await expect(promise).rejects.toThrow(new AccountNotFoundError())
+      await expect(promise).rejects.toThrow(new AccessDeniedError())
     })
   })
 })

@@ -16,13 +16,13 @@ export class SignInController implements Controller {
       this.validation.validate(request)
 
       const authenticationModel = await this.authentication.auth(request)
-      if (!authenticationModel) {
-        return this.httpHelper.unauthorized(new AuthenticationError('Invalid credentials'))
-      }
       return this.httpHelper.ok(authenticationModel)
     } catch (error) {
       if (error instanceof ValidationError) {
         return this.httpHelper.badRequest(error)
+      }
+      if (error instanceof AuthenticationError) {
+        return this.httpHelper.unauthorized(error)
       }
       return this.httpHelper.serverError(error)
     }

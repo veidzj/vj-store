@@ -1,6 +1,6 @@
-import { AuthorizationError } from '@/domain/errors'
+import { AuthenticationError } from '@/domain/errors'
 
-export class InvalidCredentialsError extends AuthorizationError {
+export class InvalidCredentialsError extends AuthenticationError {
   constructor() {
     super('Invalid credentials')
   }

@@ -1,5 +1,5 @@
 export interface Authentication {
-  auth: (input: Authentication.Input) => Promise<Authentication.Output | null>
+  auth: (input: Authentication.Input) => Promise<Authentication.Output>
 }
 
 export namespace Authentication {

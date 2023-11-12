@@ -2,6 +2,7 @@ import { type GetAccountByEmailRepository } from '@/application/protocols/db/sta
 import { type HashComparer, type Encrypter } from '@/application/protocols/cryptography'
 import { type Authentication } from '@/domain/usecases/auth'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/application/errors/auth'
 
 export class DbAuthentication implements Authentication {
   constructor(
@@ -11,21 +12,22 @@ export class DbAuthentication implements Authentication {
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
-  public auth = async(input: Authentication.Input): Promise<Authentication.Output | null> => {
+  public auth = async(input: Authentication.Input): Promise<Authentication.Output> => {
     const account = await this.getAccountByEmailRepository.getByEmail(input.email)
-
-    if (account) {
-      const isValid = await this.hashComparer.compare(input.password, account.password)
-      if (isValid) {
-        const accessToken = await this.encrypter.encrypt(account.id)
-        await this.updateAccessTokenRepository.updateAccessToken({ id: account.id, token: accessToken })
-        return {
-          username: account.username,
-          accessToken
-        }
-      }
+    if (!account) {
+      throw new AccountNotFoundError()
     }
 
-    return null
+    const isValid = await this.hashComparer.compare(input.password, account.password)
+    if (!isValid) {
+      throw new InvalidCredentialsError()
+    }
+
+    const accessToken = await this.encrypter.encrypt(account.id)
+    await this.updateAccessTokenRepository.updateAccessToken({ id: account.id, token: accessToken })
+    return {
+      username: account.username,
+      accessToken
+    }
   }
 }

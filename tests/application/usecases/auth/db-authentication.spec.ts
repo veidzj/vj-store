@@ -1,6 +1,7 @@
 import { GetAccountByEmailRepositorySpy, UpdateAccessTokenRepositorySpy, EncrypterSpy, HashComparerSpy } from '@/tests/application/mocks'
 import { mockAuthenticationInput, throwError } from '@/tests/domain/mocks'
 import { DbAuthentication } from '@/application/usecases/auth/db-authentication'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/application/errors/auth'
 
 interface Sut {
   sut: DbAuthentication
@@ -41,11 +42,11 @@ describe('DbAuthentication', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return null if GetAccountByEmailRepository returns null', async() => {
+    test('Should throw AccountNotFoundError if GetAccountByEmailRepository returns null', async() => {
       const { sut, getAccountByEmailRepositorySpy } = makeSut()
       getAccountByEmailRepositorySpy.output = null
-      const authenticationModel = await sut.auth(mockAuthenticationInput())
-      expect(authenticationModel).toBeNull()
+      const promise = sut.auth(mockAuthenticationInput())
+      await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
   })
 
@@ -65,17 +66,17 @@ describe('DbAuthentication', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return null if HashComparer returns false', async() => {
+    test('Should throw InvalidCredentialsError if HashComparer returns false', async() => {
       const { sut, hashComparerSpy } = makeSut()
       hashComparerSpy.isValid = false
       const authenticationInput = mockAuthenticationInput()
-      const authenticationModel = await sut.auth(authenticationInput)
-      expect(authenticationModel).toBeNull()
+      const promise = sut.auth(authenticationInput)
+      await expect(promise).rejects.toThrow(new InvalidCredentialsError())
     })
   })
 
   describe('Encrypter', () => {
-    test('Should call Encrypter with correct value (id)', async() => {
+    test('Should call Encrypter with correct value', async() => {
       const { sut, encrypterSpy, getAccountByEmailRepositorySpy } = makeSut()
       await sut.auth(mockAuthenticationInput())
       expect(encrypterSpy.plainText).toBe(getAccountByEmailRepositorySpy.output?.id)

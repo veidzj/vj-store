@@ -13,12 +13,12 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
-  public output: Authentication.Output | null = {
+  public output: Authentication.Output = {
     username: faker.person.firstName(),
     accessToken: faker.string.uuid()
   }
 
-  public auth = async(input: Authentication.Input): Promise<Authentication.Output | null> => {
+  public auth = async(input: Authentication.Input): Promise<Authentication.Output> => {
     this.input = input
     return this.output
   }
