@@ -3,8 +3,8 @@ name: Test Coverage
 on: pull_request
 
 jobs:
-  build:
-    name: Build
+  coverage:
+    name: coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -15,41 +15,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
-      - name: Restore Node.js modules cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Install Dependencies
         run: npm install
 
-  tests:
-    name: Tests
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Run Tests
         run: npm run test:ci
-  
-  coverage:
-    name: Coverage
-    needs: tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
