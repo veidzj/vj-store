@@ -1,6 +1,5 @@
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
-import { AccessDeniedError } from '@/application/errors/auth'
 
 export class StaticAccountMongoRepository implements CheckAccountByEmailRepository, GetAccountByEmailRepository, GetAccountByTokenRepository {
   public checkByEmail = async(email: string): Promise<boolean> => {
@@ -29,7 +28,7 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
     return account && MongoHelper.map(account)
   }
 
-  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output> => {
+  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output | null> => {
     const accountCollection = MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({
       accessToken: token,
@@ -40,9 +39,6 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
     }, {
       projection: { _id: 1 }
     })
-    if (!account) {
-      throw new AccessDeniedError()
-    }
-    return MongoHelper.map(account)
+    return account && MongoHelper.map(account)
   }
 }

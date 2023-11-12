@@ -1,5 +1,5 @@
 export interface GetAccountByTokenRepository {
-  getByToken: (token: string, role?: string) => Promise<GetAccountByTokenRepository.Output>
+  getByToken: (token: string, role?: string) => Promise<GetAccountByTokenRepository.Output | null>
 }
 
 export namespace GetAccountByTokenRepository {
