@@ -1,7 +1,7 @@
 import { type Middleware, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
-import { type GetAccountByToken } from '@/domain/usecases/authentication'
+import { type GetAccountByToken } from '@/domain/usecases/auth'
 import { AuthenticationError } from '@/domain/errors'
 
 export class AuthMiddleware implements Middleware {

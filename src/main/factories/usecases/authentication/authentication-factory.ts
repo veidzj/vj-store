@@ -1,9 +1,9 @@
 import { env } from '@/main/config/env'
-import { type Authentication } from '@/domain/usecases/authentication'
-import { DbAuthentication } from '@/application/usecases/authentication'
+import { type Authentication } from '@/domain/usecases/auth'
+import { DbAuthentication } from '@/application/usecases/auth'
 import { BcryptAdapter, JwtAdapter } from '@/infra/cryptography'
-import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/authentication'
-import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/authentication'
+import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
+import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/auth'
 
 export const makeDbAuthentication = (): Authentication => {
   const salt = 12

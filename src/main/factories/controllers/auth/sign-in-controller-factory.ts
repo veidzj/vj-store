@@ -2,7 +2,7 @@ import { makeSignInValidation } from '@/main/factories/validations/authenticatio
 import { makeDbAuthentication } from '@/main/factories/usecases/authentication'
 import { makeLogControllerDecorator } from '@/main/factories/decorators/log'
 import { type Controller } from '@/presentation/protocols'
-import { SignInController } from '@/presentation/controllers/authentication'
+import { SignInController } from '@/presentation/controllers/auth'
 
 export const makeSignInController = (): Controller => {
   const controller = new SignInController(makeSignInValidation(), makeDbAuthentication())

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { type AddAccountRepository, type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/authentication'
-import { type AddAccount } from '@/domain/usecases/authentication/add-account'
+import { type AddAccountRepository, type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
+import { type AddAccount } from '@/domain/usecases/auth/add-account'
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 
 export class DynamicAccountMongoRepository implements AddAccountRepository, UpdateAccessTokenRepository {

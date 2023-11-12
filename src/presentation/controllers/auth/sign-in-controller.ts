@@ -1,6 +1,6 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type Authentication } from '@/domain/usecases/authentication'
+import { type Authentication } from '@/domain/usecases/auth'
 import { ValidationError } from '@/domain/errors'
 
 export class SignInController implements Controller {

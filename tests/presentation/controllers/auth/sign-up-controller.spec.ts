@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { SignUpController } from '@/presentation/controllers/authentication'
+import { SignUpController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
 import { EmailInUseError, ServerError } from '@/presentation/errors'
 import { MissingParamError } from '@/validation/errors'

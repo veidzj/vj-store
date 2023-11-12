@@ -1,6 +1,6 @@
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
-import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/authentication'
-import { AccountNotFoundError } from '@/application/errors/authentication'
+import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
+import { AccountNotFoundError } from '@/application/errors/auth'
 
 export class StaticAccountMongoRepository implements CheckAccountByEmailRepository, GetAccountByEmailRepository, GetAccountByTokenRepository {
   public checkByEmail = async(email: string): Promise<boolean> => {

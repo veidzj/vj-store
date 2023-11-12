@@ -1,6 +1,6 @@
 import { type Decrypter } from '@/application/protocols/cryptography'
-import { type GetAccountByTokenRepository } from '@/application/protocols/db/static/authentication'
-import { type GetAccountByToken } from '@/domain/usecases/authentication'
+import { type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
+import { type GetAccountByToken } from '@/domain/usecases/auth'
 
 export class DbGetAccountByToken implements GetAccountByToken {
   constructor(

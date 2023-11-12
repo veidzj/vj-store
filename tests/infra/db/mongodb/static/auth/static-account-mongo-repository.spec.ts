@@ -1,9 +1,9 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
-import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/authentication'
+import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { AccountNotFoundError } from '@/application/errors/authentication'
+import { AccountNotFoundError } from '@/application/errors/auth'
 
 let accountCollection: Collection
 

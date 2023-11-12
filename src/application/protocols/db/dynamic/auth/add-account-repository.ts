@@ -1,4 +1,4 @@
-import { type AddAccount } from '@/domain/usecases/authentication'
+import { type AddAccount } from '@/domain/usecases/auth'
 
 export interface AddAccountRepository {
   add: (input: AddAccountRepository.Input) => Promise<boolean>
