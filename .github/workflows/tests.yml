@@ -20,3 +20,32 @@ jobs:
   
       - name: Run tests
         run: npm test
+
+      - name: Generate coverage
+        run: npm run test:ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+      - name: Upload coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+
+  create-badge:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Download coverage results
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage
+          path: coverage
+      
+      - name: Extract coverage percentage
+        id: extract-coverage
+        run: echo "::set-output name=COVERAGE_PERCENTAGE::$(awk '/Statements/{print int($3)}' coverage/lcov-report/index.html)"
+    
+      - name: Add coverage badge to README
+        run: echo "![Coverage](https://img.shields.io/badge/Coverage-${{ steps.extract-coverage.outputs.COVERAGE_PERCENTAGE }}%25-brightgreen)"
