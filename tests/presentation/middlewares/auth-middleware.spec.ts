@@ -35,6 +35,12 @@ describe('AuthMiddleware', () => {
     expect(getAccountByTokenSpy.role).toBe(role)
   })
 
+  test('Should return Forbidden if access token is not provided', async() => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(httpHelper.forbidden(new AccessDeniedError()))
+  })
+
   test('Should return Forbidden if GetAccountByToken throws an AuthenticationError', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError('any_error') })
