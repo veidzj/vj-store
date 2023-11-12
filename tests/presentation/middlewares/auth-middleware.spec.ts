@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { GetAccountByTokenSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'
@@ -20,14 +21,14 @@ const makeSut = (role?: string): Sut => {
 }
 
 const mockRequest = (): AuthMiddleware.Request => ({
-  accessToken: 'any_token'
+  accessToken: faker.string.uuid()
 })
 
 describe('AuthMiddleware', () => {
   const httpHelper = new HttpHelper()
 
   test('Should call GetAccountByToken with correct values', async() => {
-    const role = 'any_role'
+    const role = faker.word.words()
     const { sut, getAccountByTokenSpy } = makeSut(role)
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
@@ -43,7 +44,7 @@ describe('AuthMiddleware', () => {
 
   test('Should return Forbidden if GetAccountByToken throws an AuthenticationError', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
-    jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError('any_error') })
+    jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError(faker.word.words()) })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(httpHelper.forbidden(new AccessDeniedError()))
   })
