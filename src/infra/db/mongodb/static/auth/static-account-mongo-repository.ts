@@ -1,6 +1,6 @@
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
-import { AccountNotFoundError } from '@/application/errors/auth'
+import { AccessDeniedError } from '@/application/errors/auth'
 
 export class StaticAccountMongoRepository implements CheckAccountByEmailRepository, GetAccountByEmailRepository, GetAccountByTokenRepository {
   public checkByEmail = async(email: string): Promise<boolean> => {
@@ -41,7 +41,7 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
       projection: { _id: 1 }
     })
     if (!account) {
-      throw new AccountNotFoundError()
+      throw new AccessDeniedError()
     }
     return MongoHelper.map(account)
   }
