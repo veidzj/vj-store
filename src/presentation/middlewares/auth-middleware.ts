@@ -16,14 +16,14 @@ export class AuthMiddleware implements Middleware {
     try {
       const { accessToken } = request
       if (!accessToken) {
-        return this.httpHelper.forbidden(new AccessDeniedError())
+        return this.httpHelper.unauthorized(new AccessDeniedError())
       }
 
       const account = await this.getAccountByToken.getByToken(accessToken, this.role)
       return this.httpHelper.ok({ accountId: account.id })
     } catch (error) {
       if (error instanceof AuthenticationError) {
-        return this.httpHelper.forbidden(new AccessDeniedError())
+        return this.httpHelper.unauthorized(new AccessDeniedError())
       }
       return this.httpHelper.serverError(error)
     }

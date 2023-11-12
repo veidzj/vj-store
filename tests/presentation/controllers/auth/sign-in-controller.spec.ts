@@ -5,6 +5,7 @@ import { SignInController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { MissingParamError } from '@/validation/errors'
+import { AuthenticationError } from '@/domain/errors'
 
 interface Sut {
   sut: SignInController
@@ -72,7 +73,7 @@ describe('SignInController', () => {
       authenticationSpy.output = null
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.unauthorized())
+      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError('Invalid credentials')))
     })
 
     test('Should return Ok if valid credentials are provided', async() => {

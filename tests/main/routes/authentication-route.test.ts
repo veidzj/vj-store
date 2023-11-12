@@ -36,7 +36,7 @@ describe('Authentication Routes', () => {
         .expect(200)
     })
 
-    test('Should return 403 if email is already in use', async() => {
+    test('Should return 401 if email is already in use', async() => {
       const password = await hash('123456', 12)
       await accountCollection.insertOne({
         username: 'joe',
@@ -51,7 +51,7 @@ describe('Authentication Routes', () => {
           password: '123456',
           passwordConfirmation: '123456'
         })
-        .expect(403)
+        .expect(401)
     })
   })
 

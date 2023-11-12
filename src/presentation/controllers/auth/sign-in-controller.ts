@@ -1,7 +1,7 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Authentication } from '@/domain/usecases/auth'
-import { ValidationError } from '@/domain/errors'
+import { AuthenticationError, ValidationError } from '@/domain/errors'
 
 export class SignInController implements Controller {
   private readonly httpHelper = new HttpHelper()
@@ -17,7 +17,7 @@ export class SignInController implements Controller {
 
       const authenticationModel = await this.authentication.auth(request)
       if (!authenticationModel) {
-        return this.httpHelper.unauthorized()
+        return this.httpHelper.unauthorized(new AuthenticationError('Invalid credentials'))
       }
       return this.httpHelper.ok(authenticationModel)
     } catch (error) {

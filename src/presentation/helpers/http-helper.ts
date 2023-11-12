@@ -1,5 +1,5 @@
 import { type HttpResponse } from '@/presentation/protocols'
-import { UnauthorizedError, ServerError } from '@/presentation/errors'
+import { ServerError } from '@/presentation/errors'
 
 export class HttpHelper {
   public ok(data: any): HttpResponse {
@@ -16,10 +16,10 @@ export class HttpHelper {
     }
   }
 
-  public unauthorized(): HttpResponse {
+  public unauthorized(error: Error): HttpResponse {
     return {
       statusCode: 401,
-      body: new UnauthorizedError()
+      body: error
     }
   }
 

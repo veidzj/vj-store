@@ -26,7 +26,7 @@ export class SignUpController implements Controller {
         return this.httpHelper.badRequest(error)
       }
       if (error instanceof AuthenticationError) {
-        return this.httpHelper.forbidden(error)
+        return this.httpHelper.unauthorized(error)
       }
       return this.httpHelper.serverError(error)
     }
