@@ -3,18 +3,23 @@ import { throwError } from '@/tests/domain/mocks'
 import { JwtAdapter } from '@/infra/cryptography'
 import { InvalidTokenError } from '@/application/errors/auth'
 
+const jwtSecret: string = 'secret'
+const jwtToken: string = 'jwt_token'
+const jwtDecodedToken: string = 'jwt_decoded_token'
+const plainText: string = 'plain_text'
+
 jest.mock('jsonwebtoken', () => ({
   sign(): string {
-    return 'any_token'
+    return jwtToken
   },
 
   verify(): string {
-    return 'any_value'
+    return jwtDecodedToken
   }
 }))
 
 const makeSut = (): JwtAdapter => {
-  return new JwtAdapter('secret')
+  return new JwtAdapter(jwtSecret)
 }
 
 describe('JwtAdapter', () => {
@@ -22,21 +27,21 @@ describe('JwtAdapter', () => {
     test('Should call sign with correct values', async() => {
       const sut = makeSut()
       const signSpy = jest.spyOn(jwt, 'sign')
-      await sut.encrypt('any_id')
-      expect(signSpy).toHaveBeenLastCalledWith({ id: 'any_id' }, 'secret')
+      await sut.encrypt(plainText)
+      expect(signSpy).toHaveBeenLastCalledWith({ id: plainText }, jwtSecret)
     })
 
     test('Should throw if sign throws', async() => {
       const sut = makeSut()
       jest.spyOn(jwt, 'sign').mockImplementationOnce(throwError)
-      const promise = sut.encrypt('any_id')
+      const promise = sut.encrypt(plainText)
       await expect(promise).rejects.toThrow()
     })
 
     test('Should return a token on success', async() => {
       const sut = makeSut()
-      const token = await sut.encrypt('any_id')
-      expect(token).toBe('any_token')
+      const token = await sut.encrypt(plainText)
+      expect(token).toBe(jwtToken)
     })
   })
 
@@ -44,8 +49,8 @@ describe('JwtAdapter', () => {
     test('Should call verify with correct values', async() => {
       const sut = makeSut()
       const verifySpy = jest.spyOn(jwt, 'verify')
-      await sut.decrypt('any_token')
-      expect(verifySpy).toHaveBeenLastCalledWith('any_token', 'secret')
+      await sut.decrypt(jwtToken)
+      expect(verifySpy).toHaveBeenLastCalledWith(jwtToken, jwtSecret)
     })
 
     test('Should throw InvalidTokenError if verify throws JsonWebTokenError', async() => {
@@ -55,21 +60,21 @@ describe('JwtAdapter', () => {
         error.name = 'JsonWebTokenError'
         throw error
       })
-      const promise = sut.decrypt('any_token')
+      const promise = sut.decrypt(jwtToken)
       await expect(promise).rejects.toThrow(InvalidTokenError)
     })
 
     test('Should throw if verify throws', async() => {
       const sut = makeSut()
       jest.spyOn(jwt, 'verify').mockImplementationOnce(throwError)
-      const promise = sut.decrypt('any_token')
+      const promise = sut.decrypt(jwtToken)
       await expect(promise).rejects.toThrow()
     })
 
     test('Should return a decoded token on success', async() => {
       const sut = makeSut()
-      const decodedToken = await sut.decrypt('any_token')
-      expect(decodedToken).toBe('any_value')
+      const decodedToken = await sut.decrypt(jwtToken)
+      expect(decodedToken).toBe(jwtDecodedToken)
     })
   })
 })
