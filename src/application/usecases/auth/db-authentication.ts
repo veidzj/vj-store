@@ -18,8 +18,8 @@ export class DbAuthentication implements Authentication {
       throw new AccountNotFoundError()
     }
 
-    const isValid = await this.hashComparer.compare(input.password, account.password)
-    if (!isValid) {
+    const isMatch = await this.hashComparer.compare(input.password, account.password)
+    if (!isMatch) {
       throw new InvalidCredentialsError()
     }
 

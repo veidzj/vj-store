@@ -68,7 +68,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw InvalidCredentialsError if HashComparer returns false', async() => {
       const { sut, hashComparerSpy } = makeSut()
-      hashComparerSpy.isValid = false
+      hashComparerSpy.isMatch = false
       const authenticationInput = mockAuthenticationInput()
       const promise = sut.auth(authenticationInput)
       await expect(promise).rejects.toThrow(new InvalidCredentialsError())
