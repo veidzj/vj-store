@@ -74,13 +74,13 @@ describe('StaticAccountMongoRepository', () => {
   })
 
   describe('getByToken', () => {
-    let name = faker.person.firstName()
+    let username = faker.person.firstName()
     let email = faker.internet.email()
     let password = faker.internet.password()
     let accessToken = faker.string.uuid()
 
     beforeEach(() => {
-      name = faker.person.firstName()
+      username = faker.person.firstName()
       email = faker.internet.email()
       password = faker.internet.password()
       accessToken = faker.string.uuid()
@@ -89,7 +89,7 @@ describe('StaticAccountMongoRepository', () => {
     test('Should return an account without role on success', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
-        name,
+        username,
         email,
         password,
         accessToken
@@ -101,7 +101,7 @@ describe('StaticAccountMongoRepository', () => {
     test('Should return an account with admin role on success', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
-        name,
+        username,
         email,
         password,
         accessToken,
@@ -114,7 +114,7 @@ describe('StaticAccountMongoRepository', () => {
     test('Should return null if invalid role is provided', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
-        name,
+        username,
         email,
         password,
         accessToken
@@ -126,7 +126,7 @@ describe('StaticAccountMongoRepository', () => {
     test('Should return an account if user is admin and no role is provided', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
-        name,
+        username,
         email,
         password,
         accessToken,
