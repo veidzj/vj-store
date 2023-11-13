@@ -4,8 +4,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { SignInController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
-import { MissingParamError } from '@/validation/errors'
-import { AuthenticationError } from '@/domain/errors'
+import { AuthenticationError, ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: SignInController
@@ -44,11 +43,11 @@ describe('SignInController', () => {
       const { sut, validationSpy } = makeSut()
       const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
-        throw new MissingParamError(errorMessage)
+        throw new ValidationError(errorMessage)
       })
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.badRequest(new MissingParamError(errorMessage)))
+      expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
