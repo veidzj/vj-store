@@ -38,11 +38,12 @@ describe('DynamicAccountMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should not throw on success', async() => {
+    test('Should add an account on success', async() => {
       const sut = makeSut()
       const addAccountInput = mockAddAccountInput()
-      const promise = sut.add(addAccountInput)
-      await expect(promise).resolves.not.toThrow()
+      await sut.add(addAccountInput)
+      const count = await accountCollection.countDocuments()
+      expect(count).toBe(1)
     })
   })
 
@@ -56,7 +57,7 @@ describe('DynamicAccountMongoRepository', () => {
       Collection.prototype.updateOne = originalUpdateOne
     })
 
-    test('Should update the account accessToken on success', async() => {
+    test('Should update the account access token on success', async() => {
       const sut = makeSut()
       const res = await accountCollection.insertOne(mockAddAccountInput())
       const fakeAccount = await accountCollection.findOne({ _id: res.insertedId })
