@@ -1,7 +1,7 @@
 import { type AddAccount } from '@/domain/usecases/auth'
 
 export interface AddAccountRepository {
-  add: (input: AddAccountRepository.Input) => Promise<boolean>
+  add: (input: AddAccountRepository.Input) => Promise<void>
 }
 
 export namespace AddAccountRepository {

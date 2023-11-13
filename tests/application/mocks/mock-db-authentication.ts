@@ -14,11 +14,9 @@ export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepo
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   public input: AddAccountRepository.Input
-  public output: boolean = true
 
-  public add = async(input: AddAccountRepository.Input): Promise<boolean> => {
+  public add = async(input: AddAccountRepository.Input): Promise<void> => {
     this.input = input
-    return this.output
   }
 }
 

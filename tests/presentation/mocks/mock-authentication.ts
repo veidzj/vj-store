@@ -3,11 +3,9 @@ import { type AddAccount, type Authentication, type GetAccountByToken } from '@/
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
-  public output: boolean = true
 
-  public add = async(input: AddAccount.Input): Promise<boolean> => {
+  public add = async(input: AddAccount.Input): Promise<void> => {
     this.input = input
-    return this.output
   }
 }
 

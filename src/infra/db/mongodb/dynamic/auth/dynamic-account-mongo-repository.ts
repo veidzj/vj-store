@@ -4,10 +4,9 @@ import { type AddAccount } from '@/domain/usecases/auth/add-account'
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 
 export class DynamicAccountMongoRepository implements AddAccountRepository, UpdateAccessTokenRepository {
-  public add = async(input: AddAccount.Input): Promise<boolean> => {
+  public add = async(input: AddAccount.Input): Promise<void> => {
     const accountCollection = MongoHelper.getCollection('accounts')
-    const result = await accountCollection.insertOne(input)
-    return result.insertedId !== null
+    await accountCollection.insertOne(input)
   }
 
   public updateAccessToken = async(input: UpdateAccessTokenRepository.Input): Promise<void> => {

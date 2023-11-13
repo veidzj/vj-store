@@ -38,11 +38,11 @@ describe('DynamicAccountMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return true on success', async() => {
+    test('Should not throw on success', async() => {
       const sut = makeSut()
       const addAccountInput = mockAddAccountInput()
-      const isValid = await sut.add(addAccountInput)
-      expect(isValid).toBe(true)
+      const promise = sut.add(addAccountInput)
+      await expect(promise).resolves.not.toThrow()
     })
   })
 
