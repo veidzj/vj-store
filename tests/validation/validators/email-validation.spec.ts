@@ -4,12 +4,12 @@ import { throwError } from '@/tests/domain/mocks'
 import { EmailValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 
+const field: string = faker.word.words()
+
 interface Sut {
   sut: EmailValidation
   emailValidatorSpy: EmailValidatorSpy
 }
-
-const field = faker.word.words()
 
 const makeSut = (): Sut => {
   const emailValidatorSpy = new EmailValidatorSpy()

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { RequiredFieldValidation } from '@/validation/validators'
 import { MissingParamError } from '@/validation/errors'
 
-const field = faker.word.words()
+const field: string = faker.word.words()
 
 const makeSut = (): RequiredFieldValidation => {
   return new RequiredFieldValidation(field)
