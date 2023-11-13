@@ -2,6 +2,10 @@ import bcrypt from 'bcrypt'
 import { throwError } from '@/tests/domain/mocks'
 import { BcryptAdapter } from '@/infra/cryptography'
 
+const salt: number = 12
+const plainText: string = 'plain_text'
+const digest: string = 'digest'
+
 jest.mock('bcrypt', () => ({
   async hash(): Promise<string> {
     return digest
@@ -11,10 +15,6 @@ jest.mock('bcrypt', () => ({
     return true
   }
 }))
-
-const salt: number = 12
-const plainText: string = 'plain_text'
-const digest: string = 'digest'
 
 const makeSut = (): BcryptAdapter => {
   return new BcryptAdapter(salt)
