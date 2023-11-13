@@ -4,6 +4,7 @@ import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
 
+const admin: string = 'admin'
 let accountCollection: Collection
 
 const makeSut = (): StaticAccountMongoRepository => {
@@ -105,9 +106,9 @@ describe('StaticAccountMongoRepository', () => {
         email,
         password,
         accessToken,
-        role: 'admin'
+        role: admin
       })
-      const account = await sut.getByToken(accessToken, 'admin')
+      const account = await sut.getByToken(accessToken, admin)
       expect(account).toBeTruthy()
     })
 
@@ -119,7 +120,7 @@ describe('StaticAccountMongoRepository', () => {
         password,
         accessToken
       })
-      const account = await sut.getByToken(accessToken, 'admin')
+      const account = await sut.getByToken(accessToken, admin)
       expect(account).toBeNull()
     })
 
@@ -130,7 +131,7 @@ describe('StaticAccountMongoRepository', () => {
         email,
         password,
         accessToken,
-        role: 'admin'
+        role: admin
       })
       const account = await sut.getByToken(accessToken)
       expect(account).toBeTruthy()
