@@ -25,7 +25,7 @@ const makeSut = (): Sut => {
 const mockServerError = (): HttpResponse => {
   const httpHelper = new HttpHelper()
   const fakeError = new Error()
-  fakeError.stack = 'any_stack'
+  fakeError.stack = faker.word.words()
   return httpHelper.serverError(fakeError)
 }
 
