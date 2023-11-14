@@ -75,7 +75,7 @@ describe('SignUpController', () => {
       const { sut, addAccountSpy } = makeSut()
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new EmailInUseError() })
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError('Email is already in use')))
+      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError('Email already in use')))
     })
 
     test('Should return Server Error if AddAccount throws', async() => {
