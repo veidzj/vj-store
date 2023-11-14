@@ -4,12 +4,12 @@ import { throwError } from '@/tests/domain/mocks'
 import { UsernameValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 
+const field: string = faker.internet.userName()
+
 interface Sut {
   sut: UsernameValidation
   nameValidatorSpy: UsernameValidatorSpy
 }
-
-const field = faker.internet.userName()
 
 const makeSut = (): Sut => {
   const nameValidatorSpy = new UsernameValidatorSpy()

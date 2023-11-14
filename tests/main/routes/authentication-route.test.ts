@@ -2,8 +2,23 @@ import { type Express } from 'express'
 import { type Collection } from 'mongodb'
 import { hash } from 'bcrypt'
 import request from 'supertest'
+import { faker } from '@faker-js/faker'
 import { setupApp } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
+
+const signUpRoute: string = '/api/signup'
+const signInRoute: string = '/api/signin'
+const password: string = faker.internet.password()
+const signUpData = {
+  username: faker.person.firstName(),
+  email: faker.internet.email(),
+  password,
+  passwordConfirmation: password
+}
+const signInData = {
+  email: signUpData.email,
+  password
+}
 
 let accountCollection: Collection
 let app: Express
@@ -26,59 +41,43 @@ describe('Authentication Routes', () => {
   describe('POST /signup', () => {
     test('Should return 200 on success', async() => {
       await request(app)
-        .post('/api/signup')
-        .send({
-          username: 'joe',
-          email: 'joedoe@mail.com',
-          password: '123456',
-          passwordConfirmation: '123456'
-        })
+        .post(signUpRoute)
+        .send(signUpData)
         .expect(200)
     })
 
-    test('Should return 403 if email is already in use', async() => {
-      const password = await hash('123456', 12)
+    test('Should return 401 if email is already in use', async() => {
+      const password = await hash(signUpData.password, 12)
       await accountCollection.insertOne({
-        username: 'joe',
-        email: 'joedoe@mail.com',
+        username: signUpData.username,
+        email: signUpData.email,
         password
       })
       await request(app)
-        .post('/api/signup')
-        .send({
-          username: 'joe',
-          email: 'joedoe@mail.com',
-          password: '123456',
-          passwordConfirmation: '123456'
-        })
-        .expect(403)
+        .post(signUpRoute)
+        .send(signUpData)
+        .expect(401)
     })
   })
 
   describe('POST /signin', () => {
     test('Should return 200 on success', async() => {
-      const password = await hash('123456', 12)
+      const password = await hash(signUpData.password, 12)
       await accountCollection.insertOne({
-        username: 'joe',
-        email: 'joedoe@mail.com',
+        username: signUpData.username,
+        email: signUpData.email,
         password
       })
       await request(app)
-        .post('/api/signin')
-        .send({
-          email: 'joedoe@mail.com',
-          password: '123456'
-        })
+        .post(signInRoute)
+        .send(signInData)
         .expect(200)
     })
 
     test('Should return 401 if credentials are invalid', async() => {
       await request(app)
-        .post('/api/signin')
-        .send({
-          email: 'joedoe@mail.com',
-          password: '123456'
-        })
+        .post(signInRoute)
+        .send(signInData)
         .expect(401)
     })
   })

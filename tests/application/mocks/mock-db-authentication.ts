@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/authentication'
-import { type UpdateAccessTokenRepository, type AddAccountRepository } from '@/application/protocols/db/dynamic/authentication'
+import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
+import { type UpdateAccessTokenRepository, type AddAccountRepository } from '@/application/protocols/db/dynamic/auth'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string
@@ -14,11 +14,9 @@ export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepo
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   public input: AddAccountRepository.Input
-  public output: boolean = true
 
-  public add = async(input: AddAccountRepository.Input): Promise<boolean> => {
+  public add = async(input: AddAccountRepository.Input): Promise<void> => {
     this.input = input
-    return this.output
   }
 }
 
@@ -47,11 +45,11 @@ export class GetAccountByEmailRepositorySpy implements GetAccountByEmailReposito
 export class GetAccountByTokenRepositorySpy implements GetAccountByTokenRepository {
   public token: string
   public role: string | undefined
-  public account = {
+  public account: GetAccountByTokenRepository.Output | null = {
     id: faker.string.uuid()
   }
 
-  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output> => {
+  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output | null> => {
     this.token = token
     this.role = role
     return this.account

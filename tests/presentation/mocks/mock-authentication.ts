@@ -1,24 +1,22 @@
 import { faker } from '@faker-js/faker'
-import { type AddAccount, type Authentication, type GetAccountByToken } from '@/domain/usecases/authentication'
+import { type AddAccount, type Authentication, type GetAccountByToken } from '@/domain/usecases/auth'
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
-  public output: boolean = true
 
-  public add = async(input: AddAccount.Input): Promise<boolean> => {
+  public add = async(input: AddAccount.Input): Promise<void> => {
     this.input = input
-    return this.output
   }
 }
 
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
-  public output: Authentication.Output | null = {
+  public output: Authentication.Output = {
     username: faker.person.firstName(),
     accessToken: faker.string.uuid()
   }
 
-  public auth = async(input: Authentication.Input): Promise<Authentication.Output | null> => {
+  public auth = async(input: Authentication.Input): Promise<Authentication.Output> => {
     this.input = input
     return this.output
   }

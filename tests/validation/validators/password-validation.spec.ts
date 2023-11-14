@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { PasswordValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 
-const field = faker.word.words()
+const field: string = faker.word.words()
 
 const makeSut = (): PasswordValidation => {
   return new PasswordValidation(field)

@@ -3,7 +3,7 @@ import { ValidationSpy } from '@/tests/presentation/mocks'
 import { ValidationComposite } from '@/validation/validators'
 import { InvalidParamError, MissingParamError } from '@/validation/errors'
 
-const field = faker.word.words()
+const field: string = faker.word.words()
 
 interface Sut {
   sut: ValidationComposite

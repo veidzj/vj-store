@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type AddAccount, type Authentication } from '@/domain/usecases/authentication'
+import { type AddAccount, type Authentication } from '@/domain/usecases/auth'
 
 export const mockAddAccountInput = (): AddAccount.Input => ({
   username: faker.person.firstName(),

@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import { CompareFieldsValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 
-const field = faker.word.words()
-const fieldToCompare = faker.word.words()
+const field: string = faker.word.words()
+const fieldToCompare: string = faker.word.words()
 
 const makeSut = (): CompareFieldsValidation => {
   return new CompareFieldsValidation(field, fieldToCompare)

@@ -14,12 +14,12 @@ export class HasherSpy implements Hasher {
 export class HashComparerSpy implements HashComparer {
   public plainText: string
   public digest: string
-  public isValid: boolean = true
+  public isMatch: boolean = true
 
   public compare = async(plainText: string, digest: string): Promise<boolean> => {
     this.plainText = plainText
     this.digest = digest
-    return this.isValid
+    return this.isMatch
   }
 }
 

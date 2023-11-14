@@ -1,8 +1,8 @@
-import { type AddAccount } from '@/domain/usecases/authentication'
-import { DbAddAccount } from '@/application/usecases/authentication'
+import { type AddAccount } from '@/domain/usecases/auth'
+import { DbAddAccount } from '@/application/usecases/auth'
 import { BcryptAdapter } from '@/infra/cryptography'
-import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/authentication'
-import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/authentication'
+import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
+import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/auth'
 
 export const makeDbAddAccount = (): AddAccount => {
   const salt = 12

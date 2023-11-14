@@ -1,6 +1,12 @@
 import { type Express } from 'express'
 import request from 'supertest'
 import { setupApp } from '@/main/config'
+import { faker } from '@faker-js/faker'
+
+const route: string = '/test_body_parser'
+const data = {
+  username: faker.person.firstName()
+}
 
 let app: Express
 
@@ -10,12 +16,12 @@ describe('BodyParser Middleware', () => {
   })
 
   test('Should parse body as json', async() => {
-    app.post('/test_body_parser', (req, res) => {
+    app.post(route, (req, res) => {
       res.send(req.body)
     })
     await request(app)
-      .post('/test_body_parser')
-      .send({ username: 'any_name' })
-      .expect({ username: 'any_name' })
+      .post(route)
+      .send(data)
+      .expect(data)
   })
 })
