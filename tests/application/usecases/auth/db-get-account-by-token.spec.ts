@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 import { DecrypterSpy, GetAccountByTokenRepositorySpy } from '@/tests/application/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { DbGetAccountByToken } from '@/application/usecases/auth'
+import { AccessDeniedError } from '@/application/errors/auth'
 
 let token: string
 let role: string
@@ -57,6 +58,13 @@ describe('DbGetAccountByToken', () => {
       jest.spyOn(getAccountByTokenRepositorySpy, 'getByToken').mockImplementationOnce(throwError)
       const promise = sut.getByToken(token, role)
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should throw AccessDeniedError if GetAccountByTokenRepository returns null', async() => {
+      const { sut, getAccountByTokenRepositorySpy } = makeSut()
+      getAccountByTokenRepositorySpy.account = null
+      const promise = sut.getByToken(token, role)
+      await expect(promise).rejects.toThrow(new AccessDeniedError())
     })
 
     test('Should return an account on success', async() => {

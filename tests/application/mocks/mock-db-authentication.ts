@@ -45,11 +45,11 @@ export class GetAccountByEmailRepositorySpy implements GetAccountByEmailReposito
 export class GetAccountByTokenRepositorySpy implements GetAccountByTokenRepository {
   public token: string
   public role: string | undefined
-  public account = {
+  public account: GetAccountByTokenRepository.Output | null = {
     id: faker.string.uuid()
   }
 
-  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output> => {
+  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output | null> => {
     this.token = token
     this.role = role
     return this.account
