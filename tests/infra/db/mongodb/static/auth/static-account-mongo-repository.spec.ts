@@ -5,6 +5,7 @@ import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
 
 const admin: string = 'admin'
+
 let accountCollection: Collection
 
 const makeSut = (): StaticAccountMongoRepository => {
