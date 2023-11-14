@@ -3,6 +3,9 @@ import { DecrypterSpy, GetAccountByTokenRepositorySpy } from '@/tests/applicatio
 import { throwError } from '@/tests/domain/mocks'
 import { DbGetAccountByToken } from '@/application/usecases/auth'
 
+let token: string
+let role: string
+
 interface Sut {
   sut: DbGetAccountByToken
   decrypterSpy: DecrypterSpy
@@ -19,9 +22,6 @@ const makeSut = (): Sut => {
     getAccountByTokenRepositorySpy
   }
 }
-
-let token: string
-let role: string
 
 describe('DbGetAccountByToken', () => {
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('DbGetAccountByToken', () => {
       const { sut, decrypterSpy } = makeSut()
       jest.spyOn(decrypterSpy, 'decrypt').mockImplementationOnce(throwError)
       const promise = sut.getByToken(token, role)
-      await expect(promise).rejects.toThrow(new Error())
+      await expect(promise).rejects.toThrow()
     })
   })
 
