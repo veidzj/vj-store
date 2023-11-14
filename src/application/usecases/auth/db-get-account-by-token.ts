@@ -1,6 +1,6 @@
 import { type Decrypter } from '@/application/protocols/cryptography'
 import { type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
-import { AccessDeniedError } from '@/application/errors/auth'
+import { AccessDeniedError, InvalidTokenError } from '@/application/errors/auth'
 import { type GetAccountByToken } from '@/domain/usecases/auth'
 
 export class DbGetAccountByToken implements GetAccountByToken {
@@ -10,7 +10,12 @@ export class DbGetAccountByToken implements GetAccountByToken {
   ) {}
 
   public getByToken = async(accessToken: string, role?: string): Promise<GetAccountByToken.Output> => {
-    await this.decrypter.decrypt(accessToken)
+    try {
+      await this.decrypter.decrypt(accessToken)
+    } catch (error) {
+      throw new InvalidTokenError()
+    }
+
     const account = await this.getAccountByTokenRepository.getByToken(accessToken, role)
     if (!account) {
       throw new AccessDeniedError()

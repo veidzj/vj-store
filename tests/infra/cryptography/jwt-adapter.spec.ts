@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { throwError } from '@/tests/domain/mocks'
 import { JwtAdapter } from '@/infra/cryptography'
-import { InvalidTokenError } from '@/application/errors/auth'
 
 const jwtSecret: string = 'secret'
 const jwtToken: string = 'jwt_token'
@@ -51,17 +50,6 @@ describe('JwtAdapter', () => {
       const verifySpy = jest.spyOn(jwt, 'verify')
       await sut.decrypt(jwtToken)
       expect(verifySpy).toHaveBeenLastCalledWith(jwtToken, jwtSecret)
-    })
-
-    test('Should throw InvalidTokenError if verify throws JsonWebTokenError', async() => {
-      const sut = makeSut()
-      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => {
-        const error = new Error()
-        error.name = 'JsonWebTokenError'
-        throw error
-      })
-      const promise = sut.decrypt(jwtToken)
-      await expect(promise).rejects.toThrow(InvalidTokenError)
     })
 
     test('Should throw if verify throws', async() => {
