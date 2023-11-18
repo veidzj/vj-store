@@ -2,14 +2,13 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "CommonJS",
-    "target": "ES6",
+    "target": "ESNext",
     "rootDirs": ["src", "tests"],
     "baseUrl": "src",
     "esModuleInterop": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "moduleResolution": "Node",
     "paths": {
       "@/tests/*": ["../tests/*"],
       "@/*": ["*"]
