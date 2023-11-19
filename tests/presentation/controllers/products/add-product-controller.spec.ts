@@ -2,6 +2,20 @@ import { faker } from '@faker-js/faker'
 import { AddProductController } from '@/presentation/controllers/products/add-product-controller'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 
+interface Sut {
+  sut: AddProductController
+  validationSpy: ValidationSpy
+}
+
+const makeSut = (): Sut => {
+  const validationSpy = new ValidationSpy()
+  const sut = new AddProductController(validationSpy)
+  return {
+    sut,
+    validationSpy
+  }
+}
+
 const mockRequest = (): AddProductController.Request => ({
   name: faker.word.words(),
   description: faker.word.words(),
@@ -14,8 +28,7 @@ const mockRequest = (): AddProductController.Request => ({
 
 describe('AddProductController', () => {
   test('Should call Validation with correct values', async() => {
-    const validationSpy = new ValidationSpy()
-    const sut = new AddProductController(validationSpy)
+    const { sut, validationSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request)
