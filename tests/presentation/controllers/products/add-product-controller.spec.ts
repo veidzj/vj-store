@@ -31,21 +31,23 @@ const mockRequest = (): AddProductController.Request => ({
 describe('AddProductController', () => {
   const httpHelper = new HttpHelper()
 
-  test('Should call Validation with correct values', async() => {
-    const { sut, validationSpy } = makeSut()
-    const request = mockRequest()
-    await sut.handle(request)
-    expect(validationSpy.input).toEqual(request)
-  })
-
-  test('Should return Bad Request if Validation throws an error', async() => {
-    const { sut, validationSpy } = makeSut()
-    const errorMessage = faker.word.words()
-    validationSpy.validate = jest.fn(() => {
-      throw new ValidationError(errorMessage)
+  describe('Validation', () => {
+    test('Should call Validation with correct values', async() => {
+      const { sut, validationSpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(validationSpy.input).toEqual(request)
     })
-    const request = mockRequest()
-    const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+
+    test('Should return Bad Request if Validation throws an error', async() => {
+      const { sut, validationSpy } = makeSut()
+      const errorMessage = faker.word.words()
+      validationSpy.validate = jest.fn(() => {
+        throw new ValidationError(errorMessage)
+      })
+      const request = mockRequest()
+      const httpResponse = await sut.handle(request)
+      expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+    })
   })
 })
