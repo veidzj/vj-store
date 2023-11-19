@@ -17,10 +17,7 @@ export class AddProductController implements Controller {
 
       const { name, description, price, discountPercentage, category, imageUrls, quantity } = request
       await this.addProduct.add({ name, description, price, discountPercentage, category, imageUrls, quantity })
-      return {
-        statusCode: 500,
-        body: ''
-      }
+      return this.httpHelper.ok({ message: 'Product added successfully' })
     } catch (error) {
       if (error instanceof ValidationError) {
         return this.httpHelper.badRequest(error)
