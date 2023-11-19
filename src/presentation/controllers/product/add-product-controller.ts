@@ -1,4 +1,3 @@
-import { ValidationError } from '@/domain/errors'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 
