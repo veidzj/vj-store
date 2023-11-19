@@ -1,6 +1,7 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type AddProduct } from '@/domain/usecases/product/add-product'
+import { ValidationError } from '@/domain/errors'
 
 export class AddProductController implements Controller {
   private readonly httpHelper = new HttpHelper()
@@ -21,7 +22,10 @@ export class AddProductController implements Controller {
         body: ''
       }
     } catch (error) {
-      return this.httpHelper.badRequest(error)
+      if (error instanceof ValidationError) {
+        return this.httpHelper.badRequest(error)
+      }
+      return this.httpHelper.serverError(error)
     }
   }
 }
