@@ -3,6 +3,8 @@ import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
 import { AddProductController } from '@/presentation/controllers/product/add-product-controller'
 import { HttpHelper } from '@/presentation/helpers'
 import { ValidationError } from '@/domain/errors'
+import { throwError } from '@/tests/domain/mocks'
+import { ServerError } from '@/presentation/errors'
 
 interface Sut {
   sut: AddProductController
@@ -60,6 +62,13 @@ describe('AddProductController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(addProductSpy.input).toEqual(request)
+    })
+
+    test('Should return Server Error if AddProduct throws', async() => {
+      const { sut, addProductSpy } = makeSut()
+      jest.spyOn(addProductSpy, 'add').mockImplementationOnce(throwError)
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
     })
   })
 })
