@@ -74,7 +74,7 @@ describe('AddProductController', () => {
     test('Should return OK on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.ok({ message: 'Product added successfully' }))
+      expect(httpResponse).toEqual(httpHelper.ok({ message: 'Product successfully added' }))
     })
   })
 })
