@@ -43,5 +43,12 @@ describe('DynamicProductMongoRepository', () => {
       const promise = sut.add(mockAddProductRepositoryInput())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should add an Product on success', async() => {
+      const sut = makeSut()
+      await sut.add(mockAddProductRepositoryInput())
+      const count = await productCollection.countDocuments()
+      expect(count).toBe(1)
+    })
   })
 })
