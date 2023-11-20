@@ -1,4 +1,4 @@
-import { type AddProduct } from '@/domain/usecases/product/add-product'
+import { type AddProduct } from '@/domain/usecases/product'
 
 export class AddProductSpy implements AddProduct {
   public input: AddProduct.Input

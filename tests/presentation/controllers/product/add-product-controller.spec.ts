@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
-import { AddProductController } from '@/presentation/controllers/product/add-product-controller'
-import { HttpHelper } from '@/presentation/helpers'
-import { ValidationError } from '@/domain/errors'
 import { throwError } from '@/tests/domain/mocks'
+import { AddProductController } from '@/presentation/controllers/product'
+import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
+import { ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: AddProductController

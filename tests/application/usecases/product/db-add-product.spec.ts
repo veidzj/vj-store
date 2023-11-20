@@ -1,6 +1,6 @@
 import { AddProductRepositorySpy } from '@/tests/application/mocks'
 import { mockAddProductInput } from '@/tests/domain/mocks'
-import { DbAddProduct } from '@/application/usecases/product/db-add-product'
+import { DbAddProduct } from '@/application/usecases/product'
 
 interface Sut {
   sut: DbAddProduct

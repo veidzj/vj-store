@@ -1,4 +1,4 @@
-import { type AddProductRepository } from '../protocols/db/dynamic/product/add-product-repository'
+import { type AddProductRepository } from '../protocols/db/dynamic/product'
 
 export class AddProductRepositorySpy implements AddProductRepository {
   public input: AddProductRepository.Input

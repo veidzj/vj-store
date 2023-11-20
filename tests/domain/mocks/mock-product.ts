@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type AddProduct } from '@/domain/usecases/product/add-product'
+import { type AddProduct } from '@/domain/usecases/product'
 
 export const mockAddProductInput = (): AddProduct.Input => ({
   name: faker.word.words(),
