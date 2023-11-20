@@ -17,6 +17,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:unit": "npm test -- --watch -c jest-unit.config.ts",
     "test:integration": "npm test -- --watch -c jest-integration.config.ts",
+    "test:changed": "npm test -- --changedSince=origin/main",
     "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
