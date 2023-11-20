@@ -40,8 +40,7 @@ describe('DynamicAccountMongoRepository', () => {
 
     test('Should add an account on success', async() => {
       const sut = makeSut()
-      const addAccountInput = mockAddAccountInput()
-      await sut.add(addAccountInput)
+      await sut.add(mockAddAccountInput())
       const count = await accountCollection.countDocuments()
       expect(count).toBe(1)
     })
