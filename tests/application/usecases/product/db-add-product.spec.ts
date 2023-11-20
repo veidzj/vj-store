@@ -21,9 +21,12 @@ describe('DbAddProduct', () => {
     const { sut, addProductRepositorySpy } = makeSut()
     const addProductInput = mockAddProductInput()
     await sut.add(addProductInput)
+    const expectedSlug = addProductInput.name.toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '')
     expect(addProductRepositorySpy.input).toEqual({
       ...addProductInput,
-      slug: expect.any(String)
+      slug: expectedSlug
     })
   })
 
