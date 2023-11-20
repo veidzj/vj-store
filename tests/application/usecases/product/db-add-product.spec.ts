@@ -21,6 +21,9 @@ describe('DbAddProduct', () => {
     const { sut, addProductRepositorySpy } = makeSut()
     const addProductInput = mockAddProductInput()
     await sut.add(addProductInput)
-    expect(addProductRepositorySpy.input).toEqual(addProductInput)
+    expect(addProductRepositorySpy.input).toEqual({
+      ...addProductInput,
+      slug: expect.any(String)
+    })
   })
 })
