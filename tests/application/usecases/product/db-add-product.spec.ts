@@ -1,5 +1,5 @@
 import { AddProductRepositorySpy } from '@/tests/application/mocks'
-import { mockAddProductInput } from '@/tests/domain/mocks'
+import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { DbAddProduct } from '@/application/usecases/product'
 
 interface Sut {
@@ -25,5 +25,12 @@ describe('DbAddProduct', () => {
       ...addProductInput,
       slug: expect.any(String)
     })
+  })
+
+  test('Should throw if AddProductRepository throws', async() => {
+    const { sut, addProductRepositorySpy } = makeSut()
+    jest.spyOn(addProductRepositorySpy, 'add').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddProductInput())
+    await expect(promise).rejects.toThrow()
   })
 })
