@@ -44,7 +44,7 @@ describe('DynamicProductMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should add an Product on success', async() => {
+    test('Should add an product on success', async() => {
       const sut = makeSut()
       await sut.add(mockAddProductRepositoryInput())
       const count = await productCollection.countDocuments()
