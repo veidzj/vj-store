@@ -11,5 +11,6 @@ export namespace AddProductRepository {
     category: string
     imageUrls: string[]
     quantity: number
+    slug: string
   }
 }
