@@ -1,5 +1,5 @@
 import { AddCategoryRepositorySpy } from '@/tests/application/mocks'
-import { mockAddCategoryInput } from '@/tests/domain/mocks'
+import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { DbAddCategory } from '@/application/usecases/category'
 
 interface Sut {
@@ -22,5 +22,12 @@ describe('DbAddCategory', () => {
     const addCategoryInput = mockAddCategoryInput()
     await sut.add(addCategoryInput)
     expect(addCategoryRepositorySpy.input).toEqual(addCategoryInput)
+  })
+
+  test('Should throw if AddCategoryRepository throws', async() => {
+    const { sut, addCategoryRepositorySpy } = makeSut()
+    jest.spyOn(addCategoryRepositorySpy, 'add').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddCategoryInput())
+    await expect(promise).rejects.toThrow()
   })
 })
