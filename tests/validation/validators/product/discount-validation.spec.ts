@@ -9,6 +9,14 @@ const makeSut = (): DiscountValidation => {
 }
 
 describe('DiscountValidation', () => {
+  test('Should throw InvalidParamError if discount is not a number', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: faker.word.words() })
+    }
+    expect(error).toThrow(new InvalidParamError(field, 'needs to be between 0 and 100'))
+  })
+
   test('Should throw InvalidParamError if discount is less than 0', () => {
     const sut = makeSut()
     const error = (): void => {
