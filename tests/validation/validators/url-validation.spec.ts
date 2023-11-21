@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UrlValidatorSpy } from '@/tests/validation/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { UrlValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 
@@ -37,5 +38,11 @@ describe('UrlValidation', () => {
       sut.validate({ [field]: [faker.internet.url(), faker.internet.url()] })
     }
     expect(error).toThrow(new InvalidParamError(field, 'must have valid urls'))
+  })
+
+  test('Should throw if UrlValidator throws', () => {
+    const { sut, urlValidatorSpy } = makeSut()
+    jest.spyOn(urlValidatorSpy, 'isValid').mockImplementationOnce(throwError)
+    expect(sut.validate).toThrow()
   })
 })
