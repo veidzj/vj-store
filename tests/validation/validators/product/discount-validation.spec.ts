@@ -16,4 +16,12 @@ describe('DiscountValidation', () => {
     }
     expect(error).toThrow(new InvalidParamError(field, 'needs to be between 0 and 100'))
   })
+
+  test('Should throw InvalidParamError if discount is greater than 100', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: faker.number.int({ min: 100 }) })
+    }
+    expect(error).toThrow(new InvalidParamError(field, 'needs to be between 0 and 100'))
+  })
 })
