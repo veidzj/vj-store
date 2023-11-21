@@ -36,5 +36,12 @@ describe('DynamicCategoryMongoRepository', () => {
       const promise = sut.add(mockAddCategoryRepositoryInput())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should add a category on success', async() => {
+      const sut = makeSut()
+      await sut.add(mockAddCategoryRepositoryInput())
+      const count = await categoryCollection.countDocuments()
+      expect(count).toBe(1)
+    })
   })
 })
