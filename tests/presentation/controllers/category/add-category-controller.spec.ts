@@ -64,5 +64,11 @@ describe('AddCategoryController', () => {
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
     })
+
+    test('Should return OK on success', async() => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(httpHelper.ok({ message: 'Category successfully added' }))
+    })
   })
 })
