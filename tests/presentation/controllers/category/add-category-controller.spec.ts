@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { AddCategorySpy, ValidationSpy } from '@/tests/presentation/mocks'
 import { AddCategoryController } from '@/presentation/controllers/category'
 import { ValidationError } from '@/domain/errors'
 import { HttpHelper } from '@/presentation/helpers'
@@ -7,14 +7,17 @@ import { HttpHelper } from '@/presentation/helpers'
 interface Sut {
   sut: AddCategoryController
   validationSpy: ValidationSpy
+  addCategorySpy: AddCategorySpy
 }
 
 const makeSut = (): Sut => {
   const validationSpy = new ValidationSpy()
-  const sut = new AddCategoryController(validationSpy)
+  const addCategorySpy = new AddCategorySpy()
+  const sut = new AddCategoryController(validationSpy, addCategorySpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addCategorySpy
   }
 }
 
@@ -42,6 +45,15 @@ describe('AddCategoryController', () => {
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
       expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+    })
+  })
+
+  describe('AddCategory', () => {
+    test('Should call AddCategory with correct values', async() => {
+      const { sut, addCategorySpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(addCategorySpy.input).toEqual(request)
     })
   })
 })
