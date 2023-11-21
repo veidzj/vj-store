@@ -32,4 +32,12 @@ describe('DiscountValidation', () => {
     }
     expect(error).toThrow(new InvalidParamError(field, 'needs to be between 0 and 100'))
   })
+
+  test('Should not throw if validation succeeds', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: faker.number.int({ min: 0, max: 100 }) })
+    }
+    expect(error).not.toThrow()
+  })
 })
