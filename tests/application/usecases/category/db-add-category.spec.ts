@@ -30,4 +30,10 @@ describe('DbAddCategory', () => {
     const promise = sut.add(mockAddCategoryInput())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should not throw on success', async() => {
+    const { sut } = makeSut()
+    const promise = sut.add(mockAddCategoryInput())
+    await expect(promise).resolves.not.toThrow()
+  })
 })
