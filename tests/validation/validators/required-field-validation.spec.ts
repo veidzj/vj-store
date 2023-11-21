@@ -25,6 +25,14 @@ describe('RequiredFieldValidation', () => {
     expect(error).toThrow(new MissingParamError(field))
   })
 
+  test('Should not throw if 0 is provided', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: 0 })
+    }
+    expect(error).not.toThrow()
+  })
+
   test('Should not throw if validation succeeds', () => {
     const sut = makeSut()
     const error = (): void => {
