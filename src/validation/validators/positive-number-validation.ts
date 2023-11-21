@@ -5,7 +5,8 @@ export class PositiveNumberValidation implements Validation {
   constructor(private readonly fieldName: string) {}
 
   validate = (input: any): void => {
-    if (input[this.fieldName] < 0) {
+    const value = input[this.fieldName]
+    if (typeof value !== 'number' || value < 0) {
       throw new InvalidParamError(this.fieldName)
     }
   }
