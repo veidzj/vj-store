@@ -1,17 +1,20 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { ValidationError } from '@/domain/errors'
+import { type AddCategory } from '@/domain/usecases/category'
 
 export class AddCategoryController implements Controller {
   private readonly httpHelper = new HttpHelper()
 
   constructor(
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    private readonly addCategory: AddCategory
   ) {}
 
-  public handle = async(request: any): Promise<HttpResponse> => {
+  public handle = async(request: AddCategoryController.Request): Promise<HttpResponse> => {
     try {
       this.validation.validate(request)
+      await this.addCategory.add(request)
       return this.httpHelper.ok({ })
     } catch (error) {
       if (error instanceof ValidationError) {
