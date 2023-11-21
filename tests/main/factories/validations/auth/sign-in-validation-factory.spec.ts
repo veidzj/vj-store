@@ -1,5 +1,6 @@
 import { makeSignUpValidation } from '@/main/factories/validations/auth'
-import { ValidationComposite, EmailValidation, RequiredFieldValidation } from '@/validation/validators'
+import { ValidationComposite, RequiredFieldValidation } from '@/validation/validators'
+import { EmailValidation } from '@/validation/validators/auth'
 import { type Validation } from '@/presentation/protocols'
 import { EmailValidatorAdapter } from '@/infra/validators'
 

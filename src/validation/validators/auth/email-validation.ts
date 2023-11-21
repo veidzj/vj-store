@@ -1,4 +1,4 @@
-import { type EmailValidator } from '@/validation/protocols'
+import { type EmailValidator } from '@/validation/protocols/auth'
 import { InvalidParamError } from '@/validation/errors'
 import { type Validation } from '@/presentation/protocols'
 

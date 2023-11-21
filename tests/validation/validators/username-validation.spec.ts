@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { UsernameValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { UsernameValidation } from '@/validation/validators'
+import { UsernameValidation } from '@/validation/validators/auth'
 import { InvalidParamError } from '@/validation/errors'
 
 const field: string = faker.internet.userName()

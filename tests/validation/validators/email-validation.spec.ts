@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { EmailValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { EmailValidation } from '@/validation/validators'
+import { EmailValidation } from '@/validation/validators/auth'
 import { InvalidParamError } from '@/validation/errors'
 
 const field: string = faker.word.words()
