@@ -15,7 +15,7 @@ export class AddCategoryController implements Controller {
     try {
       this.validation.validate(request)
       await this.addCategory.add(request)
-      return this.httpHelper.ok({ })
+      return this.httpHelper.ok({ message: 'Category successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
         return this.httpHelper.badRequest(error)
