@@ -12,7 +12,7 @@ describe('PositiveNumberValidation', () => {
   test('Should throw InvalidParamError if value is less than 0', () => {
     const sut = makeSut()
     const error = (): void => {
-      sut.validate({ [field]: -1 })
+      sut.validate({ [field]: faker.number.int() * -1 })
     }
     expect(error).toThrow(new InvalidParamError(field))
   })
@@ -20,8 +20,16 @@ describe('PositiveNumberValidation', () => {
   test('Should throw InvalidParamError if value is not a number', () => {
     const sut = makeSut()
     const error = (): void => {
-      sut.validate({ [field]: 'not_number' })
+      sut.validate({ [field]: faker.word.words() })
     }
     expect(error).toThrow(new InvalidParamError(field))
+  })
+
+  test('Should not throw if validation succeeds', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: faker.number.int() })
+    }
+    expect(error).not.toThrow()
   })
 })
