@@ -7,7 +7,7 @@ export class PositiveNumberValidation implements Validation {
   validate = (input: any): void => {
     const value = input[this.fieldName]
     if (typeof value !== 'number' || value < 0) {
-      throw new InvalidParamError(this.fieldName)
+      throw new InvalidParamError(this.fieldName, 'needs to be greater than 0')
     }
   }
 }

@@ -14,7 +14,7 @@ describe('PositiveNumberValidation', () => {
     const error = (): void => {
       sut.validate({ [field]: faker.word.words() })
     }
-    expect(error).toThrow(new InvalidParamError(field))
+    expect(error).toThrow(new InvalidParamError(field, 'needs to be greater than 0'))
   })
 
   test('Should throw InvalidParamError if value is less than 0', () => {
@@ -22,7 +22,7 @@ describe('PositiveNumberValidation', () => {
     const error = (): void => {
       sut.validate({ [field]: faker.number.int() * -1 })
     }
-    expect(error).toThrow(new InvalidParamError(field))
+    expect(error).toThrow(new InvalidParamError(field, 'needs to be greater than 0'))
   })
 
   test('Should not throw if validation succeeds', () => {
