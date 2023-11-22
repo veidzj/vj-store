@@ -115,6 +115,19 @@ describe('StaticAccountMongoRepository', () => {
       expect(account).toBeTruthy()
     })
 
+    test('Should return null if role is user and provided role is admin', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        username,
+        email,
+        password,
+        accessToken,
+        role: user
+      })
+      const account = await sut.getByToken(accessToken, admin)
+      expect(account).toBeNull()
+    })
+
     test('Should return null if invalid role is provided', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
