@@ -1,25 +1,18 @@
-import { makeSignUpValidation } from '@/main/factories/validations/auth'
+import { makeSignInValidation } from '@/main/factories/validations/auth'
+import { type Validation } from '@/presentation/protocols'
 import { ValidationComposite, RequiredFieldValidation } from '@/validation/validators'
 import { EmailValidation } from '@/validation/validators/auth'
-import { type Validation } from '@/presentation/protocols'
-import { EmailValidatorAdapter } from '@/infra/validators'
 
 jest.mock('@/validation/validators/validation-composite')
 
 describe('SignInValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
-    makeSignUpValidation()
+    makeSignInValidation()
     const validations: Validation[] = []
-    for (const field of ['email', 'password']) {
-      validations.push(new RequiredFieldValidation(field))
+    for (let i = 0; i < ['email', 'password'].length; i++) {
+      validations.push(expect.any(RequiredFieldValidation))
     }
-    validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
-    expect(ValidationComposite).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({ fieldName: 'email', validate: expect.any(Function) }),
-        expect.objectContaining({ fieldName: 'password', validate: expect.any(Function) }),
-        expect.objectContaining({ emailValidator: expect.any(Object), field: 'email', validate: expect.any(Function) })
-      ])
-    )
+    validations.push(expect.any(EmailValidation))
+    expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
