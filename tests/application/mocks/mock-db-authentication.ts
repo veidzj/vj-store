@@ -49,7 +49,7 @@ export class GetAccountByTokenRepositorySpy implements GetAccountByTokenReposito
     id: faker.string.uuid()
   }
 
-  public getByToken = async(token: string, role?: string): Promise<GetAccountByTokenRepository.Output | null> => {
+  public getByToken = async(token: string, role: string): Promise<GetAccountByTokenRepository.Output | null> => {
     this.token = token
     this.role = role
     return this.account

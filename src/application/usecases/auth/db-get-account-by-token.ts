@@ -9,7 +9,7 @@ export class DbGetAccountByToken implements GetAccountByToken {
     private readonly getAccountByTokenRepository: GetAccountByTokenRepository
   ) {}
 
-  public getByToken = async(accessToken: string, role?: string): Promise<GetAccountByToken.Output> => {
+  public getByToken = async(accessToken: string, role: string): Promise<GetAccountByToken.Output> => {
     try {
       await this.decrypter.decrypt(accessToken)
     } catch (error) {

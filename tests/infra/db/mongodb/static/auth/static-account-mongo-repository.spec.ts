@@ -5,6 +5,7 @@ import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
 
 const admin: string = 'admin'
+const user: string = 'user'
 
 let accountCollection: Collection
 
@@ -88,15 +89,16 @@ describe('StaticAccountMongoRepository', () => {
       accessToken = faker.string.uuid()
     })
 
-    test('Should return an account without role on success', async() => {
+    test('Should return an account with user role on success', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
         username,
         email,
         password,
-        accessToken
+        accessToken,
+        role: user
       })
-      const account = await sut.getByToken(accessToken)
+      const account = await sut.getByToken(accessToken, user)
       expect(account).toBeTruthy()
     })
 
@@ -123,19 +125,6 @@ describe('StaticAccountMongoRepository', () => {
       })
       const account = await sut.getByToken(accessToken, admin)
       expect(account).toBeNull()
-    })
-
-    test('Should return an account if user is admin and no role is provided', async() => {
-      const sut = makeSut()
-      await accountCollection.insertOne({
-        username,
-        email,
-        password,
-        accessToken,
-        role: admin
-      })
-      const account = await sut.getByToken(accessToken)
-      expect(account).toBeTruthy()
     })
   })
 })

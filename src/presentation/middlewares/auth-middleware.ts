@@ -9,7 +9,7 @@ export class AuthMiddleware implements Middleware {
 
   constructor(
     private readonly getAccountByToken: GetAccountByToken,
-    private readonly role?: string
+    private readonly role: string
   ) {}
 
   public handle = async(request: AuthMiddleware.Request): Promise<HttpResponse> => {

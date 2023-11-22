@@ -11,7 +11,7 @@ interface Sut {
   getAccountByTokenSpy: GetAccountByTokenSpy
 }
 
-const makeSut = (role?: string): Sut => {
+const makeSut = (role: string = 'user'): Sut => {
   const getAccountByTokenSpy = new GetAccountByTokenSpy()
   const sut = new AuthMiddleware(getAccountByTokenSpy, role)
   return {
