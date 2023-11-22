@@ -44,6 +44,14 @@ describe('DynamicAccountMongoRepository', () => {
       const count = await accountCollection.countDocuments()
       expect(count).toBe(1)
     })
+
+    test('Should add an account with user role on success', async() => {
+      const sut = makeSut()
+      const accountInput = mockAddAccountInput()
+      await sut.add(accountInput)
+      const account = await accountCollection.findOne({ email: accountInput.email })
+      expect(account?.role).toBe('user')
+    })
   })
 
   describe('updateAccessToken', () => {
