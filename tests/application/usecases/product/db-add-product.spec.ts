@@ -1,6 +1,7 @@
 import { AddProductRepositorySpy } from '@/tests/application/mocks'
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { DbAddProduct } from '@/application/usecases/product'
+import { ProductHelper } from '@/application/helpers'
 
 interface Sut {
   sut: DbAddProduct
@@ -21,9 +22,7 @@ describe('DbAddProduct', () => {
     const { sut, addProductRepositorySpy } = makeSut()
     const addProductInput = mockAddProductInput()
     await sut.add(addProductInput)
-    const expectedSlug = addProductInput.name.toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '')
+    const expectedSlug = ProductHelper.generateSlug(addProductInput.name)
     expect(addProductRepositorySpy.input).toEqual({
       ...addProductInput,
       slug: expectedSlug
