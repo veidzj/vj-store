@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { throwError } from '@/tests/domain/mocks'
+import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 import { MongoHelper } from '@/infra/db/mongodb'
 
@@ -29,6 +29,18 @@ describe('StaticCategoryMongoRepository', () => {
       jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
       const promise = sut.get()
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should get all categories on success', async() => {
+      const addCategoriesModels = [mockAddCategoryInput(), mockAddCategoryInput()]
+      await categoryCollection.insertMany(addCategoriesModels)
+      const sut = makeSut()
+      const categories = await sut.get()
+      expect(categories.length).toBe(2)
+      expect(categories[0].id).toBeTruthy()
+      expect(categories[0].name).toBe(addCategoriesModels[0].name)
+      expect(categories[1].id).toBeTruthy()
+      expect(categories[1].name).toBe(addCategoriesModels[1].name)
     })
   })
 })
