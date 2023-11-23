@@ -31,7 +31,7 @@ describe('StaticCategoryMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should get all categories on success', async() => {
+    test('Should return all categories on success', async() => {
       const addCategoriesModels = [mockAddCategoryInput(), mockAddCategoryInput()]
       await categoryCollection.insertMany(addCategoriesModels)
       const sut = makeSut()
@@ -41,6 +41,12 @@ describe('StaticCategoryMongoRepository', () => {
       expect(categories[0].name).toBe(addCategoriesModels[0].name)
       expect(categories[1].id).toBeTruthy()
       expect(categories[1].name).toBe(addCategoriesModels[1].name)
+    })
+
+    test('Should return an empty list if there are no categories', async() => {
+      const sut = makeSut()
+      const categories = await sut.get()
+      expect(categories.length).toBe(0)
     })
   })
 })
