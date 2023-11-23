@@ -18,8 +18,6 @@ const makeSut = (): Sut => {
 }
 
 describe('GetCategoriesController', () => {
-  const httpHelper = new HttpHelper()
-
   test('Should call GetCategories', async() => {
     const { sut, getCategoriesSpy } = makeSut()
     jest.spyOn(getCategoriesSpy, 'get')
@@ -31,12 +29,12 @@ describe('GetCategoriesController', () => {
     const { sut, getCategoriesSpy } = makeSut()
     jest.spyOn(getCategoriesSpy, 'get').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
+    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return OK on success', async() => {
     const { sut, getCategoriesSpy } = makeSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(httpHelper.ok(getCategoriesSpy.categories))
+    expect(httpResponse).toEqual(HttpHelper.ok(getCategoriesSpy.categories))
   })
 })

@@ -25,12 +25,10 @@ const mockRequest = (): AuthMiddleware.Request => ({
 })
 
 describe('AuthMiddleware', () => {
-  const httpHelper = new HttpHelper()
-
   test('Should return Unauthorized if access token is not provided', async() => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(httpHelper.unauthorized(new InvalidCredentialsError()))
+    expect(httpResponse).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
   test('Should call GetAccountByToken with correct values', async() => {
@@ -47,7 +45,7 @@ describe('AuthMiddleware', () => {
     const errorMessage = faker.word.words()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError(errorMessage) })
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError(errorMessage)))
+    expect(httpResponse).toEqual(HttpHelper.unauthorized(new AuthenticationError(errorMessage)))
   })
 
   test('Should return Forbidden if GetAccountByToken throws an AuthorizationError', async() => {
@@ -55,20 +53,20 @@ describe('AuthMiddleware', () => {
     const errorMessage = faker.word.words()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthorizationError(errorMessage) })
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.forbidden(new AuthorizationError(errorMessage)))
+    expect(httpResponse).toEqual(HttpHelper.forbidden(new AuthorizationError(errorMessage)))
   })
 
   test('Should return ServerError if GetAccountByToken throws', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
+    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return OK if GetAccountByToken returns an account', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.ok({
+    expect(httpResponse).toEqual(HttpHelper.ok({
       accountId: getAccountByTokenSpy.account.id
     }))
   })

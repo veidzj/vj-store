@@ -5,8 +5,6 @@ import { AuthenticationError, AuthorizationError } from '@/domain/errors'
 import { InvalidCredentialsError } from '@/application/errors/auth'
 
 export class AuthMiddleware implements Middleware {
-  private readonly httpHelper = new HttpHelper()
-
   constructor(
     private readonly getAccountByToken: GetAccountByToken,
     private readonly role: string
@@ -16,19 +14,19 @@ export class AuthMiddleware implements Middleware {
     try {
       const { accessToken } = request
       if (!accessToken) {
-        return this.httpHelper.unauthorized(new InvalidCredentialsError())
+        return HttpHelper.unauthorized(new InvalidCredentialsError())
       }
 
       const account = await this.getAccountByToken.getByToken(accessToken, this.role)
-      return this.httpHelper.ok({ accountId: account.id })
+      return HttpHelper.ok({ accountId: account.id })
     } catch (error) {
       if (error instanceof AuthenticationError) {
-        return this.httpHelper.unauthorized(error)
+        return HttpHelper.unauthorized(error)
       }
       if (error instanceof AuthorizationError) {
-        return this.httpHelper.forbidden(error)
+        return HttpHelper.forbidden(error)
       }
-      return this.httpHelper.serverError(error)
+      return HttpHelper.serverError(error)
     }
   }
 }

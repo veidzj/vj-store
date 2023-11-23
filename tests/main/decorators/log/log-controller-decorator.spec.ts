@@ -23,10 +23,9 @@ const makeSut = (): Sut => {
 }
 
 const mockServerError = (): HttpResponse => {
-  const httpHelper = new HttpHelper()
   const fakeError = new Error()
   fakeError.stack = faker.word.words()
-  return httpHelper.serverError(fakeError)
+  return HttpHelper.serverError(fakeError)
 }
 
 describe('LogControllerDecorator', () => {

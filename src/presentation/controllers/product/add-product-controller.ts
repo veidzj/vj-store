@@ -4,8 +4,6 @@ import { type AddProduct } from '@/domain/usecases/product'
 import { ValidationError } from '@/domain/errors'
 
 export class AddProductController implements Controller {
-  private readonly httpHelper = new HttpHelper()
-
   constructor(
     private readonly validation: Validation,
     private readonly addProduct: AddProduct
@@ -17,12 +15,12 @@ export class AddProductController implements Controller {
 
       const { name, description, price, discountPercentage, category, imageUrls, quantity } = request
       await this.addProduct.add({ name, description, price, discountPercentage, category, imageUrls, quantity })
-      return this.httpHelper.ok({ message: 'Product successfully added' })
+      return HttpHelper.ok({ message: 'Product successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return this.httpHelper.badRequest(error)
+        return HttpHelper.badRequest(error)
       }
-      return this.httpHelper.serverError(error)
+      return HttpHelper.serverError(error)
     }
   }
 }

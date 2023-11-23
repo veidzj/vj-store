@@ -34,8 +34,6 @@ const mockRequest = (): AddProductController.Request => ({
 })
 
 describe('AddProductController', () => {
-  const httpHelper = new HttpHelper()
-
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -52,7 +50,7 @@ describe('AddProductController', () => {
       })
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -68,13 +66,13 @@ describe('AddProductController', () => {
       const { sut, addProductSpy } = makeSut()
       jest.spyOn(addProductSpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
+      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return OK on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.ok({ message: 'Product successfully added' }))
+      expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Product successfully added' }))
     })
   })
 })

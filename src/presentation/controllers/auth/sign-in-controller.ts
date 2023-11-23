@@ -4,8 +4,6 @@ import { type Authentication } from '@/domain/usecases/auth'
 import { AuthenticationError, ValidationError } from '@/domain/errors'
 
 export class SignInController implements Controller {
-  private readonly httpHelper = new HttpHelper()
-
   constructor(
     private readonly validation: Validation,
     private readonly authentication: Authentication
@@ -16,15 +14,15 @@ export class SignInController implements Controller {
       this.validation.validate(request)
 
       const authenticationModel = await this.authentication.auth(request)
-      return this.httpHelper.ok(authenticationModel)
+      return HttpHelper.ok(authenticationModel)
     } catch (error) {
       if (error instanceof ValidationError) {
-        return this.httpHelper.badRequest(error)
+        return HttpHelper.badRequest(error)
       }
       if (error instanceof AuthenticationError) {
-        return this.httpHelper.unauthorized(error)
+        return HttpHelper.unauthorized(error)
       }
-      return this.httpHelper.serverError(error)
+      return HttpHelper.serverError(error)
     }
   }
 }

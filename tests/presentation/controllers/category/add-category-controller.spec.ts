@@ -28,8 +28,6 @@ const mockRequest = (): AddCategoryController.Request => ({
 })
 
 describe('AddCategoryController', () => {
-  const httpHelper = new HttpHelper()
-
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -46,7 +44,7 @@ describe('AddCategoryController', () => {
       })
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -62,13 +60,13 @@ describe('AddCategoryController', () => {
       const { sut, addCategorySpy } = makeSut()
       jest.spyOn(addCategorySpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
+      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return OK on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.ok({ message: 'Category successfully added' }))
+      expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Category successfully added' }))
     })
   })
 })

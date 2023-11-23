@@ -38,8 +38,6 @@ const mockRequest = (): SignUpController.Request => {
 }
 
 describe('SignUpController', () => {
-  const httpHelper = new HttpHelper()
-
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -55,7 +53,7 @@ describe('SignUpController', () => {
         throw new ValidationError(errorMessage)
       })
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.badRequest(new ValidationError(errorMessage)))
+      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -75,14 +73,14 @@ describe('SignUpController', () => {
       const { sut, addAccountSpy } = makeSut()
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new EmailInUseError() })
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError('Email already in use')))
+      expect(httpResponse).toEqual(HttpHelper.unauthorized(new AuthenticationError('Email already in use')))
     })
 
     test('Should return Server Error if AddAccount throws', async() => {
       const { sut, addAccountSpy } = makeSut()
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
+      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
   })
 
@@ -101,13 +99,13 @@ describe('SignUpController', () => {
       const { sut, authenticationSpy } = makeSut()
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.serverError(new ServerError(undefined)))
+      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return OK if valid data is provided', async() => {
       const { sut, authenticationSpy } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(httpHelper.ok(authenticationSpy.output))
+      expect(httpResponse).toEqual(HttpHelper.ok(authenticationSpy.output))
     })
   })
 })

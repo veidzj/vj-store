@@ -4,8 +4,6 @@ import { ValidationError } from '@/domain/errors'
 import { type AddCategory } from '@/domain/usecases/category'
 
 export class AddCategoryController implements Controller {
-  private readonly httpHelper = new HttpHelper()
-
   constructor(
     private readonly validation: Validation,
     private readonly addCategory: AddCategory
@@ -15,12 +13,12 @@ export class AddCategoryController implements Controller {
     try {
       this.validation.validate(request)
       await this.addCategory.add(request)
-      return this.httpHelper.ok({ message: 'Category successfully added' })
+      return HttpHelper.ok({ message: 'Category successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
-        return this.httpHelper.badRequest(error)
+        return HttpHelper.badRequest(error)
       }
-      return this.httpHelper.serverError(error)
+      return HttpHelper.serverError(error)
     }
   }
 }
