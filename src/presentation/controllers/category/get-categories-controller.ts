@@ -8,7 +8,11 @@ export class GetCategoriesController implements Controller {
   constructor(private readonly getCategories: GetCategories) {}
 
   public handle = async(request: any): Promise<HttpResponse> => {
-    const categories = await this.getCategories.get()
-    return this.httpHelper.ok(categories)
+    try {
+      const categories = await this.getCategories.get()
+      return this.httpHelper.ok(categories)
+    } catch (error) {
+      return this.httpHelper.serverError(error)
+    }
   }
 }
