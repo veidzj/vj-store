@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import { UpdateProductController } from '@/presentation/controllers/product'
+import { ValidationError } from '@/domain/errors'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: UpdateProductController
@@ -34,6 +36,17 @@ describe('UpdateProductController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(validationSpy.input).toEqual(request)
+    })
+
+    test('Should return Bad Request if Validation throws an error', async() => {
+      const { sut, validationSpy } = makeSut()
+      const errorMessage = faker.word.words()
+      validationSpy.validate = jest.fn(() => {
+        throw new ValidationError(errorMessage)
+      })
+      const request = mockRequest()
+      const httpResponse = await sut.handle(request)
+      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 })
