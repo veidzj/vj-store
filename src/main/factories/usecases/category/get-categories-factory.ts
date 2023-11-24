@@ -1,8 +1,8 @@
-import { type GetCategories } from '@/domain/usecases/category'
-import { DbGetCategories } from '@/application/usecases/category'
+import { type GetAllCategories } from '@/domain/usecases/category'
+import { DbGetAllCategories } from '@/application/usecases/category'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 
-export const makeDbGetCategories = (): GetCategories => {
+export const makeDbGetAllCategories = (): GetAllCategories => {
   const staticCategoryMongoRepository = new StaticCategoryMongoRepository()
-  return new DbGetCategories(staticCategoryMongoRepository)
+  return new DbGetAllCategories(staticCategoryMongoRepository)
 }

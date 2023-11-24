@@ -27,7 +27,7 @@ describe('StaticCategoryMongoRepository', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
-      const promise = sut.get()
+      const promise = sut.getAll()
       await expect(promise).rejects.toThrow()
     })
 
@@ -35,7 +35,7 @@ describe('StaticCategoryMongoRepository', () => {
       const addCategoriesModels = [mockAddCategoryInput(), mockAddCategoryInput()]
       await categoryCollection.insertMany(addCategoriesModels)
       const sut = makeSut()
-      const categories = await sut.get()
+      const categories = await sut.getAll()
       expect(categories.length).toBe(2)
       expect(categories[0].id).toBeTruthy()
       expect(categories[0].name).toBe(addCategoriesModels[0].name)
@@ -45,7 +45,7 @@ describe('StaticCategoryMongoRepository', () => {
 
     test('Should return an empty list if there are no categories', async() => {
       const sut = makeSut()
-      const categories = await sut.get()
+      const categories = await sut.getAll()
       expect(categories.length).toBe(0)
     })
   })

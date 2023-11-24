@@ -1,2 +1,2 @@
 export * from './add-category'
-export * from './get-categories'
+export * from './get-all-categories'

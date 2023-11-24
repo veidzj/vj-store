@@ -1,5 +1,5 @@
 import { type Category } from '@/domain/models'
-import { type GetCategories, type AddCategory } from '@/domain/usecases/category'
+import { type GetAllCategories, type AddCategory } from '@/domain/usecases/category'
 import { mockCategories } from '@/tests/domain/mocks'
 
 export class AddCategorySpy implements AddCategory {
@@ -10,10 +10,10 @@ export class AddCategorySpy implements AddCategory {
   }
 }
 
-export class GetCategoriesSpy implements GetCategories {
+export class GetAllCategoriesSpy implements GetAllCategories {
   public categories: Category[] = mockCategories()
 
-  public get = async(): Promise<Category[]> => {
+  public getAll = async(): Promise<Category[]> => {
     return await Promise.resolve(this.categories)
   }
 }

@@ -1,9 +1,9 @@
 import { type Category } from '@/domain/models'
 
-export interface GetCategoriesRepository {
-  get: () => Promise<GetCategoriesRepository.Output>
+export interface GetAllCategoriesRepository {
+  getAll: () => Promise<GetAllCategoriesRepository.Output>
 }
 
-export namespace GetCategoriesRepository {
+export namespace GetAllCategoriesRepository {
   export type Output = Category[]
 }

@@ -1,5 +1,5 @@
 import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
-import { type GetCategoriesRepository } from '@/application/protocols/db/static/category'
+import { type GetAllCategoriesRepository } from '@/application/protocols/db/static/category'
 import { type Category } from '@/domain/models'
 import { mockCategories } from '@/tests/domain/mocks'
 
@@ -11,10 +11,10 @@ export class AddCategoryRepositorySpy implements AddCategoryRepository {
   }
 }
 
-export class GetCategoriesRepositorySpy implements GetCategoriesRepository {
+export class GetAllCategoriesRepositorySpy implements GetAllCategoriesRepository {
   public categories: Category[] = mockCategories()
 
-  public get = async(): Promise<Category[]> => {
+  public getAll = async(): Promise<Category[]> => {
     return this.categories
   }
 }
