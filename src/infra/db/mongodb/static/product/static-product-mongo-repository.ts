@@ -6,6 +6,9 @@ export class StaticProductMongoRepository implements GetProductByIdRepository {
   public getById = async(id: string): Promise<GetProductByIdRepository.Output | null> => {
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({ _id: new ObjectId(id) })
+    if (!product) {
+      return null
+    }
     return MongoHelper.map(product)
   }
 }
