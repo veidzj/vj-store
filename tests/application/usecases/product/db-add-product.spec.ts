@@ -28,6 +28,13 @@ describe('DbAddProduct', () => {
       await sut.add(addProductInput)
       expect(checkCategoryByNameRepositorySpy.name).toEqual(addProductInput.category)
     })
+
+    test('Should throw if CheckCategoryByNameRepository throws', async() => {
+      const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 
   describe('AddProductRepository', () => {
