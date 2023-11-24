@@ -31,6 +31,12 @@ describe('StaticProductMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
+    test('Should return null if there is no product with the given id', async() => {
+      const sut = makeSut()
+      const product = await sut.getById(new ObjectId().toHexString())
+      expect(product).toBeNull()
+    })
+
     test('Should return a product on success', async() => {
       const addProductInput = mockAddProductInput()
       const insertQuery = await productCollection.insertOne(addProductInput)
