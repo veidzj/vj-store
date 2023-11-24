@@ -2,6 +2,7 @@ import { AddProductRepositorySpy, CheckCategoryByNameRepositorySpy } from '@/tes
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { DbAddProduct } from '@/application/usecases/product'
 import { ProductHelper } from '@/application/helpers'
+import { CategoryNotFoundError } from '@/application/errors/category'
 
 interface Sut {
   sut: DbAddProduct
@@ -34,6 +35,13 @@ describe('DbAddProduct', () => {
       jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockImplementationOnce(throwError)
       const promise = sut.add(mockAddProductInput())
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should throw CategoryNotFoundError if CheckCategoryByNameRepository returns false', async() => {
+      const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      checkCategoryByNameRepositorySpy.output = false
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow(new CategoryNotFoundError())
     })
   })
 

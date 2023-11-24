@@ -5,7 +5,7 @@ import { mockCategories } from '@/tests/domain/mocks'
 
 export class CheckCategoryByNameRepositorySpy implements CheckCategoryByNameRepository {
   public name: string
-  public output: boolean = false
+  public output: boolean = true
 
   public checkByName = async(name: string): Promise<boolean> => {
     this.name = name
