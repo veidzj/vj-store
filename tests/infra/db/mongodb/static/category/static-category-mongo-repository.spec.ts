@@ -2,6 +2,7 @@ import { Collection } from 'mongodb'
 import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { faker } from '@faker-js/faker'
 
 let categoryCollection: Collection
 
@@ -23,7 +24,24 @@ describe('StaticCategoryMongoRepository', () => {
     await categoryCollection.deleteMany({})
   })
 
-  describe('get', () => {
+  describe('checkByName', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+      const promise = sut.checkByName(faker.word.words())
+      await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return true if category exists', async() => {
+      const sut = makeSut()
+      const addCategoryInput = mockAddCategoryInput()
+      await categoryCollection.insertOne(addCategoryInput)
+      const exists = await sut.checkByName(addCategoryInput.name)
+      expect(exists).toBe(true)
+    })
+  })
+
+  describe('getAll', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
