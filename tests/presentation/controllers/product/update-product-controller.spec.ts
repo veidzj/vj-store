@@ -1,8 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { UpdateProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { UpdateProductController } from '@/presentation/controllers/product'
-import { ValidationError } from '@/domain/errors'
 import { HttpHelper } from '@/presentation/helpers'
+import { ServerError } from '@/presentation/errors'
+import { ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: UpdateProductController
@@ -59,6 +61,13 @@ describe('UpdateProductController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(updateProductSpy.input).toEqual(request)
+    })
+
+    test('Should return Server Error if UpdateProduct throws', async() => {
+      const { sut, updateProductSpy } = makeSut()
+      jest.spyOn(updateProductSpy, 'update').mockImplementationOnce(throwError)
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
   })
 })
