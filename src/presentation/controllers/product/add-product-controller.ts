@@ -1,7 +1,7 @@
 import { type Controller, type Validation, type HttpResponse } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type AddProduct } from '@/domain/usecases/product'
-import { ValidationError } from '@/domain/errors'
+import { ValidationError, CategoryError } from '@/domain/errors'
 
 export class AddProductController implements Controller {
   constructor(
@@ -18,6 +18,9 @@ export class AddProductController implements Controller {
       return HttpHelper.ok({ message: 'Product successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
+        return HttpHelper.badRequest(error)
+      }
+      if (error instanceof CategoryError) {
         return HttpHelper.badRequest(error)
       }
       return HttpHelper.serverError(error)
