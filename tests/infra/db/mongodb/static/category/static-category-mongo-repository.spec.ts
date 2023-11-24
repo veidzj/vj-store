@@ -1,8 +1,8 @@
+import { faker } from '@faker-js/faker'
 import { Collection } from 'mongodb'
 import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { faker } from '@faker-js/faker'
 
 let categoryCollection: Collection
 
