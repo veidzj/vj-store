@@ -2,6 +2,7 @@ import { GetProductByIdRepositorySpy, UpdateProductRepositorySpy } from '@/tests
 import { mockUpdateProductInput, throwError } from '@/tests/domain/mocks'
 import { DbUpdateProduct } from '@/application/usecases/product'
 import { ProductNotFoundError } from '@/application/errors/product'
+import { ProductHelper } from '@/application/helpers'
 
 interface Sut {
   sut: DbUpdateProduct
@@ -41,6 +42,19 @@ describe('DbUpdateProduct', () => {
       getProductByIdRepositorySpy.output = null
       const promise = sut.update(mockUpdateProductInput())
       await expect(promise).rejects.toThrow(new ProductNotFoundError())
+    })
+  })
+
+  describe('UpdateProductRepository', () => {
+    test('Should call UpdateProductRepository with correct values', async() => {
+      const { sut, updateProductRepositorySpy } = makeSut()
+      const updateProductInput = mockUpdateProductInput()
+      await sut.update(updateProductInput)
+      const expectedSlug = ProductHelper.generateSlug(updateProductInput.name)
+      expect(updateProductRepositorySpy.input).toEqual({
+        ...updateProductInput,
+        slug: expectedSlug
+      })
     })
   })
 })
