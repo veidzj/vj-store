@@ -39,6 +39,12 @@ describe('StaticCategoryMongoRepository', () => {
       const exists = await sut.checkByName(addCategoryInput.name)
       expect(exists).toBe(true)
     })
+
+    test('Should return false if category does not exists', async() => {
+      const sut = makeSut()
+      const exists = await sut.checkByName(faker.word.words())
+      expect(exists).toBe(false)
+    })
   })
 
   describe('getAll', () => {
