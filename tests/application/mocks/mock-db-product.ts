@@ -4,9 +4,9 @@ import { type GetProductByIdRepository } from '@/application/protocols/db/static
 
 export class GetProductByIdRepositorySpy implements GetProductByIdRepository {
   public id: string
-  public output: GetProductByIdRepository.Output = mockProduct()
+  public output: GetProductByIdRepository.Output | null = mockProduct()
 
-  public getById = async(id: string): Promise<GetProductByIdRepository.Output> => {
+  public getById = async(id: string): Promise<GetProductByIdRepository.Output | null> => {
     this.id = id
     return this.output
   }
