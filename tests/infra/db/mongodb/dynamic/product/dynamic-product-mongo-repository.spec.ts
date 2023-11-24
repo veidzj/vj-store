@@ -1,9 +1,9 @@
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/domain/mocks'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { DynamicProductMongoRepository } from '@/infra/db/mongodb/dynamic/product'
-import { type AddProductRepository } from '@/application/protocols/db/dynamic/product'
+import { type UpdateProductRepository, type AddProductRepository } from '@/application/protocols/db/dynamic/product'
 
 let productCollection: Collection
 
@@ -12,6 +12,18 @@ const makeSut = (): DynamicProductMongoRepository => {
 }
 
 const mockAddProductRepositoryInput = (): AddProductRepository.Input => ({
+  name: faker.word.words(),
+  description: faker.word.words(),
+  price: faker.number.int(1000),
+  discountPercentage: faker.number.int({ min: 0, max: 100 }),
+  category: faker.word.words(),
+  imageUrls: [faker.internet.url(), faker.internet.url()],
+  quantity: faker.number.int(100),
+  slug: faker.word.words()
+})
+
+const mockUpdateProductRepositoryInput = (): UpdateProductRepository.Input => ({
+  productId: new ObjectId().toHexString(),
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),
@@ -49,6 +61,15 @@ describe('DynamicProductMongoRepository', () => {
       await sut.add(mockAddProductRepositoryInput())
       const count = await productCollection.countDocuments()
       expect(count).toBe(1)
+    })
+  })
+
+  describe('update', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
+      const promise = sut.update(mockUpdateProductRepositoryInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
