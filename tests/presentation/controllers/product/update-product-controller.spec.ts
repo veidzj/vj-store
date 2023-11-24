@@ -69,5 +69,11 @@ describe('UpdateProductController', () => {
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
+
+    test('Should return OK on success', async() => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Product successfully updated' }))
+    })
   })
 })
