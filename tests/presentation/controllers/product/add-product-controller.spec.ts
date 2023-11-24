@@ -4,7 +4,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { AddProductController } from '@/presentation/controllers/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
-import { ValidationError } from '@/domain/errors'
+import { CategoryError, ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: AddProductController
@@ -60,6 +60,14 @@ describe('AddProductController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(addProductSpy.input).toEqual(request)
+    })
+
+    test('Should return Bad Request if AddProduct throws CategoryError', async() => {
+      const { sut, addProductSpy } = makeSut()
+      const errorMessage = faker.word.words()
+      jest.spyOn(addProductSpy, 'add').mockImplementationOnce(() => { throw new CategoryError(errorMessage) })
+      const httpResponse = await sut.handle(mockRequest())
+      expect(httpResponse).toEqual(HttpHelper.badRequest(new CategoryError(errorMessage)))
     })
 
     test('Should return Server Error if AddProduct throws', async() => {
