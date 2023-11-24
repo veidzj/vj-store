@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { UpdateProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
 import { UpdateProductController } from '@/presentation/controllers/product'
 import { ValidationError } from '@/domain/errors'
 import { HttpHelper } from '@/presentation/helpers'
@@ -7,14 +7,17 @@ import { HttpHelper } from '@/presentation/helpers'
 interface Sut {
   sut: UpdateProductController
   validationSpy: ValidationSpy
+  updateProductSpy: UpdateProductSpy
 }
 
 const makeSut = (): Sut => {
   const validationSpy = new ValidationSpy()
-  const sut = new UpdateProductController(validationSpy)
+  const updateProductSpy = new UpdateProductSpy()
+  const sut = new UpdateProductController(validationSpy, updateProductSpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    updateProductSpy
   }
 }
 
@@ -47,6 +50,15 @@ describe('UpdateProductController', () => {
       const request = mockRequest()
       const httpResponse = await sut.handle(request)
       expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
+    })
+  })
+
+  describe('UpdateProduct', () => {
+    test('Should call UpdateProduct with correct values', async() => {
+      const { sut, updateProductSpy } = makeSut()
+      const request = mockRequest()
+      await sut.handle(request)
+      expect(updateProductSpy.input).toEqual(request)
     })
   })
 })
