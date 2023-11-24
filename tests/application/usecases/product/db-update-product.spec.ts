@@ -56,5 +56,12 @@ describe('DbUpdateProduct', () => {
         slug: expectedSlug
       })
     })
+
+    test('Should throw if UpdateProductRepository throws', async() => {
+      const { sut, updateProductRepositorySpy } = makeSut()
+      jest.spyOn(updateProductRepositorySpy, 'update').mockImplementationOnce(throwError)
+      const promise = sut.update(mockUpdateProductInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
