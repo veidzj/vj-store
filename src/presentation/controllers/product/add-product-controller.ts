@@ -9,12 +9,10 @@ export class AddProductController implements Controller {
     private readonly addProduct: AddProduct
   ) {}
 
-  public handle = async(request: any): Promise<HttpResponse> => {
+  public handle = async(request: AddProductController.Request): Promise<HttpResponse> => {
     try {
       this.validation.validate(request)
-
-      const { name, description, price, discountPercentage, category, imageUrls, quantity } = request
-      await this.addProduct.add({ name, description, price, discountPercentage, category, imageUrls, quantity })
+      await this.addProduct.add(request)
       return HttpHelper.ok({ message: 'Product successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
