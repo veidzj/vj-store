@@ -1,5 +1,6 @@
 import { GetAllProductsRepositorySpy } from '@/tests/application/mocks'
 import { DbGetAllProducts } from '@/application/usecases/product'
+import { throwError } from '@/tests/domain/mocks'
 
 interface Sut {
   sut: DbGetAllProducts
@@ -21,6 +22,13 @@ describe('DbGetAllProducts', () => {
     jest.spyOn(getAllProductsRepositorySpy, 'getAll')
     await sut.getAll()
     expect(getAllProductsRepositorySpy.getAll).toHaveBeenCalledTimes(1)
+  })
+
+  test('Should throw if GetAllProductsRepository throws', async() => {
+    const { sut, getAllProductsRepositorySpy } = makeSut()
+    jest.spyOn(getAllProductsRepositorySpy, 'getAll').mockImplementationOnce(throwError)
+    const promise = sut.getAll()
+    await expect(promise).rejects.toThrow()
   })
 
   test('Should return all products on success', async() => {
