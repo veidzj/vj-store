@@ -22,4 +22,10 @@ describe('DbGetAllProducts', () => {
     await sut.getAll()
     expect(getAllProductsRepositorySpy.getAll).toHaveBeenCalledTimes(1)
   })
+
+  test('Should return all products on success', async() => {
+    const { sut, getAllProductsRepositorySpy } = makeSut()
+    const products = await sut.getAll()
+    expect(products).toEqual(getAllProductsRepositorySpy.products)
+  })
 })
