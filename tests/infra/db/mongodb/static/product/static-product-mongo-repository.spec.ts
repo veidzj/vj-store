@@ -31,6 +31,29 @@ describe('StaticProductMongoRepository', () => {
       const promise = sut.getAll()
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return all products on success', async() => {
+      const addProductsInput = [mockAddProductInput(), mockAddProductInput()]
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getAll()
+      expect(products[0].id).toBeTruthy()
+      expect(products[0].name).toBe(addProductsInput[0].name)
+      expect(products[0].description).toBe(addProductsInput[0].description)
+      expect(products[0].price).toBe(addProductsInput[0].price)
+      expect(products[0].discountPercentage).toBe(addProductsInput[0].discountPercentage)
+      expect(products[0].category).toBe(addProductsInput[0].category)
+      expect(products[0].imageUrls).toEqual(addProductsInput[0].imageUrls)
+      expect(products[0].quantity).toBe(addProductsInput[0].quantity)
+      expect(products[1].id).toBeTruthy()
+      expect(products[1].name).toBe(addProductsInput[1].name)
+      expect(products[1].description).toBe(addProductsInput[1].description)
+      expect(products[1].price).toBe(addProductsInput[1].price)
+      expect(products[1].discountPercentage).toBe(addProductsInput[1].discountPercentage)
+      expect(products[1].category).toBe(addProductsInput[1].category)
+      expect(products[1].imageUrls).toEqual(addProductsInput[1].imageUrls)
+      expect(products[1].quantity).toBe(addProductsInput[1].quantity)
+    })
   })
 
   describe('getById', () => {
