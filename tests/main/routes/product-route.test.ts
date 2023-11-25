@@ -5,7 +5,7 @@ import { type Express } from 'express'
 import { setupApp } from '@/main/config/app'
 import { env } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { mockAddProductInput } from '@/tests/domain/mocks'
+import { mockAddProductInput, mockProduct } from '@/tests/domain/mocks'
 
 const productRoute: string = '/api/product'
 const productData = mockAddProductInput()
@@ -75,6 +75,16 @@ describe('Product Routes', () => {
         .put(productRoute + '/:productId')
         .send(productData)
         .expect(401)
+    })
+
+    test('Should return 200 if valid accessToken is provided', async() => {
+      const accessToken = await mockAccessToken()
+      const res = await productCollection.insertOne(mockProduct())
+      await request(app)
+        .put(`${productRoute}/${res.insertedId.toHexString()}`)
+        .set('x-access-token', accessToken)
+        .send(productData)
+        .expect(200)
     })
   })
 })
