@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { UrlValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { UrlValidation } from '@/validation/validators'

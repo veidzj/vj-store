@@ -1,6 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type AddProductRepository, type UpdateProductRepository } from '@/application/protocols/db/dynamic/product'
-import { ObjectId } from 'mongodb'
 
 export class DynamicProductMongoRepository implements AddProductRepository, UpdateProductRepository {
   public add = async(input: AddProductRepository.Input): Promise<void> => {

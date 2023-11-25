@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type AddAccountRepository, type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
 

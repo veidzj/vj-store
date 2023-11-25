@@ -1,7 +1,7 @@
+import { mockCategories } from '@/tests/domain/mocks'
 import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
 import { type CheckCategoryByNameRepository, type GetAllCategoriesRepository } from '@/application/protocols/db/static/category'
 import { type Category } from '@/domain/models'
-import { mockCategories } from '@/tests/domain/mocks'
 
 export class CheckCategoryByNameRepositorySpy implements CheckCategoryByNameRepository {
   public name: string

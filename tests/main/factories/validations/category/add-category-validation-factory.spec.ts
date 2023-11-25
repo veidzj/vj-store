@@ -1,6 +1,6 @@
+import { makeAddCategoryValidation } from '@/main/factories/validations/category'
 import { type Validation } from '@/presentation/protocols'
 import { ValidationComposite, RequiredFieldValidation } from '@/validation/validators'
-import { makeAddCategoryValidation } from '@/main/factories/validations/category'
 
 jest.mock('@/validation/validators/validation-composite')
 

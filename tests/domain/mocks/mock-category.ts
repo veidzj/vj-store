@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { type AddCategory } from '@/domain/usecases/category'
 import { type Category } from '@/domain/models'
 

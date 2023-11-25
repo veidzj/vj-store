@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker'
+
 import { AddCategorySpy, ValidationSpy } from '@/tests/presentation/mocks'
-import { AddCategoryController } from '@/presentation/controllers/category'
-import { ValidationError } from '@/domain/errors'
-import { HttpHelper } from '@/presentation/helpers'
 import { throwError } from '@/tests/domain/mocks'
+import { AddCategoryController } from '@/presentation/controllers/category'
+import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
+import { ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: AddCategoryController

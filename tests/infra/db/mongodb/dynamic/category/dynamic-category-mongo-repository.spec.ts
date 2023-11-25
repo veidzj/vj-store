@@ -1,9 +1,10 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { throwError } from '@/tests/domain/mocks'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
 import { DynamicCategoryMongoRepository } from '@/infra/db/mongodb/dynamic/category'
+import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
 
 let categoryCollection: Collection
 

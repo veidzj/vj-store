@@ -1,8 +1,9 @@
 import { type Express } from 'express'
 import { type Collection } from 'mongodb'
 import { hash } from 'bcrypt'
-import request from 'supertest'
 import { faker } from '@faker-js/faker'
+import request from 'supertest'
+
 import { setupApp } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
 

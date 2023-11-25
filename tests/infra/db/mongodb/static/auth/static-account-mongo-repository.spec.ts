@@ -1,5 +1,6 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'

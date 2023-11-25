@@ -1,4 +1,5 @@
 import { Collection, ObjectId } from 'mongodb'
+
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 import { MongoHelper } from '@/infra/db/mongodb'

@@ -1,6 +1,6 @@
+import { mockCategories } from '@/tests/domain/mocks'
 import { type Category } from '@/domain/models'
 import { type GetAllCategories, type AddCategory } from '@/domain/usecases/category'
-import { mockCategories } from '@/tests/domain/mocks'
 
 export class AddCategorySpy implements AddCategory {
   public input: AddCategory.Input

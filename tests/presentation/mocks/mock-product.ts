@@ -1,6 +1,6 @@
+import { mockProducts } from '@/tests/domain/mocks'
 import { type AddProduct, type UpdateProduct, type GetAllProducts } from '@/domain/usecases/product'
 import { type Product } from '@/domain/models'
-import { mockProducts } from '@/tests/domain/mocks'
 
 export class AddProductSpy implements AddProduct {
   public input: AddProduct.Input

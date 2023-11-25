@@ -1,8 +1,8 @@
-import { DbGetAccountByToken } from '@/application/usecases/auth'
+import { env } from '@/main/config'
 import { type GetAccountByToken } from '@/domain/usecases/auth'
+import { DbGetAccountByToken } from '@/application/usecases/auth'
 import { JwtAdapter } from '@/infra/cryptography'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
-import { env } from '@/main/config'
 
 export const makeDbGetAccountByToken = (): GetAccountByToken => {
   const jwtAdapter = new JwtAdapter(env.jwtSecret)

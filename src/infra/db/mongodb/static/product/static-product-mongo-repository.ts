@@ -1,6 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type GetProductByIdRepository } from '@/application/protocols/db/static/product'
-import { ObjectId } from 'mongodb'
 
 export class StaticProductMongoRepository implements GetProductByIdRepository {
   public getById = async(id: string): Promise<GetProductByIdRepository.Output | null> => {

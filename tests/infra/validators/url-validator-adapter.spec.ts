@@ -1,5 +1,6 @@
 import validator from 'validator'
 import { faker } from '@faker-js/faker'
+
 import { UrlValidatorAdapter } from '@/infra/validators'
 
 jest.mock('validator', () => ({

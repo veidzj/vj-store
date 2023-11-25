@@ -1,7 +1,8 @@
+import { type Express } from 'express'
+import { type Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
-import { type Collection } from 'mongodb'
-import { type Express } from 'express'
+
 import { setupApp } from '@/main/config/app'
 import { env } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'

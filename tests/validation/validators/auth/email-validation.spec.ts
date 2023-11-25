@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { EmailValidatorSpy } from '@/tests/validation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { EmailValidation } from '@/validation/validators/auth'

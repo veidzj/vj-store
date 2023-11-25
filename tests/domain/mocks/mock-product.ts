@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product'
 import { type Product } from '@/domain/models'
 

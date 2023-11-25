@@ -1,5 +1,5 @@
-import { type LogErrorRepository } from '@/application/protocols/db/dynamic/log'
 import { type Controller, type HttpResponse } from '@/presentation/protocols'
+import { type LogErrorRepository } from '@/application/protocols/db/dynamic/log'
 
 export class LogControllerDecorator implements Controller {
   constructor(

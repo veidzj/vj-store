@@ -1,5 +1,6 @@
 import { Collection, ObjectId } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { mockProduct, mockUpdateProductInput, throwError } from '@/tests/domain/mocks'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { DynamicProductMongoRepository } from '@/infra/db/mongodb/dynamic/product'

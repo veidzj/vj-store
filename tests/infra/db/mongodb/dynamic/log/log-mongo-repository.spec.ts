@@ -1,5 +1,6 @@
 import { type Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { MongoHelper } from '@/infra/db/mongodb'
 import { LogMongoRepository } from '@/infra/db/mongodb/dynamic/log'
 

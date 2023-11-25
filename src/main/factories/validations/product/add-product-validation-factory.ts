@@ -1,7 +1,7 @@
-import { PositiveNumberValidation, RequiredFieldValidation, UrlValidation, ValidationComposite } from '@/validation/validators'
 import { type Validation } from '@/presentation/protocols'
-import { UrlValidatorAdapter } from '@/infra/validators'
+import { PositiveNumberValidation, RequiredFieldValidation, UrlValidation, ValidationComposite } from '@/validation/validators'
 import { DiscountValidation } from '@/validation/validators/product'
+import { UrlValidatorAdapter } from '@/infra/validators'
 
 export const makeAddProductValidation = (): ValidationComposite => {
   const validations: Validation[] = []

@@ -1,8 +1,8 @@
 import { type CheckAccountByEmailRepository } from '@/application/protocols/db/static/auth'
 import { type Hasher } from '@/application/protocols/cryptography'
 import { type AddAccountRepository } from '@/application/protocols/db/dynamic/auth'
-import { type AddAccount } from '@/domain/usecases/auth'
 import { EmailInUseError } from '@/application/errors/auth/email-in-use-error'
+import { type AddAccount } from '@/domain/usecases/auth'
 
 export class DbAddAccount implements AddAccount {
   constructor(

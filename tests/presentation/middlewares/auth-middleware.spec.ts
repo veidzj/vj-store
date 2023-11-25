@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { GetAccountByTokenSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'

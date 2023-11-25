@@ -1,4 +1,5 @@
 import validator from 'validator'
+
 import { type UsernameValidator } from '@/validation/protocols/auth'
 
 export class UsernameValidatorAdapter implements UsernameValidator {

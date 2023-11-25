@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { ControllerSpy } from '@/tests/presentation/mocks'
 import { LogErrorRepositorySpy } from '@/tests/application/mocks'
 import { LogControllerDecorator } from '@/main/decorators/log'

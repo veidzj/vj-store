@@ -1,4 +1,5 @@
 import { type Router } from 'express'
+
 import { adaptRoute } from '@/main/adapters'
 import { makeAddCategoryController, makeGetAllCategoriesController } from '@/main/factories/controllers/category'
 import { adminAuth } from '@/main/middlewares/auth'

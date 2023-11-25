@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { DiscountValidation } from '@/validation/validators/product'
 import { InvalidParamError } from '@/validation/errors'
 

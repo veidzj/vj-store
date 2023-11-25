@@ -1,4 +1,5 @@
 import { type Router } from 'express'
+
 import { adaptRoute } from '@/main/adapters'
 import { makeSignUpController, makeSignInController } from '@/main/factories/controllers/auth'
 

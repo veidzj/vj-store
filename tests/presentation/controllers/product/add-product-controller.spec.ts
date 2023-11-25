@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AddProductController } from '@/presentation/controllers/product'
