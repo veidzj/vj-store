@@ -32,6 +32,12 @@ describe('StaticProductMongoRepository', () => {
       await expect(promise).rejects.toThrow()
     })
 
+    test('Should return an empty list if there are no products', async() => {
+      const sut = makeSut()
+      const products = await sut.getAll()
+      expect(products.length).toBe(0)
+    })
+
     test('Should return all products on success', async() => {
       const addProductsInput = [mockAddProductInput(), mockAddProductInput()]
       await productCollection.insertMany(addProductsInput)
