@@ -43,7 +43,7 @@ describe('UpdateProductController', () => {
       expect(validationSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if Validation throws an error', async() => {
+    test('Should return badRequest if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
       const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
@@ -63,14 +63,14 @@ describe('UpdateProductController', () => {
       expect(updateProductSpy.input).toEqual(request)
     })
 
-    test('Should return Server Error if UpdateProduct throws', async() => {
+    test('Should return serverError if UpdateProduct throws', async() => {
       const { sut, updateProductSpy } = makeSut()
       jest.spyOn(updateProductSpy, 'update').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
-    test('Should return OK on success', async() => {
+    test('Should return ok on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Product successfully updated' }))

@@ -37,7 +37,7 @@ describe('SignInController', () => {
       expect(validationSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if Validation throws an error', async() => {
+    test('Should return badRequest if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
       const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
@@ -57,14 +57,14 @@ describe('SignInController', () => {
       expect(authenticationSpy.input).toEqual(request)
     })
 
-    test('Should return Server Error if Authentication throws', async() => {
+    test('Should return serverError if Authentication throws', async() => {
       const { sut, authenticationSpy } = makeSut()
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
-    test('Should return Unauthorized if invalid credentials are provided', async() => {
+    test('Should return unauthorized if invalid credentials are provided', async() => {
       const { sut, authenticationSpy } = makeSut()
       const errorMessage = faker.word.words()
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw new AuthenticationError(errorMessage) })
@@ -73,7 +73,7 @@ describe('SignInController', () => {
       expect(httpResponse).toEqual(HttpHelper.unauthorized(new AuthenticationError(errorMessage)))
     })
 
-    test('Should return Ok if valid credentials are provided', async() => {
+    test('Should return ok if valid credentials are provided', async() => {
       const { sut, authenticationSpy } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.ok(authenticationSpy.output))

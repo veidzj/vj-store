@@ -42,7 +42,7 @@ describe('AddProductController', () => {
       expect(validationSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if Validation throws an error', async() => {
+    test('Should return badRequest if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
       const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
@@ -62,7 +62,7 @@ describe('AddProductController', () => {
       expect(addProductSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if AddProduct throws CategoryError', async() => {
+    test('Should return badRequest if AddProduct throws CategoryError', async() => {
       const { sut, addProductSpy } = makeSut()
       const errorMessage = faker.word.words()
       jest.spyOn(addProductSpy, 'add').mockImplementationOnce(() => { throw new CategoryError(errorMessage) })
@@ -70,14 +70,14 @@ describe('AddProductController', () => {
       expect(httpResponse).toEqual(HttpHelper.badRequest(new CategoryError(errorMessage)))
     })
 
-    test('Should return Server Error if AddProduct throws', async() => {
+    test('Should return serverError if AddProduct throws', async() => {
       const { sut, addProductSpy } = makeSut()
       jest.spyOn(addProductSpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
-    test('Should return OK on success', async() => {
+    test('Should return ok on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Product successfully added' }))

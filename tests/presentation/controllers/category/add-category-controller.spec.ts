@@ -36,7 +36,7 @@ describe('AddCategoryController', () => {
       expect(validationSpy.input).toEqual(request)
     })
 
-    test('Should return Bad Request if Validation throws an error', async() => {
+    test('Should return badRequest if Validation throws an error', async() => {
       const { sut, validationSpy } = makeSut()
       const errorMessage = faker.word.words()
       validationSpy.validate = jest.fn(() => {
@@ -56,14 +56,14 @@ describe('AddCategoryController', () => {
       expect(addCategorySpy.input).toEqual(request)
     })
 
-    test('Should return Server Error if AddCategory throws', async() => {
+    test('Should return serverError if AddCategory throws', async() => {
       const { sut, addCategorySpy } = makeSut()
       jest.spyOn(addCategorySpy, 'add').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
-    test('Should return OK on success', async() => {
+    test('Should return ok on success', async() => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(mockRequest())
       expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Category successfully added' }))
