@@ -1,9 +1,15 @@
 import { ObjectId } from 'mongodb'
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
-import { type GetProductByIdRepository } from '@/application/protocols/db/static/product'
+import { type GetAllProductsRepository, type GetProductByIdRepository } from '@/application/protocols/db/static/product'
 
-export class StaticProductMongoRepository implements GetProductByIdRepository {
+export class StaticProductMongoRepository implements GetAllProductsRepository, GetProductByIdRepository {
+  public getAll = async(): Promise<GetAllProductsRepository.Output> => {
+    const productCollection = MongoHelper.getCollection('products')
+    const products = await productCollection.find().toArray()
+    return MongoHelper.mapCollection(products)
+  }
+
   public getById = async(id: string): Promise<GetProductByIdRepository.Output | null> => {
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({ _id: new ObjectId(id) })
