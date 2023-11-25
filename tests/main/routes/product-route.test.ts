@@ -68,4 +68,13 @@ describe('Product Routes', () => {
         .expect(200)
     })
   })
+
+  describe('PUT /product/:productId', () => {
+    test('Should return 401 if no accessToken is provided', async() => {
+      await request(app)
+        .put(productRoute + '/:productId')
+        .send(productData)
+        .expect(401)
+    })
+  })
 })
