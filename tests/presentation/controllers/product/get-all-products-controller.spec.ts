@@ -31,4 +31,10 @@ describe('GetAllProductsController', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return OK on success', async() => {
+    const { sut, getAllProductsSpy } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(HttpHelper.ok(getAllProductsSpy.products))
+  })
 })
