@@ -1,10 +1,11 @@
 import { type Router } from 'express'
 
 import { adaptRoute } from '@/main/adapters'
-import { makeAddProductController, makeUpdateProductController } from '@/main/factories/controllers/product'
+import { makeAddProductController, makeUpdateProductController, makeGetAllProductsController } from '@/main/factories/controllers/product'
 import { adminAuth } from '@/main/middlewares/auth'
 
 export default (router: Router): void => {
   router.post('/product', adminAuth, adaptRoute(makeAddProductController()))
   router.put('/product/:productId', adminAuth, adaptRoute(makeUpdateProductController()))
+  router.get('/product', adaptRoute(makeGetAllProductsController()))
 }
