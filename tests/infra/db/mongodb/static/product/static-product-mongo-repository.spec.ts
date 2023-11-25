@@ -24,6 +24,15 @@ describe('StaticProductMongoRepository', () => {
     await productCollection.deleteMany({})
   })
 
+  describe('getAll', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+      const promise = sut.getAll()
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
   describe('getById', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
