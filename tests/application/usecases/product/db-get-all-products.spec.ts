@@ -1,6 +1,6 @@
 import { GetAllProductsRepositorySpy } from '@/tests/application/mocks'
-import { DbGetAllProducts } from '@/application/usecases/product'
 import { throwError } from '@/tests/domain/mocks'
+import { DbGetAllProducts } from '@/application/usecases/product'
 
 interface Sut {
   sut: DbGetAllProducts
