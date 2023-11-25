@@ -1,16 +1,14 @@
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
-import { faker } from '@faker-js/faker'
 import { type Collection } from 'mongodb'
 import { type Express } from 'express'
 import { setupApp } from '@/main/config/app'
 import { env } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { mockAddCategoryInput } from '@/tests/domain/mocks'
 
 const categoryRoute: string = '/api/category'
-const categoryData = {
-  name: faker.word.words()
-}
+const categoryData = mockAddCategoryInput()
 
 let categoryCollection: Collection
 let accountCollection: Collection
