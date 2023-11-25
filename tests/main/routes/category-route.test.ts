@@ -66,4 +66,13 @@ describe('Category Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /category', () => {
+    test('Should return 200 on success', async() => {
+      await request(app)
+        .get(categoryRoute)
+        .send(categoryData)
+        .expect(200)
+    })
+  })
 })
