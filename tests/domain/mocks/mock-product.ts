@@ -34,3 +34,8 @@ export const mockProduct = (): Product => ({
   quantity: faker.number.int(100),
   slug: faker.word.words()
 })
+
+export const mockProducts = (): Product[] => [
+  mockProduct(),
+  mockProduct()
+]
