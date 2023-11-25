@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { MongoHelper } from '@/infra/db/mongodb'
 import { LogMongoRepository } from '@/infra/db/mongodb/dynamic/log'
+import { env } from '@/main/config'
 
 let errorCollection: Collection
 
@@ -12,7 +13,7 @@ const makeSut = (): LogMongoRepository => {
 
 describe('LogMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

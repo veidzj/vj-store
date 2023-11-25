@@ -6,6 +6,7 @@ import { MongoHelper } from '@/infra/db/mongodb'
 import { DynamicProductMongoRepository } from '@/infra/db/mongodb/dynamic/product'
 import { type UpdateProductRepository, type AddProductRepository } from '@/application/protocols/db/dynamic/product'
 import { ProductHelper } from '@/application/helpers'
+import { env } from '@/main/config'
 
 let productCollection: Collection
 
@@ -38,7 +39,7 @@ const mockUpdateProductRepositoryInput = (): UpdateProductRepository.Input => ({
 
 describe('DynamicProductMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

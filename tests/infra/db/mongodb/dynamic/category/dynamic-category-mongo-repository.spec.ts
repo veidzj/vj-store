@@ -5,6 +5,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { DynamicCategoryMongoRepository } from '@/infra/db/mongodb/dynamic/category'
 import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
+import { env } from '@/main/config'
 
 let categoryCollection: Collection
 
@@ -18,7 +19,7 @@ const mockAddCategoryRepositoryInput = (): AddCategoryRepository.Input => ({
 
 describe('DynamicCategoryMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

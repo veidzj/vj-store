@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { env } from '@/main/config'
 
 const admin: string = 'admin'
 const user: string = 'user'
@@ -16,7 +17,7 @@ const makeSut = (): StaticAccountMongoRepository => {
 
 describe('StaticAccountMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

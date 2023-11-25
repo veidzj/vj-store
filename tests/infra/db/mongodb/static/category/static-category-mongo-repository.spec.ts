@@ -4,6 +4,7 @@ import { Collection } from 'mongodb'
 import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { env } from '@/main/config'
 
 let categoryCollection: Collection
 
@@ -13,7 +14,7 @@ const makeSut = (): StaticCategoryMongoRepository => {
 
 describe('StaticCategoryMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

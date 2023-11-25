@@ -4,7 +4,7 @@ import { hash } from 'bcrypt'
 import { faker } from '@faker-js/faker'
 import request from 'supertest'
 
-import { setupApp } from '@/main/config'
+import { env, setupApp } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
 
 const signUpRoute: string = '/api/signup'
@@ -27,7 +27,7 @@ let app: Express
 describe('Authentication Routes', () => {
   beforeAll(async() => {
     app = await setupApp()
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

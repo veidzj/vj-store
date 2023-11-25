@@ -5,6 +5,7 @@ import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
+import { env } from '@/main/config'
 
 let accountCollection: Collection
 
@@ -19,7 +20,7 @@ const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({
 
 describe('DynamicAccountMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {

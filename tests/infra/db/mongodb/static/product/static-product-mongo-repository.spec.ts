@@ -3,6 +3,7 @@ import { Collection, ObjectId } from 'mongodb'
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { env } from '@/main/config'
 
 let productCollection: Collection
 
@@ -12,7 +13,7 @@ const makeSut = (): StaticProductMongoRepository => {
 
 describe('StaticProductMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {
