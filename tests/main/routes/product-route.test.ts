@@ -95,5 +95,14 @@ describe('Product Routes', () => {
         .get(productRoute)
         .expect(200)
     })
+
+    test('Should return 200 on success with only 25 products', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      await productCollection.insertMany(addProductsInput)
+      const httpResponse = await request(app)
+        .get(productRoute)
+      expect(httpResponse.body.length).toBe(25)
+      expect(httpResponse.status).toBe(200)
+    })
   })
 })
