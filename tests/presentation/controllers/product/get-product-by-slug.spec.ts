@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker'
 
 import { GetProductBySlugSpy } from '@/tests/presentation/mocks'
 import { GetProductBySlugController } from '@/presentation/controllers/product'
+import { throwError } from '@/tests/domain/mocks'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: GetProductBySlugController
@@ -28,5 +30,12 @@ describe('GetProductBySlugController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(getProductBySlugSpy.getBySlug).toHaveBeenCalledWith(request.slug)
+  })
+
+  test('Should return serverError if GetProductBySlug throws', async() => {
+    const { sut, getProductBySlugSpy } = makeSut()
+    jest.spyOn(getProductBySlugSpy, 'getBySlug').mockImplementationOnce(throwError)
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
   })
 })
