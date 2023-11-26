@@ -117,5 +117,11 @@ describe('StaticProductMongoRepository', () => {
       const promise = sut.getBySlug(faker.word.words())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return null if there is no product with the given slug', async() => {
+      const sut = makeSut()
+      const product = await sut.getBySlug(faker.word.words())
+      expect(product).toBeNull()
+    })
   })
 })
