@@ -1,6 +1,7 @@
 import { GetProductBySlugRepositorySpy } from '@/tests/application/mocks'
 import { DbGetProductBySlug } from '@/application/usecases/product'
 import { mockSlug, throwError } from '@/tests/domain/mocks'
+import { ProductNotFoundError } from '@/application/errors/product'
 
 interface Sut {
   sut: DbGetProductBySlug
@@ -30,5 +31,12 @@ describe('DbGetProductBySlug', () => {
     jest.spyOn(getProductBySlugRepositorySpy, 'getBySlug').mockImplementationOnce(throwError)
     const promise = sut.getBySlug(mockSlug())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw ProductNotFoundError if DbGetProductBySlugRepository returns null', async() => {
+    const { sut, getProductBySlugRepositorySpy } = makeSut()
+    getProductBySlugRepositorySpy.output = null
+    const promise = sut.getBySlug(mockSlug())
+    await expect(promise).rejects.toThrow(new ProductNotFoundError())
   })
 })
