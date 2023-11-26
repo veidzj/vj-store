@@ -1,7 +1,7 @@
 import { type Product } from '@/domain/models'
 
 export interface GetAllProductsRepository {
-  getAll: () => Promise<GetAllProductsRepository.Output>
+  getAll: (page?: number, limit?: number) => Promise<GetAllProductsRepository.Output>
 }
 
 export namespace GetAllProductsRepository {

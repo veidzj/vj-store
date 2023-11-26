@@ -5,8 +5,8 @@ import { type GetAllProducts } from '@/domain/usecases/product'
 export class DbGetAllProducts implements GetAllProducts {
   constructor(private readonly getAllProductsRepository: GetAllProductsRepository) {}
 
-  public getAll = async(): Promise<Product[]> => {
-    const products = await this.getAllProductsRepository.getAll()
+  public getAll = async(page?: number, limit?: number): Promise<Product[]> => {
+    const products = await this.getAllProductsRepository.getAll(page, limit)
     return products
   }
 }

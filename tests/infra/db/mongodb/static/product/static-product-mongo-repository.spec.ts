@@ -61,6 +61,14 @@ describe('StaticProductMongoRepository', () => {
       expect(products[1].imageUrls).toEqual(addProductsInput[1].imageUrls)
       expect(products[1].quantity).toBe(addProductsInput[1].quantity)
     })
+
+    test('Should return only the first 25 products if there are more than 25 on database', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getAll()
+      expect(products.length).toBe(25)
+    })
   })
 
   describe('getById', () => {
