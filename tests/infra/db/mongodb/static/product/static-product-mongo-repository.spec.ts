@@ -1,4 +1,5 @@
 import { Collection, ObjectId } from 'mongodb'
+import { faker } from '@faker-js/faker'
 
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
@@ -106,6 +107,15 @@ describe('StaticProductMongoRepository', () => {
       expect(product?.category).toBe(addProductInput.category)
       expect(product?.imageUrls).toEqual(addProductInput.imageUrls)
       expect(product?.quantity).toBe(addProductInput.quantity)
+    })
+  })
+
+  describe('getBySlug', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+      const promise = sut.getBySlug(faker.word.words())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
