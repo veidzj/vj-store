@@ -114,4 +114,14 @@ describe('Product Routes', () => {
       expect(httpResponse.body.length).toBe(5)
     })
   })
+
+  describe('GET /product/:slug', () => {
+    test('Should return 200 on success', async() => {
+      const insertQuery = await productCollection.insertOne(mockProduct())
+      const res = await productCollection.findOne({ _id: insertQuery.insertedId })
+      await request(app)
+        .get(`${productRoute}/${res?.slug}`)
+        .expect(200)
+    })
+  })
 })
