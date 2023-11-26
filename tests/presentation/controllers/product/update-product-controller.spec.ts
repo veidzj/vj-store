@@ -25,7 +25,7 @@ const makeSut = (): Sut => {
 }
 
 const mockRequest = (): UpdateProductController.Request => ({
-  productId: faker.string.uuid(),
+  id: faker.string.uuid(),
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),

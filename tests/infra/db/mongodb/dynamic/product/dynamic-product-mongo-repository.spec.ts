@@ -1,4 +1,4 @@
-import { Collection, ObjectId } from 'mongodb'
+import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
 import { mockProduct, mockUpdateProductInput, throwError } from '@/tests/domain/mocks'
@@ -26,7 +26,7 @@ const mockAddProductRepositoryInput = (): AddProductRepository.Input => ({
 })
 
 const mockUpdateProductRepositoryInput = (): UpdateProductRepository.Input => ({
-  productId: new ObjectId().toHexString(),
+  id: faker.string.uuid(),
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),
@@ -49,6 +49,7 @@ describe('DynamicProductMongoRepository', () => {
   beforeEach(async() => {
     productCollection = MongoHelper.getCollection('products')
     await productCollection.deleteMany({})
+    jest.restoreAllMocks()
   })
 
   describe('add', () => {
@@ -80,10 +81,10 @@ describe('DynamicProductMongoRepository', () => {
       const addProductInput = mockProduct()
       const insertQuery = await productCollection.insertOne(addProductInput)
       const updateProductInput = mockUpdateProductInput()
-      const updateProductRepositoryInput = { ...updateProductInput, slug: ProductHelper.generateSlug(updateProductInput.name), productId: insertQuery.insertedId.toHexString() }
+      const updateProductRepositoryInput = { ...updateProductInput, slug: ProductHelper.generateSlug(updateProductInput.name), id: insertQuery.insertedId.toHexString() }
       await sut.update(updateProductRepositoryInput)
       const updatedProduct = await productCollection.findOne({ _id: insertQuery.insertedId })
-      expect(updatedProduct?.id).toBe(addProductInput.id)
+      expect(updatedProduct?.id).toBe(updateProductRepositoryInput.id)
       expect(updatedProduct?.name).toBe(updateProductRepositoryInput.name)
       expect(updatedProduct?.description).toBe(updateProductRepositoryInput.description)
       expect(updatedProduct?.price).toBe(updateProductRepositoryInput.price)

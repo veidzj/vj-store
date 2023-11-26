@@ -27,7 +27,7 @@ describe('DbUpdateProduct', () => {
       const { sut, getProductByIdRepositorySpy } = makeSut()
       const updateProductInput = mockUpdateProductInput()
       await sut.update(updateProductInput)
-      expect(getProductByIdRepositorySpy.id).toEqual(updateProductInput.productId)
+      expect(getProductByIdRepositorySpy.id).toEqual(updateProductInput.id)
     })
 
     test('Should throw if GetProductByIdRepository throws', async() => {

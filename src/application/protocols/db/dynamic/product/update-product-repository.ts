@@ -4,7 +4,7 @@ export interface UpdateProductRepository {
 
 export namespace UpdateProductRepository {
   export interface Input {
-    productId: string
+    id: string
     name: string
     description: string
     price: number

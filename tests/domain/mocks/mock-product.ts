@@ -14,7 +14,7 @@ export const mockAddProductInput = (): AddProduct.Input => ({
 })
 
 export const mockUpdateProductInput = (): UpdateProduct.Input => ({
-  productId: faker.string.uuid(),
+  id: faker.string.uuid(),
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),

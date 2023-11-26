@@ -70,10 +70,10 @@ describe('Product Routes', () => {
     })
   })
 
-  describe('PUT /product/:productId', () => {
+  describe('PUT /product/:id', () => {
     test('Should return 401 if no accessToken is provided', async() => {
       await request(app)
-        .put(productRoute + '/:productId')
+        .put(productRoute + '/:id')
         .send(productData)
         .expect(401)
     })

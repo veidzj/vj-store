@@ -4,7 +4,7 @@ export interface UpdateProduct {
 
 export namespace UpdateProduct {
   export interface Input {
-    productId: string
+    id: string
     name: string
     description: string
     price: number

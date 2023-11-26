@@ -25,7 +25,7 @@ export class UpdateProductController implements Controller {
 
 export namespace UpdateProductController {
   export interface Request {
-    productId: string
+    id: string
     name: string
     description: string
     price: number

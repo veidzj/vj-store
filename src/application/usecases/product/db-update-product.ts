@@ -11,7 +11,7 @@ export class DbUpdateProduct implements UpdateProduct {
   ) {}
 
   public update = async(input: UpdateProduct.Input): Promise<void> => {
-    const productExists = await this.getProductByIdRepository.getById(input.productId)
+    const productExists = await this.getProductByIdRepository.getById(input.id)
     if (!productExists) {
       throw new ProductNotFoundError()
     }
