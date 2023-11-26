@@ -1,5 +1,5 @@
-import { mockProducts } from '@/tests/domain/mocks'
-import { type AddProduct, type UpdateProduct, type GetAllProducts } from '@/domain/usecases/product'
+import { mockProduct, mockProducts } from '@/tests/domain/mocks'
+import { type AddProduct, type UpdateProduct, type GetAllProducts, type GetProductBySlug } from '@/domain/usecases/product'
 import { type Product } from '@/domain/models'
 
 export class AddProductSpy implements AddProduct {
@@ -23,5 +23,15 @@ export class GetAllProductsSpy implements GetAllProducts {
 
   public getAll = async(): Promise<Product[]> => {
     return await Promise.resolve(this.products)
+  }
+}
+
+export class GetProductBySlugSpy implements GetProductBySlug {
+  public slug: string
+  public product: Product = mockProduct()
+
+  public getBySlug = async(slug: string): Promise<Product> => {
+    this.slug = slug
+    return await Promise.resolve(this.product)
   }
 }
