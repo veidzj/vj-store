@@ -1,6 +1,6 @@
 import { GetProductBySlugRepositorySpy } from '@/tests/application/mocks'
 import { DbGetProductBySlug } from '@/application/usecases/product'
-import { mockSlug } from '@/tests/domain/mocks'
+import { mockSlug, throwError } from '@/tests/domain/mocks'
 
 interface Sut {
   sut: DbGetProductBySlug
@@ -23,5 +23,12 @@ describe('DbGetProductBySlug', () => {
     const slug = mockSlug()
     await sut.getBySlug(slug)
     expect(getProductBySlugRepositorySpy.getBySlug).toHaveBeenCalledWith(slug)
+  })
+
+  test('Should throw if DbGetProductBySlugRepository throws', async() => {
+    const { sut, getProductBySlugRepositorySpy } = makeSut()
+    jest.spyOn(getProductBySlugRepositorySpy, 'getBySlug').mockImplementationOnce(throwError)
+    const promise = sut.getBySlug(mockSlug())
+    await expect(promise).rejects.toThrow()
   })
 })
