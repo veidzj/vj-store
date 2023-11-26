@@ -40,3 +40,5 @@ export const mockProducts = (): Product[] => [
   mockProduct(),
   mockProduct()
 ]
+
+export const mockSlug = (): string => faker.word.words()
