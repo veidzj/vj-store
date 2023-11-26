@@ -7,8 +7,8 @@ export class GetAllProductsController implements Controller {
 
   public handle = async(request: GetAllProductsController.Request): Promise<HttpResponse> => {
     try {
-      const page = Number(request.page)
-      const limit = Number(request.limit)
+      const page = Number(request.page) || 1
+      const limit = Number(request.limit) || 25
       const products = await this.getAllProducts.getAll(page, limit)
       return HttpHelper.ok(products)
     } catch (error) {
