@@ -88,4 +88,12 @@ describe('Product Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /product', () => {
+    test('Should return 200 on success', async() => {
+      await request(app)
+        .get(productRoute)
+        .expect(200)
+    })
+  })
 })
