@@ -69,6 +69,14 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getAll()
       expect(products.length).toBe(25)
     })
+
+    test('Should return only the products of the given page', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getAll(2)
+      expect(products.length).toBe(5)
+    })
   })
 
   describe('getById', () => {
