@@ -39,4 +39,10 @@ describe('DbGetProductBySlug', () => {
     const promise = sut.getBySlug(mockSlug())
     await expect(promise).rejects.toThrow(new ProductNotFoundError())
   })
+
+  test('Should return a product on success', async() => {
+    const { sut, getProductBySlugRepositorySpy } = makeSut()
+    const product = await sut.getBySlug(mockSlug())
+    expect(product).toEqual(getProductBySlugRepositorySpy.output)
+  })
 })
