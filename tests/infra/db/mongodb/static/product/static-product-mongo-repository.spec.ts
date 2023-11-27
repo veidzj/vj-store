@@ -26,6 +26,29 @@ describe('StaticProductMongoRepository', () => {
     await productCollection.deleteMany({})
   })
 
+  describe('checkById', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+      const promise = sut.checkById(new ObjectId().toHexString())
+      await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return false if there is no product with the given id', async() => {
+      const sut = makeSut()
+      const productExists = await sut.checkById(new ObjectId().toHexString())
+      expect(productExists).toBe(false)
+    })
+
+    test('Should return true on success', async() => {
+      const addProductInput = mockAddProductInput()
+      const insertQuery = await productCollection.insertOne(addProductInput)
+      const sut = makeSut()
+      const productExists = await sut.checkById(insertQuery.insertedId.toHexString())
+      expect(productExists).toBe(true)
+    })
+  })
+
   describe('getAll', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
@@ -80,26 +103,12 @@ describe('StaticProductMongoRepository', () => {
     })
   })
 
-  describe('checkById', () => {
+  describe('getByCategory', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
-      jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
-      const promise = sut.checkById(new ObjectId().toHexString())
+      jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+      const promise = sut.getByCategory(faker.word.words())
       await expect(promise).rejects.toThrow()
-    })
-
-    test('Should return false if there is no product with the given id', async() => {
-      const sut = makeSut()
-      const productExists = await sut.checkById(new ObjectId().toHexString())
-      expect(productExists).toBe(false)
-    })
-
-    test('Should return true on success', async() => {
-      const addProductInput = mockAddProductInput()
-      const insertQuery = await productCollection.insertOne(addProductInput)
-      const sut = makeSut()
-      const productExists = await sut.checkById(insertQuery.insertedId.toHexString())
-      expect(productExists).toBe(true)
     })
   })
 
