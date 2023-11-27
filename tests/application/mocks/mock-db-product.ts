@@ -1,6 +1,6 @@
 import { mockProduct, mockProducts } from '@/tests/domain/mocks'
 import { type UpdateProductRepository, type AddProductRepository } from '@/application/protocols/db/dynamic/product'
-import { type GetAllProductsRepository, type GetProductByIdRepository, type GetProductBySlugRepository } from '@/application/protocols/db/static/product'
+import { type GetAllProductsRepository, type CheckProductByIdRepository, type GetProductBySlugRepository } from '@/application/protocols/db/static/product'
 import { type Product } from '@/domain/models'
 
 export class GetAllProductsRepositorySpy implements GetAllProductsRepository {
@@ -11,11 +11,11 @@ export class GetAllProductsRepositorySpy implements GetAllProductsRepository {
   }
 }
 
-export class GetProductByIdRepositorySpy implements GetProductByIdRepository {
+export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository {
   public id: string
-  public output: GetProductByIdRepository.Output | null = mockProduct()
+  public output: boolean = true
 
-  public getById = async(id: string): Promise<GetProductByIdRepository.Output | null> => {
+  public checkById = async(id: string): Promise<boolean> => {
     this.id = id
     return this.output
   }
@@ -23,7 +23,7 @@ export class GetProductByIdRepositorySpy implements GetProductByIdRepository {
 
 export class GetProductBySlugRepositorySpy implements GetProductBySlugRepository {
   public slug: string
-  public output: GetProductByIdRepository.Output | null = mockProduct()
+  public output: GetProductBySlugRepository.Output | null = mockProduct()
 
   public getBySlug = async(slug: string): Promise<GetProductBySlugRepository.Output | null> => {
     this.slug = slug

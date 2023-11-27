@@ -80,33 +80,26 @@ describe('StaticProductMongoRepository', () => {
     })
   })
 
-  describe('getById', () => {
+  describe('checkById', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
-      const promise = sut.getById(new ObjectId().toHexString())
+      const promise = sut.checkById(new ObjectId().toHexString())
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should return null if there is no product with the given id', async() => {
+    test('Should return false if there is no product with the given id', async() => {
       const sut = makeSut()
-      const product = await sut.getById(new ObjectId().toHexString())
-      expect(product).toBeNull()
+      const productExists = await sut.checkById(new ObjectId().toHexString())
+      expect(productExists).toBe(false)
     })
 
-    test('Should return a product on success', async() => {
+    test('Should return true on success', async() => {
       const addProductInput = mockAddProductInput()
       const insertQuery = await productCollection.insertOne(addProductInput)
       const sut = makeSut()
-      const product = await sut.getById(insertQuery.insertedId.toHexString())
-      expect(product?.id).toBeTruthy()
-      expect(product?.name).toBe(addProductInput.name)
-      expect(product?.description).toBe(addProductInput.description)
-      expect(product?.price).toBe(addProductInput.price)
-      expect(product?.discountPercentage).toBe(addProductInput.discountPercentage)
-      expect(product?.category).toBe(addProductInput.category)
-      expect(product?.imageUrls).toEqual(addProductInput.imageUrls)
-      expect(product?.quantity).toBe(addProductInput.quantity)
+      const productExists = await sut.checkById(insertQuery.insertedId.toHexString())
+      expect(productExists).toBe(true)
     })
   })
 

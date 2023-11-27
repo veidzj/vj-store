@@ -1,4 +1,4 @@
-import { GetProductByIdRepositorySpy, UpdateProductRepositorySpy } from '@/tests/application/mocks'
+import { CheckProductByIdRepositorySpy, UpdateProductRepositorySpy } from '@/tests/application/mocks'
 import { mockUpdateProductInput, throwError } from '@/tests/domain/mocks'
 import { DbUpdateProduct } from '@/application/usecases/product'
 import { ProductNotFoundError } from '@/application/errors/product'
@@ -6,40 +6,40 @@ import { ProductHelper } from '@/application/helpers'
 
 interface Sut {
   sut: DbUpdateProduct
-  getProductByIdRepositorySpy: GetProductByIdRepositorySpy
+  checkProductByIdRepositorySpy: CheckProductByIdRepositorySpy
   updateProductRepositorySpy: UpdateProductRepositorySpy
 }
 
 const makeSut = (): Sut => {
-  const getProductByIdRepositorySpy = new GetProductByIdRepositorySpy()
+  const checkProductByIdRepositorySpy = new CheckProductByIdRepositorySpy()
   const updateProductRepositorySpy = new UpdateProductRepositorySpy()
-  const sut = new DbUpdateProduct(getProductByIdRepositorySpy, updateProductRepositorySpy)
+  const sut = new DbUpdateProduct(checkProductByIdRepositorySpy, updateProductRepositorySpy)
   return {
     sut,
-    getProductByIdRepositorySpy,
+    checkProductByIdRepositorySpy,
     updateProductRepositorySpy
   }
 }
 
 describe('DbUpdateProduct', () => {
-  describe('GetProductByIdRepository', () => {
-    test('Should call GetProductByIdRepository with correct id', async() => {
-      const { sut, getProductByIdRepositorySpy } = makeSut()
+  describe('CheckProductByIdRepository', () => {
+    test('Should call CheckProductByIdRepository with correct id', async() => {
+      const { sut, checkProductByIdRepositorySpy } = makeSut()
       const updateProductInput = mockUpdateProductInput()
       await sut.update(updateProductInput)
-      expect(getProductByIdRepositorySpy.id).toEqual(updateProductInput.id)
+      expect(checkProductByIdRepositorySpy.id).toEqual(updateProductInput.id)
     })
 
-    test('Should throw if GetProductByIdRepository throws', async() => {
-      const { sut, getProductByIdRepositorySpy } = makeSut()
-      jest.spyOn(getProductByIdRepositorySpy, 'getById').mockImplementationOnce(throwError)
+    test('Should throw if CheckProductByIdRepository throws', async() => {
+      const { sut, checkProductByIdRepositorySpy } = makeSut()
+      jest.spyOn(checkProductByIdRepositorySpy, 'checkById').mockImplementationOnce(throwError)
       const promise = sut.update(mockUpdateProductInput())
       await expect(promise).rejects.toThrow()
     })
 
-    test('Should throw ProductNotFoundError if GetProductByIdRepository returns null', async() => {
-      const { sut, getProductByIdRepositorySpy } = makeSut()
-      getProductByIdRepositorySpy.output = null
+    test('Should throw ProductNotFoundError if CheckProductByIdRepository returns false', async() => {
+      const { sut, checkProductByIdRepositorySpy } = makeSut()
+      checkProductByIdRepositorySpy.output = false
       const promise = sut.update(mockUpdateProductInput())
       await expect(promise).rejects.toThrow(new ProductNotFoundError())
     })
