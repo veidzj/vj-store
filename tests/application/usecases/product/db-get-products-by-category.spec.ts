@@ -24,7 +24,7 @@ const makeSut = (): Sut => {
 }
 
 describe('DbGetProductsByCategory', () => {
-  test('Should call CheckCategoryByNameRepositorySpy with correct category', async() => {
+  test('Should call CheckCategoryByNameRepository with correct category', async() => {
     const { sut, checkCategoryByNameRepositorySpy } = makeSut()
     jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName')
     await sut.getByCategory(category)
@@ -36,5 +36,12 @@ describe('DbGetProductsByCategory', () => {
     checkCategoryByNameRepositorySpy.output = false
     const promise = sut.getByCategory(category)
     await expect(promise).rejects.toThrow(new CategoryNotFoundError())
+  })
+
+  test('Should call GetProductsByCategoryRepository with correct category', async() => {
+    const { sut, getProductsByCategoryRepositorySpy } = makeSut()
+    jest.spyOn(getProductsByCategoryRepositorySpy, 'getByCategory')
+    await sut.getByCategory(category)
+    expect(getProductsByCategoryRepositorySpy.getByCategory).toHaveBeenCalledWith(category)
   })
 })
