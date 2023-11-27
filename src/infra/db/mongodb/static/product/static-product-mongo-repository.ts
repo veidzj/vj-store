@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb'
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
-import { type GetAllProductsRepository, type CheckProductByIdRepository, type GetProductBySlugRepository } from '@/application/protocols/db/static/product'
+import { type CheckProductByIdRepository, type GetAllProductsRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository } from '@/application/protocols/db/static/product'
 
-export class StaticProductMongoRepository implements CheckProductByIdRepository, GetAllProductsRepository, GetProductBySlugRepository {
+export class StaticProductMongoRepository implements CheckProductByIdRepository, GetAllProductsRepository, GetProductsByCategoryRepository, GetProductBySlugRepository {
   public checkById = async(id: string): Promise<boolean> => {
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({ _id: new ObjectId(id) })
@@ -18,6 +18,12 @@ export class StaticProductMongoRepository implements CheckProductByIdRepository,
       .skip(skip)
       .limit(limit)
       .toArray()
+    return MongoHelper.mapCollection(products)
+  }
+
+  public getByCategory = async(category: string): Promise<GetProductsByCategoryRepository.Output> => {
+    const productCollection = MongoHelper.getCollection('products')
+    const products = await productCollection.find({ category }).toArray()
     return MongoHelper.mapCollection(products)
   }
 
