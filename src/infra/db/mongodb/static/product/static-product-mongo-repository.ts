@@ -3,7 +3,13 @@ import { ObjectId } from 'mongodb'
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type GetAllProductsRepository, type CheckProductByIdRepository, type GetProductBySlugRepository } from '@/application/protocols/db/static/product'
 
-export class StaticProductMongoRepository implements GetAllProductsRepository, CheckProductByIdRepository, GetProductBySlugRepository {
+export class StaticProductMongoRepository implements CheckProductByIdRepository, GetAllProductsRepository, GetProductBySlugRepository {
+  public checkById = async(id: string): Promise<boolean> => {
+    const productCollection = MongoHelper.getCollection('products')
+    const product = await productCollection.findOne({ _id: new ObjectId(id) })
+    return product !== null
+  }
+
   public getAll = async(page: number = 1, limit: number = 25): Promise<GetAllProductsRepository.Output> => {
     const productCollection = MongoHelper.getCollection('products')
     const skip = (page - 1) * limit
@@ -13,12 +19,6 @@ export class StaticProductMongoRepository implements GetAllProductsRepository, C
       .limit(limit)
       .toArray()
     return MongoHelper.mapCollection(products)
-  }
-
-  public checkById = async(id: string): Promise<boolean> => {
-    const productCollection = MongoHelper.getCollection('products')
-    const product = await productCollection.findOne({ _id: new ObjectId(id) })
-    return product !== null
   }
 
   public getBySlug = async(slug: string): Promise<GetProductBySlugRepository.Output | null> => {
