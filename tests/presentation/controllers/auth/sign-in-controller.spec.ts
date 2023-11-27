@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
-import { type SignInControllerRequest } from '@/presentation/protocols/auth'
 import { throwError } from '@/tests/domain/mocks'
 import { SignInController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
@@ -25,7 +24,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): SignInControllerRequest => ({
+const mockRequest = (): SignInController.Request => ({
   email: faker.internet.email(),
   password: faker.internet.password()
 })

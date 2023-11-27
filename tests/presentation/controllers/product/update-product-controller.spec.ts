@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { UpdateProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { UpdateProductController } from '@/presentation/controllers/product'
-import { type UpdateProductControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { ProductError, ValidationError } from '@/domain/errors'
@@ -25,7 +24,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): UpdateProductControllerRequest => ({
+const mockRequest = (): UpdateProductController.Request => ({
   id: faker.string.uuid(),
   name: faker.word.words(),
   description: faker.word.words(),

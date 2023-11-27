@@ -1,5 +1,4 @@
 import { type Controller, type Validation, type Response } from '@/presentation/protocols'
-import { type UpdateProductControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { type UpdateProduct } from '@/domain/usecases/product'
 import { ValidationError, ProductError } from '@/domain/errors'
@@ -10,7 +9,7 @@ export class UpdateProductController implements Controller {
     private readonly updateProduct: UpdateProduct
   ) {}
 
-  public handle = async(request: UpdateProductControllerRequest): Promise<Response> => {
+  public handle = async(request: UpdateProductController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
       await this.updateProduct.update(request)
@@ -24,5 +23,18 @@ export class UpdateProductController implements Controller {
       }
       return HttpHelper.serverError(error)
     }
+  }
+}
+
+export namespace UpdateProductController {
+  export interface Request {
+    id: string
+    name: string
+    description: string
+    price: number
+    discountPercentage: number
+    category: string
+    imageUrls: string[]
+    quantity: number
   }
 }

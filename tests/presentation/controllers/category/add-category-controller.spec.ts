@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 
 import { AddCategorySpy, ValidationSpy } from '@/tests/presentation/mocks'
-import { type AddCategoryControllerRequest } from '@/presentation/protocols/category'
 import { throwError } from '@/tests/domain/mocks'
 import { AddCategoryController } from '@/presentation/controllers/category'
 import { HttpHelper } from '@/presentation/helpers'
@@ -25,7 +24,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): AddCategoryControllerRequest => ({
+const mockRequest = (): AddCategoryController.Request => ({
   name: faker.word.words()
 })
 

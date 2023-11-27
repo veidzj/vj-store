@@ -1,5 +1,4 @@
 import { type Controller, type Validation, type Response } from '@/presentation/protocols'
-import { type AddCategoryControllerRequest } from '@/presentation/protocols/category'
 import { HttpHelper } from '@/presentation/helpers'
 import { ValidationError } from '@/domain/errors'
 import { type AddCategory } from '@/domain/usecases/category'
@@ -10,7 +9,7 @@ export class AddCategoryController implements Controller {
     private readonly addCategory: AddCategory
   ) {}
 
-  public handle = async(request: AddCategoryControllerRequest): Promise<Response> => {
+  public handle = async(request: AddCategoryController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
       await this.addCategory.add(request)
@@ -21,5 +20,11 @@ export class AddCategoryController implements Controller {
       }
       return HttpHelper.serverError(error)
     }
+  }
+}
+
+export namespace AddCategoryController {
+  export interface Request {
+    name: string
   }
 }

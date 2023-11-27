@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { GetProductBySlugSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { GetProductBySlugController } from '@/presentation/controllers/product'
-import { type GetProductBySlugControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ProductError } from '@/domain/errors'
 
@@ -21,7 +20,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): GetProductBySlugControllerRequest => ({
+const mockRequest = (): GetProductBySlugController.Request => ({
   slug: faker.word.words()
 })
 

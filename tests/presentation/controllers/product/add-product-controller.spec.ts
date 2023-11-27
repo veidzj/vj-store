@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AddProductController } from '@/presentation/controllers/product'
-import { type AddProductControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { CategoryError, ValidationError } from '@/domain/errors'
@@ -25,7 +24,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): AddProductControllerRequest => ({
+const mockRequest = (): AddProductController.Request => ({
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),

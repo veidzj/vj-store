@@ -1,5 +1,4 @@
 import { type Controller, type Response } from '@/presentation/protocols'
-import { type GetProductBySlugControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { type GetProductBySlug } from '@/domain/usecases/product'
 import { ProductError } from '@/domain/errors'
@@ -7,7 +6,7 @@ import { ProductError } from '@/domain/errors'
 export class GetProductBySlugController implements Controller {
   constructor(private readonly getProductBySlug: GetProductBySlug) {}
 
-  public handle = async(request: GetProductBySlugControllerRequest): Promise<Response> => {
+  public handle = async(request: GetProductBySlugController.Request): Promise<Response> => {
     try {
       const { slug } = request
       const product = await this.getProductBySlug.getBySlug(slug)
@@ -18,5 +17,11 @@ export class GetProductBySlugController implements Controller {
       }
       return HttpHelper.serverError(error)
     }
+  }
+}
+
+export namespace GetProductBySlugController {
+  export interface Request {
+    slug: string
   }
 }

@@ -1,5 +1,4 @@
 import { type Controller, type Validation, type Response } from '@/presentation/protocols'
-import { type SignInControllerRequest } from '@/presentation/protocols/auth'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Authentication } from '@/domain/usecases/auth'
 import { AuthenticationError, ValidationError } from '@/domain/errors'
@@ -10,7 +9,7 @@ export class SignInController implements Controller {
     private readonly authentication: Authentication
   ) {}
 
-  public handle = async(request: SignInControllerRequest): Promise<Response> => {
+  public handle = async(request: SignInController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
 
@@ -25,5 +24,12 @@ export class SignInController implements Controller {
       }
       return HttpHelper.serverError(error)
     }
+  }
+}
+
+export namespace SignInController {
+  export interface Request {
+    email: string
+    password: string
   }
 }
