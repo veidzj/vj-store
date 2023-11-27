@@ -116,6 +116,22 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getByCategory(faker.word.words())
       expect(products.length).toBe(0)
     })
+
+    test('Should return all products on success', async() => {
+      const addProductsInput = [mockAddProductInput(), mockAddProductInput()]
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getByCategory(addProductsInput[0].category)
+      expect(products.length).toBe(1)
+      expect(products[0].id).toBeTruthy()
+      expect(products[0].name).toBe(addProductsInput[0].name)
+      expect(products[0].description).toBe(addProductsInput[0].description)
+      expect(products[0].price).toBe(addProductsInput[0].price)
+      expect(products[0].discountPercentage).toBe(addProductsInput[0].discountPercentage)
+      expect(products[0].category).toBe(addProductsInput[0].category)
+      expect(products[0].imageUrls).toEqual(addProductsInput[0].imageUrls)
+      expect(products[0].quantity).toBe(addProductsInput[0].quantity)
+    })
   })
 
   describe('getBySlug', () => {
