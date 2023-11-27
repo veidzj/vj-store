@@ -28,13 +28,13 @@ describe('GetAllProductsController', () => {
   test('Should return serverError if GetAllProducts throws', async() => {
     const { sut, getAllProductsSpy } = makeSut()
     jest.spyOn(getAllProductsSpy, 'getAll').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
+    const response = await sut.handle({})
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok on success', async() => {
     const { sut, getAllProductsSpy } = makeSut()
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(HttpHelper.ok(getAllProductsSpy.products))
+    const response = await sut.handle({})
+    expect(response).toEqual(HttpHelper.ok(getAllProductsSpy.products))
   })
 })

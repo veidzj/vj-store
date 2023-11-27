@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { GetProductBySlugSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { GetProductBySlugController } from '@/presentation/controllers/product'
+import { type GetProductBySlugControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ProductError } from '@/domain/errors'
 
@@ -20,7 +21,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): GetProductBySlugController.Request => ({
+const mockRequest = (): GetProductBySlugControllerRequest => ({
   slug: faker.word.words()
 })
 
@@ -37,20 +38,20 @@ describe('GetProductBySlugController', () => {
     const { sut, getProductBySlugSpy } = makeSut()
     const errorMessage = faker.word.words()
     jest.spyOn(getProductBySlugSpy, 'getBySlug').mockImplementationOnce(() => { throw new ProductError(errorMessage) })
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(HttpHelper.badRequest(new ProductError(errorMessage)))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.badRequest(new ProductError(errorMessage)))
   })
 
   test('Should return serverError if GetProductBySlug throws', async() => {
     const { sut, getProductBySlugSpy } = makeSut()
     jest.spyOn(getProductBySlugSpy, 'getBySlug').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok success', async() => {
     const { sut, getProductBySlugSpy } = makeSut()
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(HttpHelper.ok(getProductBySlugSpy.product))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.ok(getProductBySlugSpy.product))
   })
 })

@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker'
 
-import { type HttpResponse, type Controller } from '@/presentation/protocols'
+import { type Response, type Controller } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 
 export class ControllerSpy implements Controller {
-  public httpResponse = HttpHelper.ok(faker.string.uuid)
+  public response = HttpHelper.ok(faker.string.uuid)
   public request: any
 
-  public handle = async(request: any): Promise<HttpResponse> => {
+  public handle = async(request: any): Promise<Response> => {
     this.request = request
-    return this.httpResponse
+    return this.response
   }
 }

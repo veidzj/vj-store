@@ -1,4 +1,4 @@
-import { type Middleware, type HttpResponse } from '@/presentation/protocols'
+import { type Middleware, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type GetAccountByToken } from '@/domain/usecases/auth'
 import { AuthenticationError, AuthorizationError } from '@/domain/errors'
@@ -10,7 +10,7 @@ export class AuthMiddleware implements Middleware {
     private readonly role: string
   ) {}
 
-  public handle = async(request: AuthMiddleware.Request): Promise<HttpResponse> => {
+  public handle = async(request: AuthMiddleware.Request): Promise<Response> => {
     try {
       const { accessToken } = request
       if (!accessToken) {

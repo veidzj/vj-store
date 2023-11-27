@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
+import { type SignUpControllerRequest } from '@/presentation/protocols/auth'
 import { throwError } from '@/tests/domain/mocks'
 import { SignUpController } from '@/presentation/controllers/auth'
 import { HttpHelper } from '@/presentation/helpers'
@@ -28,7 +29,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): SignUpController.Request => {
+const mockRequest = (): SignUpControllerRequest => {
   const password = faker.internet.password()
   return {
     username: faker.person.firstName(),
@@ -53,8 +54,8 @@ describe('SignUpController', () => {
       validationSpy.validate = jest.fn(() => {
         throw new ValidationError(errorMessage)
       })
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -73,15 +74,15 @@ describe('SignUpController', () => {
     test('Should return unauthorized if AddAccount throws an EmailInUseError', async() => {
       const { sut, addAccountSpy } = makeSut()
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new EmailInUseError() })
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.unauthorized(new AuthenticationError('Email already in use')))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.unauthorized(new AuthenticationError('Email already in use')))
     })
 
     test('Should return serverError if AddAccount throws', async() => {
       const { sut, addAccountSpy } = makeSut()
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
   })
 
@@ -99,14 +100,14 @@ describe('SignUpController', () => {
     test('Should return serverError if Authentication throws', async() => {
       const { sut, authenticationSpy } = makeSut()
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return ok if valid data is provided', async() => {
       const { sut, authenticationSpy } = makeSut()
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.ok(authenticationSpy.output))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.ok(authenticationSpy.output))
     })
   })
 })

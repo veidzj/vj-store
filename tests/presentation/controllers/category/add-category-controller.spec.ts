@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { AddCategorySpy, ValidationSpy } from '@/tests/presentation/mocks'
+import { type AddCategoryControllerRequest } from '@/presentation/protocols/category'
 import { throwError } from '@/tests/domain/mocks'
 import { AddCategoryController } from '@/presentation/controllers/category'
 import { HttpHelper } from '@/presentation/helpers'
@@ -24,7 +25,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): AddCategoryController.Request => ({
+const mockRequest = (): AddCategoryControllerRequest => ({
   name: faker.word.words()
 })
 
@@ -44,8 +45,8 @@ describe('AddCategoryController', () => {
         throw new ValidationError(errorMessage)
       })
       const request = mockRequest()
-      const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
+      const response = await sut.handle(request)
+      expect(response).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -60,14 +61,14 @@ describe('AddCategoryController', () => {
     test('Should return serverError if AddCategory throws', async() => {
       const { sut, addCategorySpy } = makeSut()
       jest.spyOn(addCategorySpy, 'add').mockImplementationOnce(throwError)
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return ok on success', async() => {
       const { sut } = makeSut()
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Category successfully added' }))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.ok({ message: 'Category successfully added' }))
     })
   })
 })

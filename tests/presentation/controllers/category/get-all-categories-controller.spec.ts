@@ -21,20 +21,20 @@ describe('GetAllCategoriesController', () => {
   test('Should call GetAllCategories', async() => {
     const { sut, getAllCategoriesSpy } = makeSut()
     jest.spyOn(getAllCategoriesSpy, 'getAll')
-    await sut.handle({})
+    await sut.handle()
     expect(getAllCategoriesSpy.getAll).toHaveBeenCalledTimes(1)
   })
 
   test('Should return serverError if GetAllCategories throws', async() => {
     const { sut, getAllCategoriesSpy } = makeSut()
     jest.spyOn(getAllCategoriesSpy, 'getAll').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(HttpHelper.serverError(new Error()))
+    const response = await sut.handle()
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok on success', async() => {
     const { sut, getAllCategoriesSpy } = makeSut()
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(HttpHelper.ok(getAllCategoriesSpy.categories))
+    const response = await sut.handle()
+    expect(response).toEqual(HttpHelper.ok(getAllCategoriesSpy.categories))
   })
 })

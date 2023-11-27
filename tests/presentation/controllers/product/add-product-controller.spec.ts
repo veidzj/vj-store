@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AddProductController } from '@/presentation/controllers/product'
+import { type AddProductControllerRequest } from '@/presentation/protocols/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { CategoryError, ValidationError } from '@/domain/errors'
@@ -24,7 +25,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): AddProductController.Request => ({
+const mockRequest = (): AddProductControllerRequest => ({
   name: faker.word.words(),
   description: faker.word.words(),
   price: faker.number.int(1000),
@@ -50,8 +51,8 @@ describe('AddProductController', () => {
         throw new ValidationError(errorMessage)
       })
       const request = mockRequest()
-      const httpResponse = await sut.handle(request)
-      expect(httpResponse).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
+      const response = await sut.handle(request)
+      expect(response).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
     })
   })
 
@@ -67,21 +68,21 @@ describe('AddProductController', () => {
       const { sut, addProductSpy } = makeSut()
       const errorMessage = faker.word.words()
       jest.spyOn(addProductSpy, 'add').mockImplementationOnce(() => { throw new CategoryError(errorMessage) })
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.badRequest(new CategoryError(errorMessage)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.badRequest(new CategoryError(errorMessage)))
     })
 
     test('Should return serverError if AddProduct throws', async() => {
       const { sut, addProductSpy } = makeSut()
       jest.spyOn(addProductSpy, 'add').mockImplementationOnce(throwError)
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
     test('Should return ok on success', async() => {
       const { sut } = makeSut()
-      const httpResponse = await sut.handle(mockRequest())
-      expect(httpResponse).toEqual(HttpHelper.ok({ message: 'Product successfully added' }))
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.ok({ message: 'Product successfully added' }))
     })
   })
 })
