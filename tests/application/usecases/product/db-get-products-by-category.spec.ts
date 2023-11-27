@@ -44,4 +44,10 @@ describe('DbGetProductsByCategory', () => {
     await sut.getByCategory(category)
     expect(getProductsByCategoryRepositorySpy.getByCategory).toHaveBeenCalledWith(category)
   })
+
+  test('Should return all products on success', async() => {
+    const { sut, getProductsByCategoryRepositorySpy } = makeSut()
+    const products = await sut.getByCategory(category)
+    expect(products).toEqual(getProductsByCategoryRepositorySpy.output)
+  })
 })
