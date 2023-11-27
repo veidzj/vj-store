@@ -110,6 +110,12 @@ describe('StaticProductMongoRepository', () => {
       const promise = sut.getByCategory(faker.word.words())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return an empty list if there are no products', async() => {
+      const sut = makeSut()
+      const products = await sut.getByCategory(faker.word.words())
+      expect(products.length).toBe(0)
+    })
   })
 
   describe('getBySlug', () => {
