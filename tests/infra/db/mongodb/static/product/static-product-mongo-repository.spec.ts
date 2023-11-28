@@ -132,6 +132,20 @@ describe('StaticProductMongoRepository', () => {
       expect(products[0].imageUrls).toEqual(addProductsInput[0].imageUrls)
       expect(products[0].quantity).toBe(addProductsInput[0].quantity)
     })
+
+    test('Should return only the first 25 products if there are more than 25 on database', async() => {
+      const commonCategory = mockAddProductInput().category
+
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, category: commonCategory }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getByCategory(commonCategory)
+      expect(products.length).toBe(25)
+    })
   })
 
   describe('getBySlug', () => {
