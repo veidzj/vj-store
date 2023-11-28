@@ -115,12 +115,12 @@ describe('Product Routes', () => {
     })
   })
 
-  describe('GET /product/:slug', () => {
+  describe('GET /product/slug/:slug', () => {
     test('Should return 200 on success', async() => {
       const insertQuery = await productCollection.insertOne(mockProduct())
       const res = await productCollection.findOne({ _id: insertQuery.insertedId })
       await request(app)
-        .get(`${productRoute}/${res?.slug}`)
+        .get(`${productRoute}/slug/${res?.slug}`)
         .expect(200)
     })
   })
