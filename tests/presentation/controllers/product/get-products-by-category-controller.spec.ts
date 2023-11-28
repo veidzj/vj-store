@@ -22,8 +22,8 @@ const makeSut = (): Sut => {
 
 const mockRequest = (): GetProductsByCategoryController.Request => ({
   category: faker.word.words(),
-  page: '1',
-  limit: '5'
+  page: faker.number.int().toString(),
+  limit: faker.number.int().toString()
 })
 
 describe('GetProductsByCategoryController', () => {
