@@ -21,9 +21,14 @@ export class StaticProductMongoRepository implements CheckProductByIdRepository,
     return MongoHelper.mapCollection(products)
   }
 
-  public getByCategory = async(category: string): Promise<GetProductsByCategoryRepository.Output> => {
+  public getByCategory = async(category: string, page: number = 1, limit: number = 25): Promise<GetProductsByCategoryRepository.Output> => {
     const productCollection = MongoHelper.getCollection('products')
-    const products = await productCollection.find({ category }).toArray()
+    const skip = (page - 1) * limit
+    const products = await productCollection
+      .find({ category })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
     return MongoHelper.mapCollection(products)
   }
 
