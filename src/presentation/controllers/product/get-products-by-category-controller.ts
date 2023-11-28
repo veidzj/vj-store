@@ -9,7 +9,9 @@ export class GetProductsByCategoryController implements Controller {
   public handle = async(request: GetProductsByCategoryController.Request): Promise<Response> => {
     try {
       const { category } = request
-      const products = await this.getProductsByCategory.getByCategory(category)
+      const page = Number(request.page) || 1
+      const limit = Number(request.limit) || 25
+      const products = await this.getProductsByCategory.getByCategory(category, page, limit)
       return HttpHelper.ok(products)
     } catch (error) {
       if (error instanceof CategoryError) {
@@ -23,5 +25,7 @@ export class GetProductsByCategoryController implements Controller {
 export namespace GetProductsByCategoryController {
   export interface Request {
     category: string
+    page?: string
+    limit?: string
   }
 }
