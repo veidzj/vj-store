@@ -28,10 +28,14 @@ export class GetAllProductsSpy implements GetAllProducts {
 
 export class GetProductsByCategorySpy implements GetProductsByCategory {
   public category: string
+  public page: number
+  public limit: number
   public products: Product[] = mockProducts()
 
-  public getByCategory = async(category: string): Promise<Product[]> => {
+  public getByCategory = async(category: string, page: number, limit: number): Promise<Product[]> => {
     this.category = category
+    this.page = page
+    this.limit = limit
     return await Promise.resolve(this.products)
   }
 }

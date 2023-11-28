@@ -21,16 +21,18 @@ const makeSut = (): Sut => {
 }
 
 const mockRequest = (): GetProductsByCategoryController.Request => ({
-  category: faker.word.words()
+  category: faker.word.words(),
+  page: '1',
+  limit: '5'
 })
 
 describe('GetProductsByCategoryController', () => {
-  test('Should call GetProductsByCategory with correct category', async() => {
+  test('Should call GetProductsByCategory with correct values', async() => {
     const { sut, getProductsByCategorySpy } = makeSut()
     jest.spyOn(getProductsByCategorySpy, 'getByCategory')
     const request = mockRequest()
     await sut.handle(request)
-    expect(getProductsByCategorySpy.getByCategory).toHaveBeenCalledWith(request.category)
+    expect(getProductsByCategorySpy.getByCategory).toHaveBeenCalledWith(request.category, Number(request.page), Number(request.limit))
   })
 
   test('Should return badRequest if GetProductsByCategory throws a CategoryError', async() => {
