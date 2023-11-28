@@ -4,7 +4,7 @@ import { type CheckCategoryByNameRepository, type GetAllCategoriesRepository } f
 export class StaticCategoryMongoRepository implements CheckCategoryByNameRepository, GetAllCategoriesRepository {
   public checkByName = async(name: string): Promise<boolean> => {
     const categoryCollection = MongoHelper.getCollection('categories')
-    const category = await categoryCollection.findOne({ name })
+    const category = await categoryCollection.findOne({ name: { $regex: `^${name}$`, $options: 'i' } })
     return category !== null
   }
 

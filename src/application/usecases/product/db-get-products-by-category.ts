@@ -10,12 +10,12 @@ export class DbGetProductsByCategory implements GetProductsByCategory {
     private readonly getProductsByCategoryRepository: GetProductsByCategoryRepository
   ) {}
 
-  public getByCategory = async(category: string): Promise<Product[]> => {
+  public getByCategory = async(category: string, page: number, limit: number): Promise<Product[]> => {
     const categoryExists = await this.checkCategoryByNameRepository.checkByName(category)
     if (!categoryExists) {
       throw new CategoryNotFoundError()
     }
-    const products = await this.getProductsByCategoryRepository.getByCategory(category)
+    const products = await this.getProductsByCategoryRepository.getByCategory(category, page, limit)
     return products
   }
 }
