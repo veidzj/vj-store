@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
@@ -39,6 +40,14 @@ const mockRequest = (): SignUpController.Request => {
 }
 
 describe('SignUpController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -66,7 +75,8 @@ describe('SignUpController', () => {
       expect(addAccountSpy.input).toEqual({
         username: request.username,
         email: request.email,
-        password: request.password
+        password: request.password,
+        addedAt: new Date()
       })
     })
 

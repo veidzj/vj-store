@@ -1,3 +1,5 @@
+import MockDate from 'mockdate'
+
 import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DbAddAccount } from '@/application/usecases/auth'
@@ -24,6 +26,14 @@ const makeSut = (): Sut => {
 }
 
 describe('DbAddAccount', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   describe('CheckAccountByEmailRepository', () => {
     test('Should call CheckAccountByEmailRepository with correct email', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
@@ -68,11 +78,7 @@ describe('DbAddAccount', () => {
       const { sut, addAccountRepositorySpy, hasherSpy } = makeSut()
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
-      expect(addAccountRepositorySpy.input).toEqual({
-        username: addAccountInput.username,
-        email: addAccountInput.email,
-        password: hasherSpy.digest
-      })
+      expect(addAccountRepositorySpy.input).toEqual({ ...addAccountInput, password: hasherSpy.digest })
     })
 
     test('Should throw if AddAccountRepository throws', async() => {
