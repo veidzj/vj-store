@@ -15,7 +15,7 @@ export class SignUpController implements Controller {
       this.validation.validate(request)
 
       const { username, email, password } = request
-      await this.addAccount.add({ username, email, password })
+      await this.addAccount.add({ username, email, password, addedAt: new Date() })
 
       const authenticationModel = await this.authentication.auth({ email, password })
       return HttpHelper.ok(authenticationModel)

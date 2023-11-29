@@ -7,5 +7,6 @@ export namespace AddAccount {
     username: string
     email: string
     password: string
+    addedAt: Date
   }
 }
