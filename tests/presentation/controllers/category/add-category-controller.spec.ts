@@ -54,7 +54,7 @@ describe('AddCategoryController', () => {
       const { sut, addCategorySpy } = makeSut()
       const request = mockRequest()
       await sut.handle(request)
-      expect(addCategorySpy.input).toEqual(request)
+      expect(addCategorySpy.input).toEqual({ ...request, addedAt: new Date() })
     })
 
     test('Should return serverError if AddCategory throws', async() => {

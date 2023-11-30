@@ -1,10 +1,8 @@
 import { Collection } from 'mongodb'
-import { faker } from '@faker-js/faker'
 
-import { throwError } from '@/tests/domain/mocks'
+import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { DynamicCategoryMongoRepository } from '@/infra/db/mongodb/dynamic/category'
-import { type AddCategoryRepository } from '@/application/protocols/db/dynamic/category'
 import { env } from '@/main/config'
 
 let categoryCollection: Collection
@@ -12,10 +10,6 @@ let categoryCollection: Collection
 const makeSut = (): DynamicCategoryMongoRepository => {
   return new DynamicCategoryMongoRepository()
 }
-
-const mockAddCategoryRepositoryInput = (): AddCategoryRepository.Input => ({
-  name: faker.word.words()
-})
 
 describe('DynamicCategoryMongoRepository', () => {
   beforeAll(async() => {
@@ -35,13 +29,13 @@ describe('DynamicCategoryMongoRepository', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(throwError)
-      const promise = sut.add(mockAddCategoryRepositoryInput())
+      const promise = sut.add(mockAddCategoryInput())
       await expect(promise).rejects.toThrow()
     })
 
     test('Should add a category on success', async() => {
       const sut = makeSut()
-      await sut.add(mockAddCategoryRepositoryInput())
+      await sut.add(mockAddCategoryInput())
       const count = await categoryCollection.countDocuments()
       expect(count).toBe(1)
     })
