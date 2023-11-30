@@ -5,5 +5,6 @@ export interface AddCategory {
 export namespace AddCategory {
   export interface Input {
     name: string
+    addedAt: Date
   }
 }

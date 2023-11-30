@@ -12,7 +12,7 @@ export class AddCategoryController implements Controller {
   public handle = async(request: AddCategoryController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
-      await this.addCategory.add(request)
+      await this.addCategory.add({ ...request, addedAt: new Date() })
       return HttpHelper.ok({ message: 'Category successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {
