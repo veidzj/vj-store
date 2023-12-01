@@ -74,10 +74,10 @@ describe('SignInController', () => {
       expect(response).toEqual(HttpHelper.unauthorized(new AuthenticationError(errorMessage)))
     })
 
-    test('Should return ok if valid credentials are provided', async() => {
+    test('Should return ok on success', async() => {
       const { sut, authenticationSpy } = makeSut()
       const response = await sut.handle(mockRequest())
-      expect(response).toEqual(HttpHelper.ok(authenticationSpy.output))
+      expect(response).toEqual(HttpHelper.ok(authenticationSpy.account))
     })
   })
 })

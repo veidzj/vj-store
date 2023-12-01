@@ -13,8 +13,8 @@ export class SignInController implements Controller {
     try {
       this.validation.validate(request)
 
-      const authenticationModel = await this.authentication.auth(request)
-      return HttpHelper.ok(authenticationModel)
+      const account = await this.authentication.auth(request)
+      return HttpHelper.ok(account)
     } catch (error) {
       if (error instanceof ValidationError) {
         return HttpHelper.badRequest(error)

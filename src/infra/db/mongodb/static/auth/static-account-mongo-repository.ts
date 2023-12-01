@@ -38,7 +38,9 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
         role: 'admin'
       }]
     }, {
-      projection: { _id: 1 }
+      projection: {
+        _id: 1
+      }
     })
     return account && MongoHelper.map(account)
   }

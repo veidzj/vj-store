@@ -113,10 +113,10 @@ describe('SignUpController', () => {
       expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
 
-    test('Should return ok if valid data is provided', async() => {
+    test('Should return ok on success', async() => {
       const { sut, authenticationSpy } = makeSut()
       const response = await sut.handle(mockRequest())
-      expect(response).toEqual(HttpHelper.ok(authenticationSpy.output))
+      expect(response).toEqual(HttpHelper.ok(authenticationSpy.account))
     })
   })
 })

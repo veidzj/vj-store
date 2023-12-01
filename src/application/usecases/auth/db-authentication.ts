@@ -3,6 +3,7 @@ import { type HashComparer, type Encrypter } from '@/application/protocols/crypt
 import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/application/errors/auth'
 import { type Authentication } from '@/domain/usecases/auth'
+import { type Account } from '@/domain/models'
 
 export class DbAuthentication implements Authentication {
   constructor(
@@ -12,7 +13,7 @@ export class DbAuthentication implements Authentication {
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
-  public auth = async(input: Authentication.Input): Promise<Authentication.Output> => {
+  public auth = async(input: Authentication.Input): Promise<Account> => {
     const account = await this.getAccountByEmailRepository.getByEmail(input.email)
     if (!account) {
       throw new AccountNotFoundError()

@@ -17,8 +17,8 @@ export class SignUpController implements Controller {
       const { username, email, password } = request
       await this.addAccount.add({ username, email, password, addedAt: new Date() })
 
-      const authenticationModel = await this.authentication.auth({ email, password })
-      return HttpHelper.ok(authenticationModel)
+      const account = await this.authentication.auth({ email, password })
+      return HttpHelper.ok(account)
     } catch (error) {
       if (error instanceof ValidationError) {
         return HttpHelper.badRequest(error)
