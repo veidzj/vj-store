@@ -1,6 +1,6 @@
 import { GetAllCategoriesSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { GetAllCategoriesController } from '@/presentation/controllers/category'
+import { GetAllCategoriesController } from '@/presentation/controllers/static/category'
 import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {

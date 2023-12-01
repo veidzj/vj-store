@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { AddProductController } from '@/presentation/controllers/product'
+import { AddProductController } from '@/presentation/controllers/dynamic/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { CategoryError, ValidationError } from '@/domain/errors'

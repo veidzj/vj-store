@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { GetProductBySlugSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { GetProductBySlugController } from '@/presentation/controllers/product'
+import { GetProductBySlugController } from '@/presentation/controllers/static/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { ProductError } from '@/domain/errors'
 

@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { SignUpController } from '@/presentation/controllers/auth'
+import { SignUpController } from '@/presentation/controllers/dynamic/auth'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { AuthenticationError, ValidationError } from '@/domain/errors'

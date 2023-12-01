@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { GetProductsByCategorySpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { GetProductsByCategoryController } from '@/presentation/controllers/product'
+import { GetProductsByCategoryController } from '@/presentation/controllers/static/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
 import { CategoryError } from '@/domain/errors'
