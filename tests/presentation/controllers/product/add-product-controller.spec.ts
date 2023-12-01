@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { ValidationSpy, AddProductSpy } from '@/tests/presentation/mocks'
@@ -35,6 +36,14 @@ const mockRequest = (): AddProductController.Request => ({
 })
 
 describe('AddProductController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
