@@ -60,7 +60,7 @@ describe('AddProductController', () => {
       const { sut, addProductSpy } = makeSut()
       const request = mockRequest()
       await sut.handle(request)
-      expect(addProductSpy.input).toEqual(request)
+      expect(addProductSpy.input).toEqual({ ...request, addedAt: new Date() })
     })
 
     test('Should return badRequest if AddProduct throws CategoryError', async() => {

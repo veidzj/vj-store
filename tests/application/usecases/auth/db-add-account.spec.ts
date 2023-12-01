@@ -1,5 +1,3 @@
-import MockDate from 'mockdate'
-
 import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DbAddAccount } from '@/application/usecases/auth'
@@ -26,14 +24,6 @@ const makeSut = (): Sut => {
 }
 
 describe('DbAddAccount', () => {
-  beforeAll(() => {
-    MockDate.set(new Date())
-  })
-
-  afterAll(() => {
-    MockDate.reset()
-  })
-
   describe('CheckAccountByEmailRepository', () => {
     test('Should call CheckAccountByEmailRepository with correct email', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()

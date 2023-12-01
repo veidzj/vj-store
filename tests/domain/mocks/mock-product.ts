@@ -10,7 +10,8 @@ export const mockAddProductInput = (): AddProduct.Input => ({
   discountPercentage: faker.number.int({ min: 0, max: 100 }),
   category: faker.word.words(),
   imageUrls: [faker.internet.url(), faker.internet.url()],
-  quantity: faker.number.int(100)
+  quantity: faker.number.int(100),
+  addedAt: faker.date.recent()
 })
 
 export const mockUpdateProductInput = (): UpdateProduct.Input => ({
