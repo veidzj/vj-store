@@ -6,7 +6,9 @@ import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, 
 export class StaticProductMongoRepository implements CheckProductByIdRepository, GetProductsByCategoryRepository, GetProductBySlugRepository {
   public checkById = async(id: string): Promise<boolean> => {
     const productCollection = MongoHelper.getCollection('products')
-    const product = await productCollection.findOne({ _id: new ObjectId(id) })
+    const product = await productCollection.findOne({
+      _id: new ObjectId(id)
+    })
     return product !== null
   }
 
@@ -14,9 +16,17 @@ export class StaticProductMongoRepository implements CheckProductByIdRepository,
     const productCollection = MongoHelper.getCollection('products')
     const skip = (page - 1) * limit
     const products = await productCollection
-      .find(
-        { category: { $regex: `^${category}$`, $options: 'i' } },
-        { projection: { addedAt: 0, updatedAt: 0 } }
+      .find({
+        category: {
+          $regex: `^${category}$`,
+          $options: 'i'
+        }
+      }, {
+        projection: {
+          addedAt: 0,
+          updatedAt: 0
+        }
+      }
       )
       .skip(skip)
       .limit(limit)
@@ -26,7 +36,9 @@ export class StaticProductMongoRepository implements CheckProductByIdRepository,
 
   public getBySlug = async(slug: string): Promise<GetProductBySlugRepository.Output | null> => {
     const productCollection = MongoHelper.getCollection('products')
-    const product = await productCollection.findOne({ slug })
+    const product = await productCollection.findOne({
+      slug
+    })
     if (!product) {
       return null
     }

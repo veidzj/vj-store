@@ -11,9 +11,10 @@ export class DynamicProductMongoRepository implements AddProductRepository, Upda
 
   public update = async(input: UpdateProductRepository.Input): Promise<void> => {
     const productCollection = MongoHelper.getCollection('products')
-    await productCollection.updateOne(
-      { _id: new ObjectId(input.id) },
-      { $set: input }
-    )
+    await productCollection.updateOne({
+      _id: new ObjectId(input.id)
+    }, {
+      $set: input
+    })
   }
 }

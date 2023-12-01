@@ -32,10 +32,11 @@ export class StaticAccountMongoRepository implements CheckAccountByEmailReposito
     const accountCollection = MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({
       accessToken: token,
-      $or: [
-        { role },
-        { role: 'admin' }
-      ]
+      $or: [{
+        role
+      }, {
+        role: 'admin'
+      }]
     }, {
       projection: { _id: 1 }
     })
