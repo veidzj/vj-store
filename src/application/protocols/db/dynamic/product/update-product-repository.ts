@@ -13,5 +13,6 @@ export namespace UpdateProductRepository {
     imageUrls: string[]
     quantity: number
     slug: string
+    updatedAt: Date
   }
 }

@@ -12,5 +12,6 @@ export namespace UpdateProduct {
     category: string
     imageUrls: string[]
     quantity: number
+    updatedAt: Date
   }
 }

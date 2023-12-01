@@ -12,7 +12,7 @@ export class UpdateProductController implements Controller {
   public handle = async(request: UpdateProductController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
-      await this.updateProduct.update(request)
+      await this.updateProduct.update({ ...request, updatedAt: new Date() })
       return HttpHelper.ok({ message: 'Product successfully updated' })
     } catch (error) {
       if (error instanceof ValidationError) {
