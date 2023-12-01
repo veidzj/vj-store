@@ -9,7 +9,6 @@ export const mockAddCategoryInput = (): AddCategory.Input => ({
 })
 
 export const mockCategory = (): Category => ({
-  id: faker.string.uuid(),
   name: faker.word.words()
 })
 

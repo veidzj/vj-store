@@ -18,7 +18,7 @@ export class StaticCategoryMongoRepository implements CheckCategoryByNameReposit
     const categories = await categoryCollection
       .find({}, {
         projection: {
-          addedAt: 0
+          name: 1
         }
       })
       .toArray()

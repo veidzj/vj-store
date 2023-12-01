@@ -63,9 +63,7 @@ describe('StaticCategoryMongoRepository', () => {
       const sut = makeSut()
       const categories = await sut.getAll()
       expect(categories.length).toBe(2)
-      expect(categories[0].id).toBeTruthy()
       expect(categories[0].name).toBe(addCategoriesModels[0].name)
-      expect(categories[1].id).toBeTruthy()
       expect(categories[1].name).toBe(addCategoriesModels[1].name)
     })
 
