@@ -35,7 +35,8 @@ const mockUpdateProductRepositoryInput = (): UpdateProductRepository.Input => ({
   category: faker.word.words(),
   imageUrls: [faker.internet.url(), faker.internet.url()],
   quantity: faker.number.int(100),
-  slug: faker.word.words()
+  slug: faker.word.words(),
+  updatedAt: faker.date.recent()
 })
 
 describe('DynamicProductMongoRepository', () => {

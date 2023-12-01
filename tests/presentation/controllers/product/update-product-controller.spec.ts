@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { UpdateProductSpy, ValidationSpy } from '@/tests/presentation/mocks'
@@ -36,6 +37,14 @@ const mockRequest = (): UpdateProductController.Request => ({
 })
 
 describe('UpdateProductController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   describe('Validation', () => {
     test('Should call Validation with correct values', async() => {
       const { sut, validationSpy } = makeSut()
@@ -61,7 +70,7 @@ describe('UpdateProductController', () => {
       const { sut, updateProductSpy } = makeSut()
       const request = mockRequest()
       await sut.handle(request)
-      expect(updateProductSpy.input).toEqual(request)
+      expect(updateProductSpy.input).toEqual({ ...request, updatedAt: new Date() })
     })
 
     test('Should return badRequest if UpdateProduct throws a ProductError', async() => {
