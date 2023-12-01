@@ -14,7 +14,10 @@ export class StaticProductMongoRepository implements CheckProductByIdRepository,
     const productCollection = MongoHelper.getCollection('products')
     const skip = (page - 1) * limit
     const products = await productCollection
-      .find({ category: { $regex: `^${category}$`, $options: 'i' } })
+      .find(
+        { category: { $regex: `^${category}$`, $options: 'i' } },
+        { projection: { addedAt: 0, updatedAt: 0 } }
+      )
       .skip(skip)
       .limit(limit)
       .toArray()

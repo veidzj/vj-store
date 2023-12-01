@@ -10,7 +10,9 @@ export class StaticCategoryMongoRepository implements CheckCategoryByNameReposit
 
   public getAll = async(): Promise<GetAllCategoriesRepository.Output> => {
     const categoryCollection = MongoHelper.getCollection('categories')
-    const categories = await categoryCollection.find().toArray()
+    const categories = await categoryCollection
+      .find({}, { projection: { addedAt: 0 } })
+      .toArray()
     return MongoHelper.mapCollection(categories)
   }
 }
