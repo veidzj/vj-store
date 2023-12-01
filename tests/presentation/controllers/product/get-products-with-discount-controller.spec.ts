@@ -31,4 +31,10 @@ describe('GetProductsWithDiscountController', () => {
     const response = await sut.handle()
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getProductsWithDiscountSpy } = makeSut()
+    const response = await sut.handle()
+    expect(response).toEqual(HttpHelper.ok(getProductsWithDiscountSpy.products))
+  })
 })
