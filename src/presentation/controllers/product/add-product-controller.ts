@@ -12,7 +12,7 @@ export class AddProductController implements Controller {
   public handle = async(request: AddProductController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
-      await this.addProduct.add(request)
+      await this.addProduct.add({ ...request, addedAt: new Date() })
       return HttpHelper.ok({ message: 'Product successfully added' })
     } catch (error) {
       if (error instanceof ValidationError) {

@@ -12,5 +12,6 @@ export namespace AddProductRepository {
     imageUrls: string[]
     quantity: number
     slug: string
+    addedAt: Date
   }
 }

@@ -11,5 +11,6 @@ export namespace AddProduct {
     category: string
     imageUrls: string[]
     quantity: number
+    addedAt: Date
   }
 }
