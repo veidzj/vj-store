@@ -1,5 +1,5 @@
 import { type GetProductBySlug } from '@/domain/usecases/product'
-import { DbGetProductBySlug } from '@/application/usecases/product'
+import { DbGetProductBySlug } from '@/application/usecases/static/product'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 
 export const makeDbGetProductBySlug = (): GetProductBySlug => {

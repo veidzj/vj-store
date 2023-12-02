@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { CheckCategoryByNameRepositorySpy, GetProductsByCategoryRepositorySpy } from '@/tests/application/mocks'
-import { DbGetProductsByCategory } from '@/application/usecases/product'
+import { DbGetProductsByCategory } from '@/application/usecases/static/product'
 import { CategoryNotFoundError } from '@/application/errors/category'
 
 const category: string = faker.word.words()

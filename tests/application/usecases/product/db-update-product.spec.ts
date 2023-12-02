@@ -1,6 +1,6 @@
 import { CheckProductByIdRepositorySpy, UpdateProductRepositorySpy } from '@/tests/application/mocks'
 import { mockUpdateProductInput, throwError } from '@/tests/domain/mocks'
-import { DbUpdateProduct } from '@/application/usecases/product'
+import { DbUpdateProduct } from '@/application/usecases/dynamic/product'
 import { ProductNotFoundError } from '@/application/errors/product'
 import { ProductHelper } from '@/application/helpers'
 

@@ -1,5 +1,5 @@
 import { type GetAllCategories } from '@/domain/usecases/category'
-import { DbGetAllCategories } from '@/application/usecases/category'
+import { DbGetAllCategories } from '@/application/usecases/static/category'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 
 export const makeDbGetAllCategories = (): GetAllCategories => {

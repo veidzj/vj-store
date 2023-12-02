@@ -1,6 +1,6 @@
 import { AddProductRepositorySpy, CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks'
 import { mockAddProductInput, throwError } from '@/tests/domain/mocks'
-import { DbAddProduct } from '@/application/usecases/product'
+import { DbAddProduct } from '@/application/usecases/dynamic/product'
 import { ProductHelper } from '@/application/helpers'
 import { CategoryNotFoundError } from '@/application/errors/category'
 

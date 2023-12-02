@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { DecrypterSpy, GetAccountByTokenRepositorySpy } from '@/tests/application/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { DbGetAccountByToken } from '@/application/usecases/auth'
+import { DbGetAccountByToken } from '@/application/usecases/static/auth'
 import { AccessDeniedError, InvalidTokenError } from '@/application/errors/auth'
 
 let token: string

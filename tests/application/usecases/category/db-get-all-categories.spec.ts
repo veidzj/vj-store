@@ -1,6 +1,6 @@
 import { GetAllCategoriesRepositorySpy } from '@/tests/application/mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { DbGetAllCategories } from '@/application/usecases/category'
+import { DbGetAllCategories } from '@/application/usecases/static/category'
 
 interface Sut {
   sut: DbGetAllCategories

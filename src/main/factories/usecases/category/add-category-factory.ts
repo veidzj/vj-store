@@ -1,5 +1,5 @@
 import { type AddCategory } from '@/domain/usecases/category'
-import { DbAddCategory } from '@/application/usecases/category'
+import { DbAddCategory } from '@/application/usecases/dynamic/category'
 import { DynamicCategoryMongoRepository } from '@/infra/db/mongodb/dynamic/category'
 
 export const makeDbAddCategory = (): AddCategory => {

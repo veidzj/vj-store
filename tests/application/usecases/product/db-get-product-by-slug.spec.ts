@@ -1,5 +1,5 @@
 import { GetProductBySlugRepositorySpy } from '@/tests/application/mocks'
-import { DbGetProductBySlug } from '@/application/usecases/product'
+import { DbGetProductBySlug } from '@/application/usecases/static/product'
 import { mockSlug, throwError } from '@/tests/domain/mocks'
 import { ProductNotFoundError } from '@/application/errors/product'
 

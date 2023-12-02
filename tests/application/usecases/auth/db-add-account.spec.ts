@@ -1,6 +1,6 @@
 import { HasherSpy, CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks'
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
-import { DbAddAccount } from '@/application/usecases/auth'
+import { DbAddAccount } from '@/application/usecases/dynamic/auth'
 import { EmailInUseError } from '@/application/errors/auth'
 
 interface Sut {

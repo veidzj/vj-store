@@ -1,6 +1,6 @@
 import { AddCategoryRepositorySpy } from '@/tests/application/mocks'
 import { mockAddCategoryInput, throwError } from '@/tests/domain/mocks'
-import { DbAddCategory } from '@/application/usecases/category'
+import { DbAddCategory } from '@/application/usecases/dynamic/category'
 
 interface Sut {
   sut: DbAddCategory
