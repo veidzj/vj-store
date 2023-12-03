@@ -1,4 +1,4 @@
-import { type AddProduct } from '@/domain/usecases/product'
+import { type AddProduct } from '@/domain/usecases/dynamic/product'
 import { DbAddProduct } from '@/application/usecases/dynamic/product'
 import { DynamicProductMongoRepository } from '@/infra/db/mongodb/dynamic/product'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'

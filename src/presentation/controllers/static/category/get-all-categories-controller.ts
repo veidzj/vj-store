@@ -1,6 +1,6 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type GetAllCategories } from '@/domain/usecases/category'
+import { type GetAllCategories } from '@/domain/usecases/static/category'
 
 export class GetAllCategoriesController implements Controller {
   constructor(private readonly getAllCategories: GetAllCategories) {}

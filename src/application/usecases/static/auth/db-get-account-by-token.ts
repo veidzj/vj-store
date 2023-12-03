@@ -1,7 +1,7 @@
 import { type Decrypter } from '@/application/protocols/cryptography'
 import { type GetAccountByTokenRepository } from '@/application/protocols/db/static/auth'
 import { AccessDeniedError, InvalidTokenError } from '@/application/errors/auth'
-import { type GetAccountByToken } from '@/domain/usecases/auth'
+import { type GetAccountByToken } from '@/domain/usecases/static/auth'
 
 export class DbGetAccountByToken implements GetAccountByToken {
   constructor(

@@ -1,7 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
-import { type GetProductsByCategory } from '@/domain/usecases/product'
+import { type GetProductsByCategory } from '@/domain/usecases/static/product'
 import { CategoryError } from '@/domain/errors'
 
 export class GetProductsByCategoryController implements Controller {

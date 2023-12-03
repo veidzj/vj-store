@@ -1,6 +1,6 @@
 import { GetAccountByEmailRepositorySpy, UpdateAccessTokenRepositorySpy, EncrypterSpy, HashComparerSpy } from '@/tests/application/mocks'
 import { mockAuthenticationInput, throwError } from '@/tests/domain/mocks'
-import { DbAuthentication } from '@/application/usecases/dynamic/auth/db-authentication'
+import { DbAuthentication } from '@/application/usecases/static/auth/db-authentication'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/application/errors/auth'
 
 interface Sut {

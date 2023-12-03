@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/dynamic/category'
 import { type Category } from '@/domain/models'
 
 export const mockAddCategoryInput = (): AddCategory.Input => ({

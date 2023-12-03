@@ -1,6 +1,6 @@
 import { type Middleware, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type GetAccountByToken } from '@/domain/usecases/auth'
+import { type GetAccountByToken } from '@/domain/usecases/static/auth'
 import { AuthenticationError, AuthorizationError } from '@/domain/errors'
 import { InvalidCredentialsError } from '@/application/errors/auth'
 

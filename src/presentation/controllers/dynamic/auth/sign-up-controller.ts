@@ -1,6 +1,7 @@
 import { type Controller, type Validation, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type AddAccount, type Authentication } from '@/domain/usecases/auth'
+import { type AddAccount } from '@/domain/usecases/dynamic/auth'
+import { type Authentication } from '@/domain/usecases/static/auth'
 import { AuthenticationError, ValidationError } from '@/domain/errors'
 
 export class SignUpController implements Controller {

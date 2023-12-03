@@ -2,7 +2,7 @@ import { ProductHelper } from '@/application/helpers/product-helper'
 import { type CheckCategoryByNameRepository } from '@/application/protocols/db/static/category'
 import { type AddProductRepository } from '@/application/protocols/db/dynamic/product'
 import { CategoryNotFoundError } from '@/application/errors/category'
-import { type AddProduct } from '@/domain/usecases/product'
+import { type AddProduct } from '@/domain/usecases/dynamic/product'
 
 export class DbAddProduct implements AddProduct {
   constructor(

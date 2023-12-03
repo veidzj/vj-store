@@ -1,6 +1,6 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type GetProductsWithDiscount } from '@/domain/usecases/product'
+import { type GetProductsWithDiscount } from '@/domain/usecases/static/product'
 
 export class GetProductsWithDiscountController implements Controller {
   constructor(private readonly getProductsWithDiscount: GetProductsWithDiscount) {}

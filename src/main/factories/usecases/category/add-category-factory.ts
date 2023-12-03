@@ -1,4 +1,4 @@
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/dynamic/category'
 import { DbAddCategory } from '@/application/usecases/dynamic/category'
 import { DynamicCategoryMongoRepository } from '@/infra/db/mongodb/dynamic/category'
 

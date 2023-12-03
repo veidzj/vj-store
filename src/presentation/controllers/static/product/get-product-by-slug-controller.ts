@@ -1,6 +1,6 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type GetProductBySlug } from '@/domain/usecases/product'
+import { type GetProductBySlug } from '@/domain/usecases/static/product'
 import { ProductError } from '@/domain/errors'
 
 export class GetProductBySlugController implements Controller {

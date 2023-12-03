@@ -2,7 +2,7 @@ import { type GetProductsByCategoryRepository } from '@/application/protocols/db
 import { type CheckCategoryByNameRepository } from '@/application/protocols/db/static/category'
 import { CategoryNotFoundError } from '@/application/errors/category'
 import { type Product } from '@/domain/models'
-import { type GetProductsByCategory } from '@/domain/usecases/product'
+import { type GetProductsByCategory } from '@/domain/usecases/static/product'
 
 export class DbGetProductsByCategory implements GetProductsByCategory {
   constructor(

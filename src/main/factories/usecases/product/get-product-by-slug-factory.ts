@@ -1,4 +1,4 @@
-import { type GetProductBySlug } from '@/domain/usecases/product'
+import { type GetProductBySlug } from '@/domain/usecases/static/product'
 import { DbGetProductBySlug } from '@/application/usecases/static/product'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 

@@ -1,4 +1,4 @@
-import { type AddAccount } from '@/domain/usecases/auth'
+import { type AddAccount } from '@/domain/usecases/dynamic/auth'
 import { DbAddAccount } from '@/application/usecases/dynamic/auth'
 import { BcryptAdapter } from '@/infra/cryptography'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'

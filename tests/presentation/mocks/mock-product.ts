@@ -1,5 +1,6 @@
 import { mockProduct, mockProducts } from '@/tests/domain/mocks'
-import { type AddProduct, type UpdateProduct, type GetProductsByCategory, type GetProductsWithDiscount, type GetProductBySlug } from '@/domain/usecases/product'
+import { type AddProduct, type UpdateProduct } from '@/domain/usecases/dynamic/product'
+import { type GetProductsByCategory, type GetProductsWithDiscount, type GetProductBySlug } from '@/domain/usecases/static/product'
 import { type Product } from '@/domain/models'
 
 export class AddProductSpy implements AddProduct {

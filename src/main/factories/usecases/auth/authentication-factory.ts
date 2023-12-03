@@ -1,6 +1,6 @@
 import { env } from '@/main/config/env'
-import { type Authentication } from '@/domain/usecases/auth'
-import { DbAuthentication } from '@/application/usecases/dynamic/auth'
+import { type Authentication } from '@/domain/usecases/static/auth'
+import { DbAuthentication } from '@/application/usecases/static/auth'
 import { BcryptAdapter, JwtAdapter } from '@/infra/cryptography'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/auth'

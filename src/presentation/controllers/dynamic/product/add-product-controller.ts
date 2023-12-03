@@ -1,6 +1,6 @@
 import { type Controller, type Validation, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type AddProduct } from '@/domain/usecases/product'
+import { type AddProduct } from '@/domain/usecases/dynamic/product'
 import { ValidationError, CategoryError } from '@/domain/errors'
 
 export class AddProductController implements Controller {

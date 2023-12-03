@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { type AddAccount, type Authentication, type GetAccountByToken } from '@/domain/usecases/auth'
 import { type Account } from '@/domain/models'
+import { type AddAccount } from '@/domain/usecases/dynamic/auth'
+import { type Authentication, type GetAccountByToken } from '@/domain/usecases/static/auth'
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input

@@ -2,7 +2,7 @@ import { ProductNotFoundError } from '@/application/errors/product'
 import { ProductHelper } from '@/application/helpers/product-helper'
 import { type UpdateProductRepository } from '@/application/protocols/db/dynamic/product'
 import { type CheckProductByIdRepository } from '@/application/protocols/db/static/product'
-import { type UpdateProduct } from '@/domain/usecases/product'
+import { type UpdateProduct } from '@/domain/usecases/dynamic/product'
 
 export class DbUpdateProduct implements UpdateProduct {
   constructor(
