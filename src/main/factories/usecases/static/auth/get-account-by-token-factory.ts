@@ -4,8 +4,10 @@ import { DbGetAccountByToken } from '@/application/usecases/static/auth'
 import { JwtAdapter } from '@/infra/cryptography'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 
-export const makeDbGetAccountByToken = (): GetAccountByToken => {
-  const jwtAdapter = new JwtAdapter(env.jwtSecret)
-  const staticAccountMongoRepository = new StaticAccountMongoRepository()
-  return new DbGetAccountByToken(jwtAdapter, staticAccountMongoRepository)
+export class GetAccountByTokenFactory {
+  public static makeGetAccountByToken = (): GetAccountByToken => {
+    const jwtAdapter = new JwtAdapter(env.jwtSecret)
+    const staticAccountMongoRepository = new StaticAccountMongoRepository()
+    return new DbGetAccountByToken(jwtAdapter, staticAccountMongoRepository)
+  }
 }
