@@ -195,7 +195,7 @@ describe('StaticProductMongoRepository', () => {
       expect(products.length).toBe(5)
     })
 
-    test('Should return products ordered by most discount', async() => {
+    test('Should return products ordered by most discount percentage', async() => {
       const mockProductWithLess = { ...mockAddProductInput(), discountPercentage: 20 }
       const mockProductWithMoreDiscount = { ...mockAddProductInput(), discountPercentage: 50 }
       const addProductsInput = [mockProductWithLess, mockProductWithMoreDiscount]
