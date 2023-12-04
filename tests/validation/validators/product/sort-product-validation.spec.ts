@@ -25,4 +25,12 @@ describe('SortProductValidation', () => {
     }
     expect(error).not.toThrow()
   })
+
+  test('Should not throw if value is `discount`', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: 'discount' })
+    }
+    expect(error).not.toThrow()
+  })
 })
