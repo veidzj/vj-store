@@ -20,9 +20,9 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequestWithoutPageAndLimit = (): GetProductsWithDiscountController.Request => ({})
+const mockRequestWithoutPagination = (): GetProductsWithDiscountController.Request => ({})
 
-const mockRequestWithPageAndLimit = (): GetProductsWithDiscountController.Request => ({
+const mockRequestWithPagination = (): GetProductsWithDiscountController.Request => ({
   page: faker.number.int().toString(),
   limit: faker.number.int().toString()
 })
@@ -31,14 +31,14 @@ describe('GetProductsWithDiscountController', () => {
   test('Should call GetProductsWithDiscount with correct values without page and limit', async() => {
     const { sut, getProductsWithDiscountSpy } = makeSut()
     jest.spyOn(getProductsWithDiscountSpy, 'getWithDiscount')
-    await sut.handle(mockRequestWithoutPageAndLimit())
+    await sut.handle(mockRequestWithoutPagination())
     expect(getProductsWithDiscountSpy.getWithDiscount).toHaveBeenCalledWith(DEFAULT_PAGE, DEFAULT_LIMIT)
   })
 
   test('Should call GetProductsWithDiscount with correct values with page and limit', async() => {
     const { sut, getProductsWithDiscountSpy } = makeSut()
     jest.spyOn(getProductsWithDiscountSpy, 'getWithDiscount')
-    const request = mockRequestWithPageAndLimit()
+    const request = mockRequestWithPagination()
     await sut.handle(request)
     expect(getProductsWithDiscountSpy.getWithDiscount).toHaveBeenCalledWith(Number(request.page), Number(request.limit))
   })
@@ -46,13 +46,13 @@ describe('GetProductsWithDiscountController', () => {
   test('Should return serverError if GetProductsWithDiscount throws', async() => {
     const { sut, getProductsWithDiscountSpy } = makeSut()
     jest.spyOn(getProductsWithDiscountSpy, 'getWithDiscount').mockImplementationOnce(throwError)
-    const response = await sut.handle(mockRequestWithoutPageAndLimit())
+    const response = await sut.handle(mockRequestWithoutPagination())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok on success', async() => {
     const { sut, getProductsWithDiscountSpy } = makeSut()
-    const response = await sut.handle(mockRequestWithoutPageAndLimit())
+    const response = await sut.handle(mockRequestWithoutPagination())
     expect(response).toEqual(HttpHelper.ok(getProductsWithDiscountSpy.products))
   })
 })
