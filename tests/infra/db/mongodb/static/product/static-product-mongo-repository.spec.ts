@@ -194,5 +194,16 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getWithDiscount(1, 5)
       expect(products.length).toBe(5)
     })
+
+    test('Should return products ordered by most discount', async() => {
+      const mockProductWithLess = { ...mockAddProductInput(), discountPercentage: 20 }
+      const mockProductWithMoreDiscount = { ...mockAddProductInput(), discountPercentage: 50 }
+      const addProductsInput = [mockProductWithLess, mockProductWithMoreDiscount]
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getWithDiscount()
+      expect(products.length).toBe(2)
+      expect(products[0].discountPercentage).toBeGreaterThan(products[1].discountPercentage)
+    })
   })
 })

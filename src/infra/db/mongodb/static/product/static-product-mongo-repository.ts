@@ -64,6 +64,7 @@ export class StaticProductMongoRepository implements
         }
       }
       )
+      .sort({ discountPercentage: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
