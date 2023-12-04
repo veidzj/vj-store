@@ -4,7 +4,9 @@ import { makeDbAddProduct } from '@/main/factories/usecases/dynamic/product'
 import { type Controller } from '@/presentation/protocols'
 import { AddProductController } from '@/presentation/controllers/dynamic/product'
 
-export const makeAddProductController = (): Controller => {
-  const controller = new AddProductController(makeAddProductValidation(), makeDbAddProduct())
-  return makeLogControllerDecorator(controller)
+export class AddProductControllerFactory {
+  public static makeAddProductController = (): Controller => {
+    const controller = new AddProductController(makeAddProductValidation(), makeDbAddProduct())
+    return makeLogControllerDecorator(controller)
+  }
 }
