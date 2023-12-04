@@ -6,7 +6,7 @@ export class SortProductValidation implements Validation {
 
   validate = (input: any): void => {
     const value = input[this.fieldName]
-    if (value !== 'latest' && value !== 'discount') {
+    if (value && value !== 'latest' && value !== 'discount') {
       throw new InvalidParamError(this.fieldName)
     }
   }
