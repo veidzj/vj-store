@@ -7,7 +7,7 @@ import request from 'supertest'
 import { App } from '@/main/config/app'
 import { env } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { mockAddProductInput, mockProduct } from '@/tests/domain/mocks'
+import { mockAddProductInput, mockProduct, mockProducts } from '@/tests/domain/mocks'
 
 const productRoute: string = '/api/product'
 const productData = mockAddProductInput()
@@ -96,6 +96,17 @@ describe('Product Routes', () => {
       const res = await productCollection.findOne({ _id: insertQuery.insertedId })
       await request(app)
         .get(`${productRoute}/slug/${res?.slug}`)
+        .expect(200)
+    })
+  })
+
+  describe('GET /product/category/:category', () => {
+    test('Should return 200 on success', async() => {
+      const mockProductsInput = mockProducts()
+      await categoryCollection.insertOne({ name: mockProductsInput[0].category })
+      await productCollection.insertMany(mockProducts())
+      await request(app)
+        .get(`${productRoute}/category/${mockProductsInput[0].category}`)
         .expect(200)
     })
   })
