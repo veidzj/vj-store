@@ -3,7 +3,9 @@ import { makeDbGetAllCategories } from '@/main/factories/usecases/static/categor
 import { type Controller } from '@/presentation/protocols'
 import { GetAllCategoriesController } from '@/presentation/controllers/static/category'
 
-export const makeGetAllCategoriesController = (): Controller => {
-  const controller = new GetAllCategoriesController(makeDbGetAllCategories())
-  return makeLogControllerDecorator(controller)
+export class GetAllCategoriesControllerFactory {
+  public static makeGetAllCategoriesController = (): Controller => {
+    const controller = new GetAllCategoriesController(makeDbGetAllCategories())
+    return makeLogControllerDecorator(controller)
+  }
 }
