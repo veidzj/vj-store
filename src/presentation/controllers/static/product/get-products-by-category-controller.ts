@@ -1,14 +1,18 @@
-import { type Controller, type Response } from '@/presentation/protocols'
+import { type Controller, type Validation, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
 import { type GetProductsByCategory } from '@/domain/usecases/static/product'
 import { CategoryError } from '@/domain/errors'
 
 export class GetProductsByCategoryController implements Controller {
-  constructor(private readonly getProductsByCategory: GetProductsByCategory) {}
+  constructor(
+    private readonly validation: Validation,
+    private readonly getProductsByCategory: GetProductsByCategory
+  ) {}
 
   public handle = async(request: GetProductsByCategoryController.Request): Promise<Response> => {
     try {
+      this.validation.validate(request)
       const { category } = request
       const page = Number(request.page) || DEFAULT_PAGE
       const limit = Number(request.limit) || DEFAULT_LIMIT
@@ -28,5 +32,6 @@ export namespace GetProductsByCategoryController {
     category: string
     page?: string
     limit?: string
+    sortBy?: string
   }
 }
