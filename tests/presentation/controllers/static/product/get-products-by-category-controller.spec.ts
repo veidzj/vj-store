@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { GetProductsByCategorySpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, GetProductsByCategorySpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { GetProductsByCategoryController } from '@/presentation/controllers/static/product'
 import { HttpHelper } from '@/presentation/helpers'
@@ -9,14 +9,17 @@ import { CategoryError } from '@/domain/errors'
 
 interface Sut {
   sut: GetProductsByCategoryController
+  validationSpy: ValidationSpy
   getProductsByCategorySpy: GetProductsByCategorySpy
 }
 
 const makeSut = (): Sut => {
+  const validationSpy = new ValidationSpy()
   const getProductsByCategorySpy = new GetProductsByCategorySpy()
-  const sut = new GetProductsByCategoryController(getProductsByCategorySpy)
+  const sut = new GetProductsByCategoryController(validationSpy, getProductsByCategorySpy)
   return {
     sut,
+    validationSpy,
     getProductsByCategorySpy
   }
 }
@@ -32,6 +35,13 @@ const mockRequestWithPageAndLimit = (): GetProductsByCategoryController.Request 
 })
 
 describe('GetProductsByCategoryController', () => {
+  test('Should call Validation with correct values', async() => {
+    const { sut, validationSpy } = makeSut()
+    const request = mockRequestWithoutPageAndLimit()
+    await sut.handle(request)
+    expect(validationSpy.input).toEqual(request)
+  })
+
   test('Should call GetProductsByCategory with correct values without page and limit', async() => {
     const { sut, getProductsByCategorySpy } = makeSut()
     jest.spyOn(getProductsByCategorySpy, 'getByCategory')
