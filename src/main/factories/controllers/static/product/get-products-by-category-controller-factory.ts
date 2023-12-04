@@ -3,7 +3,9 @@ import { makeDbGetProductsByCategory } from '@/main/factories/usecases/static/pr
 import { type Controller } from '@/presentation/protocols'
 import { GetProductsByCategoryController } from '@/presentation/controllers/static/product'
 
-export const makeGetProductsByCategoryController = (): Controller => {
-  const controller = new GetProductsByCategoryController(makeDbGetProductsByCategory())
-  return makeLogControllerDecorator(controller)
+export class GetProductsByCategoryControllerFactory {
+  public static makeGetProductsByCategoryController = (): Controller => {
+    const controller = new GetProductsByCategoryController(makeDbGetProductsByCategory())
+    return makeLogControllerDecorator(controller)
+  }
 }
