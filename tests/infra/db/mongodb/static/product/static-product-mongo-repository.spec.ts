@@ -138,5 +138,23 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getWithDiscount()
       expect(products.length).toBe(0)
     })
+
+    test('Should return all products with discount on success', async() => {
+      const mockProductWithNoDiscount = { ...mockAddProductInput(), discountPercentage: 0 }
+      const mockProductWithDiscount = { ...mockAddProductInput(), discountPercentage: 50 }
+      const addProductsInput = [mockProductWithNoDiscount, mockProductWithDiscount]
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getWithDiscount()
+      expect(products.length).toBe(1)
+      expect(products[0].id).toBeTruthy()
+      expect(products[0].name).toBe(mockProductWithDiscount.name)
+      expect(products[0].description).toBe(mockProductWithDiscount.description)
+      expect(products[0].price).toBe(mockProductWithDiscount.price)
+      expect(products[0].discountPercentage).toBe(mockProductWithDiscount.discountPercentage)
+      expect(products[0].category).toBe(mockProductWithDiscount.category)
+      expect(products[0].imageUrls).toEqual(mockProductWithDiscount.imageUrls)
+      expect(products[0].quantity).toBe(mockProductWithDiscount.quantity)
+    })
   })
 })
