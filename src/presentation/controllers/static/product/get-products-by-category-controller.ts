@@ -13,10 +13,10 @@ export class GetProductsByCategoryController implements Controller {
   public handle = async(request: GetProductsByCategoryController.Request): Promise<Response> => {
     try {
       this.validation.validate(request)
-      const { category } = request
+      const { category, sortBy } = request
       const page = Number(request.page) || DEFAULT_PAGE
       const limit = Number(request.limit) || DEFAULT_LIMIT
-      const products = await this.getProductsByCategory.getByCategory(category, page, limit)
+      const products = await this.getProductsByCategory.getByCategory(category, page, limit, sortBy)
       return HttpHelper.ok(products)
     } catch (error) {
       if (error instanceof ValidationError) {
