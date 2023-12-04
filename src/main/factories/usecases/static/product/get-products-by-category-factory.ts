@@ -3,8 +3,10 @@ import { DbGetProductsByCategory } from '@/application/usecases/static/product'
 import { StaticCategoryMongoRepository } from '@/infra/db/mongodb/static/category'
 import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 
-export const makeDbGetProductsByCategory = (): GetProductsByCategory => {
-  const staticCategoryMongoRepository = new StaticCategoryMongoRepository()
-  const staticProductMongoRepository = new StaticProductMongoRepository()
-  return new DbGetProductsByCategory(staticCategoryMongoRepository, staticProductMongoRepository)
+export class GetProductsByCategoryFactory {
+  public static makeGetProductsByCategory = (): GetProductsByCategory => {
+    const staticCategoryMongoRepository = new StaticCategoryMongoRepository()
+    const staticProductMongoRepository = new StaticProductMongoRepository()
+    return new DbGetProductsByCategory(staticCategoryMongoRepository, staticProductMongoRepository)
+  }
 }
