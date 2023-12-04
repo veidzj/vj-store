@@ -2,7 +2,7 @@ import { type Controller, type Validation, type Response } from '@/presentation/
 import { HttpHelper } from '@/presentation/helpers'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
 import { type GetProductsByCategory } from '@/domain/usecases/static/product'
-import { CategoryError } from '@/domain/errors'
+import { CategoryError, ValidationError } from '@/domain/errors'
 
 export class GetProductsByCategoryController implements Controller {
   constructor(
@@ -19,6 +19,9 @@ export class GetProductsByCategoryController implements Controller {
       const products = await this.getProductsByCategory.getByCategory(category, page, limit)
       return HttpHelper.ok(products)
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return HttpHelper.badRequest(error)
+      }
       if (error instanceof CategoryError) {
         return HttpHelper.badRequest(error)
       }
