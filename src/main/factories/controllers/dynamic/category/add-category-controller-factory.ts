@@ -4,7 +4,9 @@ import { makeDbAddCategory } from '@/main/factories/usecases/dynamic/category'
 import { type Controller } from '@/presentation/protocols'
 import { AddCategoryController } from '@/presentation/controllers/dynamic/category'
 
-export const makeAddCategoryController = (): Controller => {
-  const controller = new AddCategoryController(makeAddCategoryValidation(), makeDbAddCategory())
-  return makeLogControllerDecorator(controller)
+export class AddCategoryControllerFactory {
+  public static makeAddCategoryController = (): Controller => {
+    const controller = new AddCategoryController(makeAddCategoryValidation(), makeDbAddCategory())
+    return makeLogControllerDecorator(controller)
+  }
 }
