@@ -5,7 +5,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { GetProductsByCategoryController } from '@/presentation/controllers/static/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
-import { CategoryError } from '@/domain/errors'
+import { CategoryError, ValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: GetProductsByCategoryController
@@ -40,6 +40,17 @@ describe('GetProductsByCategoryController', () => {
     const request = mockRequestWithoutPageAndLimit()
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request)
+  })
+
+  test('Should return badRequest if Validation throws an error', async() => {
+    const { sut, validationSpy } = makeSut()
+    const errorMessage = faker.word.words()
+    validationSpy.validate = jest.fn(() => {
+      throw new ValidationError(errorMessage)
+    })
+    const request = mockRequestWithoutPageAndLimit()
+    const response = await sut.handle(request)
+    expect(response).toEqual(HttpHelper.badRequest(new ValidationError(errorMessage)))
   })
 
   test('Should call GetProductsByCategory with correct values without page and limit', async() => {
