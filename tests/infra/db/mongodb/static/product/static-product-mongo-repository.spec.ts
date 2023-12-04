@@ -92,6 +92,20 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getByCategory(commonCategory)
       expect(products.length).toBe(25)
     })
+
+    test('Should return only the limit of products if pagination is provided', async() => {
+      const commonCategory = mockAddProductInput().category
+
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, category: commonCategory }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getByCategory(commonCategory, 1, 5)
+      expect(products.length).toBe(5)
+    })
   })
 
   describe('getBySlug', () => {
