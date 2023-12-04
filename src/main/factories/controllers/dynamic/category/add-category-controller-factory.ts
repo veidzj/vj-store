@@ -1,4 +1,4 @@
-import { makeLogControllerDecorator } from '@/main/factories/decorators/log'
+import { LogControllerDecoratorFactory } from '@/main/factories/decorators/log'
 import { makeAddCategoryValidation } from '@/main/factories/validations/category'
 import { makeDbAddCategory } from '@/main/factories/usecases/dynamic/category'
 import { type Controller } from '@/presentation/protocols'
@@ -7,6 +7,6 @@ import { AddCategoryController } from '@/presentation/controllers/dynamic/catego
 export class AddCategoryControllerFactory {
   public static makeAddCategoryController = (): Controller => {
     const controller = new AddCategoryController(makeAddCategoryValidation(), makeDbAddCategory())
-    return makeLogControllerDecorator(controller)
+    return LogControllerDecoratorFactory.makeLogControllerDecorator(controller)
   }
 }

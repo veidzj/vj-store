@@ -1,4 +1,4 @@
-import { makeLogControllerDecorator } from '@/main/factories/decorators/log'
+import { LogControllerDecoratorFactory } from '@/main/factories/decorators/log'
 import { makeDbGetProductsByCategory } from '@/main/factories/usecases/static/product'
 import { type Controller } from '@/presentation/protocols'
 import { GetProductsByCategoryController } from '@/presentation/controllers/static/product'
@@ -6,6 +6,6 @@ import { GetProductsByCategoryController } from '@/presentation/controllers/stat
 export class GetProductsByCategoryControllerFactory {
   public static makeGetProductsByCategoryController = (): Controller => {
     const controller = new GetProductsByCategoryController(makeDbGetProductsByCategory())
-    return makeLogControllerDecorator(controller)
+    return LogControllerDecoratorFactory.makeLogControllerDecorator(controller)
   }
 }
