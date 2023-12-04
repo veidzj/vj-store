@@ -1,7 +1,8 @@
 import { type Router } from 'express'
 
 import { adaptRoute } from '@/main/adapters'
-import { makeAddProductController, makeUpdateProductController, makeGetProductBySlugController, makeGetProductsByCategoryController } from '@/main/factories/controllers/product'
+import { makeAddProductController, makeUpdateProductController } from '@/main/factories/controllers/dynamic/product'
+import { makeGetProductBySlugController, makeGetProductsByCategoryController } from '@/main/factories/controllers/static/product'
 import { adminAuth } from '@/main/middlewares/auth'
 
 export default (router: Router): void => {
