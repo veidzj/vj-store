@@ -2,7 +2,7 @@ import { type Express } from 'express'
 import { faker } from '@faker-js/faker'
 import request from 'supertest'
 
-import { setupApp } from '@/main/config'
+import { App } from '@/main/config'
 
 const route: string = '/test_body_parser'
 const data = {
@@ -13,7 +13,7 @@ let app: Express
 
 describe('BodyParser Middleware', () => {
   beforeAll(async() => {
-    app = await setupApp()
+    app = await App.setup()
   })
 
   test('Should parse body as json', async() => {

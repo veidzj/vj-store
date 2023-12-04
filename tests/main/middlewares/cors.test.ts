@@ -1,7 +1,7 @@
 import { type Express } from 'express'
 import request from 'supertest'
 
-import { setupApp } from '@/main/config'
+import { App } from '@/main/config'
 
 const route: string = '/test_cors'
 
@@ -9,7 +9,7 @@ let app: Express
 
 describe('CORS Middleware', () => {
   beforeAll(async() => {
-    app = await setupApp()
+    app = await App.setup()
   })
 
   test('Should enable CORS', async() => {

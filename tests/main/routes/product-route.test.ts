@@ -1,9 +1,10 @@
 import { type Express } from 'express'
 import { type Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
+import { faker } from '@faker-js/faker'
 import request from 'supertest'
 
-import { setupApp } from '@/main/config/app'
+import { App } from '@/main/config/app'
 import { env } from '@/main/config'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { mockAddProductInput, mockProduct } from '@/tests/domain/mocks'
@@ -18,9 +19,9 @@ let app: Express
 
 const mockAccessToken = async(): Promise<string> => {
   const res = await accountCollection.insertOne({
-    username: 'valid_username',
-    email: 'valid_email@mail.com',
-    password: 'valid_password',
+    username: faker.person.firstName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
     role: 'admin'
   })
   const id = res.insertedId.toHexString()
@@ -34,7 +35,7 @@ const mockAccessToken = async(): Promise<string> => {
 
 describe('Product Routes', () => {
   beforeAll(async() => {
-    app = await setupApp()
+    app = await App.setup()
     await MongoHelper.connect(env.mongoUrl)
   })
 
