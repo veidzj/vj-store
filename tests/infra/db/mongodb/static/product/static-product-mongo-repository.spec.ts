@@ -124,4 +124,13 @@ describe('StaticProductMongoRepository', () => {
       expect(product?.quantity).toBe(addProductInput.quantity)
     })
   })
+
+  describe('getWithDiscount', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+      const promise = sut.getWithDiscount()
+      await expect(promise).rejects.toThrow()
+    })
+  })
 })
