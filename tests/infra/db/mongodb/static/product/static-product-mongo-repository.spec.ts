@@ -168,5 +168,17 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getWithDiscount()
       expect(products.length).toBe(25)
     })
+
+    test('Should return only the limit of products if pagination is provided', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, discountPercentage: 50 }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getWithDiscount(1, 5)
+      expect(products.length).toBe(5)
+    })
   })
 })
