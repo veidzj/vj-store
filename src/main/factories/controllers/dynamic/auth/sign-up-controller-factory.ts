@@ -5,7 +5,9 @@ import { makeLogControllerDecorator } from '@/main/factories/decorators/log'
 import { type Controller } from '@/presentation/protocols'
 import { SignUpController } from '@/presentation/controllers/dynamic/auth'
 
-export const makeSignUpController = (): Controller => {
-  const controller = new SignUpController(makeSignUpValidation(), makeDbAddAccount(), makeDbAuthentication())
-  return makeLogControllerDecorator(controller)
+export class SignUpControllerFactory {
+  public static makeSignUpController = (): Controller => {
+    const controller = new SignUpController(makeSignUpValidation(), makeDbAddAccount(), makeDbAuthentication())
+    return makeLogControllerDecorator(controller)
+  }
 }
