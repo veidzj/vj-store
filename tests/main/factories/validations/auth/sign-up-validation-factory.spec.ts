@@ -5,7 +5,7 @@ import { UsernameValidation, EmailValidation, PasswordValidation } from '@/valid
 
 jest.mock('@/validation/validators/validation-composite')
 
-describe('SignUpValidation Factory', () => {
+describe('SignUpValidationFactory', () => {
   test('Should call ValidationComposite with all validations', () => {
     SignUpValidationFactory.makeSignUpValidation()
 

@@ -5,7 +5,7 @@ import { EmailValidation } from '@/validation/validators/auth'
 
 jest.mock('@/validation/validators/validation-composite')
 
-describe('SignInValidation Factory', () => {
+describe('SignInValidationFactory', () => {
   test('Should call ValidationComposite with all validations', () => {
     SignInValidationFactory.makeSignInValidation()
     const validations: Validation[] = []

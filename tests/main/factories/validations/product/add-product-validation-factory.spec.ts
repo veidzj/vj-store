@@ -5,7 +5,7 @@ import { DiscountValidation } from '@/validation/validators/product'
 
 jest.mock('@/validation/validators/validation-composite')
 
-describe('AddProductValidation Factory', () => {
+describe('AddProductValidationFactory', () => {
   test('Should call ValidationComposite with all validations', () => {
     AddProductValidationFactory.makeAddProductValidation()
 

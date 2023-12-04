@@ -4,7 +4,7 @@ import { ValidationComposite, RequiredFieldValidation } from '@/validation/valid
 
 jest.mock('@/validation/validators/validation-composite')
 
-describe('AddCategoryValidation Factory', () => {
+describe('AddCategoryValidationFactory', () => {
   test('Should call ValidationComposite with all validations', () => {
     AddCategoryValidationFactory.makeAddCategoryValidation()
 
