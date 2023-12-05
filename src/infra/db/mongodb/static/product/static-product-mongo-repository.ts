@@ -25,6 +25,9 @@ export class StaticProductMongoRepository implements
       case 'latest':
         sortCriteria = { addedAt: 'desc' }
         break
+      case 'discount':
+        sortCriteria = { discountPercentage: 'desc' }
+        break
     }
 
     const products = await productCollection
