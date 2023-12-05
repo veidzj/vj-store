@@ -93,6 +93,22 @@ describe('StaticProductMongoRepository', () => {
       expect(products.length).toBe(25)
     })
 
+    test('Should return all products ordered by `latest`', async() => {
+      const commonCategory = mockAddProductInput().category
+
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, category: commonCategory, addedAt: faker.date.anytime() }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getByCategory(commonCategory, 1, 25, 'latest')
+      for (let i = 0; i < products.length - 1; i++) {
+        expect(products[i].addedAt.getTime()).toBeGreaterThanOrEqual(products[i + 1].addedAt.getTime())
+      }
+    })
+
     test('Should return only the limit of products if pagination is provided', async() => {
       const commonCategory = mockAddProductInput().category
 
