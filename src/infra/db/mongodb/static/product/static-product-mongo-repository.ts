@@ -16,9 +16,17 @@ export class StaticProductMongoRepository implements
     return product !== null
   }
 
-  public getByCategory = async(category: string, page: number = 1, limit: number = 25): Promise<GetProductsByCategoryRepository.Output> => {
+  public getByCategory = async(category: string, page: number = 1, limit: number = 25, sortBy?: string): Promise<GetProductsByCategoryRepository.Output> => {
     const productCollection = MongoHelper.getCollection('products')
     const skip = (page - 1) * limit
+
+    let sortCriteria = {}
+    switch (sortBy) {
+      case 'latest':
+        sortCriteria = { addedAt: 'desc' }
+        break
+    }
+
     const products = await productCollection
       .find({
         category: {
@@ -27,11 +35,11 @@ export class StaticProductMongoRepository implements
         }
       }, {
         projection: {
-          addedAt: 0,
           updatedAt: 0
         }
       }
       )
+      .sort(sortCriteria)
       .skip(skip)
       .limit(limit)
       .toArray()

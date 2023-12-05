@@ -8,4 +8,5 @@ export interface Product {
   imageUrls: string[]
   quantity: number
   slug: string
+  addedAt: Date
 }
