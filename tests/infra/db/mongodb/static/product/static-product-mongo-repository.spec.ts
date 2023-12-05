@@ -109,6 +109,22 @@ describe('StaticProductMongoRepository', () => {
       }
     })
 
+    test('Should return all products ordered by `discount`', async() => {
+      const commonCategory = mockAddProductInput().category
+
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, category: commonCategory }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getByCategory(commonCategory, 1, 25, 'discount')
+      for (let i = 0; i < products.length - 1; i++) {
+        expect(products[i].discountPercentage).toBeGreaterThanOrEqual(products[i + 1].discountPercentage)
+      }
+    })
+
     test('Should return only the limit of products if pagination is provided', async() => {
       const commonCategory = mockAddProductInput().category
 
