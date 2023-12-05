@@ -7,6 +7,7 @@ import { CategoryNotFoundError } from '@/application/errors/category'
 const category: string = faker.word.words()
 const page: number = faker.number.int()
 const limit: number = faker.number.int()
+const sortBy: string = faker.word.words()
 
 interface Sut {
   sut: DbGetProductsByCategory
@@ -40,11 +41,11 @@ describe('DbGetProductsByCategory', () => {
     await expect(promise).rejects.toThrow(new CategoryNotFoundError())
   })
 
-  test('Should call GetProductsByCategoryRepository with correct category', async() => {
+  test('Should call GetProductsByCategoryRepository with correct values', async() => {
     const { sut, getProductsByCategoryRepositorySpy } = makeSut()
     jest.spyOn(getProductsByCategoryRepositorySpy, 'getByCategory')
-    await sut.getByCategory(category, page, limit)
-    expect(getProductsByCategoryRepositorySpy.getByCategory).toHaveBeenCalledWith(category, page, limit)
+    await sut.getByCategory(category, page, limit, sortBy)
+    expect(getProductsByCategoryRepositorySpy.getByCategory).toHaveBeenCalledWith(category, page, limit, sortBy)
   })
 
   test('Should return all products on success', async() => {
