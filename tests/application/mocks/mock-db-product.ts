@@ -1,6 +1,6 @@
 import { mockProduct, mockProducts } from '@/tests/domain/mocks'
 import { type UpdateProductRepository, type AddProductRepository } from '@/application/protocols/db/dynamic/product'
-import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository, type GetProductsWithDiscountRepository } from '@/application/protocols/db/static/product'
+import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository, type GetProductsWithDiscountRepository, type GetLatestProductsRepository } from '@/application/protocols/db/static/product'
 
 export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository {
   public id: string
@@ -36,6 +36,14 @@ export class GetProductsWithDiscountRepositorySpy implements GetProductsWithDisc
   public output: GetProductsWithDiscountRepository.Output = mockProducts()
 
   public getWithDiscount = async(): Promise<GetProductsWithDiscountRepository.Output> => {
+    return this.output
+  }
+}
+
+export class GetLatestProductsRepositorySpy implements GetLatestProductsRepository {
+  public output: GetProductsWithDiscountRepository.Output = mockProducts()
+
+  public getLatest = async(): Promise<GetProductsWithDiscountRepository.Output> => {
     return this.output
   }
 }
