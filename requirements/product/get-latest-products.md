@@ -1,8 +1,8 @@
-# Get Latest Product
+# Get Latest Products
 
 > ## Success case:
 1. ✅ Receives a **GET** type request in the **/api/product/latest** route
-2. ✅ Recieves optional pagination **page** and **limit**
+2. ✅ Receives optional pagination **page** and **limit**
 3. ✅ Returns 200 with all latest products
 
 > ## Exceptions:
