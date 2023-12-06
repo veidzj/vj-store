@@ -238,4 +238,13 @@ describe('StaticProductMongoRepository', () => {
       expect(products[0].discountPercentage).toBeGreaterThan(products[1].discountPercentage)
     })
   })
+
+  describe('getLatest', () => {
+    test('Should throw if mongo throws', async() => {
+      const sut = makeSut()
+      jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+      const promise = sut.getLatest()
+      await expect(promise).rejects.toThrow()
+    })
+  })
 })
