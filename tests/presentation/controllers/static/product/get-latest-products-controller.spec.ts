@@ -49,4 +49,10 @@ describe('GetLatestProductsController', () => {
     const response = await sut.handle(mockRequestWithPagination())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getLatestProductsSpy } = makeSut()
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.ok(getLatestProductsSpy.products))
+  })
 })
