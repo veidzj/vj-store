@@ -246,5 +246,11 @@ describe('StaticProductMongoRepository', () => {
       const promise = sut.getLatest()
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should return an empty list if there are no products', async() => {
+      const sut = makeSut()
+      const products = await sut.getLatest()
+      expect(products.length).toBe(0)
+    })
   })
 })
