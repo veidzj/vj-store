@@ -6,4 +6,4 @@
 3. ✅ Returns 200 with all products with discount
 
 > ## Exceptions:
-1. ✅ Returns error 500 if there is an error when trying to get latest products
+1. ✅ Returns error 500 if there is an error when trying to get products with discount
