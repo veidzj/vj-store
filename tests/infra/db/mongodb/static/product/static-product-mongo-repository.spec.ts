@@ -252,5 +252,19 @@ describe('StaticProductMongoRepository', () => {
       const products = await sut.getLatest()
       expect(products.length).toBe(0)
     })
+
+    test('Should return products ordered by most recent', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => {
+        const addProductInput = mockAddProductInput()
+        return { ...addProductInput, addedAt: faker.date.anytime() }
+      })
+
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getLatest()
+      for (let i = 0; i < products.length - 1; i++) {
+        expect(products[i].addedAt.getTime()).toBeGreaterThanOrEqual(products[i + 1].addedAt.getTime())
+      }
+    })
   })
 })
