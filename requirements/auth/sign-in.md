@@ -10,9 +10,9 @@
 7. ✅ Returns 200 with username and access token
 
 > ## Exceptions:
-1. ✅ Returns 404 error if the API does not exist
 2. ✅ Returns error 400 if **email** or **password** are not provided by the client
 3. ✅ Returns error 400 if the **email** field is an invalid email
-4. ✅ Returns 401 error if it does not find a user with the provided data
+4. ✅ Returns error 401 if it does not find a user with the provided data
+4. ✅ Returns error 401 if invalid credentials are provided
 5. ✅ Returns error 500 if there is an error when trying to generate the access token
 6. ✅ Returns error 500 if there is an error when trying to update the user with the generated access token
