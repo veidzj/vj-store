@@ -261,6 +261,14 @@ describe('StaticProductMongoRepository', () => {
       expect(products.length).toBe(25)
     })
 
+    test('Should return only the limit of products if pagination is provided', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getLatest(1, 5)
+      expect(products.length).toBe(5)
+    })
+
     test('Should return all products ordered by most recent', async() => {
       const addProductsInput = Array.from({ length: 30 }, () => {
         const addProductInput = mockAddProductInput()
