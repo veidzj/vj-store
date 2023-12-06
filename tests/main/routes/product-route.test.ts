@@ -119,4 +119,13 @@ describe('Product Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /product/latest', () => {
+    test('Should return 200 on success', async() => {
+      await productCollection.insertMany(mockProducts())
+      await request(app)
+        .get(`${productRoute}/latest`)
+        .expect(200)
+    })
+  })
 })
