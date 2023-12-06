@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { GetLatestProductsRepositorySpy } from '@/tests/application/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { DbGetLatestProducts } from '@/application/usecases/static/product'
 
 const page: number = faker.number.int()
@@ -26,5 +27,12 @@ describe('DbGetLatestProducts', () => {
     jest.spyOn(getLatestProductsRepositorySpy, 'getLatest')
     await sut.getLatest(page, limit)
     expect(getLatestProductsRepositorySpy.getLatest).toHaveBeenCalledWith(page, limit)
+  })
+
+  test('Should throw if GetLatestProductsRepository throws', async() => {
+    const { sut, getLatestProductsRepositorySpy } = makeSut()
+    jest.spyOn(getLatestProductsRepositorySpy, 'getLatest').mockImplementationOnce(throwError)
+    const promise = sut.getLatest(page, limit)
+    await expect(promise).rejects.toThrow()
   })
 })
