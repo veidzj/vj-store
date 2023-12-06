@@ -6,6 +6,18 @@ import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { env } from '@/main/config'
 
+const defaultLength: number = 30
+const randomCategory: string = faker.word.words()
+const randomDate: Date = faker.date.anytime()
+const defaultPage: number = 1
+const defaultLimit: number = 25
+const randomLimit: number = faker.number.int({ min: 5, max: 25 })
+const latest: string = 'latest'
+const discount: string = 'discount'
+const noDiscount: number = 0
+const lessDiscount: number = 25
+const moreDiscount: number = 50
+
 let productCollection: Collection
 
 const makeSut = (): StaticProductMongoRepository => {
@@ -53,13 +65,13 @@ describe('StaticProductMongoRepository', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
-      const promise = sut.getByCategory(faker.word.words())
+      const promise = sut.getByCategory(randomCategory)
       await expect(promise).rejects.toThrow()
     })
 
     test('Should return an empty list if there are no products', async() => {
       const sut = makeSut()
-      const products = await sut.getByCategory(faker.word.words())
+      const products = await sut.getByCategory(randomCategory)
       expect(products.length).toBe(0)
     })
 
@@ -81,29 +93,25 @@ describe('StaticProductMongoRepository', () => {
 
     test('Should return only the first 25 products if there are more than 25 on database', async() => {
       const commonCategory = mockAddProductInput().category
-
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
         return { ...addProductInput, category: commonCategory }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getByCategory(commonCategory)
-      expect(products.length).toBe(25)
+      expect(products.length).toBe(defaultLimit)
     })
 
     test('Should return all products ordered by `latest`', async() => {
       const commonCategory = mockAddProductInput().category
-
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
-        return { ...addProductInput, category: commonCategory, addedAt: faker.date.anytime() }
+        return { ...addProductInput, category: commonCategory, addedAt: randomDate }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
-      const products = await sut.getByCategory(commonCategory, 1, 25, 'latest')
+      const products = await sut.getByCategory(commonCategory, defaultPage, defaultLimit, latest)
       for (let i = 0; i < products.length - 1; i++) {
         expect(products[i].addedAt.getTime()).toBeGreaterThanOrEqual(products[i + 1].addedAt.getTime())
       }
@@ -111,15 +119,13 @@ describe('StaticProductMongoRepository', () => {
 
     test('Should return all products ordered by `discount`', async() => {
       const commonCategory = mockAddProductInput().category
-
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
         return { ...addProductInput, category: commonCategory }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
-      const products = await sut.getByCategory(commonCategory, 1, 25, 'discount')
+      const products = await sut.getByCategory(commonCategory, defaultPage, defaultLimit, discount)
       for (let i = 0; i < products.length - 1; i++) {
         expect(products[i].discountPercentage).toBeGreaterThanOrEqual(products[i + 1].discountPercentage)
       }
@@ -127,12 +133,10 @@ describe('StaticProductMongoRepository', () => {
 
     test('Should return only the limit of products if pagination is provided', async() => {
       const commonCategory = mockAddProductInput().category
-
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
         return { ...addProductInput, category: commonCategory }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getByCategory(commonCategory, 1, 5)
@@ -186,8 +190,8 @@ describe('StaticProductMongoRepository', () => {
     })
 
     test('Should return all products with discount on success', async() => {
-      const mockProductWithNoDiscount = { ...mockAddProductInput(), discountPercentage: 0 }
-      const mockProductWithDiscount = { ...mockAddProductInput(), discountPercentage: 50 }
+      const mockProductWithNoDiscount = { ...mockAddProductInput(), discountPercentage: noDiscount }
+      const mockProductWithDiscount = { ...mockAddProductInput(), discountPercentage: moreDiscount }
       const addProductsInput = [mockProductWithNoDiscount, mockProductWithDiscount]
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
@@ -204,23 +208,21 @@ describe('StaticProductMongoRepository', () => {
     })
 
     test('Should return only the first 25 products if there are more than 25 on database', async() => {
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
-        return { ...addProductInput, discountPercentage: 50 }
+        return { ...addProductInput, discountPercentage: moreDiscount }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getWithDiscount()
-      expect(products.length).toBe(25)
+      expect(products.length).toBe(defaultLimit)
     })
 
     test('Should return only the limit of products if pagination is provided', async() => {
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
-        return { ...addProductInput, discountPercentage: 50 }
+        return { ...addProductInput, discountPercentage: moreDiscount }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getWithDiscount(1, 5)
@@ -228,8 +230,8 @@ describe('StaticProductMongoRepository', () => {
     })
 
     test('Should return products ordered by most discount percentage', async() => {
-      const mockProductWithLess = { ...mockAddProductInput(), discountPercentage: 20 }
-      const mockProductWithMoreDiscount = { ...mockAddProductInput(), discountPercentage: 50 }
+      const mockProductWithLess = { ...mockAddProductInput(), discountPercentage: lessDiscount }
+      const mockProductWithMoreDiscount = { ...mockAddProductInput(), discountPercentage: moreDiscount }
       const addProductsInput = [mockProductWithLess, mockProductWithMoreDiscount]
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
@@ -254,27 +256,26 @@ describe('StaticProductMongoRepository', () => {
     })
 
     test('Should return only the first 25 products if there are more than 25 on database', async() => {
-      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      const addProductsInput = Array.from({ length: defaultLength }, () => mockAddProductInput())
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getLatest()
-      expect(products.length).toBe(25)
+      expect(products.length).toBe(defaultLimit)
     })
 
     test('Should return only the limit of products if pagination is provided', async() => {
-      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      const addProductsInput = Array.from({ length: defaultLength }, () => mockAddProductInput())
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
-      const products = await sut.getLatest(1, 5)
-      expect(products.length).toBe(5)
+      const products = await sut.getLatest(defaultPage, randomLimit)
+      expect(products.length).toBe(randomLimit)
     })
 
     test('Should return all products ordered by most recent', async() => {
-      const addProductsInput = Array.from({ length: 30 }, () => {
+      const addProductsInput = Array.from({ length: defaultLength }, () => {
         const addProductInput = mockAddProductInput()
-        return { ...addProductInput, addedAt: faker.date.anytime() }
+        return { ...addProductInput, addedAt: randomDate }
       })
-
       await productCollection.insertMany(addProductsInput)
       const sut = makeSut()
       const products = await sut.getLatest()
