@@ -4,8 +4,8 @@
 1. ✅ Receives a **POST** type request in the **/api/product** route
 2. ✅ Validates required data **name**, **description**, **price**, **discountPercentage**, **category**, **ImageUrls** and **quantity**
 3. ✅ Add **addedDate** when adding the product
-3. ✅ Generate **slug** when adding the product
-3. ✅ Returns 200 with success message
+4. ✅ Generate **slug** when adding the product
+5. ✅ Returns 200 with success message
 
 > ## Exceptions:
 1. ✅ Returns error 400 if **name**, **description**, **price**, **discountPercentage**, **category**, **ImageUrls** or **quantity** are not provided
