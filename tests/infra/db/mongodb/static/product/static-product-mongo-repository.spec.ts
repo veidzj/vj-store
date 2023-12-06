@@ -253,7 +253,15 @@ describe('StaticProductMongoRepository', () => {
       expect(products.length).toBe(0)
     })
 
-    test('Should return products ordered by most recent', async() => {
+    test('Should return only the first 25 products if there are more than 25 on database', async() => {
+      const addProductsInput = Array.from({ length: 30 }, () => mockAddProductInput())
+      await productCollection.insertMany(addProductsInput)
+      const sut = makeSut()
+      const products = await sut.getLatest()
+      expect(products.length).toBe(25)
+    })
+
+    test('Should return all products ordered by most recent', async() => {
       const addProductsInput = Array.from({ length: 30 }, () => {
         const addProductInput = mockAddProductInput()
         return { ...addProductInput, addedAt: faker.date.anytime() }
