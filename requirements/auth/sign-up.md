@@ -15,14 +15,13 @@
 12. ✅ Returns 200 with username and access token
 
 > ## Exceptions:
-1. ✅ Returns 404 error if the API does not exist
-2. ✅ Returns error 400 if **username**, **email**, **password** or **passwordConfirmation** are not provided
-3. ✅ Returns error 400 if the **username** field is an invalid username
-4. ✅ Returns error 400 if the **email** field is an invalid email
-5. ✅ Returns error 400 if the **password** field is an invalid password
-6. ✅ Returns error 400 if **password** and **passwordConfirmation** are not equal
-7. ✅ Returns 403 error if provided email is already in use
-8. ✅ Returns error 500 if there is an error when trying to generate an encrypted password
-9. ✅ Returns error 500 if there is an error when trying to create the user account
-10. ✅ Returns error 500 if there is an error when trying to generate the access token
-11 ✅ Returns error 500 if there is an error when trying to update the user with the generated access token
+1. ✅ Returns error 400 if **username**, **email**, **password** or **passwordConfirmation** are not provided
+2. ✅ Returns error 400 if the **username** field is an invalid username
+3. ✅ Returns error 400 if the **email** field is an invalid email
+4. ✅ Returns error 400 if the **password** field is an invalid password
+5. ✅ Returns error 400 if **password** and **passwordConfirmation** are not equal
+6. ✅ Returns 401 error if provided email is already in use
+7. ✅ Returns error 500 if there is an error when trying to generate an encrypted password
+8. ✅ Returns error 500 if there is an error when trying to create the user account
+9. ✅ Returns error 500 if there is an error when trying to generate the access token
+10. ✅ Returns error 500 if there is an error when trying to update the user with the generated access token
