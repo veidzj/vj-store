@@ -1,13 +1,14 @@
 import { ObjectId } from 'mongodb'
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
-import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository, type GetProductsWithDiscountRepository } from '@/application/protocols/db/static/product'
+import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository, type GetProductsWithDiscountRepository, type GetLatestProductsRepository } from '@/application/protocols/db/static/product'
 
 export class StaticProductMongoRepository implements
   CheckProductByIdRepository,
   GetProductsByCategoryRepository,
   GetProductBySlugRepository,
-  GetProductsWithDiscountRepository {
+  GetProductsWithDiscountRepository,
+  GetLatestProductsRepository {
   public checkById = async(id: string): Promise<boolean> => {
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({
@@ -70,12 +71,28 @@ export class StaticProductMongoRepository implements
         }
       }, {
         projection: {
-          addedAt: 0,
           updatedAt: 0
         }
       }
       )
       .sort({ discountPercentage: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+    return MongoHelper.mapCollection(products)
+  }
+
+  public getLatest = async(page: number = 1, limit: number = 25): Promise<GetLatestProductsRepository.Output> => {
+    const productCollection = MongoHelper.getCollection('products')
+    const skip = (page - 1) * limit
+    const products = await productCollection
+      .find({}, {
+        projection: {
+          updatedAt: 0
+        }
+      }
+      )
+      .sort({ addedAt: 'desc' })
       .skip(skip)
       .limit(limit)
       .toArray()
