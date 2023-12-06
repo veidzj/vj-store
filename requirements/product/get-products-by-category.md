@@ -3,7 +3,7 @@
 > ## Success case:
 1. ✅ Receives a **GET** type request in the **/api/product/category/:category** route
 2. ✅ Validate required data **category**
-2. ✅ Receives optional pagination **page** and **limit** query
+2. ✅ Receives optional pagination **page** and **limit** queries
 2. ✅ Receives optional sort **sortBy** query
 3. ✅ Returns 200 with all products from a given category
 
