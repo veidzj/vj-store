@@ -1,15 +1,8 @@
-export const productByCategoryPath = {
+export const getProductsWithDiscountPath = {
   get: {
     tags: ['Product'],
-    summary: 'List all products by category',
+    summary: 'List all products with discount',
     parameters: [{
-      in: 'path',
-      name: 'categoryName',
-      required: true,
-      schema: {
-        type: 'string'
-      }
-    }, {
       in: 'query',
       name: 'page',
       required: false,
@@ -19,13 +12,6 @@ export const productByCategoryPath = {
     }, {
       in: 'query',
       name: 'limit',
-      required: false,
-      schema: {
-        type: 'string'
-      }
-    }, {
-      in: 'query',
-      name: 'sortBy',
       required: false,
       schema: {
         type: 'string'
@@ -41,9 +27,6 @@ export const productByCategoryPath = {
             }
           }
         }
-      },
-      400: {
-        $ref: '#/components/badRequest'
       },
       500: {
         $ref: '#/components/serverError'

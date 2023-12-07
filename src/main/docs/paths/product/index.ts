@@ -1,2 +1,2 @@
-export * from './product-by-category-path'
-export * from './products-with-discount-path'
+export * from './get-products-by-category-path'
+export * from './get-products-with-discount-path'
