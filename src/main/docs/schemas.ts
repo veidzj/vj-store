@@ -1,5 +1,5 @@
 import { signUpInputSchema, signInInputSchema, accountSchema } from '@/main/docs/schemas/auth'
-import { categorySchema, categoriesSchema } from '@/main/docs/schemas/category'
+import { categorySchema, categoriesSchema, addCategoryInputSchema } from '@/main/docs/schemas/category'
 import { errorSchema } from './schemas/error-schema'
 
 export default {
@@ -8,5 +8,6 @@ export default {
   account: accountSchema,
   error: errorSchema,
   category: categorySchema,
-  categories: categoriesSchema
+  categories: categoriesSchema,
+  addCategoryInput: addCategoryInputSchema
 }
