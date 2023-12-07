@@ -1,12 +1,11 @@
 import express, { type Express } from 'express'
 
-import { Middlewares, Routes } from '@/main/config'
-import setupSwagger from '@/main/config/swagger'
+import { Swagger, Middlewares, Routes } from '@/main/config'
 
 export class App {
   public static setup = async(): Promise<Express> => {
     const app = express()
-    setupSwagger(app)
+    Swagger.setup(app)
     Middlewares.setup(app)
     Routes.setup(app)
     return app
