@@ -54,6 +54,10 @@ export class StaticProductMongoRepository implements
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({
       slug
+    }, {
+      projection: {
+        updatedAt: 0
+      }
     })
     if (!product) {
       return null
