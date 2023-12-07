@@ -1,6 +1,6 @@
 import { signUpInputSchema, signInInputSchema, accountSchema } from '@/main/docs/schemas/auth'
 import { categorySchema, categoriesSchema, addCategoryInputSchema } from '@/main/docs/schemas/category'
-import { productSchema, productsSchema } from '@/main/docs/schemas/product'
+import { productSchema, productsSchema, updateProductInputSchema } from '@/main/docs/schemas/product'
 import { errorSchema } from './schemas/error-schema'
 
 export default {
@@ -12,5 +12,6 @@ export default {
   categories: categoriesSchema,
   addCategoryInput: addCategoryInputSchema,
   product: productSchema,
-  products: productsSchema
+  products: productsSchema,
+  updateProductInput: updateProductInputSchema
 }
