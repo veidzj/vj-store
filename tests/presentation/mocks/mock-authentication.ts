@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { type AddAccount, type Authentication, type GetAccountByToken } from '@/domain/usecases/auth'
+
+import { type Account } from '@/domain/models'
+import { type AddAccount } from '@/domain/usecases/dynamic/auth'
+import { type Authentication, type GetAccountByToken } from '@/domain/usecases/static/auth'
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
@@ -11,14 +14,14 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
-  public output: Authentication.Output = {
+  public account: Account = {
     username: faker.person.firstName(),
     accessToken: faker.string.uuid()
   }
 
-  public auth = async(input: Authentication.Input): Promise<Authentication.Output> => {
+  public auth = async(input: Authentication.Input): Promise<Account> => {
     this.input = input
-    return this.output
+    return this.account
   }
 }
 

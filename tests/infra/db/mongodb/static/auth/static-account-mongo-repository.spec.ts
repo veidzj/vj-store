@@ -1,10 +1,13 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { StaticAccountMongoRepository } from '@/infra/db/mongodb/static/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { env } from '@/main/config'
 
 const admin: string = 'admin'
+const user: string = 'user'
 
 let accountCollection: Collection
 
@@ -14,7 +17,7 @@ const makeSut = (): StaticAccountMongoRepository => {
 
 describe('StaticAccountMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {
@@ -88,15 +91,16 @@ describe('StaticAccountMongoRepository', () => {
       accessToken = faker.string.uuid()
     })
 
-    test('Should return an account without role on success', async() => {
+    test('Should return an account with user role on success', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
         username,
         email,
         password,
-        accessToken
+        accessToken,
+        role: user
       })
-      const account = await sut.getByToken(accessToken)
+      const account = await sut.getByToken(accessToken, user)
       expect(account).toBeTruthy()
     })
 
@@ -113,6 +117,19 @@ describe('StaticAccountMongoRepository', () => {
       expect(account).toBeTruthy()
     })
 
+    test('Should return null if role is user and provided role is admin', async() => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        username,
+        email,
+        password,
+        accessToken,
+        role: user
+      })
+      const account = await sut.getByToken(accessToken, admin)
+      expect(account).toBeNull()
+    })
+
     test('Should return null if invalid role is provided', async() => {
       const sut = makeSut()
       await accountCollection.insertOne({
@@ -123,19 +140,6 @@ describe('StaticAccountMongoRepository', () => {
       })
       const account = await sut.getByToken(accessToken, admin)
       expect(account).toBeNull()
-    })
-
-    test('Should return an account if user is admin and no role is provided', async() => {
-      const sut = makeSut()
-      await accountCollection.insertOne({
-        username,
-        email,
-        password,
-        accessToken,
-        role: admin
-      })
-      const account = await sut.getByToken(accessToken)
-      expect(account).toBeTruthy()
     })
   })
 })

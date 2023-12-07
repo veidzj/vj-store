@@ -1,4 +1,4 @@
-import { type UsernameValidator } from '@/validation/protocols'
+import { type UsernameValidator } from '@/validation/protocols/auth'
 
 export class UsernameValidatorSpy implements UsernameValidator {
   public username: string

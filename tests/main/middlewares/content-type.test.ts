@@ -1,6 +1,7 @@
 import { type Express } from 'express'
 import request from 'supertest'
-import { setupApp } from '@/main/config'
+
+import { App } from '@/main/config'
 
 const route: string = '/test_content_type'
 const routeXml: string = '/test_content_type_xml'
@@ -9,7 +10,7 @@ let app: Express
 
 describe('ContentType Middleware', () => {
   beforeAll(async() => {
-    app = await setupApp()
+    app = await App.setup()
   })
 
   test('Should return default content type as json', async() => {

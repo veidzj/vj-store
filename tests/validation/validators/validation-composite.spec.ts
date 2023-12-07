@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import { ValidationComposite } from '@/validation/validators'
 import { InvalidParamError, MissingParamError } from '@/validation/errors'

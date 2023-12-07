@@ -1,6 +1,7 @@
-import { ValidationError } from '@/domain/errors'
-import { type Validation } from '@/presentation/protocols'
 import { faker } from '@faker-js/faker'
+
+import { type Validation } from '@/presentation/protocols'
+import { ValidationError } from '@/domain/errors'
 
 export class ValidationSpy implements Validation {
   public input: any

@@ -1,9 +1,11 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
+
 import { mockAddAccountInput, throwError } from '@/tests/domain/mocks'
 import { DynamicAccountMongoRepository } from '@/infra/db/mongodb/dynamic/auth'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/db/dynamic/auth'
+import { env } from '@/main/config'
 
 let accountCollection: Collection
 
@@ -18,7 +20,7 @@ const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({
 
 describe('DynamicAccountMongoRepository', () => {
   beforeAll(async() => {
-    await MongoHelper.connect(process.env.MONGO_URL as string)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {
@@ -40,10 +42,17 @@ describe('DynamicAccountMongoRepository', () => {
 
     test('Should add an account on success', async() => {
       const sut = makeSut()
-      const addAccountInput = mockAddAccountInput()
-      await sut.add(addAccountInput)
+      await sut.add(mockAddAccountInput())
       const count = await accountCollection.countDocuments()
       expect(count).toBe(1)
+    })
+
+    test('Should add an account with user role on success', async() => {
+      const sut = makeSut()
+      const accountInput = mockAddAccountInput()
+      await sut.add(accountInput)
+      const account = await accountCollection.findOne({ email: accountInput.email })
+      expect(account?.role).toBe('user')
     })
   })
 

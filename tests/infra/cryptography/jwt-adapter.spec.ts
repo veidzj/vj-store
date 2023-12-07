@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+
 import { throwError } from '@/tests/domain/mocks'
 import { JwtAdapter } from '@/infra/cryptography'
 

@@ -1,5 +1,6 @@
 import validator from 'validator'
-import { type UsernameValidator } from '@/validation/protocols'
+
+import { type UsernameValidator } from '@/validation/protocols/auth'
 
 export class UsernameValidatorAdapter implements UsernameValidator {
   public isValid = (username: string): boolean => {

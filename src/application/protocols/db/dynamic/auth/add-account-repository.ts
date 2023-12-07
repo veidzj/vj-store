@@ -7,5 +7,6 @@ export namespace AddAccountRepository {
     username: string
     email: string
     password: string
+    addedAt: Date
   }
 }

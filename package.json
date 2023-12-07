@@ -17,6 +17,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:unit": "npm test -- --watch -c jest-unit.config.ts",
     "test:integration": "npm test -- --watch -c jest-integration.config.ts",
+    "test:changed": "npm test -- --changedSince=origin/main",
     "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
@@ -40,6 +41,7 @@
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "lint-staged": "^15.1.0",
+    "mockdate": "^3.0.5",
     "nodemon": "^3.0.1",
     "npm-check": "^6.0.1",
     "rimraf": "^5.0.5",

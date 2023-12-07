@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { CompareFieldsValidation } from '@/validation/validators'
 import { InvalidParamError } from '@/validation/errors'
 

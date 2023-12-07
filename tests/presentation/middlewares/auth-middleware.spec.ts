@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { GetAccountByTokenSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { AuthMiddleware } from '@/presentation/middlewares'
@@ -11,7 +12,7 @@ interface Sut {
   getAccountByTokenSpy: GetAccountByTokenSpy
 }
 
-const makeSut = (role?: string): Sut => {
+const makeSut = (role: string = 'user'): Sut => {
   const getAccountByTokenSpy = new GetAccountByTokenSpy()
   const sut = new AuthMiddleware(getAccountByTokenSpy, role)
   return {
@@ -25,12 +26,10 @@ const mockRequest = (): AuthMiddleware.Request => ({
 })
 
 describe('AuthMiddleware', () => {
-  const httpHelper = new HttpHelper()
-
-  test('Should return Unauthorized if access token is not provided', async() => {
+  test('Should return unauthorized if access token is not provided', async() => {
     const { sut } = makeSut()
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(httpHelper.unauthorized(new InvalidCredentialsError()))
+    const response = await sut.handle({})
+    expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
   test('Should call GetAccountByToken with correct values', async() => {
@@ -42,33 +41,33 @@ describe('AuthMiddleware', () => {
     expect(getAccountByTokenSpy.role).toBe(role)
   })
 
-  test('Should return Unauthorized if GetAccountByToken throws an AuthenticationError', async() => {
+  test('Should return unauthorized if GetAccountByToken throws an AuthenticationError', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     const errorMessage = faker.word.words()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthenticationError(errorMessage) })
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.unauthorized(new AuthenticationError(errorMessage)))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.unauthorized(new AuthenticationError(errorMessage)))
   })
 
-  test('Should return Forbidden if GetAccountByToken throws an AuthorizationError', async() => {
+  test('Should return forbidden if GetAccountByToken throws an AuthorizationError', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     const errorMessage = faker.word.words()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AuthorizationError(errorMessage) })
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.forbidden(new AuthorizationError(errorMessage)))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.forbidden(new AuthorizationError(errorMessage)))
   })
 
-  test('Should return ServerError if GetAccountByToken throws', async() => {
+  test('Should return serverError if GetAccountByToken throws', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
     jest.spyOn(getAccountByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.serverError(new Error()))
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
-  test('Should return OK if GetAccountByToken returns an account', async() => {
+  test('Should return ok if GetAccountByToken returns an account', async() => {
     const { sut, getAccountByTokenSpy } = makeSut()
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(httpHelper.ok({
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.ok({
       accountId: getAccountByTokenSpy.account.id
     }))
   })

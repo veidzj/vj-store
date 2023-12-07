@@ -1,8 +1,10 @@
 import { type Router } from 'express'
-import { adaptRoute } from '@/main/adapters'
-import { makeSignUpController, makeSignInController } from '@/main/factories/controllers/auth'
+
+import { ExpressRouteAdapter } from '@/main/adapters'
+import { SignUpControllerFactory } from '@/main/factories/controllers/dynamic/auth'
+import { SignInControllerFactory } from '@/main/factories/controllers/static/auth'
 
 export default (router: Router): void => {
-  router.post('/signup', adaptRoute(makeSignUpController()))
-  router.post('/signin', adaptRoute(makeSignInController()))
+  router.post('/signup', ExpressRouteAdapter.adapt(SignUpControllerFactory.makeSignUpController()))
+  router.post('/signin', ExpressRouteAdapter.adapt(SignInControllerFactory.makeSignInController()))
 }

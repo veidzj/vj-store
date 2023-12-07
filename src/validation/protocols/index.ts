@@ -1,2 +1,1 @@
-export * from './email-validator'
-export * from './username-validator'
+export * from './url-validator'

@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 import { RequiredFieldValidation } from '@/validation/validators'
 import { MissingParamError } from '@/validation/errors'
 
@@ -15,6 +16,22 @@ describe('RequiredFieldValidation', () => {
       sut.validate({ invalidField: faker.word.words() })
     }
     expect(error).toThrow(new MissingParamError(field))
+  })
+
+  test('Should throw MissingParamError if empty array is provided', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: [] })
+    }
+    expect(error).toThrow(new MissingParamError(field))
+  })
+
+  test('Should not throw if 0 is provided', () => {
+    const sut = makeSut()
+    const error = (): void => {
+      sut.validate({ [field]: 0 })
+    }
+    expect(error).not.toThrow()
   })
 
   test('Should not throw if validation succeeds', () => {

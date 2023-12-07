@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+
 import { type Encrypter, type Decrypter } from '@/application/protocols/cryptography'
 
 export class JwtAdapter implements Encrypter, Decrypter {
