@@ -1,6 +1,5 @@
-import { signUpInputSchema } from './schemas/sign-up-input-schema'
+import { signUpInputSchema, accountSchema } from '@/main/docs/schemas/auth'
 import { errorSchema } from './schemas/error-schema'
-import { accountSchema } from './schemas/account-schema'
 
 export default {
   signUpInput: signUpInputSchema,
