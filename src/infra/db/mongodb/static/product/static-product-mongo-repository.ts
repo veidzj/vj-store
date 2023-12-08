@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb'
+import { BSON, ObjectId } from 'mongodb'
 
 import { MongoHelper } from '@/infra/db/mongodb/mongo-helper'
 import { type CheckProductByIdRepository, type GetProductsByCategoryRepository, type GetProductBySlugRepository, type GetProductsWithDiscountRepository, type GetLatestProductsRepository } from '@/application/protocols/db/static/product'
@@ -10,11 +10,18 @@ export class StaticProductMongoRepository implements
   GetProductsWithDiscountRepository,
   GetLatestProductsRepository {
   public checkById = async(id: string): Promise<boolean> => {
-    const productCollection = MongoHelper.getCollection('products')
-    const product = await productCollection.findOne({
-      _id: new ObjectId(id)
-    })
-    return product !== null
+    try {
+      const productCollection = MongoHelper.getCollection('products')
+      const product = await productCollection.findOne({
+        _id: new ObjectId(id)
+      })
+      return product !== null
+    } catch (error) {
+      if (error instanceof BSON.BSONError) {
+        return false
+      }
+      throw error
+    }
   }
 
   public getByCategory = async(category: string, page: number = 1, limit: number = 25, sortBy?: string): Promise<GetProductsByCategoryRepository.Output> => {
@@ -54,6 +61,10 @@ export class StaticProductMongoRepository implements
     const productCollection = MongoHelper.getCollection('products')
     const product = await productCollection.findOne({
       slug
+    }, {
+      projection: {
+        updatedAt: 0
+      }
     })
     if (!product) {
       return null

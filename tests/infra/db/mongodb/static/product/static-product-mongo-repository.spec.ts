@@ -6,6 +6,7 @@ import { StaticProductMongoRepository } from '@/infra/db/mongodb/static/product'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { env } from '@/main/config'
 
+const mongoInvalidId: string = faker.word.words()
 const defaultLength: number = 30
 const randomCategory: string = faker.word.words()
 const randomDate: Date = faker.date.anytime()
@@ -49,6 +50,12 @@ describe('StaticProductMongoRepository', () => {
     test('Should return false if there is no product with the given id', async() => {
       const sut = makeSut()
       const productExists = await sut.checkById(new ObjectId().toHexString())
+      expect(productExists).toBe(false)
+    })
+
+    test('Should return false if mongo throws a BSONError', async() => {
+      const sut = makeSut()
+      const productExists = await sut.checkById(mongoInvalidId)
       expect(productExists).toBe(false)
     })
 
