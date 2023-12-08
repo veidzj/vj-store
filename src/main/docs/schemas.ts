@@ -1,10 +1,12 @@
 import { signUpInputSchema, signInInputSchema, accountSchema } from '@/main/docs/schemas/auth'
 import { categorySchema, categoriesSchema, addCategoryInputSchema } from '@/main/docs/schemas/category'
-import { productSchema, productsSchema, updateProductInputSchema } from '@/main/docs/schemas/product'
+import { productSchema, productsSchema, productInputSchema } from '@/main/docs/schemas/product'
 import { errorSchema } from './schemas/error-schema'
+import { successSchema } from './schemas/success-schema'
 
 export default {
   error: errorSchema,
+  success: successSchema,
   signUpInput: signUpInputSchema,
   signInInput: signInInputSchema,
   account: accountSchema,
@@ -13,5 +15,5 @@ export default {
   addCategoryInput: addCategoryInputSchema,
   product: productSchema,
   products: productsSchema,
-  updateProductInput: updateProductInputSchema
+  productInput: productInputSchema
 }

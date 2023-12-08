@@ -1,4 +1,4 @@
-export const updateProductInputSchema = {
+export const productInputSchema = {
   type: 'object',
   properties: {
     name: {

@@ -9,7 +9,7 @@ export const updateProductPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/updateProductInput'
+            $ref: '#/schemas/productInput'
           }
         }
       }
@@ -28,7 +28,7 @@ export const updateProductPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/products'
+              $ref: '#/schemas/success'
             }
           }
         }

@@ -1,34 +1,15 @@
-export const categoryPath = {
-  get: {
-    tags: ['Category'],
-    summary: 'List all categories',
-    responses: {
-      200: {
-        description: 'Success',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/categories'
-            }
-          }
-        }
-      },
-      500: {
-        $ref: '#/components/serverError'
-      }
-    }
-  },
+export const addProductPath = {
   post: {
     security: [{
       apiKeyAuth: []
     }],
-    tags: ['Category'],
-    summary: 'Adds a category',
+    tags: ['Product'],
+    summary: 'Adds a product',
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/addCategoryInput'
+            $ref: '#/schemas/productInput'
           }
         }
       }
@@ -43,6 +24,9 @@ export const categoryPath = {
             }
           }
         }
+      },
+      400: {
+        $ref: '#/components/badRequest'
       },
       401: {
         $ref: '#/components/unauthorized'
