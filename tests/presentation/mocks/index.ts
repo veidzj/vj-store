@@ -1,5 +1,0 @@
-export * from './mock-authentication'
-export * from './mock-category'
-export * from './mock-controller'
-export * from './mock-product'
-export * from './mock-validation'
