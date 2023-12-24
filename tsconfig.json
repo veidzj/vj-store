@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "rootDirs": ["src", "tests"],
+    "outDir": "dist",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "paths": {
+      "@/tests/*": ["../tests/*"],
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src", "tests"],
+  "exclude": []
+}
