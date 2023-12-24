@@ -2,16 +2,14 @@ import type { Config } from 'jest'
 
 const config: Config = {
   roots: ['<rootDir>/tests'],
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts',
-    '!<rootDir>/src/main/**',
-    '!<rootDir>/src/**/index.ts'
-  ],
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
+  ],
   testEnvironment: 'node',
-  preset: '@shelf/jest-mongodb',
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
