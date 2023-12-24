@@ -8,3 +8,4 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
