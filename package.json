@@ -8,5 +8,8 @@
   "scripts": {},
   "devDependencies": {
     "git-commit-msg-linter": "^5.0.6"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
