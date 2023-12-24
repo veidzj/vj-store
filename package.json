@@ -3,6 +3,7 @@
   "version": "0.5.0",
   "description": "E-Commerce API using TypeScript, DDD, TDD and Clean Architecture",
   "author": "João Victor Veidz",
+  "license": "GPL-3.0",
   "repository": "https://github.com/veidzj/vj-store",
   "homepage": "https://github.com/veidzj/vj-store",
   "scripts": {
