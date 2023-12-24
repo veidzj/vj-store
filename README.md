@@ -10,3 +10,4 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=veidzj_vj-store&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=veidzj_vj-store)
