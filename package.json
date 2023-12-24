@@ -5,6 +5,8 @@
   "author": "João Victor Veidz",
   "repository": "https://github.com/veidzj/vj-store",
   "homepage": "https://github.com/veidzj/vj-store",
-  "scripts": {
+  "scripts": {},
+  "devDependencies": {
+    "git-commit-msg-linter": "^5.0.6"
   }
 }
