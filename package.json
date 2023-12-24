@@ -5,8 +5,11 @@
   "author": "João Victor Veidz",
   "repository": "https://github.com/veidzj/vj-store",
   "homepage": "https://github.com/veidzj/vj-store",
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
+    "@types/jest": "^29.5.11",
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "eslint": "^8.56.0",
@@ -15,6 +18,8 @@
     "eslint-plugin-n": "^16.5.0",
     "eslint-plugin-promise": "^6.1.1",
     "git-commit-msg-linter": "^5.0.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.3.3"
   },
   "engines": {
