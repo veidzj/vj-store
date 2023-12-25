@@ -1,7 +1,6 @@
-import { AggregateRoot } from '@/domain/seedwork'
 import { type UpdateLog } from '@/domain/common'
-import { type AccountFields } from '@/domain/entities/account'
-import { EntityValidationError } from '@/domain/errors'
+import { AggregateRoot } from '@/domain/seedwork'
+import { type AccountFields, AccountValidation } from '@/domain/entities/account'
 
 export class Account extends AggregateRoot {
   private Username: string
@@ -46,18 +45,7 @@ export class Account extends AggregateRoot {
   }
 
   public setUsername(username: string): void {
-    if (username.length < 3) {
-      throw new EntityValidationError('Username must be at least 3 characters long')
-    }
-    if (username.length > 12) {
-      throw new EntityValidationError('Username must be less than or equal to 12 characters long')
-    }
-    if (!/^[A-Za-z]+$/.test(username)) {
-      throw new EntityValidationError('Username must contain only letters')
-    }
-    if (!/^[a-z]+$/.test(username)) {
-      throw new EntityValidationError('Username must be lowercase')
-    }
+    AccountValidation.validateUsername(username)
     this.Username = username
   }
 
