@@ -5,6 +5,7 @@ export class Account {
   private readonly Password: string
   private readonly IsActive: boolean
   private readonly CreatedAt: Date
+  private readonly UpdateHistory: UpdateLog[]
 
   constructor(username: string, email: string, password: string) {
     this.Id = this.generateGUID()
@@ -13,6 +14,7 @@ export class Account {
     this.Password = password
     this.IsActive = true
     this.CreatedAt = new Date()
+    this.UpdateHistory = []
   }
 
   private generateGUID(): string {
@@ -47,4 +49,13 @@ export class Account {
   public getCreatedAt(): Date {
     return this.CreatedAt
   }
+
+  public getUpdateHistory(): UpdateLog[] {
+    return this.UpdateHistory
+  }
+}
+
+abstract class UpdateLog {
+  public Field: string
+  public UpdatedAt: Date
 }
