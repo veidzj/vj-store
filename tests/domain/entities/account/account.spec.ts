@@ -111,4 +111,12 @@ describe('Account Entity', () => {
 
     expect(sut).toThrow(new EntityValidationError(errorMessage))
   })
+
+  test('Should throw if Username contains numbers or special characters', () => {
+    username = faker.string.sample({ min: 3, max: 12 })
+    const errorMessage = 'Username must contain only letters'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
 })
