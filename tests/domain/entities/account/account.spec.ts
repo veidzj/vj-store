@@ -46,4 +46,13 @@ describe('Account Entity', () => {
 
     expect(sut.isActive()).toBe(false)
   })
+
+  test('Should activate an inactive Account', () => {
+    const sut = makeSut()
+
+    sut.deactivate()
+    sut.activate()
+
+    expect(sut.isActive()).toBe(true)
+  })
 })
