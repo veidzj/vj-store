@@ -55,6 +55,9 @@ export class Account extends AggregateRoot {
     if (!/^[A-Za-z]+$/.test(username)) {
       throw new EntityValidationError('Username must contain only letters')
     }
+    if (!/^[a-z]+$/.test(username)) {
+      throw new EntityValidationError('Username must be lowercase')
+    }
     this.Username = username
   }
 
