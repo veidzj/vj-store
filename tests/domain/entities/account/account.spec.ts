@@ -22,7 +22,7 @@ describe('Account Entity', () => {
   })
 
   beforeEach(() => {
-    username = faker.internet.userName()
+    username = faker.string.alpha({ length: { min: 3, max: 12 } })
     email = faker.internet.email()
     password = faker.internet.password()
   })
@@ -59,7 +59,7 @@ describe('Account Entity', () => {
 
   test('Should change Username on setter', () => {
     const sut = makeSut()
-    const newUsername = faker.internet.userName()
+    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 } })
 
     sut.setUsername(newUsername)
 
@@ -96,9 +96,17 @@ describe('Account Entity', () => {
     })
   })
 
-  test('Should throw if Username is less than 3 characters', () => {
-    username = faker.internet.userName().substring(0, Math.floor(Math.random() * 2) + 1)
+  test('Should throw if Username is less than 3 characters long', () => {
+    username = faker.string.alpha({ length: { min: 1, max: 2 } })
     const errorMessage = 'Username should be at least 3 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Username is greater than 12 characters long', () => {
+    username = faker.string.alpha(13)
+    const errorMessage = 'Username should be less than or equal to 12 characters long'
     const sut = (): Account => makeSut()
 
     expect(sut).toThrow(new EntityValidationError(errorMessage))
