@@ -1,11 +1,4 @@
-export interface UpdateLog {
-  Field: UpdateLogField
+export interface UpdateLog<EntityFields> {
+  Fields: EntityFields[]
   UpdatedAt: Date
-}
-
-export enum UpdateLogField {
-  Username = 'Username',
-  Email = 'Email',
-  Password = 'Password',
-  IsActive = 'IsActive'
 }

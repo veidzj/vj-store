@@ -1,18 +1,19 @@
-import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
+import { type UpdateLog } from '@/domain/common'
+import { type AccountFields } from '@/domain/entities/account'
 
 export class Account extends AggregateRoot {
   private Username: string
   private Email: string
   private Password: string
-  private IsActive: boolean
+  private readonly IsActive: boolean = true
+  private UpdateHistory: UpdateLog<AccountFields> | null = null
 
   constructor(username: string, email: string, password: string) {
     super()
     this.setUsername(username)
     this.setEmail(email)
     this.setPassword(password)
-    this.setIsActive(true)
   }
 
   public getId(): string {
@@ -39,7 +40,7 @@ export class Account extends AggregateRoot {
     return this.CreatedAt
   }
 
-  public getUpdateHistory(): UpdateLog[] {
+  public getUpdateHistory(): UpdateLog<AccountFields> | null {
     return this.UpdateHistory
   }
 
@@ -55,7 +56,10 @@ export class Account extends AggregateRoot {
     this.Password = password
   }
 
-  public setIsActive(isActive: boolean): void {
-    this.IsActive = isActive
+  public setUpdateHistory(fields: AccountFields[]): void {
+    this.UpdateHistory = {
+      Fields: fields,
+      UpdatedAt: new Date()
+    }
   }
 }

@@ -36,6 +36,6 @@ describe('Account Entity', () => {
     expect(sut.getPassword()).toBe(password)
     expect(sut.isActive()).toBe(true)
     expect(sut.getCreatedAt()).toEqual(currentDate)
-    expect(sut.getUpdateHistory()).toEqual([])
+    expect(sut.getUpdateHistory()).toBeNull()
   })
 })
