@@ -2,6 +2,7 @@ import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { Account, AccountFields } from '@/domain/entities/account'
+import { EntityValidationError } from '@/domain/errors'
 
 let username: string
 let email: string
@@ -21,7 +22,7 @@ describe('Account Entity', () => {
   })
 
   beforeEach(() => {
-    username = faker.internet.userName()
+    username = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
     email = faker.internet.email()
     password = faker.internet.password()
   })
@@ -58,7 +59,7 @@ describe('Account Entity', () => {
 
   test('Should change Username on setter', () => {
     const sut = makeSut()
-    const newUsername = faker.internet.userName()
+    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
 
     sut.setUsername(newUsername)
 
@@ -93,5 +94,61 @@ describe('Account Entity', () => {
       Fields: accountFields,
       UpdatedAt: new Date()
     })
+  })
+
+  test('Should throw if Username is less than 3 characters long', () => {
+    username = faker.string.alpha({ length: { min: 1, max: 2 }, casing: 'lower' })
+    const errorMessage = 'Username must be at least 3 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Username is greater than 12 characters long', () => {
+    username = faker.string.alpha({ length: { min: 13, max: 255 }, casing: 'lower' })
+    const errorMessage = 'Username must be less than or equal to 12 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Username contains numbers or special characters', () => {
+    username = faker.string.sample({ min: 3, max: 12 })
+    const errorMessage = 'Username must contain only letters'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Username is not lowercase', () => {
+    username = faker.string.alpha({ length: { min: 3, max: 12 } })
+    const errorMessage = 'Username must be lowercase'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Email is invalid', () => {
+    email = faker.word.words()
+    const errorMessage = 'Email must be valid'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Password is less than 6 characters long', () => {
+    password = faker.internet.password({ length: 5 })
+    const errorMessage = 'Password must must be at least 6 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Password is greater than 255 characters long', () => {
+    password = faker.internet.password({ length: 256 })
+    const errorMessage = 'Password must be less than or equal to 255 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
   })
 })

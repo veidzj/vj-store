@@ -1,6 +1,6 @@
-import { AggregateRoot } from '@/domain/seedwork'
 import { type UpdateLog } from '@/domain/common'
-import { type AccountFields } from '@/domain/entities/account'
+import { AggregateRoot } from '@/domain/seedwork'
+import { type AccountFields, AccountValidation } from '@/domain/entities/account'
 
 export class Account extends AggregateRoot {
   private Username: string
@@ -45,14 +45,17 @@ export class Account extends AggregateRoot {
   }
 
   public setUsername(username: string): void {
+    AccountValidation.validateUsername(username)
     this.Username = username
   }
 
   public setEmail(email: string): void {
+    AccountValidation.validateEmail(email)
     this.Email = email
   }
 
   public setPassword(password: string): void {
+    AccountValidation.validatePassword(password)
     this.Password = password
   }
 
