@@ -30,5 +30,8 @@ export class AccountValidation {
     if (password.length < 6) {
       throw new EntityValidationError('Password must must be at least 6 characters long')
     }
+    if (password.length > 255) {
+      throw new EntityValidationError('Password must be less than or equal to 255 characters long')
+    }
   }
 }
