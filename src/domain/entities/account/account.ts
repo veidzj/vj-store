@@ -52,6 +52,9 @@ export class Account extends AggregateRoot {
     if (username.length > 12) {
       throw new EntityValidationError('Username must be less than or equal to 12 characters long')
     }
+    if (!/^[A-Za-z]+$/.test(username)) {
+      throw new EntityValidationError('Username must contain only letters')
+    }
     this.Username = username
   }
 
