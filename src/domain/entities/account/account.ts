@@ -47,10 +47,10 @@ export class Account extends AggregateRoot {
 
   public setUsername(username: string): void {
     if (username.length < 3) {
-      throw new EntityValidationError('Username should be at least 3 characters long')
+      throw new EntityValidationError('Username must be at least 3 characters long')
     }
     if (username.length > 12) {
-      throw new EntityValidationError('Username should be less than or equal to 12 characters long')
+      throw new EntityValidationError('Username must be less than or equal to 12 characters long')
     }
     this.Username = username
   }
