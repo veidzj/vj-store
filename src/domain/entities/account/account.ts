@@ -1,3 +1,5 @@
+import { type UpdateLog } from '@/domain/common'
+
 export class Account {
   private readonly Id: string
   private readonly Username: string
@@ -53,9 +55,4 @@ export class Account {
   public getUpdateHistory(): UpdateLog[] {
     return this.UpdateHistory
   }
-}
-
-abstract class UpdateLog {
-  public Field: string
-  public UpdatedAt: Date
 }
