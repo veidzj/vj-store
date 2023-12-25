@@ -1,3 +1,5 @@
+import isAlpha from 'validator/lib/isAlpha'
+import isLowercase from 'validator/lib/isLowercase'
 import isEmail from 'validator/lib/isEmail'
 
 import { EntityValidationError } from '@/domain/errors'
@@ -10,10 +12,10 @@ export class AccountValidation {
     if (username.length > 12) {
       throw new EntityValidationError('Username must be less than or equal to 12 characters long')
     }
-    if (!/^[A-Za-z]+$/.test(username)) {
+    if (!isAlpha(username)) {
       throw new EntityValidationError('Username must contain only letters')
     }
-    if (!/^[a-z]+$/.test(username)) {
+    if (!isLowercase(username)) {
       throw new EntityValidationError('Username must be lowercase')
     }
   }
