@@ -50,6 +50,7 @@ export class Account extends AggregateRoot {
   }
 
   public setEmail(email: string): void {
+    AccountValidation.validateEmail(email)
     this.Email = email
   }
 

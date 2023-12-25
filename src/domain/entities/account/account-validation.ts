@@ -1,3 +1,5 @@
+import isEmail from 'validator/lib/isEmail'
+
 import { EntityValidationError } from '@/domain/errors'
 
 export class AccountValidation {
@@ -13,6 +15,12 @@ export class AccountValidation {
     }
     if (!/^[a-z]+$/.test(username)) {
       throw new EntityValidationError('Username must be lowercase')
+    }
+  }
+
+  public static validateEmail(email: string): void {
+    if (!isEmail(email)) {
+      throw new EntityValidationError('Email must be valid')
     }
   }
 }
