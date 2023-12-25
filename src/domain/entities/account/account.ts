@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@/domain/seedwork'
 import { type UpdateLog } from '@/domain/common'
 import { type AccountFields } from '@/domain/entities/account'
+import { EntityValidationError } from '@/domain/errors'
 
 export class Account extends AggregateRoot {
   private Username: string
@@ -45,6 +46,9 @@ export class Account extends AggregateRoot {
   }
 
   public setUsername(username: string): void {
+    if (username.length < 3) {
+      throw new EntityValidationError('Username should be at least 3 characters long')
+    }
     this.Username = username
   }
 
