@@ -2,6 +2,7 @@ import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { Account, AccountFields } from '@/domain/entities/account'
+import { EntityValidationError } from '@/domain/errors'
 
 let username: string
 let email: string
@@ -93,5 +94,13 @@ describe('Account Entity', () => {
       Fields: accountFields,
       UpdatedAt: new Date()
     })
+  })
+
+  test('Should throw if Username is less than 3 characters', () => {
+    username = faker.internet.userName().substring(0, Math.floor(Math.random() * 2) + 1)
+    const errorMessage = 'Username should be at least 3 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
   })
 })
