@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Account } from '@/domain/entities/account'
+import { Account, AccountFields } from '@/domain/entities/account'
 
 let username: string
 let email: string
@@ -81,5 +81,17 @@ describe('Account Entity', () => {
     sut.setPassword(newPassword)
 
     expect(sut.getPassword()).toBe(newPassword)
+  })
+
+  test('Should change UpdateHistory on setter', () => {
+    const sut = makeSut()
+    const accountFields = [AccountFields.Username, AccountFields.Email, AccountFields.Password, AccountFields.IsActive]
+
+    sut.setUpdateHistory(accountFields)
+
+    expect(sut.getUpdateHistory()).toEqual({
+      Fields: accountFields,
+      UpdatedAt: new Date()
+    })
   })
 })
