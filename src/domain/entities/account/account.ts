@@ -31,7 +31,7 @@ export class Account extends AggregateRoot {
     return this.Password
   }
 
-  public getIsActive(): boolean {
+  public isActive(): boolean {
     return this.IsActive
   }
 
