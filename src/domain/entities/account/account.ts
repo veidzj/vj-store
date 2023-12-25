@@ -56,18 +56,18 @@ export class Account extends AggregateRoot {
     this.Password = password
   }
 
-  public deactivate(): void {
-    this.IsActive = false
+  public setUpdateHistory(fields: AccountFields[]): void {
+    this.UpdateHistory = {
+      Fields: fields,
+      UpdatedAt: new Date()
+    }
   }
 
   public activate(): void {
     this.IsActive = true
   }
 
-  public setUpdateHistory(fields: AccountFields[]): void {
-    this.UpdateHistory = {
-      Fields: fields,
-      UpdatedAt: new Date()
-    }
+  public deactivate(): void {
+    this.IsActive = false
   }
 }
