@@ -1,10 +1,14 @@
+import { type UpdateLog } from '@/domain/common'
+
 export abstract class Entity {
   public readonly Id: string
   public readonly CreatedAt: Date
+  public readonly UpdateHistory: UpdateLog[]
 
   constructor() {
     this.Id = this.generateGUID()
     this.CreatedAt = new Date()
+    this.UpdateHistory = []
   }
 
   private generateGUID(): string {

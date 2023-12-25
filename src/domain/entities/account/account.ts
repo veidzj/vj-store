@@ -6,7 +6,6 @@ export class Account extends AggregateRoot {
   private readonly Email: string
   private readonly Password: string
   private readonly IsActive: boolean
-  private readonly UpdateHistory: UpdateLog[]
 
   constructor(username: string, email: string, password: string) {
     super()
@@ -14,7 +13,6 @@ export class Account extends AggregateRoot {
     this.Email = email
     this.Password = password
     this.IsActive = true
-    this.UpdateHistory = []
   }
 
   public getId(): string {
