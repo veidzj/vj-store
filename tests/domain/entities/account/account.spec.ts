@@ -127,4 +127,12 @@ describe('Account Entity', () => {
 
     expect(sut).toThrow(new EntityValidationError(errorMessage))
   })
+
+  test('Should throw if Email is invalid', () => {
+    email = faker.word.words()
+    const errorMessage = 'Email must be valid'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
 })
