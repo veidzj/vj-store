@@ -22,7 +22,7 @@ describe('Account Entity', () => {
   })
 
   beforeEach(() => {
-    username = faker.string.alpha({ length: { min: 3, max: 12 } })
+    username = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
     email = faker.internet.email()
     password = faker.internet.password()
   })
@@ -59,7 +59,7 @@ describe('Account Entity', () => {
 
   test('Should change Username on setter', () => {
     const sut = makeSut()
-    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 } })
+    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
 
     sut.setUsername(newUsername)
 
@@ -97,7 +97,7 @@ describe('Account Entity', () => {
   })
 
   test('Should throw if Username is less than 3 characters long', () => {
-    username = faker.string.alpha({ length: { min: 1, max: 2 } })
+    username = faker.string.alpha({ length: { min: 1, max: 2 }, casing: 'lower' })
     const errorMessage = 'Username must be at least 3 characters long'
     const sut = (): Account => makeSut()
 
@@ -105,7 +105,7 @@ describe('Account Entity', () => {
   })
 
   test('Should throw if Username is greater than 12 characters long', () => {
-    username = faker.string.alpha(13)
+    username = faker.string.alpha({ length: { min: 13, max: 255 }, casing: 'lower' })
     const errorMessage = 'Username must be less than or equal to 12 characters long'
     const sut = (): Account => makeSut()
 
@@ -115,6 +115,14 @@ describe('Account Entity', () => {
   test('Should throw if Username contains numbers or special characters', () => {
     username = faker.string.sample({ min: 3, max: 12 })
     const errorMessage = 'Username must contain only letters'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
+
+  test('Should throw if Username is not lowercase', () => {
+    username = faker.string.alpha({ length: { min: 3, max: 12 } })
+    const errorMessage = 'Username must be lowercase'
     const sut = (): Account => makeSut()
 
     expect(sut).toThrow(new EntityValidationError(errorMessage))
