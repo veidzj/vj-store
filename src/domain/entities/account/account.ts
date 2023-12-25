@@ -60,6 +60,10 @@ export class Account extends AggregateRoot {
     this.IsActive = false
   }
 
+  public activate(): void {
+    this.IsActive = true
+  }
+
   public setUpdateHistory(fields: AccountFields[]): void {
     this.UpdateHistory = {
       Fields: fields,
