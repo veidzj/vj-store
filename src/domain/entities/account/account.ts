@@ -2,17 +2,17 @@ import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
 
 export class Account extends AggregateRoot {
-  private readonly Username: string
-  private readonly Email: string
-  private readonly Password: string
-  private readonly IsActive: boolean
+  private Username: string
+  private Email: string
+  private Password: string
+  private IsActive: boolean
 
   constructor(username: string, email: string, password: string) {
     super()
-    this.Username = username
-    this.Email = email
-    this.Password = password
-    this.IsActive = true
+    this.setUsername(username)
+    this.setEmail(email)
+    this.setPassword(password)
+    this.setIsActive(true)
   }
 
   public getId(): string {
@@ -41,5 +41,21 @@ export class Account extends AggregateRoot {
 
   public getUpdateHistory(): UpdateLog[] {
     return this.UpdateHistory
+  }
+
+  public setUsername(username: string): void {
+    this.Username = username
+  }
+
+  public setEmail(email: string): void {
+    this.Email = email
+  }
+
+  public setPassword(password: string): void {
+    this.Password = password
+  }
+
+  public setIsActive(isActive: boolean): void {
+    this.IsActive = isActive
   }
 }
