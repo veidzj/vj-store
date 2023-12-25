@@ -38,4 +38,12 @@ describe('Account Entity', () => {
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toBeNull()
   })
+
+  test('Should deactivate an active Account', () => {
+    const sut = makeSut()
+
+    sut.deactivate()
+
+    expect(sut.isActive()).toBe(false)
+  })
 })
