@@ -73,4 +73,13 @@ describe('Account Entity', () => {
 
     expect(sut.getEmail()).toBe(newEmail)
   })
+
+  test('Should change Password on setter', () => {
+    const sut = makeSut()
+    const newPassword = faker.internet.password()
+
+    sut.setPassword(newPassword)
+
+    expect(sut.getPassword()).toBe(newPassword)
+  })
 })
