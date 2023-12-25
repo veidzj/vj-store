@@ -1,31 +1,20 @@
 import { type UpdateLog } from '@/domain/common'
+import { AggregateRoot } from '@/domain/seedwork'
 
-export class Account {
-  private readonly Id: string
+export class Account extends AggregateRoot {
   private readonly Username: string
   private readonly Email: string
   private readonly Password: string
   private readonly IsActive: boolean
-  private readonly CreatedAt: Date
   private readonly UpdateHistory: UpdateLog[]
 
   constructor(username: string, email: string, password: string) {
-    this.Id = this.generateGUID()
+    super()
     this.Username = username
     this.Email = email
     this.Password = password
     this.IsActive = true
-    this.CreatedAt = new Date()
     this.UpdateHistory = []
-  }
-
-  private generateGUID(): string {
-    const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    return template.replace(/[xy]/g, (character) => {
-      const randomHex = Math.random() * 16 | 0
-      const value = character === 'x' ? randomHex : (randomHex & 0x3) | 0x8
-      return value.toString(16)
-    })
   }
 
   public getId(): string {
