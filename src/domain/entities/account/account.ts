@@ -55,6 +55,7 @@ export class Account extends AggregateRoot {
   }
 
   public setPassword(password: string): void {
+    AccountValidation.validatePassword(password)
     this.Password = password
   }
 

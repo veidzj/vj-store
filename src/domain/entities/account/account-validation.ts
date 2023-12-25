@@ -25,4 +25,10 @@ export class AccountValidation {
       throw new EntityValidationError('Email must be valid')
     }
   }
+
+  public static validatePassword(password: string): void {
+    if (password.length < 6) {
+      throw new EntityValidationError('Password must must be at least 6 characters long')
+    }
+  }
 }
