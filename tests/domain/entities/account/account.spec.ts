@@ -135,4 +135,12 @@ describe('Account Entity', () => {
 
     expect(sut).toThrow(new EntityValidationError(errorMessage))
   })
+
+  test('Should throw if Password is less than 6 characters long', () => {
+    password = faker.internet.password({ length: 5 })
+    const errorMessage = 'Password must must be at least 6 characters long'
+    const sut = (): Account => makeSut()
+
+    expect(sut).toThrow(new EntityValidationError(errorMessage))
+  })
 })
