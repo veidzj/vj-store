@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+
 import { type UpdateLog } from '@/domain/common'
 
 export abstract class Entity {
@@ -12,11 +14,18 @@ export abstract class Entity {
   }
 
   private generateGUID(): string {
-    const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    return template.replace(/[xy]/g, (character) => {
-      const randomHex = Math.random() * 16 | 0
-      const value = character === 'x' ? randomHex : (randomHex & 0x3) | 0x8
-      return value.toString(16)
+    const bytes = crypto.randomBytes(16)
+    bytes[6] = (bytes[6] & 0x0f) | 0x40
+    bytes[8] = (bytes[8] & 0x3f) | 0x80
+
+    let guid = ''
+    bytes.forEach((byte, index) => {
+      guid += byte.toString(16).padStart(2, '0')
+      if (index === 3 || index === 5 || index === 7 || index === 9) {
+        guid += '-'
+      }
     })
+
+    return guid
   }
 }
