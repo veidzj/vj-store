@@ -2,7 +2,7 @@ import MockDate from 'mockdate'
 
 import { CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks/account'
 import { DbAddAccount } from '@/application/usecases/account'
-import { type AddAccount } from '@/domain/usecases/account'
+import { mockAddAccountInput } from '@/tests/domain/mocks/account'
 
 interface Sut {
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
@@ -32,22 +32,14 @@ describe('DbAddAccount', () => {
 
   test('Should call CheckAccountByEmailRepository with correct email', async() => {
     const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-    const addAccountInput: AddAccount.Input = {
-      Username: 'anyusername',
-      Email: 'any_mail@mail.com',
-      Password: 'any_password'
-    }
+    const addAccountInput = mockAddAccountInput()
     await sut.add(addAccountInput)
     expect(checkAccountByEmailRepositorySpy.email).toBe(addAccountInput.Email)
   })
 
   test('Should call AddAccountRepository with correct values', async() => {
     const { sut, addAccountRepositorySpy } = makeSut()
-    const addAccountInput: AddAccount.Input = {
-      Username: 'anyusername',
-      Email: 'any_mail@mail.com',
-      Password: 'any_password'
-    }
+    const addAccountInput = mockAddAccountInput()
     await sut.add(addAccountInput)
     expect(addAccountRepositorySpy.input.getId()).toBeTruthy()
     expect(addAccountRepositorySpy.input.getUsername()).toBe(addAccountInput.Username)
