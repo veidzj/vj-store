@@ -2,7 +2,6 @@ import MockDate from 'mockdate'
 
 import { type AddAccountRepository } from '@/application/protocols/account'
 import { DbAddAccount } from '@/application/usecases/account'
-import { type Account } from '@/domain/entities/account'
 import { type AddAccount } from '@/domain/usecases/account'
 
 describe('DbAddAccount', () => {
@@ -16,9 +15,9 @@ describe('DbAddAccount', () => {
 
   test('Should call AddAccountRepository with correct values', async() => {
     class AddAccountRepositorySpy implements AddAccountRepository {
-      public input: Account
+      public input: AddAccountRepository.Input
 
-      public async add(input: Account): Promise<void> {
+      public async add(input: AddAccountRepository.Input): Promise<void> {
         this.input = input
       }
     }
