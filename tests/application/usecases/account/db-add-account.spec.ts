@@ -121,4 +121,10 @@ describe('DbAddAccount', () => {
 
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should not throw on success', async() => {
+    const { sut } = makeSut()
+    const promise = sut.add(mockAddAccountInput())
+    await expect(promise).resolves.not.toThrow()
+  })
 })
