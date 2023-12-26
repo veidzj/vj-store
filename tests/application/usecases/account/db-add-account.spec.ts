@@ -1,25 +1,8 @@
 import MockDate from 'mockdate'
 
+import { CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks/account'
 import { DbAddAccount } from '@/application/usecases/account'
-import { type CheckAccountByEmailRepository, type AddAccountRepository } from '@/application/protocols/account'
 import { type AddAccount } from '@/domain/usecases/account'
-
-class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
-  public email: string
-
-  public async checkByEmail(email: string): Promise<boolean> {
-    this.email = email
-    return false
-  }
-}
-
-class AddAccountRepositorySpy implements AddAccountRepository {
-  public input: AddAccountRepository.Input
-
-  public async add(input: AddAccountRepository.Input): Promise<void> {
-    this.input = input
-  }
-}
 
 interface Sut {
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
