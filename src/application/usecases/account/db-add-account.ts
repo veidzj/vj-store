@@ -17,8 +17,8 @@ export class DbAddAccount implements AddAccount {
     if (accountExists) {
       throw new EmailInUseError()
     }
-    await this.hasher.hash(input.Password)
-    const account = new Account(input.Username, input.Email, input.Password)
+    const hashedPassword = await this.hasher.hash(input.Password)
+    const account = new Account(input.Username, input.Email, hashedPassword)
     await this.addAccountRepository.add(account)
   }
 }
