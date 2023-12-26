@@ -99,4 +99,15 @@ describe('DbAddAccount', () => {
 
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should throw if AccountValidation.validateEmail throws', async() => {
+    const { sut } = makeSut()
+    jest.spyOn(AccountValidation, 'validateEmail').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const promise = sut.add(mockAddAccountInput())
+
+    await expect(promise).rejects.toThrow()
+  })
 })
