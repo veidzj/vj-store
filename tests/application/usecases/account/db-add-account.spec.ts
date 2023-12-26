@@ -1,8 +1,9 @@
 import MockDate from 'mockdate'
 
 import { CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks/account'
-import { DbAddAccount } from '@/application/usecases/account'
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
+import { DbAddAccount } from '@/application/usecases/account'
+import { EmailInUseError } from '@/application/errors/account'
 
 interface Sut {
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
@@ -40,9 +41,15 @@ describe('DbAddAccount', () => {
   test('Should throw if CheckAccountByEmailRepository throws', async() => {
     const { sut, checkAccountByEmailRepositorySpy } = makeSut()
     jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(() => { throw new Error() })
-    const addAccountInput = mockAddAccountInput()
-    const promise = sut.add(addAccountInput)
+    const promise = sut.add(mockAddAccountInput())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw EmailInUseError if CheckAccountByEmailRepository returns true', async() => {
+    const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+    jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockReturnValueOnce(Promise.resolve(true))
+    const promise = sut.add(mockAddAccountInput())
+    await expect(promise).rejects.toThrow(new EmailInUseError())
   })
 
   test('Should call AddAccountRepository with correct values', async() => {
