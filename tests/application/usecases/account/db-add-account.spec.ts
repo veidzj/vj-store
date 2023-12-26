@@ -64,13 +64,13 @@ describe('DbAddAccount', () => {
   })
 
   test('Should call AddAccountRepository with correct values', async() => {
-    const { sut, addAccountRepositorySpy } = makeSut()
+    const { sut, addAccountRepositorySpy, hasherSpy } = makeSut()
     const addAccountInput = mockAddAccountInput()
     await sut.add(addAccountInput)
     expect(addAccountRepositorySpy.input.getId()).toBeTruthy()
     expect(addAccountRepositorySpy.input.getUsername()).toBe(addAccountInput.Username)
     expect(addAccountRepositorySpy.input.getEmail()).toBe(addAccountInput.Email)
-    expect(addAccountRepositorySpy.input.getPassword()).toBe(addAccountInput.Password)
+    expect(addAccountRepositorySpy.input.getPassword()).toBe(hasherSpy.digest)
     expect(addAccountRepositorySpy.input.isActive()).toBe(true)
     expect(addAccountRepositorySpy.input.getCreatedAt()).toEqual(new Date())
     expect(addAccountRepositorySpy.input.getUpdateHistory()).toBeNull()
