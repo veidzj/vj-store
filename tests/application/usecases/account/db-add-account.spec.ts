@@ -4,6 +4,28 @@ import { type AddAccountRepository } from '@/application/protocols/account'
 import { DbAddAccount } from '@/application/usecases/account'
 import { type AddAccount } from '@/domain/usecases/account'
 
+class AddAccountRepositorySpy implements AddAccountRepository {
+  public input: AddAccountRepository.Input
+
+  public async add(input: AddAccountRepository.Input): Promise<void> {
+    this.input = input
+  }
+}
+
+interface Sut {
+  addAccountRepositorySpy: AddAccountRepositorySpy
+  sut: DbAddAccount
+}
+
+const makeSut = (): Sut => {
+  const addAccountRepositorySpy = new AddAccountRepositorySpy()
+  const sut = new DbAddAccount(addAccountRepositorySpy)
+  return {
+    sut,
+    addAccountRepositorySpy
+  }
+}
+
 describe('DbAddAccount', () => {
   beforeAll(() => {
     MockDate.set(new Date())
@@ -14,15 +36,7 @@ describe('DbAddAccount', () => {
   })
 
   test('Should call AddAccountRepository with correct values', async() => {
-    class AddAccountRepositorySpy implements AddAccountRepository {
-      public input: AddAccountRepository.Input
-
-      public async add(input: AddAccountRepository.Input): Promise<void> {
-        this.input = input
-      }
-    }
-    const addAccountRepositorySpy = new AddAccountRepositorySpy()
-    const sut = new DbAddAccount(addAccountRepositorySpy)
+    const { sut, addAccountRepositorySpy } = makeSut()
     const addAccountInput: AddAccount.Input = {
       Username: 'anyusername',
       Email: 'any_mail@mail.com',
