@@ -12,6 +12,7 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:changed": "npm test -- --changedSince=origin/main",
+    "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
