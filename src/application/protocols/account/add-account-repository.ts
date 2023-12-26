@@ -1,11 +1,5 @@
-export interface AddAccountRepository {
-  add: (input: AddAccountRepository.Input) => Promise<void>
-}
+import { type Account } from '@/domain/entities/account'
 
-export namespace AddAccountRepository {
-  export interface Input {
-    Username: string
-    Email: string
-    Password: string
-  }
+export interface AddAccountRepository {
+  add: (input: Account) => Promise<void>
 }

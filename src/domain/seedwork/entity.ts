@@ -1,8 +1,8 @@
 import crypto from 'crypto'
 
 export abstract class Entity {
-  public readonly Id: string
-  public readonly CreatedAt: Date
+  protected readonly Id: string
+  protected readonly CreatedAt: Date
 
   constructor() {
     this.Id = this.generateGUID()
