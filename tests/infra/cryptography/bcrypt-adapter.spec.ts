@@ -1,19 +1,27 @@
 import bcrypt from 'bcrypt'
 
 import { BcryptAdapter } from '@/infra/cryptography'
+import { faker } from '@faker-js/faker'
+
+const salt: number = faker.number.int({ min: 10, max: 12 })
+const plainText: string = faker.word.words()
+
+const makeSut = (): BcryptAdapter => {
+  return new BcryptAdapter(salt)
+}
 
 describe('BcryptAdapter', () => {
   test('Should call hash with correct values', async() => {
-    const sut = new BcryptAdapter(12)
+    const sut = makeSut()
     const hashSpy = jest.spyOn(bcrypt, 'hash')
-    await sut.hash('any_value')
-    expect(hashSpy).toHaveBeenCalledWith('any_value', 12)
+    await sut.hash(plainText)
+    expect(hashSpy).toHaveBeenCalledWith(plainText, salt)
   })
 
   test('Should throw if hash throws', async() => {
-    const sut = new BcryptAdapter(12)
+    const sut = makeSut()
     jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => { throw new Error() })
-    const promise = sut.hash('any_value')
+    const promise = sut.hash(plainText)
     await expect(promise).rejects.toThrow()
   })
 })
