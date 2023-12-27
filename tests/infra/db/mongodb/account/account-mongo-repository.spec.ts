@@ -33,5 +33,12 @@ describe('AccountMongoRepository', () => {
       const promise = sut.add(mockAccount())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should add an Account on success', async() => {
+      const sut = makeSut()
+      await sut.add(mockAccount())
+      const count = await accountCollection.countDocuments()
+      expect(count).toBe(1)
+    })
   })
 })
