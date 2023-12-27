@@ -6,6 +6,7 @@ export class Account extends AggregateRoot {
   private Username: string
   private Email: string
   private Password: string
+  private readonly Role: string = 'User'
   private IsActive: boolean = true
   private UpdateHistory: UpdateLog<AccountFields> | null = null
 
@@ -30,6 +31,10 @@ export class Account extends AggregateRoot {
 
   public getPassword(): string {
     return this.Password
+  }
+
+  public getRole(): string {
+    return this.Role
   }
 
   public isActive(): boolean {
