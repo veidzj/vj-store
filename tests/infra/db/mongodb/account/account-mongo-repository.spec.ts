@@ -3,6 +3,7 @@ import { Collection } from 'mongodb'
 import { mockAccount } from '@/tests/domain/mocks/account'
 import { MongoHelper } from '@/infra/db/mongodb'
 import { AccountMongoRepository } from '@/infra/db/mongodb/account'
+import { env } from '@/main/config'
 
 let accountCollection: Collection
 
@@ -14,8 +15,7 @@ describe('AccountMongoRepository', () => {
   const mongoHelper: MongoHelper = MongoHelper.getInstance()
 
   beforeAll(async() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await mongoHelper.connect(process.env.MONGO_URL!)
+    await mongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async() => {
