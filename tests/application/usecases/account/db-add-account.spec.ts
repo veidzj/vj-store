@@ -58,9 +58,7 @@ describe('DbAddAccount', () => {
     test('Should throw EmailInUseError if CheckAccountByEmailRepository returns true', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockReturnValueOnce(Promise.resolve(true))
-
       const promise = sut.add(mockAddAccountInput())
-
       await expect(promise).rejects.toThrow(new EmailInUseError())
     })
   })

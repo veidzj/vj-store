@@ -31,20 +31,16 @@ describe('AccountMongoRepository', () => {
     test('Should throw if mongo throws', async() => {
       const sut = makeSut()
       jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(() => { throw new Error() })
-
       const promise = sut.add(mockAccount())
-
       await expect(promise).rejects.toThrow()
     })
 
     test('Should add an Account on success', async() => {
       const sut = makeSut()
       const accountInput = mockAccount()
-
       await sut.add(accountInput)
       const count = await accountCollection.countDocuments()
       const account = await accountCollection.findOne({ Email: accountInput.getEmail() })
-
       expect(count).toBe(1)
       expect(account?.Id).toBe(accountInput.getId())
       expect(account?.Username).toBe(accountInput.getUsername())
