@@ -6,6 +6,6 @@ export class AccountMongoRepository implements AddAccountRepository {
 
   public async add(input: AddAccountRepository.Input): Promise<void> {
     const accountCollection = this.mongoHelper.getCollection('accounts')
-    await accountCollection.insertOne({ ...input })
+    await accountCollection.insertOne(input)
   }
 }
