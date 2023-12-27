@@ -10,6 +10,8 @@ const config: Config = {
     '!<rootDir>/src/main/**'
   ],
   testEnvironment: 'node',
+  preset: '@shelf/jest-mongodb',
+  moduleFileExtensions: ['js', 'json', 'ts'],
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
