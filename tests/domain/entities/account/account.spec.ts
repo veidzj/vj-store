@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker'
 import { Account, AccountFields } from '@/domain/entities/account'
 import { EntityValidationError } from '@/domain/errors'
 
+const role: string = 'User'
 let username: string
 let email: string
 let password: string
@@ -35,6 +36,7 @@ describe('Account Entity', () => {
     expect(sut.getUsername()).toBe(username)
     expect(sut.getEmail()).toBe(email)
     expect(sut.getPassword()).toBe(password)
+    expect(sut.getRole()).toBe(role)
     expect(sut.isActive()).toBe(true)
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toBeNull()
