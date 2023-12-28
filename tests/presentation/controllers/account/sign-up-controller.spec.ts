@@ -3,8 +3,9 @@ import { faker } from '@faker-js/faker'
 import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
 import { SignUpController } from '@/presentation/controllers/account'
-import { EntityValidationError } from '@/domain/errors'
 import { HttpHelper } from '@/presentation/helpers'
+import { EntityValidationError } from '@/domain/errors'
+import { EmailInUseError } from '@/domain/errors/account'
 
 interface Sut {
   sut: SignUpController
@@ -41,6 +42,15 @@ describe('SignUpController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
+  })
+
+  test('Should return conflict if AddAccount throws EmailInUseError', async() => {
+    const { sut, addAccountSpy } = makeSut()
+    jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => {
+      throw new EmailInUseError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.conflict(new EmailInUseError()))
   })
 
   test('Should call Authentication with correct values', async() => {
