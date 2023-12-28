@@ -2,16 +2,16 @@ import { Collection } from 'mongodb'
 
 import { mockAccount } from '@/tests/domain/mocks/account'
 import { MongoHelper } from '@/infra/db/mongodb'
-import { AccountMongoRepository } from '@/infra/db/mongodb/account'
+import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
 import { env } from '@/main/config'
 
 let accountCollection: Collection
 
-const makeSut = (): AccountMongoRepository => {
-  return new AccountMongoRepository()
+const makeSut = (): AddAccountMongoRepository => {
+  return new AddAccountMongoRepository()
 }
 
-describe('AccountMongoRepository', () => {
+describe('AddAccountMongoRepository', () => {
   const mongoHelper: MongoHelper = MongoHelper.getInstance()
 
   beforeAll(async() => {
