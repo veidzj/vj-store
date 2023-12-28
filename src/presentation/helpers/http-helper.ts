@@ -7,4 +7,11 @@ export class HttpHelper {
       body: error
     }
   }
+
+  public static conflict(error: Error): Response {
+    return {
+      statusCode: 409,
+      body: error
+    }
+  }
 }

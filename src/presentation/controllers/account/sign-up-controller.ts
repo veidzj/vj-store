@@ -1,4 +1,5 @@
 import { EntityValidationError } from '@/domain/errors'
+import { EmailInUseError } from '@/domain/errors/account'
 import { type AddAccount, type Authentication } from '@/domain/usecases/account'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Response } from '@/presentation/protocols'
@@ -20,6 +21,9 @@ export class SignUpController {
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
+      }
+      if (error instanceof EmailInUseError) {
+        return HttpHelper.conflict(error)
       }
       return {
         statusCode: 500,
