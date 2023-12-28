@@ -1,4 +1,5 @@
 import { type AddAccount, type Authentication } from '@/domain/usecases/account'
+import { faker } from '@faker-js/faker'
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
@@ -10,7 +11,7 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
-  public accessToken: string
+  public accessToken: string = faker.string.uuid()
 
   public async auth(input: Authentication.Input): Promise<string> {
     this.input = input
