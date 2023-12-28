@@ -9,6 +9,13 @@ export class HttpHelper {
     }
   }
 
+  public static unauthorized(error: Error): Response {
+    return {
+      statusCode: 401,
+      body: error
+    }
+  }
+
   public static conflict(error: Error): Response {
     return {
       statusCode: 409,

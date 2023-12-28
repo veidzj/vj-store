@@ -1,5 +1,5 @@
 import { EntityValidationError } from '@/domain/errors'
-import { EmailInUseError } from '@/domain/errors/account'
+import { EmailInUseError, InvalidCredentialsError } from '@/domain/errors/account'
 import { type AddAccount, type Authentication } from '@/domain/usecases/account'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Response } from '@/presentation/protocols'
@@ -24,6 +24,9 @@ export class SignUpController {
       }
       if (error instanceof EmailInUseError) {
         return HttpHelper.conflict(error)
+      }
+      if (error instanceof InvalidCredentialsError) {
+        return HttpHelper.unauthorized(error)
       }
       return HttpHelper.serverError(error as Error)
     }
