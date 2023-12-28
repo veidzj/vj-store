@@ -2,6 +2,13 @@ import { type Response } from '@/presentation/protocols'
 import { ServerError } from '@/presentation/errors'
 
 export class HttpHelper {
+  public static ok(data: object): Response {
+    return {
+      statusCode: 200,
+      body: data
+    }
+  }
+
   public static badRequest(error: Error): Response {
     return {
       statusCode: 400,

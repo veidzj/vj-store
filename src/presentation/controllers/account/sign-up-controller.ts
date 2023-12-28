@@ -13,11 +13,8 @@ export class SignUpController {
   public async handle(request: SignUpController.Request): Promise<Response> {
     try {
       await this.addAccount.add(request)
-      await this.authentication.auth({ Email: request.Email, Password: request.Password })
-      return {
-        statusCode: 200,
-        body: {}
-      }
+      const accessToken = await this.authentication.auth({ Email: request.Email, Password: request.Password })
+      return HttpHelper.ok({ accessToken })
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
