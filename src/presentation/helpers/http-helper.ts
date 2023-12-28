@@ -1,4 +1,5 @@
 import { type Response } from '@/presentation/protocols'
+import { ServerError } from '@/presentation/errors'
 
 export class HttpHelper {
   public static badRequest(error: Error): Response {
@@ -12,6 +13,13 @@ export class HttpHelper {
     return {
       statusCode: 409,
       body: error
+    }
+  }
+
+  public static serverError(error: Error): Response {
+    return {
+      statusCode: 500,
+      body: new ServerError(error.stack)
     }
   }
 }

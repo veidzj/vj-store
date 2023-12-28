@@ -25,10 +25,7 @@ export class SignUpController {
       if (error instanceof EmailInUseError) {
         return HttpHelper.conflict(error)
       }
-      return {
-        statusCode: 500,
-        body: {}
-      }
+      return HttpHelper.serverError(error as Error)
     }
   }
 }
