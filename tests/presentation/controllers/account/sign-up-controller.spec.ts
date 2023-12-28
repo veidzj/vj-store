@@ -61,7 +61,6 @@ describe('SignUpController', () => {
         throw new Error()
       })
       const response = await sut.handle(mockRequest())
-      console.log(response)
       expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
   })
@@ -75,6 +74,15 @@ describe('SignUpController', () => {
         Email: request.Email,
         Password: request.Password
       })
+    })
+
+    test('Should return serverError if Authentication throws an unmapped error', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
   })
 })
