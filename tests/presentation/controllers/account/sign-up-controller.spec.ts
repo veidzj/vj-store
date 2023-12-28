@@ -4,9 +4,9 @@ import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/acc
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
 import { SignUpController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
-import { EntityValidationError } from '@/domain/errors'
-import { EmailInUseError } from '@/domain/errors/account'
 import { ServerError } from '@/presentation/errors'
+import { EntityValidationError } from '@/domain/errors'
+import { EmailInUseError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: SignUpController
@@ -74,6 +74,15 @@ describe('SignUpController', () => {
         Email: request.Email,
         Password: request.Password
       })
+    })
+
+    test('Should return unauthorized if AddAccount throws InvalidCredentialsError', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
+        throw new InvalidCredentialsError()
+      })
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
     })
 
     test('Should return serverError if Authentication throws an unmapped error', async() => {
