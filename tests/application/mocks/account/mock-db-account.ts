@@ -1,4 +1,5 @@
 import { type CheckAccountByEmailRepository, type AddAccountRepository } from '@/application/protocols/account'
+import { type Account } from '@/domain/entities/account'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string
@@ -10,9 +11,9 @@ export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepo
 }
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
-  public input: AddAccountRepository.Input
+  public account: Account
 
-  public async add(input: AddAccountRepository.Input): Promise<void> {
-    this.input = input
+  public async add(account: Account): Promise<void> {
+    this.account = account
   }
 }
