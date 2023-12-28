@@ -1,18 +1,21 @@
 import { SignUpController } from '@/presentation/controllers/account'
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
-import { AddAccountSpy } from '@/tests/presentation/mocks/account'
+import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/account'
 
 interface Sut {
   sut: SignUpController
   addAccountSpy: AddAccountSpy
+  authenticationSpy: AuthenticationSpy
 }
 
 const makeSut = (): Sut => {
   const addAccountSpy = new AddAccountSpy()
-  const sut = new SignUpController(addAccountSpy)
+  const authenticationSpy = new AuthenticationSpy()
+  const sut = new SignUpController(addAccountSpy, authenticationSpy)
   return {
+    sut,
     addAccountSpy,
-    sut
+    authenticationSpy
   }
 }
 
@@ -24,5 +27,15 @@ describe('SignUpController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addAccountSpy.input).toEqual(request)
+  })
+
+  test('Should call Authentication with correct values', async() => {
+    const { sut, authenticationSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(authenticationSpy.input).toEqual({
+      Email: request.Email,
+      Password: request.Password
+    })
   })
 })
