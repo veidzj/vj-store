@@ -6,7 +6,7 @@ import { SignUpController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
 import { ServerError } from '@/presentation/errors'
 import { EntityValidationError } from '@/domain/errors'
-import { EmailInUseError, InvalidCredentialsError } from '@/domain/errors/account'
+import { EmailInUseError, AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: SignUpController
@@ -74,6 +74,15 @@ describe('SignUpController', () => {
         Email: request.Email,
         Password: request.Password
       })
+    })
+
+    test('Should return notFound if Authentication throws AccountNotFoundError', async() => {
+      const { sut, authenticationSpy } = makeSut()
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
+        throw new AccountNotFoundError()
+      })
+      const response = await sut.handle(mockRequest())
+      expect(response).toEqual(HttpHelper.notFound(new AccountNotFoundError()))
     })
 
     test('Should return unauthorized if Authentication throws InvalidCredentialsError', async() => {
