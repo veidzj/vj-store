@@ -6,6 +6,7 @@ import { SignUpController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
 import { EmailInUseError } from '@/domain/errors/account'
+import { ServerError } from '@/presentation/errors'
 
 interface Sut {
   sut: SignUpController
@@ -51,6 +52,16 @@ describe('SignUpController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.conflict(new EmailInUseError()))
+  })
+
+  test('Should return serverError if AddAccount throws an unmapped error', async() => {
+    const { sut, addAccountSpy } = makeSut()
+    jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.handle(mockRequest())
+    console.log(response)
+    expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
   })
 
   test('Should call Authentication with correct values', async() => {
