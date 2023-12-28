@@ -1,7 +1,7 @@
-import { type CheckAccountByEmailRepository, type AddAccountRepository } from '@/application/protocols/account'
+import { type CheckAccountByEmailRepository } from '@/application/protocols/account/queries'
 import { type Hasher } from '@/application/protocols/cryptography'
+import { type AddAccountRepository } from '@/application/protocols/account/commands'
 import { EmailInUseError } from '@/application/errors/account'
-
 import { type AddAccount } from '@/domain/usecases/account'
 import { Account } from '@/domain/entities/account'
 

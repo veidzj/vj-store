@@ -1,5 +1,5 @@
-import { type CheckAccountByEmailRepository } from '@/application/protocols/account'
 import { MongoHelper } from '@/infra/db/mongodb'
+import { type CheckAccountByEmailRepository } from '@/application/protocols/account/queries'
 
 export class CheckAccountByEmailMongoRepository implements CheckAccountByEmailRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()

@@ -1,5 +1,5 @@
 import { MongoHelper } from '@/infra/db/mongodb'
-import { type AddAccountRepository } from '@/application/protocols/account'
+import { type AddAccountRepository } from '@/application/protocols/account/commands'
 import { type Account } from '@/domain/entities/account'
 
 export class AddAccountMongoRepository implements AddAccountRepository {

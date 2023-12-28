@@ -1,11 +1,11 @@
 import MockDate from 'mockdate'
 
-import { CheckAccountByEmailRepositorySpy, AddAccountRepositorySpy } from '@/tests/application/mocks/account'
+import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
+import { AddAccountRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { HasherSpy } from '@/tests/application/mocks/cryptography'
-import { mockAddAccountInput } from '@/tests/domain/mocks/account'
+import { mockAddAccountInput, mockUsernameValidationToThrow, mockEmailValidationToThrow, mockPasswordValidationToThrow } from '@/tests/domain/mocks/account'
 import { DbAddAccount } from '@/application/usecases/account'
 import { EmailInUseError } from '@/application/errors/account'
-import { mockUsernameValidationToThrow, mockEmailValidationToThrow, mockPasswordValidationToThrow } from '@/tests/domain/mocks/account/mock-account-validation-error'
 
 interface Sut {
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
@@ -78,7 +78,7 @@ describe('DbAddAccount', () => {
     })
   })
 
-  describe('Account', () => {
+  describe('AccountValidation', () => {
     test('Should throw if AccountValidation.validateUsername throws', async() => {
       const { sut } = makeSut()
       mockUsernameValidationToThrow()
