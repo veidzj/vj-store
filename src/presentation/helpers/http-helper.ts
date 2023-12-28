@@ -23,6 +23,13 @@ export class HttpHelper {
     }
   }
 
+  public static notFound(error: Error): Response {
+    return {
+      statusCode: 404,
+      body: error
+    }
+  }
+
   public static conflict(error: Error): Response {
     return {
       statusCode: 409,

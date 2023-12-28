@@ -1,8 +1,8 @@
-import { EntityValidationError } from '@/domain/errors'
-import { EmailInUseError, InvalidCredentialsError } from '@/domain/errors/account'
-import { type AddAccount, type Authentication } from '@/domain/usecases/account'
-import { HttpHelper } from '@/presentation/helpers'
 import { type Response } from '@/presentation/protocols'
+import { HttpHelper } from '@/presentation/helpers'
+import { type AddAccount, type Authentication } from '@/domain/usecases/account'
+import { EntityValidationError } from '@/domain/errors'
+import { EmailInUseError, AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 export class SignUpController {
   constructor(
@@ -21,6 +21,9 @@ export class SignUpController {
       }
       if (error instanceof EmailInUseError) {
         return HttpHelper.conflict(error)
+      }
+      if (error instanceof AccountNotFoundError) {
+        return HttpHelper.notFound(error)
       }
       if (error instanceof InvalidCredentialsError) {
         return HttpHelper.unauthorized(error)
