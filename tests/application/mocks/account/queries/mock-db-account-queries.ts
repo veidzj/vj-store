@@ -1,6 +1,6 @@
-import { mockAccount } from '@/tests/domain/mocks/account'
+import { faker } from '@faker-js/faker'
+
 import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
-import { type Account } from '@/domain/entities/account'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string
@@ -13,10 +13,13 @@ export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepo
 
 export class GetAccountByEmailRepositorySpy implements GetAccountByEmailRepository {
   public email: string
-  public account: Account | null = mockAccount()
+  public output: GetAccountByEmailRepository.Output | null = {
+    id: faker.string.uuid(),
+    password: faker.internet.password()
+  }
 
-  public async getByEmail(email: string): Promise<Account | null> {
+  public async getByEmail(email: string): Promise<GetAccountByEmailRepository.Output | null> {
     this.email = email
-    return this.account
+    return this.output
   }
 }

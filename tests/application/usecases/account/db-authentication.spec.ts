@@ -39,7 +39,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw AccountNotFoundError if GetAccountByEmailRepository returns null', async() => {
       const { sut, getAccountByEmailRepositorySpy } = makeSut()
-      getAccountByEmailRepositorySpy.account = null
+      getAccountByEmailRepositorySpy.output = null
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
@@ -58,7 +58,7 @@ describe('DbAuthentication', () => {
       const authenticationInput = mockAuthenticationInput()
       await sut.auth(authenticationInput)
       expect(hashComparerSpy.plainText).toBe(authenticationInput.password)
-      expect(hashComparerSpy.digest).toBe(getAccountByEmailRepositorySpy.account?.getPassword())
+      expect(hashComparerSpy.digest).toBe(getAccountByEmailRepositorySpy.output?.password)
     })
 
     test('Should throw if HashComparer throws', async() => {
@@ -80,7 +80,7 @@ describe('DbAuthentication', () => {
     test('Should call Encrypter with correct id', async() => {
       const { sut, encrypterSpy, getAccountByEmailRepositorySpy } = makeSut()
       await sut.auth(mockAuthenticationInput())
-      expect(encrypterSpy.plainText).toBe(getAccountByEmailRepositorySpy.account?.getId())
+      expect(encrypterSpy.plainText).toBe(getAccountByEmailRepositorySpy.output?.id)
     })
 
     test('Should throw if Encrypter throws', async() => {
@@ -96,7 +96,7 @@ describe('DbAuthentication', () => {
       const { sut, updateAccessTokenRepository, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
       await sut.auth(mockAuthenticationInput())
       expect(updateAccessTokenRepository.input).toEqual({
-        id: getAccountByEmailRepositorySpy.account?.getId(),
+        id: getAccountByEmailRepositorySpy.output?.id,
         accessToken: encrypterSpy.cipherText
       })
     })

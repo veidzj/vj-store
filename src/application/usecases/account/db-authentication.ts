@@ -18,13 +18,13 @@ export class DbAuthentication implements Authentication {
       throw new AccountNotFoundError()
     }
 
-    const isMatch = await this.hashComparer.compare(input.password, account.getPassword())
+    const isMatch = await this.hashComparer.compare(input.password, account.password)
     if (!isMatch) {
       throw new InvalidCredentialsError()
     }
 
-    const accessToken = await this.encrypter.encrypt(account.getId())
-    await this.updateAccessTokenRepository.updateAccessToken({ id: account.getId(), accessToken })
+    const accessToken = await this.encrypter.encrypt(account.id)
+    await this.updateAccessTokenRepository.updateAccessToken({ id: account.id, accessToken })
     return accessToken
   }
 }
