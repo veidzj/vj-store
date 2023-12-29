@@ -1,6 +1,6 @@
 import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
 import { type HashComparer } from '@/application/protocols/cryptography'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 import { type Authentication } from '@/domain/usecases/account'
 
 export class DbAuthentication implements Authentication {
@@ -15,7 +15,10 @@ export class DbAuthentication implements Authentication {
       throw new AccountNotFoundError()
     }
 
-    await this.hashComparer.compare(input.password, account.getPassword())
+    const isMatch = await this.hashComparer.compare(input.password, account.getPassword())
+    if (!isMatch) {
+      throw new InvalidCredentialsError()
+    }
     return await Promise.resolve('')
   }
 }
