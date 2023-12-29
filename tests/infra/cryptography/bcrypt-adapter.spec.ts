@@ -3,15 +3,15 @@ import { faker } from '@faker-js/faker'
 
 import { BcryptAdapter } from '@/infra/cryptography'
 
-const salt: number = faker.number.int({ min: 10, max: 12 })
-const plainText: string = faker.word.words()
-const digest: string = faker.word.words()
-
 jest.mock('bcrypt', () => ({
   async hash(): Promise<string> {
     return digest
   }
 }))
+
+const salt: number = faker.number.int({ min: 10, max: 12 })
+const plainText: string = faker.word.words()
+const digest: string = faker.word.words()
 
 const makeSut = (): BcryptAdapter => {
   return new BcryptAdapter(salt)
