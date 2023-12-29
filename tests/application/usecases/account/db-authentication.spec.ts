@@ -1,26 +1,30 @@
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
-import { DbAuthentication } from '@/application/usecases/account'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
-import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 import { HashComparerSpy, EncrypterSpy } from '@/tests/application/mocks/cryptography'
+import { UpdateAccessTokenRepositorySpy } from '@/tests/application/mocks/account/commands'
+import { DbAuthentication } from '@/application/usecases/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: DbAuthentication
   getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
   hashComparerSpy: HashComparerSpy
   encrypterSpy: EncrypterSpy
+  updateAccessTokenRepository: UpdateAccessTokenRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
   const hashComparerSpy = new HashComparerSpy()
   const encrypterSpy = new EncrypterSpy()
-  const sut = new DbAuthentication(getAccountByEmailRepositorySpy, hashComparerSpy, encrypterSpy)
+  const updateAccessTokenRepository = new UpdateAccessTokenRepositorySpy()
+  const sut = new DbAuthentication(getAccountByEmailRepositorySpy, hashComparerSpy, encrypterSpy, updateAccessTokenRepository)
   return {
     sut,
     getAccountByEmailRepositorySpy,
     hashComparerSpy,
-    encrypterSpy
+    encrypterSpy,
+    updateAccessTokenRepository
   }
 }
 
@@ -84,6 +88,17 @@ describe('DbAuthentication', () => {
       jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(() => { throw new Error() })
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('UpdateAccessTokenRepository', () => {
+    test('Should call UpdateAccessTokenRepository with correct values', async() => {
+      const { sut, updateAccessTokenRepository, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
+      await sut.auth(mockAuthenticationInput())
+      expect(updateAccessTokenRepository.input).toEqual({
+        id: getAccountByEmailRepositorySpy.account?.getId(),
+        accessToken: encrypterSpy.cipherText
+      })
     })
   })
 })

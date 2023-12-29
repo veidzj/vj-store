@@ -28,7 +28,7 @@ export class EncrypterSpy implements Encrypter {
   public plainText: string
   public cipherText: string = faker.string.uuid()
 
-  public encrypt = async(plainText: string): Promise<string> => {
+  public async encrypt(plainText: string): Promise<string> {
     this.plainText = plainText
     return this.cipherText
   }
