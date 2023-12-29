@@ -33,4 +33,10 @@ describe('GetAccountByEmailMongoRepository', () => {
     const promise = sut.getByEmail(faker.internet.email())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return null if email is not registered', async() => {
+    const sut = makeSut()
+    const account = await sut.getByEmail(faker.internet.email())
+    expect(account).toBeNull()
+  })
 })
