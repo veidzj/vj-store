@@ -1,22 +1,25 @@
-import { mockAccount, mockAuthenticationInput } from '@/tests/domain/mocks/account'
-import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
+import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { DbAuthentication } from '@/application/usecases/account'
-import { type Account } from '@/domain/entities/account'
+import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
+
+interface Sut {
+  sut: DbAuthentication
+  getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
+}
+
+const makeSut = (): Sut => {
+  const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
+  const sut = new DbAuthentication(getAccountByEmailRepositorySpy)
+  return {
+    sut,
+    getAccountByEmailRepositorySpy
+  }
+}
 
 describe('DbAuthentication', () => {
   describe('GetAccountByEmailRepository', () => {
     test('Should call GetAccountByEmailRepository with correct email', async() => {
-      class GetAccountByEmailRepositorySpy implements GetAccountByEmailRepository {
-        public email: string
-        public account: Account = mockAccount()
-
-        public async getByEmail(email: string): Promise<Account> {
-          this.email = email
-          return this.account
-        }
-      }
-      const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
-      const sut = new DbAuthentication(getAccountByEmailRepositorySpy)
+      const { sut, getAccountByEmailRepositorySpy } = makeSut()
       const authenticationInput = mockAuthenticationInput()
       await sut.auth(authenticationInput)
       expect(getAccountByEmailRepositorySpy.email).toBe(authenticationInput.email)
