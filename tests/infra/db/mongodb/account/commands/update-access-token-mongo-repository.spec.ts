@@ -5,6 +5,7 @@ import { MongoHelper } from '@/infra/db/mongodb'
 import { UpdateAccessTokenMongoRepository } from '@/infra/db/mongodb/account/commands'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
 import { env } from '@/main/config'
+import { mockAccount } from '@/tests/domain/mocks/account'
 
 let accountCollection: Collection
 
@@ -38,5 +39,17 @@ describe('UpdateAccessTokenMongoRepository', () => {
     jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.updateAccessToken(mockUpdateAccessTokenInput())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should update accessToken on success', async() => {
+    const sut = makeSut()
+    const insertResult = await accountCollection.insertOne(mockAccount())
+    const fakeAccount = await accountCollection.findOne({ _id: insertResult.insertedId })
+    expect(fakeAccount?.accessToken).toBeFalsy()
+    const accessToken = faker.string.uuid()
+    await sut.updateAccessToken({ id: fakeAccount?.id, accessToken })
+    const account = await accountCollection.findOne({ id: fakeAccount?.id })
+    expect(account).toBeTruthy()
+    expect(account?.accessToken).toBe(accessToken)
   })
 })
