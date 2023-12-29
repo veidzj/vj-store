@@ -65,5 +65,11 @@ describe('BcryptAdapter', () => {
       const isMatch = await sut.compare(plainText, digest)
       expect(isMatch).toBe(false)
     })
+
+    test('Should return true on success', async() => {
+      const sut = makeSut()
+      const isMatch = await sut.compare(plainText, digest)
+      expect(isMatch).toBe(true)
+    })
   })
 })
