@@ -1,13 +1,15 @@
 import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
 import { type HashComparer, type Encrypter } from '@/application/protocols/cryptography'
-import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
+import { type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
 import { type Authentication } from '@/domain/usecases/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly getAccountByEmailRepository: GetAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
-    private readonly encrypter: Encrypter
+    private readonly encrypter: Encrypter,
+    private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
   public async auth(input: Authentication.Input): Promise<string> {
@@ -21,7 +23,8 @@ export class DbAuthentication implements Authentication {
       throw new InvalidCredentialsError()
     }
 
-    await this.encrypter.encrypt(account.getId())
+    const accessToken = await this.encrypter.encrypt(account.getId())
+    await this.updateAccessTokenRepository.updateAccessToken({ id: account.getId(), accessToken })
     return await Promise.resolve('')
   }
 }
