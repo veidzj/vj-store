@@ -71,8 +71,8 @@ describe('SignUpController', () => {
       const request = mockRequest()
       await sut.handle(request)
       expect(authenticationSpy.input).toEqual({
-        Email: request.Email,
-        Password: request.Password
+        email: request.email,
+        password: request.password
       })
     })
 

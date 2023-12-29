@@ -41,7 +41,7 @@ describe('Account Entity', () => {
     expect(sut.getEmail()).toBe(email)
     expect(sut.getPassword()).toBe(password)
     expect(sut.getRole()).toBe(role)
-    expect(sut.isActive()).toBe(true)
+    expect(sut.getIsActive()).toBe(true)
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toBeNull()
   })
@@ -49,14 +49,14 @@ describe('Account Entity', () => {
   test('Should deactivate an active Account', () => {
     const sut = makeSut()
     sut.deactivate()
-    expect(sut.isActive()).toBe(false)
+    expect(sut.getIsActive()).toBe(false)
   })
 
   test('Should activate an inactive Account', () => {
     const sut = makeSut()
     sut.deactivate()
     sut.activate()
-    expect(sut.isActive()).toBe(true)
+    expect(sut.getIsActive()).toBe(true)
   })
 
   test('Should change Username on setter', () => {
@@ -82,11 +82,11 @@ describe('Account Entity', () => {
 
   test('Should change UpdateHistory on setter', () => {
     const sut = makeSut()
-    const accountFields = [AccountFields.Username, AccountFields.Email, AccountFields.Password, AccountFields.IsActive]
+    const accountFields = [AccountFields.username, AccountFields.email, AccountFields.password, AccountFields.isActive]
     sut.setUpdateHistory(accountFields)
     expect(sut.getUpdateHistory()).toEqual({
-      Fields: accountFields,
-      UpdatedAt: new Date()
+      fields: accountFields,
+      updatedAt: new Date()
     })
   })
 

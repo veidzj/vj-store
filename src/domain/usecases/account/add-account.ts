@@ -4,8 +4,8 @@ export interface AddAccount {
 
 export namespace AddAccount {
   export interface Input {
-    Username: string
-    Email: string
-    Password: string
+    username: string
+    email: string
+    password: string
   }
 }

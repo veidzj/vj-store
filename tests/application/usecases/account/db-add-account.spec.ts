@@ -46,7 +46,7 @@ describe('DbAddAccount', () => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
-      expect(checkAccountByEmailRepositorySpy.email).toBe(addAccountInput.Email)
+      expect(checkAccountByEmailRepositorySpy.email).toBe(addAccountInput.email)
     })
 
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
@@ -74,7 +74,7 @@ describe('DbAddAccount', () => {
       const { sut, hasherSpy } = makeSut()
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
-      expect(hasherSpy.plainText).toBe(addAccountInput.Password)
+      expect(hasherSpy.plainText).toBe(addAccountInput.password)
     })
   })
 
@@ -104,10 +104,10 @@ describe('DbAddAccount', () => {
       const addAccountInput = mockAddAccountInput()
       await sut.add(addAccountInput)
       expect(addAccountRepositorySpy.account.getId()).toBeTruthy()
-      expect(addAccountRepositorySpy.account.getUsername()).toBe(addAccountInput.Username)
-      expect(addAccountRepositorySpy.account.getEmail()).toBe(addAccountInput.Email)
+      expect(addAccountRepositorySpy.account.getUsername()).toBe(addAccountInput.username)
+      expect(addAccountRepositorySpy.account.getEmail()).toBe(addAccountInput.email)
       expect(addAccountRepositorySpy.account.getPassword()).toBe(hasherSpy.digest)
-      expect(addAccountRepositorySpy.account.isActive()).toBe(true)
+      expect(addAccountRepositorySpy.account.getIsActive()).toBe(true)
       expect(addAccountRepositorySpy.account.getCreatedAt()).toEqual(new Date())
       expect(addAccountRepositorySpy.account.getUpdateHistory()).toBeNull()
     })

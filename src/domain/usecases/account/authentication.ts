@@ -4,7 +4,7 @@ export interface Authentication {
 
 export namespace Authentication {
   export interface Input {
-    Email: string
-    Password: string
+    email: string
+    password: string
   }
 }

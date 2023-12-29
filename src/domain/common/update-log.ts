@@ -1,4 +1,4 @@
 export interface UpdateLog<EntityFields> {
-  Fields: EntityFields[]
-  UpdatedAt: Date
+  fields: EntityFields[]
+  updatedAt: Date
 }

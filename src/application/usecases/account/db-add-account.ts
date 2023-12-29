@@ -13,12 +13,12 @@ export class DbAddAccount implements AddAccount {
   ) {}
 
   public async add(input: AddAccount.Input): Promise<void> {
-    const accountExists = await this.checkAccountByEmailRepository.checkByEmail(input.Email)
+    const accountExists = await this.checkAccountByEmailRepository.checkByEmail(input.email)
     if (accountExists) {
       throw new EmailInUseError()
     }
-    const hashedPassword = await this.hasher.hash(input.Password)
-    const account = new Account(input.Username, input.Email, hashedPassword)
+    const hashedPassword = await this.hasher.hash(input.password)
+    const account = new Account(input.username, input.email, hashedPassword)
     await this.addAccountRepository.add(account)
   }
 }

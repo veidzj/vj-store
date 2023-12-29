@@ -6,7 +6,7 @@ export class CheckAccountByEmailMongoRepository implements CheckAccountByEmailRe
 
   public async checkByEmail(email: string): Promise<boolean> {
     const accountCollection = this.mongoHelper.getCollection('accounts')
-    const count = await accountCollection.countDocuments({ Email: email })
+    const count = await accountCollection.countDocuments({ email })
     return count > 0
   }
 }
