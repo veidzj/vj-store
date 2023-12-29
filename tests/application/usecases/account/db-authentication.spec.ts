@@ -1,7 +1,7 @@
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { DbAuthentication } from '@/application/usecases/account'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 import { HashComparerSpy } from '@/tests/application/mocks/cryptography'
 
 interface Sut {
@@ -59,6 +59,13 @@ describe('DbAuthentication', () => {
       jest.spyOn(hashComparerSpy, 'compare').mockImplementationOnce(() => { throw new Error() })
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should throw InvalidCredentialsError if HashComparer returns false', async() => {
+      const { sut, hashComparerSpy } = makeSut()
+      hashComparerSpy.isMatch = false
+      const promise = sut.auth(mockAuthenticationInput())
+      await expect(promise).rejects.toThrow(new InvalidCredentialsError())
     })
   })
 })
