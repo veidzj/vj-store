@@ -13,9 +13,9 @@ export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepo
 
 export class GetAccountByEmailRepositorySpy implements GetAccountByEmailRepository {
   public email: string
-  public account: Account = mockAccount()
+  public account: Account | null = mockAccount()
 
-  public async getByEmail(email: string): Promise<Account> {
+  public async getByEmail(email: string): Promise<Account | null> {
     this.email = email
     return this.account
   }
