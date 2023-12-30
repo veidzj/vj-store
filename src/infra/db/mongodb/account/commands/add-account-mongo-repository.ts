@@ -1,4 +1,4 @@
-import { MongoHelper } from '@/infra/db/mongodb'
+import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type AddAccountRepository } from '@/application/protocols/account/commands'
 
 export class AddAccountMongoRepository implements AddAccountRepository {

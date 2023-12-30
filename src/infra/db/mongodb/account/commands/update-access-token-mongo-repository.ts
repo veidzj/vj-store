@@ -1,4 +1,4 @@
-import { MongoHelper } from '@/infra/db/mongodb'
+import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
 
 export class UpdateAccessTokenMongoRepository implements UpdateAccessTokenRepository {

@@ -1,4 +1,4 @@
-import { MongoHelper } from '@/infra/db/mongodb'
+import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
 
 export class GetAccountByEmailMongoRepository implements GetAccountByEmailRepository {

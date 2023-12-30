@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { MongoHelper } from '@/infra/db/mongodb'
+import { MongoHelper } from '@/infra/db/mongodb/helpers'
 
 describe('MongoHelper', () => {
   test('Should throw if client is null', () => {

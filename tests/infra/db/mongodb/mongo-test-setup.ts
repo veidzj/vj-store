@@ -1,6 +1,6 @@
 import { type Collection } from 'mongodb'
 
-import { MongoHelper } from '@/infra/db/mongodb'
+import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { env } from '@/main/config'
 
 const mongoHelper: MongoHelper = MongoHelper.getInstance()
