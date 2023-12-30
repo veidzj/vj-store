@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
 import { mockAddAccountRepositoryInput, mockUpdateAccessTokenInput } from '@/tests/application/mocks/account/commands'
@@ -28,7 +29,7 @@ describe('UpdateAccessTokenMongoRepository', () => {
 
   test('Should throw if mongo throws', async() => {
     const sut = makeSut()
-    jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
     const promise = sut.updateAccessToken(mockUpdateAccessTokenInput())
     await expect(promise).rejects.toThrow()
   })

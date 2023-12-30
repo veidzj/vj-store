@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
 import { SignUpController } from '@/presentation/controllers/account'
@@ -57,9 +58,7 @@ describe('SignUpController', () => {
 
     test('Should return serverError if AddAccount throws an unmapped error', async() => {
       const { sut, addAccountSpy } = makeSut()
-      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => {
-        throw new Error()
-      })
+      jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
       const response = await sut.handle(mockRequest())
       expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
@@ -96,9 +95,7 @@ describe('SignUpController', () => {
 
     test('Should return serverError if Authentication throws an unmapped error', async() => {
       const { sut, authenticationSpy } = makeSut()
-      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
-        throw new Error()
-      })
+      jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const response = await sut.handle(mockRequest())
       expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
     })
@@ -106,7 +103,9 @@ describe('SignUpController', () => {
     test('Should return ok with accessToken on success', async() => {
       const { sut, authenticationSpy } = makeSut()
       const response = await sut.handle(mockRequest())
-      expect(response).toEqual(HttpHelper.ok({ accessToken: authenticationSpy.accessToken }))
+      expect(response).toEqual(HttpHelper.ok({
+        accessToken: authenticationSpy.accessToken
+      }))
     })
   })
 })

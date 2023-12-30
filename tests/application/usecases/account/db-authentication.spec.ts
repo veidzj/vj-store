@@ -1,3 +1,4 @@
+import { throwError } from '@/tests/test-helper'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { HashComparerSpy, EncrypterSpy } from '@/tests/application/mocks/cryptography'
@@ -46,7 +47,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw if GetAccountByEmailRepository throws', async() => {
       const { sut, getAccountByEmailRepositorySpy } = makeSut()
-      jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
@@ -63,7 +64,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw if HashComparer throws', async() => {
       const { sut, hashComparerSpy } = makeSut()
-      jest.spyOn(hashComparerSpy, 'compare').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(hashComparerSpy, 'compare').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
@@ -85,7 +86,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw if Encrypter throws', async() => {
       const { sut, encrypterSpy } = makeSut()
-      jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
@@ -103,7 +104,7 @@ describe('DbAuthentication', () => {
 
     test('Should throw if UpdateAccessTokenRepository throws', async() => {
       const { sut, updateAccessTokenRepository } = makeSut()
-      jest.spyOn(updateAccessTokenRepository, 'updateAccessToken').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(updateAccessTokenRepository, 'updateAccessToken').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })

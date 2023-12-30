@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
 import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
@@ -28,7 +29,7 @@ describe('CheckAccountByEmailMongoRepository', () => {
 
   test('Should throw if mongo throws', async() => {
     const sut = makeSut()
-    jest.spyOn(Collection.prototype, 'countDocuments').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(Collection.prototype, 'countDocuments').mockImplementationOnce(throwError)
     const promise = sut.checkByEmail(faker.internet.email())
     await expect(promise).rejects.toThrow()
   })

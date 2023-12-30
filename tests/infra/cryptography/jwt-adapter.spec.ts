@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { JwtAdapter } from '@/infra/cryptography'
 
 jest.mock('jsonwebtoken', () => ({
@@ -28,7 +29,7 @@ describe('JwtAdapter', () => {
 
     test('Should throw if sign throws', async() => {
       const sut = makeSut()
-      jest.spyOn(jwt, 'sign').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(jwt, 'sign').mockImplementationOnce(throwError)
       const promise = sut.encrypt(plainText)
       await expect(promise).rejects.toThrow()
     })

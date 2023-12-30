@@ -1,5 +1,6 @@
 import MockDate from 'mockdate'
 
+import { throwError } from '@/tests/test-helper'
 import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { AddAccountRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { HasherSpy } from '@/tests/application/mocks/cryptography'
@@ -51,7 +52,7 @@ describe('DbAddAccount', () => {
 
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-      jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
       await expectPromiseToThrow(sut)
     })
 
@@ -66,7 +67,7 @@ describe('DbAddAccount', () => {
   describe('Hasher', () => {
     test('Should throw if Hasher throws', async() => {
       const { sut, hasherSpy } = makeSut()
-      jest.spyOn(hasherSpy, 'hash').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(hasherSpy, 'hash').mockImplementationOnce(throwError)
       await expectPromiseToThrow(sut)
     })
 
