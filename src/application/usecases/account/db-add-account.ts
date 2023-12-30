@@ -1,9 +1,9 @@
 import { type CheckAccountByEmailRepository } from '@/application/protocols/account/queries'
 import { type Hasher } from '@/application/protocols/cryptography'
 import { type AddAccountRepository } from '@/application/protocols/account/commands'
-import { EmailInUseError } from '@/domain/errors/account'
-import { type AddAccount } from '@/domain/usecases/account'
 import { Account } from '@/domain/entities/account'
+import { type AddAccount } from '@/domain/usecases/account'
+import { EmailInUseError } from '@/domain/errors/account'
 
 export class DbAddAccount implements AddAccount {
   constructor(
@@ -19,7 +19,12 @@ export class DbAddAccount implements AddAccount {
     }
     const hashedPassword = await this.hasher.hash(input.password)
     const account = new Account(input.username, input.email, hashedPassword)
-    const addAccountInputRepository: AddAccountRepository.Input = {
+    const addAccountInputRepository = this.makeAddAccountInputRepository(account)
+    await this.addAccountRepository.add(addAccountInputRepository)
+  }
+
+  private makeAddAccountInputRepository(account: Account): AddAccountRepository.Input {
+    return {
       id: account.getId(),
       username: account.getUsername(),
       email: account.getEmail(),
@@ -27,8 +32,7 @@ export class DbAddAccount implements AddAccount {
       role: account.getRole(),
       isActive: account.getIsActive(),
       createdAt: account.getCreatedAt(),
-      updateHistory: account.getUpdateHistory()
+      updateHistory: []
     }
-    await this.addAccountRepository.add(addAccountInputRepository)
   }
 }
