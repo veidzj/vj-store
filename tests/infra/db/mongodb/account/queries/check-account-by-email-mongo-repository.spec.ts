@@ -1,10 +1,10 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { connectToDatabase, disconnectFromDatabase, clearDatabase } from '@/tests/infra/db/mongodb'
+import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
 import { mockAccount } from '@/tests/domain/mocks/account'
-import { MongoHelper } from '@/infra/db/mongodb'
 import { CheckAccountByEmailMongoRepository } from '@/infra/db/mongodb/account/queries'
-import { env } from '@/main/config'
 
 let accountCollection: Collection
 
@@ -13,19 +13,17 @@ const makeSut = (): CheckAccountByEmailMongoRepository => {
 }
 
 describe('CheckAccountByEmailMongoRepository', () => {
-  const mongoHelper: MongoHelper = MongoHelper.getInstance()
-
   beforeAll(async() => {
-    await mongoHelper.connect(env.mongoUrl)
+    await connectToDatabase()
   })
 
   afterAll(async() => {
-    await mongoHelper.disconnect()
+    await disconnectFromDatabase()
   })
 
   beforeEach(async() => {
-    accountCollection = mongoHelper.getCollection('accounts')
-    await accountCollection.deleteMany({})
+    accountCollection = await getAccountCollection()
+    await clearDatabase(accountCollection)
   })
 
   test('Should throw if mongo throws', async() => {

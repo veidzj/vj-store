@@ -1,10 +1,10 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
-import { MongoHelper } from '@/infra/db/mongodb'
+import { connectToDatabase, disconnectFromDatabase, clearDatabase } from '@/tests/infra/db/mongodb'
+import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
 import { type AddAccountRepository } from '@/application/protocols/account/commands'
-import { env } from '@/main/config'
 
 let accountCollection: Collection
 
@@ -24,19 +24,17 @@ const mockAddAccountRepositoryInput = (): AddAccountRepository.Input => ({
 })
 
 describe('AddAccountMongoRepository', () => {
-  const mongoHelper: MongoHelper = MongoHelper.getInstance()
-
   beforeAll(async() => {
-    await mongoHelper.connect(env.mongoUrl)
+    await connectToDatabase()
   })
 
   afterAll(async() => {
-    await mongoHelper.disconnect()
+    await disconnectFromDatabase()
   })
 
   beforeEach(async() => {
-    accountCollection = mongoHelper.getCollection('accounts')
-    await accountCollection.deleteMany({})
+    accountCollection = await getAccountCollection()
+    await clearDatabase(accountCollection)
   })
 
   test('Should throw if mongo throws', async() => {

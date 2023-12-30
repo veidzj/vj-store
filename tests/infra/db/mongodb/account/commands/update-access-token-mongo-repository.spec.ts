@@ -1,11 +1,11 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
-import { MongoHelper } from '@/infra/db/mongodb'
+import { connectToDatabase, disconnectFromDatabase, clearDatabase } from '@/tests/infra/db/mongodb'
+import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
+import { mockAccount } from '@/tests/domain/mocks/account'
 import { UpdateAccessTokenMongoRepository } from '@/infra/db/mongodb/account/commands'
 import { type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
-import { env } from '@/main/config'
-import { mockAccount } from '@/tests/domain/mocks/account'
 
 let accountCollection: Collection
 
@@ -19,19 +19,17 @@ const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({
 })
 
 describe('UpdateAccessTokenMongoRepository', () => {
-  const mongoHelper: MongoHelper = MongoHelper.getInstance()
-
   beforeAll(async() => {
-    await mongoHelper.connect(env.mongoUrl)
+    await connectToDatabase()
   })
 
   afterAll(async() => {
-    await mongoHelper.disconnect()
+    await disconnectFromDatabase()
   })
 
   beforeEach(async() => {
-    accountCollection = mongoHelper.getCollection('accounts')
-    await accountCollection.deleteMany({})
+    accountCollection = await getAccountCollection()
+    await clearDatabase(accountCollection)
   })
 
   test('Should throw if mongo throws', async() => {
