@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
-import { mockAccount } from '@/tests/domain/mocks/account'
+import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { CheckAccountByEmailMongoRepository } from '@/infra/db/mongodb/account/queries'
 
 let accountCollection: Collection
@@ -35,15 +35,15 @@ describe('CheckAccountByEmailMongoRepository', () => {
 
   test('Should return true if email exists', async() => {
     const sut = makeSut()
-    const accountInput = mockAccount()
-    await accountCollection.insertOne(accountInput)
-    const accountExists = await sut.checkByEmail(accountInput.getEmail())
+    const addAccountRepositoryInput = mockAddAccountRepositoryInput()
+    await accountCollection.insertOne(addAccountRepositoryInput)
+    const accountExists = await sut.checkByEmail(addAccountRepositoryInput.email)
     expect(accountExists).toBe(true)
   })
 
   test('Should return false if email does not exists', async() => {
     const sut = makeSut()
-    const accountExists = await sut.checkByEmail(mockAccount().getEmail())
+    const accountExists = await sut.checkByEmail(mockAddAccountRepositoryInput().email)
     expect(accountExists).toBe(false)
   })
 })

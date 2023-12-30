@@ -3,20 +3,14 @@ import { faker } from '@faker-js/faker'
 
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
-import { mockAccount } from '@/tests/domain/mocks/account'
+import { mockAddAccountRepositoryInput, mockUpdateAccessTokenInput } from '@/tests/application/mocks/account/commands'
 import { UpdateAccessTokenMongoRepository } from '@/infra/db/mongodb/account/commands'
-import { type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
 
 let accountCollection: Collection
 
 const makeSut = (): UpdateAccessTokenMongoRepository => {
   return new UpdateAccessTokenMongoRepository()
 }
-
-const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({
-  id: faker.string.uuid(),
-  accessToken: faker.string.uuid()
-})
 
 describe('UpdateAccessTokenMongoRepository', () => {
   beforeAll(async() => {
@@ -41,7 +35,7 @@ describe('UpdateAccessTokenMongoRepository', () => {
 
   test('Should update accessToken on success', async() => {
     const sut = makeSut()
-    const insertResult = await accountCollection.insertOne(mockAccount())
+    const insertResult = await accountCollection.insertOne(mockAddAccountRepositoryInput())
     const fakeAccount = await accountCollection.findOne({ _id: insertResult.insertedId })
     expect(fakeAccount?.accessToken).toBeFalsy()
     const accessToken = faker.string.uuid()

@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
-import { mockAccount } from '@/tests/domain/mocks/account'
+import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { GetAccountByEmailMongoRepository } from '@/infra/db/mongodb/account/queries'
 
 let accountCollection: Collection
@@ -41,10 +41,10 @@ describe('GetAccountByEmailMongoRepository', () => {
 
   test('Should return an account on success', async() => {
     const sut = makeSut()
-    const accountInput = mockAccount()
-    await accountCollection.insertOne(accountInput)
-    const account = await sut.getByEmail(accountInput.getEmail())
-    expect(account?.id).toBe(accountInput.getId())
-    expect(account?.password).toBe(accountInput.getPassword())
+    const addAccountRepositoryInput = mockAddAccountRepositoryInput()
+    await accountCollection.insertOne(addAccountRepositoryInput)
+    const account = await sut.getByEmail(addAccountRepositoryInput.email)
+    expect(account?.id).toBe(addAccountRepositoryInput.id)
+    expect(account?.password).toBe(addAccountRepositoryInput.password)
   })
 })

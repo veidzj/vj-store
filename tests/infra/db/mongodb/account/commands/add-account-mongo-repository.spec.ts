@@ -1,27 +1,15 @@
 import { Collection } from 'mongodb'
-import { faker } from '@faker-js/faker'
 
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
+import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
-import { type AddAccountRepository } from '@/application/protocols/account/commands'
 
 let accountCollection: Collection
 
 const makeSut = (): AddAccountMongoRepository => {
   return new AddAccountMongoRepository()
 }
-
-const mockAddAccountRepositoryInput = (): AddAccountRepository.Input => ({
-  id: faker.string.uuid(),
-  username: faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' }),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-  role: faker.word.words(),
-  isActive: faker.datatype.boolean(),
-  createdAt: faker.date.anytime(),
-  updateHistory: []
-})
 
 describe('AddAccountMongoRepository', () => {
   beforeAll(async() => {
