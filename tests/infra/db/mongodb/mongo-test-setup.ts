@@ -13,6 +13,6 @@ export async function disconnectFromDatabase(): Promise<void> {
   await mongoHelper.disconnect()
 }
 
-export async function clearDatabase(collection: Collection): Promise<void> {
+export async function clearCollection(collection: Collection): Promise<void> {
   await collection.deleteMany({})
 }

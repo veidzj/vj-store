@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
-import { connectToDatabase, disconnectFromDatabase, clearDatabase } from '@/tests/infra/db/mongodb'
+import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
 import { type AddAccountRepository } from '@/application/protocols/account/commands'
@@ -34,7 +34,7 @@ describe('AddAccountMongoRepository', () => {
 
   beforeEach(async() => {
     accountCollection = await getAccountCollection()
-    await clearDatabase(accountCollection)
+    await clearCollection(accountCollection)
   })
 
   test('Should throw if mongo throws', async() => {
