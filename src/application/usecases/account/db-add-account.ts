@@ -19,6 +19,16 @@ export class DbAddAccount implements AddAccount {
     }
     const hashedPassword = await this.hasher.hash(input.password)
     const account = new Account(input.username, input.email, hashedPassword)
-    await this.addAccountRepository.add(account)
+    const addAccountInputRepository: AddAccountRepository.Input = {
+      id: account.getId(),
+      username: account.getUsername(),
+      email: account.getEmail(),
+      password: account.getPassword(),
+      role: account.getRole(),
+      isActive: account.getIsActive(),
+      createdAt: account.getCreatedAt(),
+      updateHistory: account.getUpdateHistory()
+    }
+    await this.addAccountRepository.add(addAccountInputRepository)
   }
 }

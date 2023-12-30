@@ -1,11 +1,10 @@
 import { type AddAccountRepository, type UpdateAccessTokenRepository } from '@/application/protocols/account/commands'
-import { type Account } from '@/domain/entities/account'
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
-  public account: Account
+  public input: AddAccountRepository.Input
 
-  public async add(account: Account): Promise<void> {
-    this.account = account
+  public async add(input: AddAccountRepository.Input): Promise<void> {
+    this.input = input
   }
 }
 
