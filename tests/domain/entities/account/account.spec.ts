@@ -13,7 +13,7 @@ const makeSut = (): Account => {
   return new Account(username, email, password)
 }
 
-const expectToThrow = (errorMessage: string): void => {
+const expectPromiseToThrow = (errorMessage: string): void => {
   const sut = (): Account => makeSut()
   expect(sut).toThrow(new EntityValidationError(errorMessage))
 }
@@ -93,42 +93,42 @@ describe('Account Entity', () => {
   test('Should throw if Username is less than 3 characters long', () => {
     username = faker.string.alpha({ length: { min: 1, max: 2 }, casing: 'lower' })
     const errorMessage = 'Username must be at least 3 characters long'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Username is greater than 12 characters long', () => {
     username = faker.string.alpha({ length: { min: 13, max: 255 }, casing: 'lower' })
     const errorMessage = 'Username must be less than or equal to 12 characters long'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Username contains numbers or special characters', () => {
     username = faker.string.sample({ min: 3, max: 12 })
     const errorMessage = 'Username must contain only letters'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Username is not lowercase', () => {
     username = faker.string.alpha({ length: { min: 3, max: 12 } })
     const errorMessage = 'Username must be lowercase'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Email is invalid', () => {
     email = faker.word.words()
     const errorMessage = 'Email must be valid'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Password is less than 6 characters long', () => {
     password = faker.internet.password({ length: 5 })
     const errorMessage = 'Password must must be at least 6 characters long'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Password is greater than 255 characters long', () => {
     password = faker.internet.password({ length: 256 })
     const errorMessage = 'Password must be less than or equal to 255 characters long'
-    expectToThrow(errorMessage)
+    expectPromiseToThrow(errorMessage)
   })
 })

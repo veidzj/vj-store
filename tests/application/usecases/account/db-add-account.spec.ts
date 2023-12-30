@@ -27,7 +27,7 @@ const makeSut = (): Sut => {
   }
 }
 
-const expectToThrow = async(sut: DbAddAccount): Promise<void> => {
+const expectPromiseToThrow = async(sut: DbAddAccount): Promise<void> => {
   const promise = sut.add(mockAddAccountInput())
   await expect(promise).rejects.toThrow()
 }
@@ -52,7 +52,7 @@ describe('DbAddAccount', () => {
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(() => { throw new Error() })
-      await expectToThrow(sut)
+      await expectPromiseToThrow(sut)
     })
 
     test('Should throw EmailInUseError if CheckAccountByEmailRepository returns true', async() => {
@@ -67,7 +67,7 @@ describe('DbAddAccount', () => {
     test('Should throw if Hasher throws', async() => {
       const { sut, hasherSpy } = makeSut()
       jest.spyOn(hasherSpy, 'hash').mockImplementationOnce(() => { throw new Error() })
-      await expectToThrow(sut)
+      await expectPromiseToThrow(sut)
     })
 
     test('Should call Hasher with correct password', async() => {
@@ -82,19 +82,19 @@ describe('DbAddAccount', () => {
     test('Should throw if AccountValidation.validateUsername throws', async() => {
       const { sut } = makeSut()
       mockUsernameValidationToThrow()
-      await expectToThrow(sut)
+      await expectPromiseToThrow(sut)
     })
 
     test('Should throw if AccountValidation.validateEmail throws', async() => {
       const { sut } = makeSut()
       mockEmailValidationToThrow()
-      await expectToThrow(sut)
+      await expectPromiseToThrow(sut)
     })
 
     test('Should throw if AccountValidation.validatePassword throws', async() => {
       const { sut } = makeSut()
       mockPasswordValidationToThrow()
-      await expectToThrow(sut)
+      await expectPromiseToThrow(sut)
     })
   })
 
