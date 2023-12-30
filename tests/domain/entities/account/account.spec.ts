@@ -43,7 +43,7 @@ describe('Account Entity', () => {
     expect(sut.getRole()).toBe(role)
     expect(sut.getIsActive()).toBe(true)
     expect(sut.getCreatedAt()).toEqual(currentDate)
-    expect(sut.getUpdateHistory()).toBeNull()
+    expect(sut.getUpdateHistory()).toEqual([])
   })
 
   test('Should deactivate an active Account', () => {

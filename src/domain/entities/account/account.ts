@@ -8,7 +8,7 @@ export class Account extends AggregateRoot {
   private password: string
   private readonly role: string = 'User'
   private isActive: boolean = true
-  private updateHistory: UpdateLog<AccountFields> | null = null
+  private updateHistory: UpdateLog<AccountFields> | [] = []
 
   constructor(username: string, email: string, password: string) {
     super()
@@ -45,7 +45,7 @@ export class Account extends AggregateRoot {
     return this.createdAt
   }
 
-  public getUpdateHistory(): UpdateLog<AccountFields> | null {
+  public getUpdateHistory(): UpdateLog<AccountFields> | [] {
     return this.updateHistory
   }
 
