@@ -12,11 +12,15 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:changed": "npm test -- --changedSince=origin/main",
+    "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@shelf/jest-mongodb": "^4.2.0",
+    "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.11",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.5",
     "@types/validator": "^13.11.7",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
@@ -39,6 +43,9 @@
     "node": "20.x"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
     "validator": "^13.11.0"
   }
 }

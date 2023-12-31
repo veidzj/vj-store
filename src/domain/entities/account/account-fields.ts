@@ -1,6 +1,6 @@
 export enum AccountFields {
-  Username = 'Username',
-  Email = 'Email',
-  Password = 'Password',
-  IsActive = 'IsActive'
+  username = 'username',
+  email = 'email',
+  password = 'password',
+  isActive = 'isActive'
 }

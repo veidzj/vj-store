@@ -1,12 +1,12 @@
 import crypto from 'crypto'
 
 export abstract class Entity {
-  public readonly Id: string
-  public readonly CreatedAt: Date
+  protected readonly id: string
+  protected readonly createdAt: Date
 
   constructor() {
-    this.Id = this.generateGUID()
-    this.CreatedAt = new Date()
+    this.id = this.generateGUID()
+    this.createdAt = new Date()
   }
 
   private generateGUID(): string {
