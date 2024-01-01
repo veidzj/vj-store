@@ -8,8 +8,8 @@ export class SignInController implements Controller {
 
   public async handle(request: SignInController.Request): Promise<Response> {
     try {
-      await this.authentication.auth(request)
-      return HttpHelper.ok({})
+      const accessToken = await this.authentication.auth(request)
+      return HttpHelper.ok({ accessToken })
     } catch (error) {
       if (error instanceof AccountNotFoundError) {
         return HttpHelper.notFound(error)
