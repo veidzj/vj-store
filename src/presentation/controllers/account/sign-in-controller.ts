@@ -17,7 +17,7 @@ export class SignInController implements Controller {
       if (error instanceof InvalidCredentialsError) {
         return HttpHelper.unauthorized(error)
       }
-      return HttpHelper.ok({})
+      return HttpHelper.serverError(error as Error)
     }
   }
 }
