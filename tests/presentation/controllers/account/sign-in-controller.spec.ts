@@ -23,8 +23,9 @@ const makeSut = (): Sut => {
 const mockRequest = (): SignInController.Request => mockAuthenticationInput()
 
 describe('SignInController', () => {
+  const { sut, authenticationSpy } = makeSut()
+
   test('Should call Authentication with correct values', async() => {
-    const { sut, authenticationSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     expect(authenticationSpy.input).toEqual({
@@ -34,7 +35,6 @@ describe('SignInController', () => {
   })
 
   test('Should return notFound if Authentication throws AccountNotFoundError', async() => {
-    const { sut, authenticationSpy } = makeSut()
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
       throw new AccountNotFoundError()
     })
@@ -43,7 +43,6 @@ describe('SignInController', () => {
   })
 
   test('Should return unauthorized if Authentication throws InvalidCredentialsError', async() => {
-    const { sut, authenticationSpy } = makeSut()
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
       throw new InvalidCredentialsError()
     })
@@ -52,14 +51,12 @@ describe('SignInController', () => {
   })
 
   test('Should return serverError if Authentication throws an unmapped error', async() => {
-    const { sut, authenticationSpy } = makeSut()
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
   })
 
   test('Should return ok with accessToken on success', async() => {
-    const { sut, authenticationSpy } = makeSut()
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.ok({
       accessToken: authenticationSpy.accessToken
