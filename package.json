@@ -7,6 +7,7 @@
   "repository": "https://github.com/veidzj/vj-store",
   "homepage": "https://github.com/veidzj/vj-store",
   "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "check": "ncu --interactive --format group",
     "test": "jest --passWithNoTests --runInBand --no-cache",
     "test:watch": "npm test -- --watch",
@@ -36,6 +37,7 @@
     "lint-staged": "^15.2.0",
     "mockdate": "^3.0.5",
     "npm-check-updates": "^16.14.12",
+    "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
