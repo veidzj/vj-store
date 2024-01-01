@@ -14,6 +14,8 @@ const makeSut = (): CheckAccountByEmailMongoRepository => {
 }
 
 describe('CheckAccountByEmailMongoRepository', () => {
+  const sut = makeSut()
+
   beforeAll(async() => {
     await connectToDatabase()
   })
@@ -28,14 +30,12 @@ describe('CheckAccountByEmailMongoRepository', () => {
   })
 
   test('Should throw if mongo throws', async() => {
-    const sut = makeSut()
     jest.spyOn(Collection.prototype, 'countDocuments').mockImplementationOnce(throwError)
     const promise = sut.checkByEmail(faker.internet.email())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return true if email exists', async() => {
-    const sut = makeSut()
     const addAccountRepositoryInput = mockAddAccountRepositoryInput()
     await accountCollection.insertOne(addAccountRepositoryInput)
     const accountExists = await sut.checkByEmail(addAccountRepositoryInput.email)
@@ -43,7 +43,6 @@ describe('CheckAccountByEmailMongoRepository', () => {
   })
 
   test('Should return false if email does not exists', async() => {
-    const sut = makeSut()
     const accountExists = await sut.checkByEmail(mockAddAccountRepositoryInput().email)
     expect(accountExists).toBe(false)
   })

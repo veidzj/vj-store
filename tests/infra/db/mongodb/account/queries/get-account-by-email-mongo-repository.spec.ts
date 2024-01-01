@@ -14,6 +14,8 @@ const makeSut = (): GetAccountByEmailMongoRepository => {
 }
 
 describe('GetAccountByEmailMongoRepository', () => {
+  const sut = makeSut()
+
   beforeAll(async() => {
     await connectToDatabase()
   })
@@ -28,20 +30,17 @@ describe('GetAccountByEmailMongoRepository', () => {
   })
 
   test('Should throw if mongo throws', async() => {
-    const sut = makeSut()
     jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
     const promise = sut.getByEmail(faker.internet.email())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return null if email is not registered', async() => {
-    const sut = makeSut()
     const account = await sut.getByEmail(faker.internet.email())
     expect(account).toBeNull()
   })
 
   test('Should return an account on success', async() => {
-    const sut = makeSut()
     const addAccountRepositoryInput = mockAddAccountRepositoryInput()
     await accountCollection.insertOne(addAccountRepositoryInput)
     const account = await sut.getByEmail(addAccountRepositoryInput.email)
