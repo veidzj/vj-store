@@ -1,7 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type Authentication } from '@/domain/usecases/account'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 export class SignInController implements Controller {
   constructor(private readonly authentication: Authentication) {}
@@ -13,6 +13,9 @@ export class SignInController implements Controller {
     } catch (error) {
       if (error instanceof AccountNotFoundError) {
         return HttpHelper.notFound(error)
+      }
+      if (error instanceof InvalidCredentialsError) {
+        return HttpHelper.unauthorized(error)
       }
       return HttpHelper.ok({})
     }
