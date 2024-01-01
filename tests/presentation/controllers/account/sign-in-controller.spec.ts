@@ -57,4 +57,12 @@ describe('SignInController', () => {
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
   })
+
+  test('Should return ok with accessToken on success', async() => {
+    const { sut, authenticationSpy } = makeSut()
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.ok({
+      accessToken: authenticationSpy.accessToken
+    }))
+  })
 })
