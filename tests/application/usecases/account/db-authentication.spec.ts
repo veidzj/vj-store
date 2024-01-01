@@ -31,22 +31,21 @@ const makeSut = (): Sut => {
 
 describe('DbAuthentication', () => {
   describe('GetAccountByEmailRepository', () => {
+    const { sut, getAccountByEmailRepositorySpy } = makeSut()
+
     test('Should call GetAccountByEmailRepository with correct email', async() => {
-      const { sut, getAccountByEmailRepositorySpy } = makeSut()
       const authenticationInput = mockAuthenticationInput()
       await sut.auth(authenticationInput)
       expect(getAccountByEmailRepositorySpy.email).toBe(authenticationInput.email)
     })
 
     test('Should throw AccountNotFoundError if GetAccountByEmailRepository returns null', async() => {
-      const { sut, getAccountByEmailRepositorySpy } = makeSut()
       getAccountByEmailRepositorySpy.output = null
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
 
     test('Should throw if GetAccountByEmailRepository throws', async() => {
-      const { sut, getAccountByEmailRepositorySpy } = makeSut()
       jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
@@ -54,8 +53,9 @@ describe('DbAuthentication', () => {
   })
 
   describe('HashComparer', () => {
+    const { sut, hashComparerSpy, getAccountByEmailRepositorySpy } = makeSut()
+
     test('Should call HashComparer with correct values', async() => {
-      const { sut, hashComparerSpy, getAccountByEmailRepositorySpy } = makeSut()
       const authenticationInput = mockAuthenticationInput()
       await sut.auth(authenticationInput)
       expect(hashComparerSpy.plainText).toBe(authenticationInput.password)
@@ -63,14 +63,12 @@ describe('DbAuthentication', () => {
     })
 
     test('Should throw if HashComparer throws', async() => {
-      const { sut, hashComparerSpy } = makeSut()
       jest.spyOn(hashComparerSpy, 'compare').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
 
     test('Should throw InvalidCredentialsError if HashComparer returns false', async() => {
-      const { sut, hashComparerSpy } = makeSut()
       hashComparerSpy.isMatch = false
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow(new InvalidCredentialsError())
@@ -78,14 +76,14 @@ describe('DbAuthentication', () => {
   })
 
   describe('Encrypter', () => {
+    const { sut, encrypterSpy, getAccountByEmailRepositorySpy } = makeSut()
+
     test('Should call Encrypter with correct id', async() => {
-      const { sut, encrypterSpy, getAccountByEmailRepositorySpy } = makeSut()
       await sut.auth(mockAuthenticationInput())
       expect(encrypterSpy.plainText).toBe(getAccountByEmailRepositorySpy.output?.id)
     })
 
     test('Should throw if Encrypter throws', async() => {
-      const { sut, encrypterSpy } = makeSut()
       jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
@@ -93,8 +91,9 @@ describe('DbAuthentication', () => {
   })
 
   describe('UpdateAccessTokenRepository', () => {
+    const { sut, updateAccessTokenRepository, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
+
     test('Should call UpdateAccessTokenRepository with correct values', async() => {
-      const { sut, updateAccessTokenRepository, getAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
       await sut.auth(mockAuthenticationInput())
       expect(updateAccessTokenRepository.input).toEqual({
         id: getAccountByEmailRepositorySpy.output?.id,
@@ -103,14 +102,12 @@ describe('DbAuthentication', () => {
     })
 
     test('Should throw if UpdateAccessTokenRepository throws', async() => {
-      const { sut, updateAccessTokenRepository } = makeSut()
       jest.spyOn(updateAccessTokenRepository, 'updateAccessToken').mockImplementationOnce(throwError)
       const promise = sut.auth(mockAuthenticationInput())
       await expect(promise).rejects.toThrow()
     })
 
     test('Should return an accessToken on success', async() => {
-      const { sut, encrypterSpy } = makeSut()
       const accessToken = await sut.auth(mockAuthenticationInput())
       expect(accessToken).toBe(encrypterSpy.cipherText)
     })

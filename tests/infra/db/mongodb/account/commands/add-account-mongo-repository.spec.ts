@@ -13,6 +13,8 @@ const makeSut = (): AddAccountMongoRepository => {
 }
 
 describe('AddAccountMongoRepository', () => {
+  const sut = makeSut()
+
   beforeAll(async() => {
     await connectToDatabase()
   })
@@ -27,14 +29,12 @@ describe('AddAccountMongoRepository', () => {
   })
 
   test('Should throw if mongo throws', async() => {
-    const sut = makeSut()
     jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(throwError)
     const promise = sut.add(mockAddAccountRepositoryInput())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should add an Account on success', async() => {
-    const sut = makeSut()
     const addAccountRepositoryInput = mockAddAccountRepositoryInput()
     await sut.add(addAccountRepositoryInput)
     const count = await accountCollection.countDocuments()

@@ -82,7 +82,7 @@ describe('Account Entity', () => {
 
   test('Should change UpdateHistory on setter', () => {
     const sut = makeSut()
-    const accountFields = [AccountFields.username, AccountFields.email, AccountFields.password, AccountFields.isActive]
+    const accountFields: AccountFields[] = [AccountFields.username, AccountFields.email, AccountFields.password, AccountFields.isActive]
     sut.setUpdateHistory(accountFields)
     expect(sut.getUpdateHistory()).toEqual({
       fields: accountFields,
