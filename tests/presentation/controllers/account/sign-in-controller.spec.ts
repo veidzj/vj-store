@@ -2,7 +2,7 @@ import { AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { SignInController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: SignInController
@@ -38,5 +38,14 @@ describe('SignInController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.notFound(new AccountNotFoundError()))
+  })
+
+  test('Should return unauthorized if Authentication throws InvalidCredentialsError', async() => {
+    const { sut, authenticationSpy } = makeSut()
+    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
+      throw new InvalidCredentialsError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 })
