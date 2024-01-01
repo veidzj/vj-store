@@ -1,6 +1,8 @@
-import { SignInController } from '@/presentation/controllers/account'
+import { AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
-import { AuthenticationSpy } from '../../mocks/account'
+import { SignInController } from '@/presentation/controllers/account'
+import { HttpHelper } from '@/presentation/helpers'
+import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
   sut: SignInController
@@ -27,5 +29,14 @@ describe('SignInController', () => {
       email: request.email,
       password: request.password
     })
+  })
+
+  test('Should return notFound if Authentication throws AccountNotFoundError', async() => {
+    const { sut, authenticationSpy } = makeSut()
+    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => {
+      throw new AccountNotFoundError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.notFound(new AccountNotFoundError()))
   })
 })
