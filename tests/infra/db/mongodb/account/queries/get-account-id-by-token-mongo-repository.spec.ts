@@ -73,4 +73,16 @@ describe('GetAccountIdByTokenMongoRepository', () => {
     const accountId = await sut.getByToken(accessToken, adminRole)
     expect(accountId).toBe(id)
   })
+
+  test('Should return null if invalid role is provided', async() => {
+    const sut = makeSut()
+    await accountCollection.insertOne({
+      username,
+      email,
+      password,
+      accessToken
+    })
+    const account = await sut.getByToken(accessToken, faker.word.words())
+    expect(account).toBeNull()
+  })
 })
