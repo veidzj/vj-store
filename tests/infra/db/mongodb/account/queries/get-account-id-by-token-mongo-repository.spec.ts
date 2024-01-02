@@ -15,6 +15,7 @@ const makeSut = (): GetAccountIdByTokenMongoRepository => {
 describe('GetAccountIdByTokenMongoRepository', () => {
   const sut = makeSut()
   const userRole: string = 'user'
+  const adminRole: string = 'admin'
   let id: string = faker.string.uuid()
   let username: string = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
   let email: string = faker.internet.email()
@@ -56,6 +57,20 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       role: userRole
     })
     const accountId = await sut.getByToken(accessToken, userRole)
+    expect(accountId).toBe(id)
+  })
+
+  test('Should return an accountId with admin role on success', async() => {
+    const sut = makeSut()
+    await accountCollection.insertOne({
+      id,
+      username,
+      email,
+      password,
+      accessToken,
+      role: adminRole
+    })
+    const accountId = await sut.getByToken(accessToken, adminRole)
     expect(accountId).toBe(id)
   })
 })
