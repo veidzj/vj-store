@@ -16,8 +16,8 @@ export class AuthMiddleware implements Middleware {
         return HttpHelper.unauthorized(new InvalidCredentialsError())
       }
 
-      await this.getAccountIdByToken.getByToken(accessToken, this.role)
-      return HttpHelper.ok({})
+      const accountId = await this.getAccountIdByToken.getByToken(accessToken, this.role)
+      return HttpHelper.ok({ accountId })
     } catch (error) {
       if (error instanceof TokenError) {
         return HttpHelper.unauthorized(error)
