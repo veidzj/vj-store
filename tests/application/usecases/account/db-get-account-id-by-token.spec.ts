@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { DecrypterSpy } from '@/tests/application/mocks/cryptography'
+import { GetAccountIdByTokenRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { DbGetAccountIdByToken } from '@/application/usecases/account'
 import { AccessDeniedError, TokenError } from '@/domain/errors/account'
-import { GetAccountIdByTokenRepositorySpy } from '@/tests/application/mocks/account/queries'
 
 interface Sut {
   sut: DbGetAccountIdByToken
@@ -67,6 +67,12 @@ describe('DbGetAccountIdByToken', () => {
       jest.spyOn(getAccountIdByTokenRepositorySpy, 'getByToken').mockImplementationOnce(throwError)
       const promise = sut.getByToken(token, role)
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should return an accountId on success', async() => {
+      const { sut, getAccountIdByTokenRepositorySpy } = makeSut()
+      const accountId = await sut.getByToken(token, role)
+      expect(accountId).toBe(getAccountIdByTokenRepositorySpy.accountId)
     })
   })
 })
