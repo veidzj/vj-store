@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
-import { InvalidCredentialsError } from '@/domain/errors/account'
+import { InvalidCredentialsError, TokenError } from '@/domain/errors/account'
 import { GetAccountIdByTokenSpy } from '@/tests/presentation/mocks/account'
 
 interface Sut {
@@ -37,5 +37,12 @@ describe('AuthMiddleware', () => {
     await sut.handle(request)
     expect(getAccountIdByTokenSpy.accessToken).toBe(request.accessToken)
     expect(getAccountIdByTokenSpy.role).toBe(role)
+  })
+
+  test('Should return unauthorized if GetAccountIdByToken throws TokenError', async() => {
+    const { sut, getAccountIdByTokenSpy } = makeSut()
+    jest.spyOn(getAccountIdByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new TokenError() })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.unauthorized(new TokenError()))
   })
 })
