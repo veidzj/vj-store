@@ -6,7 +6,7 @@ export class GetAccountIdByTokenMongoRepository implements GetAccountIdByTokenRe
 
   public async getByToken(accessToken: string, role: string): Promise<string | null> {
     const accountCollection = this.mongoHelper.getCollection('accounts')
-    const accountId = await accountCollection.findOne({
+    const account = await accountCollection.findOne({
       accessToken,
       $or: [{
         role
@@ -15,9 +15,11 @@ export class GetAccountIdByTokenMongoRepository implements GetAccountIdByTokenRe
       }]
     }, {
       projection: {
+        _id: 0,
         id: 1
       }
     })
-    return accountId && accountId as unknown as string
+    const accountId = account?.id.toString()
+    return accountId
   }
 }
