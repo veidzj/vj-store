@@ -46,6 +46,31 @@ describe('GetAccountIdByTokenMongoRepository', () => {
     await expect(promise).rejects.toThrow()
   })
 
+  test('Should return null if invalid role is provided', async() => {
+    const sut = makeSut()
+    await accountCollection.insertOne({
+      username,
+      email,
+      password,
+      accessToken
+    })
+    const accountId = await sut.getByToken(accessToken, faker.word.words())
+    expect(accountId).toBeNull()
+  })
+
+  test('Should return null if role is user and provided role is admin', async() => {
+    const sut = makeSut()
+    await accountCollection.insertOne({
+      username,
+      email,
+      password,
+      accessToken,
+      role: userRole
+    })
+    const accountId = await sut.getByToken(accessToken, adminRole)
+    expect(accountId).toBeNull()
+  })
+
   test('Should return an accountId with user role on success', async() => {
     const sut = makeSut()
     await accountCollection.insertOne({
@@ -74,28 +99,17 @@ describe('GetAccountIdByTokenMongoRepository', () => {
     expect(accountId).toBe(id)
   })
 
-  test('Should return null if invalid role is provided', async() => {
+  test('Should return an accountId if role is admin and provided role is user', async() => {
     const sut = makeSut()
     await accountCollection.insertOne({
-      username,
-      email,
-      password,
-      accessToken
-    })
-    const accountId = await sut.getByToken(accessToken, faker.word.words())
-    expect(accountId).toBeNull()
-  })
-
-  test('Should return null if role is user and provided role is admin', async() => {
-    const sut = makeSut()
-    await accountCollection.insertOne({
+      id,
       username,
       email,
       password,
       accessToken,
-      role: userRole
+      role: adminRole
     })
-    const accountId = await sut.getByToken(accessToken, adminRole)
-    expect(accountId).toBeNull()
+    const accountId = await sut.getByToken(accessToken, userRole)
+    expect(accountId).toBe(id)
   })
 })
