@@ -1,7 +1,7 @@
 import { type Decrypter } from '@/application/protocols/cryptography'
 import { type GetAccountIdByTokenRepository } from '@/application/protocols/account/queries'
 import { type GetAccountIdByToken } from '@/domain/usecases/account'
-import { TokenError } from '@/domain/errors/account'
+import { TokenError, AccessDeniedError } from '@/domain/errors/account'
 
 export class DbGetAccountIdByToken implements GetAccountIdByToken {
   constructor(
@@ -16,7 +16,10 @@ export class DbGetAccountIdByToken implements GetAccountIdByToken {
       throw new TokenError()
     }
 
-    await this.getAccountIdByTokenRepository.getByToken(accessToken, role)
+    const accountId = await this.getAccountIdByTokenRepository.getByToken(accessToken, role)
+    if (!accountId) {
+      throw new AccessDeniedError()
+    }
     return await Promise.resolve('')
   }
 }
