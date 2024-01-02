@@ -3,7 +3,6 @@ import { AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { SignInController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
-import { ServerError } from '@/presentation/errors'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
@@ -50,10 +49,10 @@ describe('SignInController', () => {
     expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
-  test('Should return serverError if Authentication throws an unmapped error', async() => {
+  test('Should return serverError if Authentication throws', async() => {
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
     const response = await sut.handle(mockRequest())
-    expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok with accessToken on success', async() => {

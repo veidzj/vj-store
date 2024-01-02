@@ -15,6 +15,9 @@ export class GetAccountByEmailMongoRepository implements GetAccountByEmailReposi
         password: 1
       }
     })
-    return account && account as unknown as GetAccountByEmailRepository.Output
+    return account && {
+      id: account?.id,
+      password: account?.password
+    }
   }
 }
