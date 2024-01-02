@@ -1,5 +1,5 @@
 import { type Response } from '@/presentation/protocols'
 
-export interface Middleware<T = any> {
+export interface Middleware<T = object> {
   handle: (request: T) => Promise<Response>
 }
