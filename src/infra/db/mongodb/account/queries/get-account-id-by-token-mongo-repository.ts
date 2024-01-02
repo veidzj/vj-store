@@ -19,6 +19,6 @@ export class GetAccountIdByTokenMongoRepository implements GetAccountIdByTokenRe
         id: 1
       }
     })
-    return account && account?.id
+    return account?.id ?? null
   }
 }
