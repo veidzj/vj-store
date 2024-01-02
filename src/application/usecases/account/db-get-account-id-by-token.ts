@@ -20,6 +20,6 @@ export class DbGetAccountIdByToken implements GetAccountIdByToken {
     if (!accountId) {
       throw new AccessDeniedError()
     }
-    return await Promise.resolve('')
+    return accountId
   }
 }
