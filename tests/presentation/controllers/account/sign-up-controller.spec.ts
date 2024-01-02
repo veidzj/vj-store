@@ -5,7 +5,6 @@ import { AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks/acc
 import { mockAddAccountInput } from '@/tests/domain/mocks/account'
 import { SignUpController } from '@/presentation/controllers/account'
 import { HttpHelper } from '@/presentation/helpers'
-import { ServerError } from '@/presentation/errors'
 import { EntityValidationError } from '@/domain/errors'
 import { EmailInUseError, AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
@@ -58,7 +57,7 @@ describe('SignUpController', () => {
     test('Should return serverError if AddAccount throws an unmapped error', async() => {
       jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
       const response = await sut.handle(mockRequest())
-      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      expect(response).toEqual(HttpHelper.serverError(new Error()))
     })
   })
 
@@ -93,7 +92,7 @@ describe('SignUpController', () => {
     test('Should return serverError if Authentication throws an unmapped error', async() => {
       jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
       const response = await sut.handle(mockRequest())
-      expect(response).toEqual(HttpHelper.serverError(new ServerError(undefined)))
+      expect(response).toEqual(HttpHelper.serverError(new Error()))
     })
 
     test('Should return ok with accessToken on success', async() => {

@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { InvalidCredentialsError, TokenError, AccessDeniedError } from '@/domain/errors/account'
@@ -51,5 +52,12 @@ describe('AuthMiddleware', () => {
     jest.spyOn(getAccountIdByTokenSpy, 'getByToken').mockImplementationOnce(() => { throw new AccessDeniedError() })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.forbidden(new AccessDeniedError()))
+  })
+
+  test('Should return serverError if GetAccountIdByToken throws an unmapped error', async() => {
+    const { sut, getAccountIdByTokenSpy } = makeSut()
+    jest.spyOn(getAccountIdByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 })
