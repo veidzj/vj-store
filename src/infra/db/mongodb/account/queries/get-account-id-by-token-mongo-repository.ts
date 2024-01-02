@@ -19,7 +19,6 @@ export class GetAccountIdByTokenMongoRepository implements GetAccountIdByTokenRe
         id: 1
       }
     })
-    const accountId = account?.id.toString()
-    return accountId
+    return account && account?.id
   }
 }
