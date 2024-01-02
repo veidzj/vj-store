@@ -1,22 +1,41 @@
+import { faker } from '@faker-js/faker'
+
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { InvalidCredentialsError } from '@/domain/errors/account'
+import { GetAccountIdByTokenSpy } from '@/tests/presentation/mocks/account'
 
 interface Sut {
   sut: AuthMiddleware
+  getAccountIdByTokenSpy: GetAccountIdByTokenSpy
 }
 
-const makeSut = (): Sut => {
-  const sut = new AuthMiddleware()
+const makeSut = (role: string = 'user'): Sut => {
+  const getAccountIdByTokenSpy = new GetAccountIdByTokenSpy()
+  const sut = new AuthMiddleware(getAccountIdByTokenSpy, role)
   return {
-    sut
+    sut,
+    getAccountIdByTokenSpy
   }
 }
+
+const mockRequest = (): AuthMiddleware.Request => ({
+  accessToken: faker.string.uuid()
+})
 
 describe('AuthMiddleware', () => {
   test('Should return unauthorized if accessToken is not provided', async() => {
     const { sut } = makeSut()
     const response = await sut.handle({})
     expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
+  })
+
+  test('Should call GetAccountIdByToken with correct values', async() => {
+    const role = faker.word.words()
+    const { sut, getAccountIdByTokenSpy } = makeSut(role)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(getAccountIdByTokenSpy.accessToken).toBe(request.accessToken)
+    expect(getAccountIdByTokenSpy.role).toBe(role)
   })
 })
