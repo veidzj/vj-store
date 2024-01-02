@@ -2,7 +2,7 @@ import { type Middleware, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { InvalidCredentialsError } from '@/domain/errors/account'
 
-export class AutheMiddleware implements Middleware {
+export class AuthMiddleware implements Middleware {
   public async handle(request: AuthMiddleware.Request): Promise<Response> {
     const { accessToken } = request
     if (!accessToken) {
