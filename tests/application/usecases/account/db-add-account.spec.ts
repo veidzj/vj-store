@@ -107,7 +107,7 @@ describe('DbAddAccount', () => {
       expect(addAccountRepositorySpy.input.username).toBe(addAccountInput.username)
       expect(addAccountRepositorySpy.input.email).toBe(addAccountInput.email)
       expect(addAccountRepositorySpy.input.password).toBe(hasherSpy.digest)
-      expect(addAccountRepositorySpy.input.role).toBe('User')
+      expect(addAccountRepositorySpy.input.role).toBe('user')
       expect(addAccountRepositorySpy.input.isActive).toBe(true)
       expect(addAccountRepositorySpy.input.createdAt).toEqual(new Date())
       expect(addAccountRepositorySpy.input.updateHistory).toEqual([])

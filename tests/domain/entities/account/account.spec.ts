@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 import { Account, AccountFields } from '@/domain/entities/account'
 import { EntityValidationError } from '@/domain/errors'
 
-const role: string = 'User'
+const role: string = 'user'
 let username: string
 let email: string
 let password: string
