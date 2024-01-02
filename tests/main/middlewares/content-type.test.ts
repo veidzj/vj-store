@@ -4,6 +4,7 @@ import request from 'supertest'
 import { App } from '@/main/config'
 
 const route: string = '/test_content_type'
+const routeXml: string = '/test_content_type_xml'
 
 let app: Express
 
@@ -19,5 +20,15 @@ describe('ContentType Middleware', () => {
     await request(app)
       .get(route)
       .expect('content-type', /json/)
+  })
+
+  test('Should return xml content type when forced', async() => {
+    app.get(routeXml, (req, res) => {
+      res.type('xml')
+      res.send()
+    })
+    await request(app)
+      .get(routeXml)
+      .expect('content-type', /xml/)
   })
 })
