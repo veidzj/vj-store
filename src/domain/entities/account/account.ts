@@ -6,7 +6,7 @@ export class Account extends AggregateRoot {
   private username: string
   private email: string
   private password: string
-  private readonly role: string = 'User'
+  private readonly role: string = 'user'
   private isActive: boolean = true
   private updateHistory: UpdateLog<AccountFields> | [] = []
 
