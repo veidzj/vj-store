@@ -24,9 +24,9 @@ export class GetAccountByEmailRepositorySpy implements GetAccountByEmailReposito
 export class GetAccountIdByTokenRepositorySpy implements GetAccountIdByTokenRepository {
   public accessToken: string
   public role: string
-  public accountId: string = faker.string.uuid()
+  public accountId: string | null = faker.string.uuid()
 
-  public async getByToken(accessToken: string, role: string): Promise<string> {
+  public async getByToken(accessToken: string, role: string): Promise<string | null> {
     this.accessToken = accessToken
     this.role = role
     return this.accountId
