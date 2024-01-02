@@ -49,7 +49,7 @@ describe('SignInController', () => {
     expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
-  test('Should return serverError if Authentication throws an unmapped error', async() => {
+  test('Should return serverError if Authentication throws', async() => {
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.serverError(new Error()))

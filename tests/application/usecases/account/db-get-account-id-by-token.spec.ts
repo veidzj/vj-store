@@ -62,7 +62,7 @@ describe('DbGetAccountIdByToken', () => {
       await expect(promise).rejects.toThrow(new AccessDeniedError())
     })
 
-    test('Should throw if GetAccountIdByTokenRepository throws an unmapped error', async() => {
+    test('Should throw if GetAccountIdByTokenRepository throws', async() => {
       const { sut, getAccountIdByTokenRepositorySpy } = makeSut()
       jest.spyOn(getAccountIdByTokenRepositorySpy, 'getByToken').mockImplementationOnce(throwError)
       const promise = sut.getByToken(token, role)

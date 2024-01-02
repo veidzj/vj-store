@@ -54,7 +54,7 @@ describe('AuthMiddleware', () => {
     expect(response).toEqual(HttpHelper.forbidden(new AccessDeniedError()))
   })
 
-  test('Should return serverError if GetAccountIdByToken throws an unmapped error', async() => {
+  test('Should return serverError if GetAccountIdByToken throws', async() => {
     const { sut, getAccountIdByTokenSpy } = makeSut()
     jest.spyOn(getAccountIdByTokenSpy, 'getByToken').mockImplementationOnce(throwError)
     const response = await sut.handle(mockRequest())
