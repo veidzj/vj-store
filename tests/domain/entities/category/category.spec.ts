@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Category } from '@/domain/entities/category'
+import { Category, CategoryFields } from '@/domain/entities/category'
 
 let name: string
 
@@ -38,5 +38,15 @@ describe('Category Entity', () => {
     const newName = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
     sut.setName(newName)
     expect(sut.getName()).toBe(newName)
+  })
+
+  test('Should change updateHistory on setter', () => {
+    const sut = makeSut()
+    const categoryFields: CategoryFields[] = [CategoryFields.name]
+    sut.setUpdateHistory(categoryFields)
+    expect(sut.getUpdateHistory()).toEqual({
+      fields: categoryFields,
+      updatedAt: new Date()
+    })
   })
 })
