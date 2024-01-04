@@ -10,6 +10,8 @@ COPY --chown=appuser:appgroup ./dist/ /usr/src/vj-store/dist/
 COPY --chown=appuser:appgroup ./package.json /usr/src/vj-store/package.json
 COPY --chown=appuser:appgroup ./package-lock.json /usr/src/vj-store/package-lock.json
 
+RUN find /usr/src/vj-store -type f -executable -exec chmod go-w {} +
+
 RUN npm install
 
 EXPOSE 5000
