@@ -2,11 +2,17 @@ import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { Category, CategoryFields } from '@/domain/entities/category'
+import { EntityValidationError } from '@/domain/errors'
 
 let name: string
 
 const makeSut = (): Category => {
   return new Category(name)
+}
+
+const expectPromiseToThrow = (errorMessage: string): void => {
+  const sut = (): Category => makeSut()
+  expect(sut).toThrow(new EntityValidationError(errorMessage))
 }
 
 describe('Category Entity', () => {
@@ -48,5 +54,12 @@ describe('Category Entity', () => {
       fields: categoryFields,
       updatedAt: new Date()
     })
+  })
+
+  test('Should throw if name is less than 5 characters long', () => {
+    const randomString = faker.string.alpha({ length: { min: 1, max: 3 } })
+    name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    const errorMessage = 'Name must be at least 3 characters long'
+    expectPromiseToThrow(errorMessage)
   })
 })
