@@ -56,8 +56,8 @@ describe('Category Entity', () => {
     })
   })
 
-  test('Should throw if name is less than 5 characters long', () => {
-    const randomString = faker.string.alpha({ length: { min: 1, max: 3 } })
+  test('Should throw if name is less than 3 characters long', () => {
+    const randomString = faker.string.alpha({ length: { min: 0, max: 1 } })
     name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
     const errorMessage = 'Name must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
