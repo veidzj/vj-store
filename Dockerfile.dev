@@ -10,7 +10,7 @@ COPY ./dist/ /usr/src/vj-store/dist/
 COPY ./package.json /usr/src/vj-store/package.json
 COPY ./package-lock.json /usr/src/vj-store/package-lock.json
 
-RUN npm install --ignore-scripts
+RUN npm install
 
 EXPOSE 5000
 EXPOSE 9222
