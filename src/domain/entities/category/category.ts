@@ -1,6 +1,6 @@
 import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
-import { type CategoryFields } from '@/domain/entities/category'
+import { CategoryValidation, type CategoryFields } from '@/domain/entities/category'
 
 export class Category extends AggregateRoot {
   private name: string
@@ -28,6 +28,7 @@ export class Category extends AggregateRoot {
   }
 
   public setName(name: string): void {
+    CategoryValidation.validateName(name)
     this.name = name
   }
 
