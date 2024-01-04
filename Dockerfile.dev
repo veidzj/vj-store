@@ -5,12 +5,14 @@ WORKDIR /usr/src/vj-store
 RUN apk --no-cache add --virtual builds-deps build-base python3
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-RUN chown -R appuser:appgroup /usr/src/vj-store
-USER appuser
 
-COPY --chown=appuser:appgroup --chmod=644 ./dist/ /usr/src/vj-store/dist/
-COPY --chown=appuser:appgroup --chmod=644 ./package.json /usr/src/vj-store/package.json
-COPY --chown=appuser:appgroup --chmod=644 ./package-lock.json /usr/src/vj-store/package-lock.json
+COPY --chown=root:root --chmod=644 ./dist/ /usr/src/vj-store/dist/
+COPY --chown=root:root --chmod=644 ./package.json /usr/src/vj-store/package.json
+COPY --chown=root:root --chmod=644 ./package-lock.json /usr/src/vj-store/package-lock.json
+
+RUN chown -R appuser:appgroup /usr/src/vj-store
+
+USER appuser
 
 RUN npm install --ignore-scripts
 RUN npm rebuild bcrypt --build-from-source
