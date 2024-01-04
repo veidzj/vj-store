@@ -2,9 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/vj-store
 
-COPY ./dist/ /usr/src/vj-store/dist/
-COPY ./package.json /usr/src/vj-store/package.json
-COPY ./package-lock.json /usr/src/vj-store/package-lock.json
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN chown -R appuser:appgroup /usr/src/vj-store
+USER appuser
+
+COPY --chown=appuser:appgroup ./dist/ /usr/src/vj-store/dist/
+COPY --chown=appuser:appgroup ./package.json /usr/src/vj-store/package.json
+COPY --chown=appuser:appgroup ./package-lock.json /usr/src/vj-store/package-lock.json
 
 RUN npm install
 
