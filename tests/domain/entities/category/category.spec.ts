@@ -31,4 +31,12 @@ describe('Category Entity', () => {
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toEqual([])
   })
+
+  test('Should change name on setter', () => {
+    const sut = makeSut()
+    const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
+    const newName = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    sut.setName(newName)
+    expect(sut.getName()).toBe(newName)
+  })
 })
