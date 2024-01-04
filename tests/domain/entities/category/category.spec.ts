@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { Category } from '@/domain/entities/category'
@@ -9,6 +10,14 @@ const makeSut = (): Category => {
 }
 
 describe('Category Entity', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   beforeEach(() => {
     const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
     name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
