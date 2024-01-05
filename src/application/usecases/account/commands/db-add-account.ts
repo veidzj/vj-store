@@ -20,11 +20,11 @@ export class DbAddAccount implements AddAccount {
     const account = new Account(input.username, input.email, input.password)
     const hashedPassword = await this.hasher.hash(input.password)
     account.setPassword(hashedPassword)
-    const addAccountInputRepository = this.makeAddAccountInputRepository(account)
-    await this.addAccountRepository.add(addAccountInputRepository)
+    const addAccountRepositoryInput = this.makeAddAccountRepositoryInput(account)
+    await this.addAccountRepository.add(addAccountRepositoryInput)
   }
 
-  private makeAddAccountInputRepository(account: Account): AddAccountRepository.Input {
+  private makeAddAccountRepositoryInput(account: Account): AddAccountRepository.Input {
     return {
       id: account.getId(),
       username: account.getUsername(),
