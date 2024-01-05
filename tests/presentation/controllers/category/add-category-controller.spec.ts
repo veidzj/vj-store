@@ -1,4 +1,5 @@
 import { AddCategoryController } from '@/presentation/controllers/category'
+import { HttpHelper } from '@/presentation/helpers'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { AddCategorySpy } from '@/tests/presentation/mocks/category'
 
@@ -24,5 +25,11 @@ describe('AddCategoryController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addCategorySpy.input.name).toBe(request.name)
+  })
+
+  test('Should return ok on success', async() => {
+    const { sut } = makeSut()
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.ok({ message: 'Category successfully added' }))
   })
 })
