@@ -1,6 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type AddCategory } from '@/domain/usecases/category'
+import { EntityValidationError } from '@/domain/errors'
 
 export class AddCategoryController implements Controller {
   constructor(private readonly addCategory: AddCategory) {}
@@ -10,6 +11,9 @@ export class AddCategoryController implements Controller {
       await this.addCategory.add({ name: request.name })
       return HttpHelper.ok({ message: 'Category successfully added' })
     } catch (error) {
+      if (error instanceof EntityValidationError) {
+        return HttpHelper.badRequest(error)
+      }
       return HttpHelper.serverError(error as Error)
     }
   }
