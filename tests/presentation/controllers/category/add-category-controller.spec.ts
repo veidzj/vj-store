@@ -2,6 +2,7 @@ import { AddCategoryController } from '@/presentation/controllers/category'
 import { HttpHelper } from '@/presentation/helpers'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { AddCategorySpy } from '@/tests/presentation/mocks/category'
+import { throwError } from '@/tests/test-helper'
 
 interface Sut {
   sut: AddCategoryController
@@ -25,6 +26,13 @@ describe('AddCategoryController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addCategorySpy.input.name).toBe(request.name)
+  })
+
+  test('Should return serverError if AddCategory throws', async() => {
+    const { sut, addCategorySpy } = makeSut()
+    jest.spyOn(addCategorySpy, 'add').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 
   test('Should return ok on success', async() => {
