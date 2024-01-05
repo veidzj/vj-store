@@ -39,6 +39,13 @@ describe('DbAddCategory', () => {
     expect(checkCategoryByNameRepositorySpy.name).toBe(addCategoryInput.name)
   })
 
+  test('Should throw if CheckCategoryByNameRepositorySpy throws', async() => {
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddCategoryInput())
+    await expect(promise).rejects.toThrow()
+  })
+
   test('Should call AddCategoryRepository with correct values', async() => {
     const addCategoryInput = mockAddCategoryInput()
     const { sut, addCategoryRepositorySpy } = makeSut()
