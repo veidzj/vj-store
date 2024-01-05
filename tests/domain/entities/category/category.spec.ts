@@ -71,4 +71,10 @@ describe('Category Entity', () => {
     const errorMessage = 'Name must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if name is more than 20 characters long', () => {
+    name = makeName(20, 21)
+    const errorMessage = 'Name must be less than or equal to 20 characters long'
+    expectPromiseToThrow(errorMessage)
+  })
 })
