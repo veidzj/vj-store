@@ -1,6 +1,6 @@
 import { type Decrypter } from '@/application/protocols/cryptography'
 import { type GetAccountIdByTokenRepository } from '@/application/protocols/account/queries'
-import { type GetAccountIdByToken } from '@/domain/usecases/account'
+import { type GetAccountIdByToken } from '@/domain/usecases/account/queries'
 import { TokenError, AccessDeniedError } from '@/domain/errors/account'
 
 export class DbGetAccountIdByToken implements GetAccountIdByToken {

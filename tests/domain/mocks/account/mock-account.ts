@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { Account } from '@/domain/entities/account'
-import { type AddAccount, type Authentication } from '@/domain/usecases/account'
+import { type AddAccount, type Authentication } from '@/domain/usecases/account/commands'
 
 export const mockAccount = (): Account => {
   const username = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })

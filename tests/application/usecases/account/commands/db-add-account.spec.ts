@@ -5,7 +5,7 @@ import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/acco
 import { AddAccountRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { HasherSpy } from '@/tests/application/mocks/cryptography'
 import { mockAddAccountInput, mockUsernameValidationToThrow, mockEmailValidationToThrow, mockPasswordValidationToThrow } from '@/tests/domain/mocks/account'
-import { DbAddAccount } from '@/application/usecases/account'
+import { DbAddAccount } from '@/application/usecases/account/commands'
 import { EmailInUseError } from '@/domain/errors/account'
 
 interface Sut {

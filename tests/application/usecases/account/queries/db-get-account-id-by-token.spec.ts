@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/test-helper'
 import { DecrypterSpy } from '@/tests/application/mocks/cryptography'
 import { GetAccountIdByTokenRepositorySpy } from '@/tests/application/mocks/account/queries'
-import { DbGetAccountIdByToken } from '@/application/usecases/account'
+import { DbGetAccountIdByToken } from '@/application/usecases/account/queries'
 import { AccessDeniedError, TokenError } from '@/domain/errors/account'
 
 interface Sut {

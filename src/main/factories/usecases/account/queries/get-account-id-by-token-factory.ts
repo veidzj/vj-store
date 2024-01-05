@@ -1,6 +1,6 @@
 import { env } from '@/main/config'
-import { type GetAccountIdByToken } from '@/domain/usecases/account'
-import { DbGetAccountIdByToken } from '@/application/usecases/account'
+import { type GetAccountIdByToken } from '@/domain/usecases/account/queries'
+import { DbGetAccountIdByToken } from '@/application/usecases/account/queries'
 import { GetAccountIdByTokenMongoRepository } from '@/infra/db/mongodb/account/queries'
 import { JwtAdapter } from '@/infra/cryptography'
 

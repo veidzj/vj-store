@@ -1,5 +1,5 @@
-import { type AddAccount } from '@/domain/usecases/account'
-import { DbAddAccount } from '@/application/usecases/account'
+import { type AddAccount } from '@/domain/usecases/account/commands'
+import { DbAddAccount } from '@/application/usecases/account/commands'
 import { CheckAccountByEmailMongoRepository } from '@/infra/db/mongodb/account/queries'
 import { BcryptAdapter } from '@/infra/cryptography'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
