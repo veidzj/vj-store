@@ -1,17 +1,23 @@
 import { AddCategoryController } from '@/presentation/controllers/category'
-import { type AddCategory } from '@/domain/usecases/category'
+import { AddCategorySpy } from '@/tests/presentation/mocks/category'
+
+interface Sut {
+  sut: AddCategoryController
+  addCategorySpy: AddCategorySpy
+}
+
+const makeSut = (): Sut => {
+  const addCategorySpy = new AddCategorySpy()
+  const sut = new AddCategoryController(addCategorySpy)
+  return {
+    sut,
+    addCategorySpy
+  }
+}
 
 describe('AddCategoryController', () => {
   test('Should call AddCategory with correct name', async() => {
-    class AddCategorySpy implements AddCategory {
-      public name: string
-
-      public async add(name: string): Promise<void> {
-        this.name = name
-      }
-    }
-    const addCategorySpy = new AddCategorySpy()
-    const sut = new AddCategoryController(addCategorySpy)
+    const { sut, addCategorySpy } = makeSut()
     await sut.handle({ name: 'any_name' })
     expect(addCategorySpy.name).toBe('any_name')
   })
