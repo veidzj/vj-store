@@ -10,6 +10,11 @@ const makeSut = (): Category => {
   return new Category(name)
 }
 
+const makeName = (min: number = 4, max: number = 19): string => {
+  const randomString = faker.string.alpha({ length: { min, max } })
+  return faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+}
+
 const expectPromiseToThrow = (errorMessage: string): void => {
   const sut = (): Category => makeSut()
   expect(sut).toThrow(new EntityValidationError(errorMessage))
@@ -25,8 +30,7 @@ describe('Category Entity', () => {
   })
 
   beforeEach(() => {
-    const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
-    name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    name = makeName()
   })
 
   test('Should instantiate with correct values', () => {
@@ -40,8 +44,7 @@ describe('Category Entity', () => {
 
   test('Should change name on setter', () => {
     const sut = makeSut()
-    const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
-    const newName = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    const newName = makeName()
     sut.setName(newName)
     expect(sut.getName()).toBe(newName)
   })
@@ -64,8 +67,7 @@ describe('Category Entity', () => {
   })
 
   test('Should throw if name is less than 3 characters long', () => {
-    const randomString = faker.string.alpha({ length: { min: 0, max: 1 } })
-    name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    name = makeName(0, 1)
     const errorMessage = 'Name must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
   })
