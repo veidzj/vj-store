@@ -1,5 +1,6 @@
 import MockDate from 'mockdate'
 
+import { throwError } from '@/tests/test-helper'
 import { AddCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
 import { DbAddCategory } from '@/application/usecases/category/commands'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
@@ -35,5 +36,12 @@ describe('DbAddCategory', () => {
     expect(addCategoryRepositorySpy.input.name).toBe(addCategoryInput.name)
     expect(addCategoryRepositorySpy.input.createdAt).toEqual(new Date())
     expect(addCategoryRepositorySpy.input.updateHistory).toEqual([])
+  })
+
+  test('Should throw if AddCategoryRepository throws', async() => {
+    const { sut, addCategoryRepositorySpy } = makeSut()
+    jest.spyOn(addCategoryRepositorySpy, 'add').mockImplementationOnce(throwError)
+    const promise = sut.add(mockAddCategoryInput())
+    await expect(promise).rejects.toThrow()
   })
 })
