@@ -56,6 +56,13 @@ describe('Category Entity', () => {
     })
   })
 
+  test('Should throw if name starts with a lowercase letter', () => {
+    const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
+    name = faker.string.alpha({ length: 1, casing: 'lower' }) + randomString
+    const errorMessage = 'Name must start with an uppercase letter'
+    expectPromiseToThrow(errorMessage)
+  })
+
   test('Should throw if name is less than 3 characters long', () => {
     const randomString = faker.string.alpha({ length: { min: 0, max: 1 } })
     name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
