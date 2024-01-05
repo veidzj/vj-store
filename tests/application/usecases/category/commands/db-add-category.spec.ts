@@ -2,19 +2,23 @@ import MockDate from 'mockdate'
 
 import { throwError } from '@/tests/test-helper'
 import { AddCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
-import { DbAddCategory } from '@/application/usecases/category/commands'
+import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
+import { DbAddCategory } from '@/application/usecases/category/commands'
 
 interface Sut {
   sut: DbAddCategory
+  checkCategoryByNameRepositorySpy: CheckCategoryByNameRepositorySpy
   addCategoryRepositorySpy: AddCategoryRepositorySpy
 }
 
 const makeSut = (): Sut => {
+  const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
   const addCategoryRepositorySpy = new AddCategoryRepositorySpy()
-  const sut = new DbAddCategory(addCategoryRepositorySpy)
+  const sut = new DbAddCategory(checkCategoryByNameRepositorySpy, addCategoryRepositorySpy)
   return {
     sut,
+    checkCategoryByNameRepositorySpy,
     addCategoryRepositorySpy
   }
 }
@@ -26,6 +30,13 @@ describe('DbAddCategory', () => {
 
   afterAll(() => {
     MockDate.reset()
+  })
+
+  test('Should call CheckCategoryByNameRepositorySpy with correct name', async() => {
+    const addCategoryInput = mockAddCategoryInput()
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    await sut.add(addCategoryInput)
+    expect(checkCategoryByNameRepositorySpy.name).toBe(addCategoryInput.name)
   })
 
   test('Should call AddCategoryRepository with correct values', async() => {
