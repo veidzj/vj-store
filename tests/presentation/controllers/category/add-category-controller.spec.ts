@@ -6,6 +6,7 @@ import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { AddCategoryController } from '@/presentation/controllers/category'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
+import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 
 interface Sut {
   sut: AddCategoryController
@@ -39,6 +40,15 @@ describe('AddCategoryController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
+  })
+
+  test('Should return conflict if AddCategory throws CategoryAlreadyExistsError', async() => {
+    const { sut, addCategorySpy } = makeSut()
+    jest.spyOn(addCategorySpy, 'add').mockImplementationOnce(() => {
+      throw new CategoryAlreadyExistsError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.conflict(new CategoryAlreadyExistsError()))
   })
 
   test('Should return serverError if AddCategory throws', async() => {
