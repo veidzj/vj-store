@@ -1,9 +1,9 @@
 import { type AddCategory } from '@/domain/usecases/category'
 
 export class AddCategorySpy implements AddCategory {
-  public name: string
+  public input: AddCategory.Input
 
-  public async add(name: string): Promise<void> {
-    this.name = name
+  public async add(input: AddCategory.Input): Promise<void> {
+    this.input = input
   }
 }

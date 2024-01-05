@@ -1,4 +1,5 @@
 import { AddCategoryController } from '@/presentation/controllers/category'
+import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { AddCategorySpy } from '@/tests/presentation/mocks/category'
 
 interface Sut {
@@ -15,10 +16,13 @@ const makeSut = (): Sut => {
   }
 }
 
+const mockRequest = (): AddCategoryController.Request => mockAddCategoryInput()
+
 describe('AddCategoryController', () => {
   test('Should call AddCategory with correct name', async() => {
     const { sut, addCategorySpy } = makeSut()
-    await sut.handle({ name: 'any_name' })
-    expect(addCategorySpy.name).toBe('any_name')
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(addCategorySpy.input.name).toBe(request.name)
   })
 })

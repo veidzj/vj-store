@@ -1,3 +1,9 @@
 export interface AddCategory {
-  add: (name: string) => Promise<void>
+  add: (input: AddCategory.Input) => Promise<void>
+}
+
+export namespace AddCategory {
+  export interface Input {
+    name: string
+  }
 }

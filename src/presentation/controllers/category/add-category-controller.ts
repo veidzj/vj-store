@@ -4,7 +4,7 @@ export class AddCategoryController {
   constructor(private readonly addCategory: AddCategory) {}
 
   public async handle(request: AddCategoryController.Request): Promise<void> {
-    await this.addCategory.add(request.name)
+    await this.addCategory.add({ name: request.name })
   }
 }
 
