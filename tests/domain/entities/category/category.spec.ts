@@ -11,7 +11,7 @@ const makeSut = (): Category => {
 }
 
 const makeName = (min: number = 4, max: number = 19): string => {
-  const randomString = faker.string.alpha({ length: { min, max } })
+  const randomString = faker.string.alpha({ length: { min, max }, casing: 'lower' })
   return faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
 }
 
@@ -68,13 +68,6 @@ describe('Category Entity', () => {
   test('Should throw if name is more than 20 characters long', () => {
     name = makeName(20, 21)
     const errorMessage = 'Name must be less than or equal to 20 characters long'
-    expectPromiseToThrow(errorMessage)
-  })
-
-  test('Should throw if name starts with a lowercase letter', () => {
-    const randomString = faker.string.alpha({ length: { min: 4, max: 19 } })
-    name = faker.string.alpha({ length: 1, casing: 'lower' }) + randomString
-    const errorMessage = 'Name must start with an uppercase letter'
     expectPromiseToThrow(errorMessage)
   })
 

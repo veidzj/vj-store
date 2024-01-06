@@ -29,7 +29,7 @@ export class Category extends AggregateRoot {
 
   public setName(name: string): void {
     CategoryValidation.validateName(name)
-    this.name = name
+    this.name = CategoryValidation.formatName(name)
   }
 
   public setUpdateHistory(fields: CategoryFields[]): void {

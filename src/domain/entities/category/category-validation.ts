@@ -1,4 +1,3 @@
-import isUppercase from 'validator/lib/isUppercase'
 import isAlpha from 'validator/lib/isAlpha'
 
 import { EntityValidationError } from '@/domain/errors'
@@ -11,11 +10,12 @@ export class CategoryValidation {
     if (name.length > 20) {
       throw new EntityValidationError('Name must be less than or equal to 20 characters long')
     }
-    if (!isUppercase(name[0])) {
-      throw new EntityValidationError('Name must start with an uppercase letter')
-    }
     if (!isAlpha(name)) {
       throw new EntityValidationError('Name must contain only letters')
     }
+  }
+
+  public static formatName(name: string): string {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
   }
 }
