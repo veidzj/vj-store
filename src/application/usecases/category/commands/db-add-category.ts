@@ -2,6 +2,7 @@ import { type CheckCategoryByNameRepository } from '@/application/protocols/cate
 import { type AddCategoryRepository } from '@/application/protocols/category/commands'
 import { Category } from '@/domain/entities/category'
 import { type AddCategory } from '@/domain/usecases/category'
+import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 
 export class DbAddCategory implements AddCategory {
   constructor(
@@ -11,7 +12,10 @@ export class DbAddCategory implements AddCategory {
 
   public async add(input: AddCategory.Input): Promise<void> {
     const category = new Category(input.name)
-    await this.checkCategoryByNameRepository.checkByName(category.getName())
+    const categoryExists = await this.checkCategoryByNameRepository.checkByName(category.getName())
+    if (categoryExists) {
+      throw new CategoryAlreadyExistsError()
+    }
     const addCategoryRepositoryInput = this.makeAddAccountRepositoryInput(category)
     await this.addCategoryRepository.add(addCategoryRepositoryInput)
   }
