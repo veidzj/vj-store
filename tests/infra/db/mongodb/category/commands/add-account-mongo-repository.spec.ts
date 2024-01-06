@@ -33,4 +33,16 @@ describe('AddCategoryMongoRepository', () => {
     const promise = sut.add(mockAddCategoryRepositoryInput())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should add a Category on success', async() => {
+    const addCategoryRepositoryInput = mockAddCategoryRepositoryInput()
+    await sut.add(addCategoryRepositoryInput)
+    const count = await categoryCollection.countDocuments()
+    const account = await categoryCollection.findOne({ name: addCategoryRepositoryInput.name })
+    expect(count).toBe(1)
+    expect(account?.id).toBe(addCategoryRepositoryInput.id)
+    expect(account?.name).toBe(addCategoryRepositoryInput.name)
+    expect(account?.createdAt).toEqual(addCategoryRepositoryInput.createdAt)
+    expect(account?.updateHistory).toEqual(addCategoryRepositoryInput.updateHistory)
+  })
 })
