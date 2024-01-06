@@ -77,4 +77,11 @@ describe('Category Entity', () => {
     const errorMessage = 'Name must start with an uppercase letter'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if name contains numbers or special characters', () => {
+    const randomString = faker.string.sample({ min: 4, max: 19 })
+    name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    const errorMessage = 'Name must contain only letters'
+    expectPromiseToThrow(errorMessage)
+  })
 })
