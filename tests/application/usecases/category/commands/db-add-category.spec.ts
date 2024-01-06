@@ -5,6 +5,7 @@ import { AddCategoryRepositorySpy } from '@/tests/application/mocks/category/com
 import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { DbAddCategory } from '@/application/usecases/category/commands'
+import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbAddCategory
@@ -44,6 +45,13 @@ describe('DbAddCategory', () => {
     jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockImplementationOnce(throwError)
     const promise = sut.add(mockAddCategoryInput())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw CategoryAlreadyExistsError if CheckCategoryByNameRepositorySpy returns true', async() => {
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockReturnValueOnce(Promise.resolve(true))
+    const promise = sut.add(mockAddCategoryInput())
+    await expect(promise).rejects.toThrow(new CategoryAlreadyExistsError())
   })
 
   test('Should call AddCategoryRepository with correct values', async() => {
