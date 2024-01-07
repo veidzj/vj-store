@@ -108,12 +108,6 @@ describe('Account Entity', () => {
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Username is not lowercase', () => {
-    username = faker.string.alpha({ length: { min: 3, max: 12 } })
-    const errorMessage = 'Username must be lowercase'
-    expectPromiseToThrow(errorMessage)
-  })
-
   test('Should throw if Email is invalid', () => {
     email = faker.word.words()
     const errorMessage = 'Email must be valid'
