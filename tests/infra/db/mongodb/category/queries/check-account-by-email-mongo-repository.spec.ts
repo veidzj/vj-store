@@ -38,4 +38,9 @@ describe('CheckCategoryByNameMongoRepository', () => {
     const promise = sut.checkByName(makeName())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return false if name does not exists', async() => {
+    const categoryExists = await sut.checkByName(makeName())
+    expect(categoryExists).toBe(false)
+  })
 })
