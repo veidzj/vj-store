@@ -1,5 +1,4 @@
 import isAlpha from 'validator/lib/isAlpha'
-import isLowercase from 'validator/lib/isLowercase'
 import isEmail from 'validator/lib/isEmail'
 
 import { EntityValidationError } from '@/domain/errors'
@@ -14,9 +13,6 @@ export class AccountValidation {
     }
     if (!isAlpha(username)) {
       throw new EntityValidationError('Username must contain only letters')
-    }
-    if (!isLowercase(username)) {
-      throw new EntityValidationError('Username must be lowercase')
     }
   }
 
@@ -33,5 +29,9 @@ export class AccountValidation {
     if (password.length > 255) {
       throw new EntityValidationError('Password must be less than or equal to 255 characters long')
     }
+  }
+
+  public static formatUsername(username: string): string {
+    return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase()
   }
 }

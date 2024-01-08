@@ -1,4 +1,4 @@
-import { AddAccountFactory, AuthenticationFactory } from '@/main/factories/usecases/account'
+import { AddAccountFactory, AuthenticationFactory } from '@/main/factories/usecases/account/commands'
 import { type Controller } from '@/presentation/protocols'
 import { SignUpController } from '@/presentation/controllers/account'
 

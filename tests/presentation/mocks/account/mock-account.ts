@@ -1,4 +1,5 @@
-import { type AddAccount, type Authentication, type GetAccountIdByToken } from '@/domain/usecases/account'
+import { type AddAccount, type Authentication } from '@/domain/usecases/account/commands'
+import { type GetAccountIdByToken } from '@/domain/usecases/account/queries'
 import { faker } from '@faker-js/faker'
 
 export class AddAccountSpy implements AddAccount {
