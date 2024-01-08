@@ -51,7 +51,7 @@ export class Account extends AggregateRoot {
 
   public setUsername(username: string): void {
     AccountValidation.validateUsername(username)
-    this.username = username
+    this.username = AccountValidation.formatUsername(username)
   }
 
   public setEmail(email: string): void {

@@ -16,10 +16,10 @@ describe('GetAccountIdByTokenMongoRepository', () => {
   const sut = makeSut()
   const userRole: string = 'user'
   const adminRole: string = 'admin'
-  let id: string = faker.string.uuid()
-  let username: string = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
-  let email: string = faker.internet.email()
-  let password: string = faker.internet.password()
+  let id: string
+  let username: string
+  let email: string
+  let password: string
   let accessToken: string
 
   beforeAll(async() => {
@@ -32,7 +32,7 @@ describe('GetAccountIdByTokenMongoRepository', () => {
 
   beforeEach(async() => {
     id = faker.string.uuid()
-    username = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
+    username = faker.string.alpha({ length: { min: 3, max: 12 } })
     email = faker.internet.email()
     password = faker.internet.password()
     accessToken = faker.string.uuid()

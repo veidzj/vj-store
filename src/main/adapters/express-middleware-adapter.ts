@@ -15,7 +15,7 @@ export class ExpressMiddlewareAdapter {
         next()
       } else {
         res.status(httpResponse.statusCode).json({
-          message: httpResponse.body
+          message: httpResponse.body.message
         })
       }
     }
