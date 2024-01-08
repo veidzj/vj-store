@@ -6,6 +6,7 @@ import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/cate
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { DbAddCategory } from '@/application/usecases/category/commands'
 import { CategoryAlreadyExistsError } from '@/domain/errors/category'
+import { CategoryValidation } from '@/domain/entities/category'
 
 interface Sut {
   sut: DbAddCategory
@@ -38,7 +39,7 @@ describe('DbAddCategory', () => {
       const addCategoryInput = mockAddCategoryInput()
       const { sut, checkCategoryByNameRepositorySpy } = makeSut()
       await sut.add(addCategoryInput)
-      expect(checkCategoryByNameRepositorySpy.name).toBe(addCategoryInput.name)
+      expect(checkCategoryByNameRepositorySpy.name).toBe(CategoryValidation.formatName(addCategoryInput.name))
     })
 
     test('Should throw if CheckCategoryByNameRepositorySpy throws', async() => {
@@ -62,7 +63,7 @@ describe('DbAddCategory', () => {
       const { sut, addCategoryRepositorySpy } = makeSut()
       await sut.add(addCategoryInput)
       expect(addCategoryRepositorySpy.input.id).toBeTruthy()
-      expect(addCategoryRepositorySpy.input.name).toBe(addCategoryInput.name)
+      expect(addCategoryRepositorySpy.input.name).toBe(CategoryValidation.formatName(addCategoryInput.name))
       expect(addCategoryRepositorySpy.input.createdAt).toEqual(new Date())
       expect(addCategoryRepositorySpy.input.updateHistory).toEqual([])
     })

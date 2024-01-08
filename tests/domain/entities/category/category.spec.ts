@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Category, CategoryFields } from '@/domain/entities/category'
+import { Category, CategoryFields, CategoryValidation } from '@/domain/entities/category'
 import { EntityValidationError } from '@/domain/errors'
 
 let name: string
@@ -10,9 +10,8 @@ const makeSut = (): Category => {
   return new Category(name)
 }
 
-const makeName = (min: number = 4, max: number = 19): string => {
-  const randomString = faker.string.alpha({ length: { min, max }, casing: 'lower' })
-  return faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+const makeName = (min: number = 3, max: number = 20): string => {
+  return faker.string.alpha({ length: { min, max } })
 }
 
 const expectPromiseToThrow = (errorMessage: string): void => {
@@ -37,7 +36,7 @@ describe('Category Entity', () => {
     const currentDate = new Date()
     const sut = makeSut()
     expect(sut.getId()).toBeTruthy()
-    expect(sut.getName()).toBe(name)
+    expect(sut.getName()).toBe(CategoryValidation.formatName(name))
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toEqual([])
   })
@@ -46,7 +45,7 @@ describe('Category Entity', () => {
     const sut = makeSut()
     const newName = makeName()
     sut.setName(newName)
-    expect(sut.getName()).toBe(newName)
+    expect(sut.getName()).toBe(CategoryValidation.formatName(newName))
   })
 
   test('Should change updateHistory on setter', () => {
@@ -60,20 +59,20 @@ describe('Category Entity', () => {
   })
 
   test('Should throw if name is less than 3 characters long', () => {
-    name = makeName(0, 1)
+    name = makeName(1, 2)
     const errorMessage = 'Name must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if name is more than 20 characters long', () => {
-    name = makeName(20, 21)
+    name = makeName(21, 22)
     const errorMessage = 'Name must be less than or equal to 20 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if name contains numbers or special characters', () => {
     const randomString = faker.string.sample({ min: 4, max: 19 })
-    name = faker.string.alpha({ length: 1, casing: 'upper' }) + randomString
+    name = faker.string.alpha({ length: 1 }) + randomString
     const errorMessage = 'Name must contain only letters'
     expectPromiseToThrow(errorMessage)
   })

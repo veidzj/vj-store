@@ -4,7 +4,7 @@ import { type AddAccountRepository, type UpdateAccessTokenRepository } from '@/a
 
 export const mockAddAccountRepositoryInput = (): AddAccountRepository.Input => ({
   id: faker.string.uuid(),
-  username: faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' }),
+  username: faker.string.alpha({ length: { min: 3, max: 12 } }),
   email: faker.internet.email(),
   password: faker.internet.password(),
   role: faker.word.words(),

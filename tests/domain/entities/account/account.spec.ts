@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Account, AccountFields } from '@/domain/entities/account'
+import { Account, AccountFields, AccountValidation } from '@/domain/entities/account'
 import { EntityValidationError } from '@/domain/errors'
 
 const role: string = 'user'
@@ -28,7 +28,7 @@ describe('Account Entity', () => {
   })
 
   beforeEach(() => {
-    username = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
+    username = AccountValidation.formatUsername(faker.string.alpha({ length: { min: 3, max: 12 } }))
     email = faker.internet.email()
     password = faker.internet.password()
   })
@@ -61,9 +61,9 @@ describe('Account Entity', () => {
 
   test('Should change Username on setter', () => {
     const sut = makeSut()
-    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 }, casing: 'lower' })
+    const newUsername = faker.string.alpha({ length: { min: 3, max: 12 } })
     sut.setUsername(newUsername)
-    expect(sut.getUsername()).toBe(newUsername)
+    expect(sut.getUsername()).toBe(AccountValidation.formatUsername(newUsername))
   })
 
   test('Should change Email on setter', () => {
@@ -91,13 +91,13 @@ describe('Account Entity', () => {
   })
 
   test('Should throw if Username is less than 3 characters long', () => {
-    username = faker.string.alpha({ length: { min: 1, max: 2 }, casing: 'lower' })
+    username = faker.string.alpha({ length: { min: 1, max: 2 } })
     const errorMessage = 'Username must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
   test('Should throw if Username is greater than 12 characters long', () => {
-    username = faker.string.alpha({ length: { min: 13, max: 255 }, casing: 'lower' })
+    username = faker.string.alpha({ length: { min: 13, max: 255 } })
     const errorMessage = 'Username must be less than or equal to 12 characters long'
     expectPromiseToThrow(errorMessage)
   })
