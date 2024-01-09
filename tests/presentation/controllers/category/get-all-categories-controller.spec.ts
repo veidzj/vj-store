@@ -31,4 +31,10 @@ describe('GetAllCategoriesController', () => {
     const response = await sut.handle()
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getAllCategoriesSpy } = makeSut()
+    const response = await sut.handle()
+    expect(response).toEqual(HttpHelper.ok(getAllCategoriesSpy.output))
+  })
 })
