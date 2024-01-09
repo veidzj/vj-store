@@ -7,8 +7,8 @@ export class GetAllCategoriesController implements Controller {
 
   public async handle(): Promise<Response> {
     try {
-      await this.getAllCategories.getAll()
-      return HttpHelper.ok({})
+      const categories = await this.getAllCategories.getAll()
+      return HttpHelper.ok(categories)
     } catch (error) {
       return HttpHelper.serverError(error as Error)
     }
