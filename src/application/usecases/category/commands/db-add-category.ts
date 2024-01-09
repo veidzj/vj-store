@@ -1,7 +1,7 @@
 import { type CheckCategoryByNameRepository } from '@/application/protocols/category/queries'
 import { type AddCategoryRepository } from '@/application/protocols/category/commands'
 import { Category } from '@/domain/entities/category'
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/category/commands'
 import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 
 export class DbAddCategory implements AddCategory {

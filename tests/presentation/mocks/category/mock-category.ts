@@ -1,4 +1,4 @@
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/category/commands'
 
 export class AddCategorySpy implements AddCategory {
   public input: AddCategory.Input
