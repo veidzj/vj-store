@@ -2,22 +2,33 @@ import { throwError } from '@/tests/test-helper'
 import { UpdateCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { DbUpdateCategory } from '@/application/usecases/category/commands'
+import { CheckCategoryByIdRepositorySpy } from '@/tests/application/mocks/category/queries'
 
 interface Sut {
   sut: DbUpdateCategory
   updateCategoryRepositorySpy: UpdateCategoryRepositorySpy
+  checkCategoryByIdRepositorySpy: CheckCategoryByIdRepositorySpy
 }
 
 const makeSut = (): Sut => {
+  const checkCategoryByIdRepositorySpy = new CheckCategoryByIdRepositorySpy()
   const updateCategoryRepositorySpy = new UpdateCategoryRepositorySpy()
-  const sut = new DbUpdateCategory(updateCategoryRepositorySpy)
+  const sut = new DbUpdateCategory(checkCategoryByIdRepositorySpy, updateCategoryRepositorySpy)
   return {
     sut,
+    checkCategoryByIdRepositorySpy,
     updateCategoryRepositorySpy
   }
 }
 
 describe('DbUpdateCategory', () => {
+  test('Should call CheckCategoryByIdRepositorySpy with correct id', async() => {
+    const { sut, checkCategoryByIdRepositorySpy } = makeSut()
+    const updateCategoryInput = mockUpdateCategoryInput()
+    await sut.update(updateCategoryInput)
+    expect(checkCategoryByIdRepositorySpy.id).toEqual(updateCategoryInput.id)
+  })
+
   test('Should call UpdateCategoryRepository with correct values', async() => {
     const { sut, updateCategoryRepositorySpy } = makeSut()
     const updateCategoryInput = mockUpdateCategoryInput()

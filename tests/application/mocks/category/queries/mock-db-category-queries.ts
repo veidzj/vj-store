@@ -1,11 +1,20 @@
 import { mockCategoriesOutput } from '@/tests/domain/mocks/category'
-import { type CheckCategoryByNameRepository, type GetAllCategoriesRepository } from '@/application/protocols/category/queries'
+import { type CheckCategoryByNameRepository, type CheckCategoryByIdRepository, type GetAllCategoriesRepository } from '@/application/protocols/category/queries'
 
 export class CheckCategoryByNameRepositorySpy implements CheckCategoryByNameRepository {
   public name: string
 
   public async checkByName(name: string): Promise<boolean> {
     this.name = name
+    return false
+  }
+}
+
+export class CheckCategoryByIdRepositorySpy implements CheckCategoryByIdRepository {
+  public id: string
+
+  public async checkById(id: string): Promise<boolean> {
+    this.id = id
     return false
   }
 }
