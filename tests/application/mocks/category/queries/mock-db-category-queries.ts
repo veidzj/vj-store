@@ -3,10 +3,11 @@ import { type CheckCategoryByNameRepository, type CheckCategoryByIdRepository, t
 
 export class CheckCategoryByNameRepositorySpy implements CheckCategoryByNameRepository {
   public name: string
+  public output: boolean = false
 
   public async checkByName(name: string): Promise<boolean> {
     this.name = name
-    return false
+    return this.output
   }
 }
 

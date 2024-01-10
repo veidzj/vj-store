@@ -51,7 +51,7 @@ describe('DbAddCategory', () => {
 
     test('Should throw CategoryAlreadyExistsError if CheckCategoryByNameRepositorySpy returns true', async() => {
       const { sut, checkCategoryByNameRepositorySpy } = makeSut()
-      jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockReturnValueOnce(Promise.resolve(true))
+      checkCategoryByNameRepositorySpy.output = true
       const promise = sut.add(mockAddCategoryInput())
       await expect(promise).rejects.toThrow(new CategoryAlreadyExistsError())
     })
