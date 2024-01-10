@@ -1,6 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { type UpdateCategory } from '@/domain/usecases/category/commands'
 import { HttpHelper } from '@/presentation/helpers'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class UpdateCategoryController implements Controller {
   constructor(private readonly updateCategory: UpdateCategory) {}
@@ -10,6 +11,9 @@ export class UpdateCategoryController implements Controller {
       await this.updateCategory.update(request)
       return HttpHelper.ok({})
     } catch (error) {
+      if (error instanceof CategoryNotFoundError) {
+        return HttpHelper.notFound(error)
+      }
       return HttpHelper.serverError(error as Error)
     }
   }
