@@ -1,3 +1,5 @@
+import MockDate from 'mockdate'
+
 import { throwError } from '@/tests/test-helper'
 import { UpdateCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
@@ -24,6 +26,14 @@ const makeSut = (): Sut => {
 }
 
 describe('DbUpdateCategory', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   describe('CheckCategoryByIdRepository', () => {
     test('Should call CheckCategoryByIdRepository with correct id', async() => {
       const { sut, checkCategoryByIdRepositorySpy } = makeSut()
