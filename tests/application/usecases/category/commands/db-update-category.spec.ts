@@ -1,3 +1,4 @@
+import { throwError } from '@/tests/test-helper'
 import { UpdateCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { DbUpdateCategory } from '@/application/usecases/category/commands'
@@ -22,5 +23,12 @@ describe('DbUpdateCategory', () => {
     const updateCategoryInput = mockUpdateCategoryInput()
     await sut.update(updateCategoryInput)
     expect(updateCategoryRepositorySpy.input).toEqual(updateCategoryInput)
+  })
+
+  test('Should throw if UpdateCategoryRepository throws', async() => {
+    const { sut, updateCategoryRepositorySpy } = makeSut()
+    jest.spyOn(updateCategoryRepositorySpy, 'update').mockImplementationOnce(throwError)
+    const promise = sut.update(mockUpdateCategoryInput())
+    await expect(promise).rejects.toThrow()
   })
 })
