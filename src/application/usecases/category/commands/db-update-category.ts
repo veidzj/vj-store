@@ -17,11 +17,15 @@ export class DbUpdateCategory implements UpdateCategory {
       throw new CategoryNotFoundError()
     }
     category.setUpdateHistory([CategoryFields.name])
-    const updateCategoryRepositoryInput: UpdateCategoryRepository.Input = {
-      id: input.id,
+    const updateCategoryRepositoryInput = this.makeUpdateCategoryRepositoryInput(input.id, category)
+    await this.updateCategoryRepository.update(updateCategoryRepositoryInput)
+  }
+
+  private makeUpdateCategoryRepositoryInput(id: string, category: Category): UpdateCategoryRepository.Input {
+    return {
+      id,
       name: category.getName(),
       updateHistory: category.getUpdateHistory()
     }
-    await this.updateCategoryRepository.update(updateCategoryRepositoryInput)
   }
 }
