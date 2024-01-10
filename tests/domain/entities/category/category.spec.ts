@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Category, CategoryFields, CategoryValidation } from '@/domain/entities/category'
+import { Category, CategoryHelper, CategoryFields } from '@/domain/entities/category'
 import { EntityValidationError } from '@/domain/errors'
 
 let name: string
@@ -36,7 +36,7 @@ describe('Category Entity', () => {
     const currentDate = new Date()
     const sut = makeSut()
     expect(sut.getId()).toBeTruthy()
-    expect(sut.getName()).toBe(CategoryValidation.formatName(name))
+    expect(sut.getName()).toBe(CategoryHelper.formatName(name))
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toEqual([])
   })
@@ -45,7 +45,7 @@ describe('Category Entity', () => {
     const sut = makeSut()
     const newName = makeName()
     sut.setName(newName)
-    expect(sut.getName()).toBe(CategoryValidation.formatName(newName))
+    expect(sut.getName()).toBe(CategoryHelper.formatName(newName))
   })
 
   test('Should change updateHistory on setter', () => {
