@@ -12,10 +12,11 @@ export class CheckCategoryByNameRepositorySpy implements CheckCategoryByNameRepo
 
 export class CheckCategoryByIdRepositorySpy implements CheckCategoryByIdRepository {
   public id: string
+  public output: boolean = true
 
   public async checkById(id: string): Promise<boolean> {
     this.id = id
-    return false
+    return this.output
   }
 }
 

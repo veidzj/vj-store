@@ -3,6 +3,7 @@ import { UpdateCategoryRepositorySpy } from '@/tests/application/mocks/category/
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { DbUpdateCategory } from '@/application/usecases/category/commands'
 import { CheckCategoryByIdRepositorySpy } from '@/tests/application/mocks/category/queries'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbUpdateCategory
@@ -35,6 +36,13 @@ describe('DbUpdateCategory', () => {
       jest.spyOn(checkCategoryByIdRepositorySpy, 'checkById').mockImplementationOnce(throwError)
       const promise = sut.update(mockUpdateCategoryInput())
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should throw CategoryNotFoundError if CheckCategoryByIdRepository returns false', async() => {
+      const { sut, checkCategoryByIdRepositorySpy } = makeSut()
+      checkCategoryByIdRepositorySpy.output = false
+      const promise = sut.update(mockUpdateCategoryInput())
+      await expect(promise).rejects.toThrow(new CategoryNotFoundError())
     })
   })
 
