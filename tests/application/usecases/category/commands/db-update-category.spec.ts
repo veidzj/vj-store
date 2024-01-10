@@ -22,24 +22,28 @@ const makeSut = (): Sut => {
 }
 
 describe('DbUpdateCategory', () => {
-  test('Should call CheckCategoryByIdRepositorySpy with correct id', async() => {
-    const { sut, checkCategoryByIdRepositorySpy } = makeSut()
-    const updateCategoryInput = mockUpdateCategoryInput()
-    await sut.update(updateCategoryInput)
-    expect(checkCategoryByIdRepositorySpy.id).toEqual(updateCategoryInput.id)
+  describe('CheckCategoryByIdRepository', () => {
+    test('Should call CheckCategoryByIdRepository with correct id', async() => {
+      const { sut, checkCategoryByIdRepositorySpy } = makeSut()
+      const updateCategoryInput = mockUpdateCategoryInput()
+      await sut.update(updateCategoryInput)
+      expect(checkCategoryByIdRepositorySpy.id).toEqual(updateCategoryInput.id)
+    })
   })
 
-  test('Should call UpdateCategoryRepository with correct values', async() => {
-    const { sut, updateCategoryRepositorySpy } = makeSut()
-    const updateCategoryInput = mockUpdateCategoryInput()
-    await sut.update(updateCategoryInput)
-    expect(updateCategoryRepositorySpy.input).toEqual(updateCategoryInput)
-  })
+  describe('UpdateCategoryRepository', () => {
+    test('Should call UpdateCategoryRepository with correct values', async() => {
+      const { sut, updateCategoryRepositorySpy } = makeSut()
+      const updateCategoryInput = mockUpdateCategoryInput()
+      await sut.update(updateCategoryInput)
+      expect(updateCategoryRepositorySpy.input).toEqual(updateCategoryInput)
+    })
 
-  test('Should throw if UpdateCategoryRepository throws', async() => {
-    const { sut, updateCategoryRepositorySpy } = makeSut()
-    jest.spyOn(updateCategoryRepositorySpy, 'update').mockImplementationOnce(throwError)
-    const promise = sut.update(mockUpdateCategoryInput())
-    await expect(promise).rejects.toThrow()
+    test('Should throw if UpdateCategoryRepository throws', async() => {
+      const { sut, updateCategoryRepositorySpy } = makeSut()
+      jest.spyOn(updateCategoryRepositorySpy, 'update').mockImplementationOnce(throwError)
+      const promise = sut.update(mockUpdateCategoryInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
