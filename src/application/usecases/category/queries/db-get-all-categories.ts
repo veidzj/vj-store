@@ -5,7 +5,7 @@ export class DbGetAllCategories implements GetAllCategories {
   constructor(private readonly getAllCategoriesRepository: GetAllCategoriesRepository) {}
 
   public async getAll(): Promise<GetAllCategories.Output[]> {
-    await this.getAllCategoriesRepository.getAll()
-    return []
+    const categories = await this.getAllCategoriesRepository.getAll()
+    return categories
   }
 }
