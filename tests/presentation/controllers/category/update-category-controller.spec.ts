@@ -1,5 +1,8 @@
+import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { UpdateCategoryController } from '@/presentation/controllers/category/update-category-controller'
 import { type UpdateCategory } from '@/domain/usecases/category/commands'
+
+const mockRequest = (): UpdateCategoryController.Request => mockUpdateCategoryInput()
 
 describe('UpdateCategoryController', () => {
   test('Should call UpdateCategory with correct values', async() => {
@@ -12,13 +15,8 @@ describe('UpdateCategoryController', () => {
     }
     const updateCategorySpy = new UpdateCategorySpy()
     const sut = new UpdateCategoryController(updateCategorySpy)
-    await sut.handle({
-      id: 'anyId',
-      name: 'anyName'
-    })
-    expect(updateCategorySpy.input).toEqual({
-      id: 'anyId',
-      name: 'anyName'
-    })
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(updateCategorySpy.input).toEqual(request)
   })
 })
