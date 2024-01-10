@@ -6,7 +6,13 @@ export class GetAllCategoriesMongoRepository implements GetAllCategoriesReposito
 
   public async getAll(): Promise<GetAllCategoriesRepository.Output[]> {
     const categoryCollection = this.mongoHelper.getCollection('categories')
-    const categories = await categoryCollection.find().toArray()
+    const categories = await categoryCollection.find({}, {
+      projection: {
+        _id: 0,
+        id: 1,
+        name: 1
+      }
+    }).toArray()
     const mappedCategories = categories.map((category) => ({
       id: category?.id,
       name: category?.name
