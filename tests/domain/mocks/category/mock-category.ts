@@ -8,12 +8,12 @@ export const mockAddCategoryInput = (): AddCategory.Input => ({
   name: faker.string.alpha({ length: { min: 3, max: 20 } })
 })
 
-export const mockCategory = (): GetAllCategories.Output => ({
+export const mockCategoryOutput = (): GetAllCategories.Output => ({
   id: faker.string.uuid(),
   name: CategoryValidation.formatName(faker.string.alpha({ length: { min: 3, max: 20 } }))
 })
 
-export const mockCategories = (): GetAllCategories.Output[] => [
-  mockCategory(),
-  mockCategory()
+export const mockCategoriesOutput = (): GetAllCategories.Output[] => [
+  mockCategoryOutput(),
+  mockCategoryOutput()
 ]
