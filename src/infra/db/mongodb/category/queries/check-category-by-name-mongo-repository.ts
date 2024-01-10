@@ -5,8 +5,8 @@ export class CheckCategoryByNameMongoRepository implements CheckCategoryByNameRe
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
 
   public async checkByName(name: string): Promise<boolean> {
-    const accountCollection = this.mongoHelper.getCollection('categories')
-    const count = await accountCollection.countDocuments({ name })
+    const categoryCollection = this.mongoHelper.getCollection('categories')
+    const count = await categoryCollection.countDocuments({ name })
     return count > 0
   }
 }

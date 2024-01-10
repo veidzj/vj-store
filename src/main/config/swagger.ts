@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type Express } from 'express'
 import { serve, setup } from 'swagger-ui-express'
 

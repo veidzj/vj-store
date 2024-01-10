@@ -1,6 +1,7 @@
-import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountIdByTokenRepository } from '@/application/protocols/account/queries'
-import { mockGetAccountByEmailRepositoryOutput } from './mock-db-account-queries-output'
 import { faker } from '@faker-js/faker'
+
+import { mockGetAccountByEmailRepositoryOutput } from '@/tests/application/mocks/account/queries'
+import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, type GetAccountIdByTokenRepository } from '@/application/protocols/account/queries'
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string

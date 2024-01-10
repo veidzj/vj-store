@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
+import { GetAccountIdByTokenSpy } from '@/tests/presentation/mocks/account'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { HttpHelper } from '@/presentation/helpers'
 import { InvalidCredentialsError, TokenError, AccessDeniedError } from '@/domain/errors/account'
-import { GetAccountIdByTokenSpy } from '@/tests/presentation/mocks/account'
 
 interface Sut {
   sut: AuthMiddleware

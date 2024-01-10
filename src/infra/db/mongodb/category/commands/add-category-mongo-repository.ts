@@ -5,7 +5,7 @@ export class AddCategoryMongoRepository implements AddCategoryRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
 
   public async add(input: AddCategoryRepository.Input): Promise<void> {
-    const accountCollection = this.mongoHelper.getCollection('categories')
-    await accountCollection.insertOne(input)
+    const categoryCollection = this.mongoHelper.getCollection('categories')
+    await categoryCollection.insertOne(input)
   }
 }
