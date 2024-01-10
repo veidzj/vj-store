@@ -3,8 +3,8 @@ import { Collection } from 'mongodb'
 import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getCategoryCollection } from '@/tests/infra/db/mongodb/category'
-import { GetAllCategoriesMongoRepository } from '@/infra/db/mongodb/category/queries'
 import { mockAddCategoryRepositoryInput } from '@/tests/application/mocks/category/commands'
+import { GetAllCategoriesMongoRepository } from '@/infra/db/mongodb/category/queries'
 
 let categoryCollection: Collection
 
