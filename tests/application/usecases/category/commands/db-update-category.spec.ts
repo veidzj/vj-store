@@ -1,9 +1,10 @@
 import { throwError } from '@/tests/test-helper'
 import { UpdateCategoryRepositorySpy } from '@/tests/application/mocks/category/commands'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
-import { DbUpdateCategory } from '@/application/usecases/category/commands'
 import { CheckCategoryByIdRepositorySpy } from '@/tests/application/mocks/category/queries'
+import { DbUpdateCategory } from '@/application/usecases/category/commands'
 import { CategoryNotFoundError } from '@/domain/errors/category'
+import { CategoryFields } from '@/domain/entities/category'
 
 interface Sut {
   sut: DbUpdateCategory
@@ -51,7 +52,13 @@ describe('DbUpdateCategory', () => {
       const { sut, updateCategoryRepositorySpy } = makeSut()
       const updateCategoryInput = mockUpdateCategoryInput()
       await sut.update(updateCategoryInput)
-      expect(updateCategoryRepositorySpy.input).toEqual(updateCategoryInput)
+      expect(updateCategoryRepositorySpy.input).toEqual({
+        ...updateCategoryInput,
+        updateHistory: {
+          fields: [CategoryFields.name],
+          updatedAt: new Date()
+        }
+      })
     })
 
     test('Should throw if UpdateCategoryRepository throws', async() => {
