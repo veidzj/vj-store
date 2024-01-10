@@ -60,4 +60,11 @@ describe('Product Entity', () => {
     sut.setDescription(newDescription)
     expect(sut.getDescription()).toBe(newDescription)
   })
+
+  test('Should change price on setter', () => {
+    const sut = makeSut()
+    const newPrice = faker.number.int({ min: 1, max: 99999 })
+    sut.setPrice(newPrice)
+    expect(sut.getPrice()).toBe(newPrice)
+  })
 })
