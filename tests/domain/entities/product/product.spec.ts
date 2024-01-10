@@ -46,4 +46,11 @@ describe('Product Entity', () => {
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toEqual([])
   })
+
+  test('Should change name on setter', () => {
+    const sut = makeSut()
+    const newName = faker.commerce.productName()
+    sut.setName(newName)
+    expect(sut.getName()).toBe(newName)
+  })
 })
