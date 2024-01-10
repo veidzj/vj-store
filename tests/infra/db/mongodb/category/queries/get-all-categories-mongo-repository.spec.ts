@@ -32,4 +32,9 @@ describe('GetAllCategoriesMongoRepository', () => {
     const promise = sut.getAll()
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return an empty array if there are no categories', async() => {
+    const categories = await sut.getAll()
+    expect(categories).toEqual([])
+  })
 })
