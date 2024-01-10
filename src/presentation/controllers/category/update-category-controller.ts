@@ -9,7 +9,7 @@ export class UpdateCategoryController implements Controller {
   public async handle(request: UpdateCategoryController.Request): Promise<Response> {
     try {
       await this.updateCategory.update(request)
-      return HttpHelper.ok({})
+      return HttpHelper.ok({ message: 'Category successfully updated' })
     } catch (error) {
       if (error instanceof CategoryNotFoundError) {
         return HttpHelper.notFound(error)
