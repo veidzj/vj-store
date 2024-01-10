@@ -5,8 +5,8 @@ export class CheckCategoryByIdMongoRepository implements CheckCategoryByIdReposi
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
 
   public async checkById(id: string): Promise<boolean> {
-    const accountCollection = this.mongoHelper.getCollection('categories')
-    const count = await accountCollection.countDocuments({ id })
+    const categoryCollection = this.mongoHelper.getCollection('categories')
+    const count = await categoryCollection.countDocuments({ id })
     return count > 0
   }
 }
