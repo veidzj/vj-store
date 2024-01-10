@@ -40,4 +40,9 @@ describe('CheckCategoryByIdMongoRepository', () => {
     const categoryExists = await sut.checkById(addCategoryRepositoryInput.id)
     expect(categoryExists).toBe(true)
   })
+
+  test('Should return false if id does not exists', async() => {
+    const categoryExists = await sut.checkById(mockAddCategoryRepositoryInput().id)
+    expect(categoryExists).toBe(false)
+  })
 })
