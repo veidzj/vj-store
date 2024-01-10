@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Account, AccountFields, AccountValidation } from '@/domain/entities/account'
+import { Account, AccountFields, AccountHelper } from '@/domain/entities/account'
 import { EntityValidationError } from '@/domain/errors'
 
 const role: string = 'user'
@@ -28,7 +28,7 @@ describe('Account Entity', () => {
   })
 
   beforeEach(() => {
-    username = AccountValidation.formatUsername(faker.string.alpha({ length: { min: 3, max: 12 } }))
+    username = AccountHelper.formatUsername(faker.string.alpha({ length: { min: 3, max: 12 } }))
     email = faker.internet.email()
     password = faker.internet.password()
   })
@@ -63,7 +63,7 @@ describe('Account Entity', () => {
     const sut = makeSut()
     const newUsername = faker.string.alpha({ length: { min: 3, max: 12 } })
     sut.setUsername(newUsername)
-    expect(sut.getUsername()).toBe(AccountValidation.formatUsername(newUsername))
+    expect(sut.getUsername()).toBe(AccountHelper.formatUsername(newUsername))
   })
 
   test('Should change email on setter', () => {

@@ -1,6 +1,6 @@
 import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
-import { CategoryValidation, CategoryHelper, type CategoryFields } from '@/domain/entities/category'
+import { type CategoryFields, CategoryValidation, CategoryHelper } from '@/domain/entities/category'
 
 export class Category extends AggregateRoot {
   private name: string
