@@ -103,7 +103,9 @@ describe('Account Entity', () => {
   })
 
   test('Should throw if Username contains numbers or special characters', () => {
-    username = faker.string.sample({ min: 3, max: 12 })
+    const randomNumber = faker.number.int(9)
+    const randomSymbol = faker.string.symbol()
+    username = faker.string.sample({ min: 1, max: 10 }) + randomNumber + randomSymbol
     const errorMessage = 'Username must contain only letters'
     expectPromiseToThrow(errorMessage)
   })
