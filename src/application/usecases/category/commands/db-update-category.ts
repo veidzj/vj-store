@@ -1,8 +1,8 @@
 import { type CheckCategoryByIdRepository } from '@/application/protocols/category/queries'
 import { type UpdateCategoryRepository } from '@/application/protocols/category/commands'
+import { Category, CategoryFields } from '@/domain/entities/category'
 import { type UpdateCategory } from '@/domain/usecases/category/commands'
 import { CategoryNotFoundError } from '@/domain/errors/category'
-import { Category, CategoryFields } from '@/domain/entities/category'
 
 export class DbUpdateCategory implements UpdateCategory {
   constructor(
