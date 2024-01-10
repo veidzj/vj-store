@@ -3,6 +3,7 @@ import { UpdateCategorySpy } from '@/tests/presentation/mocks/category'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { UpdateCategoryController } from '@/presentation/controllers/category/update-category-controller'
 import { HttpHelper } from '@/presentation/helpers'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: UpdateCategoryController
@@ -31,8 +32,16 @@ describe('UpdateCategoryController', () => {
   test('Should return serverError if UpdateCategory throws', async() => {
     const { sut, updateCategorySpy } = makeSut()
     jest.spyOn(updateCategorySpy, 'update').mockImplementationOnce(throwError)
-    const request = mockRequest()
-    const response = await sut.handle(request)
+    const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
+  })
+
+  test('Should return notFound if UpdateCategory throws CategoryNotFoundError', async() => {
+    const { sut, updateCategorySpy } = makeSut()
+    jest.spyOn(updateCategorySpy, 'update').mockImplementationOnce(() => {
+      throw new CategoryNotFoundError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.notFound(new CategoryNotFoundError()))
   })
 })
