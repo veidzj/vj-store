@@ -3,6 +3,17 @@ import { faker } from '@faker-js/faker'
 
 import { Product } from '@/domain/entities/product'
 
+let name: string
+let description: string
+let price: number
+let discountPercentage: number
+let quantity: number
+let category: string
+
+const makeSut = (): Product => {
+  return new Product(name, description, price, discountPercentage, quantity, category)
+}
+
 describe('Product Entity', () => {
   beforeAll(() => {
     MockDate.set(new Date())
@@ -12,15 +23,18 @@ describe('Product Entity', () => {
     MockDate.reset()
   })
 
+  beforeEach(() => {
+    name = faker.commerce.productName()
+    description = faker.commerce.productDescription()
+    price = faker.number.int({ min: 1, max: 99999 })
+    discountPercentage = faker.number.int({ min: 0, max: 100 })
+    quantity = faker.number.int({ min: 0, max: 999 })
+    category = faker.commerce.department()
+  })
+
   test('Should instantiate with correct values', () => {
     const currentDate = new Date()
-    const name = faker.commerce.productName()
-    const description = faker.commerce.productDescription()
-    const price = faker.number.int({ min: 1, max: 99999 })
-    const discountPercentage = faker.number.int({ min: 0, max: 100 })
-    const quantity = faker.number.int({ min: 0, max: 999 })
-    const category = faker.commerce.department()
-    const sut = new Product(name, description, price, discountPercentage, quantity, category)
+    const sut = makeSut()
     expect(sut.getId()).toBeTruthy()
     expect(sut.getName()).toBe(name)
     expect(sut.getDescription()).toBe(description)
