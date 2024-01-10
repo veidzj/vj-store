@@ -67,5 +67,11 @@ describe('DbUpdateCategory', () => {
       const promise = sut.update(mockUpdateCategoryInput())
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should not throw on success', async() => {
+      const { sut } = makeSut()
+      const promise = sut.update(mockUpdateCategoryInput())
+      await expect(promise).resolves.not.toThrow()
+    })
   })
 })
