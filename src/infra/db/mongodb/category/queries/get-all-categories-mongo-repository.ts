@@ -13,10 +13,9 @@ export class GetAllCategoriesMongoRepository implements GetAllCategoriesReposito
         name: 1
       }
     }).toArray()
-    const mappedCategories = categories.map((category) => ({
+    return categories.map((category) => ({
       id: category?.id,
       name: category?.name
     }))
-    return mappedCategories
   }
 }
