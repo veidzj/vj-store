@@ -1,4 +1,4 @@
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/category/commands'
 import { DbAddCategory } from '@/application/usecases/category/commands'
 import { CheckCategoryByNameMongoRepository } from '@/infra/db/mongodb/category/queries'
 import { AddCategoryMongoRepository } from '@/infra/db/mongodb/category/commands'

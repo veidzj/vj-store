@@ -1,6 +1,6 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type AddCategory } from '@/domain/usecases/category'
+import { type AddCategory } from '@/domain/usecases/category/commands'
 import { EntityValidationError } from '@/domain/errors'
 import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 

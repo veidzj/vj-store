@@ -59,28 +59,28 @@ describe('Account Entity', () => {
     expect(sut.getIsActive()).toBe(true)
   })
 
-  test('Should change Username on setter', () => {
+  test('Should change username on setter', () => {
     const sut = makeSut()
     const newUsername = faker.string.alpha({ length: { min: 3, max: 12 } })
     sut.setUsername(newUsername)
     expect(sut.getUsername()).toBe(AccountValidation.formatUsername(newUsername))
   })
 
-  test('Should change Email on setter', () => {
+  test('Should change email on setter', () => {
     const sut = makeSut()
     const newEmail = faker.internet.email()
     sut.setEmail(newEmail)
     expect(sut.getEmail()).toBe(newEmail)
   })
 
-  test('Should change Password on setter', () => {
+  test('Should change password on setter', () => {
     const sut = makeSut()
     const newPassword = faker.internet.password()
     sut.setPassword(newPassword)
     expect(sut.getPassword()).toBe(newPassword)
   })
 
-  test('Should change UpdateHistory on setter', () => {
+  test('Should change updateHistory on setter', () => {
     const sut = makeSut()
     const accountFields: AccountFields[] = [AccountFields.username, AccountFields.email, AccountFields.password, AccountFields.isActive]
     sut.setUpdateHistory(accountFields)
@@ -90,37 +90,39 @@ describe('Account Entity', () => {
     })
   })
 
-  test('Should throw if Username is less than 3 characters long', () => {
+  test('Should throw if username is less than 3 characters long', () => {
     username = faker.string.alpha({ length: { min: 1, max: 2 } })
     const errorMessage = 'Username must be at least 3 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Username is greater than 12 characters long', () => {
+  test('Should throw if username is greater than 12 characters long', () => {
     username = faker.string.alpha({ length: { min: 13, max: 255 } })
     const errorMessage = 'Username must be less than or equal to 12 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Username contains numbers or special characters', () => {
-    username = faker.string.sample({ min: 3, max: 12 })
+  test('Should throw if username contains numbers or special characters', () => {
+    const randomNumber = faker.number.int(9)
+    const randomSymbol = faker.string.symbol()
+    username = faker.string.sample({ min: 1, max: 10 }) + randomNumber + randomSymbol
     const errorMessage = 'Username must contain only letters'
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Email is invalid', () => {
+  test('Should throw if email is invalid', () => {
     email = faker.word.words()
     const errorMessage = 'Email must be valid'
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Password is less than 6 characters long', () => {
+  test('Should throw if password is less than 6 characters long', () => {
     password = faker.internet.password({ length: 5 })
     const errorMessage = 'Password must must be at least 6 characters long'
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if Password is greater than 255 characters long', () => {
+  test('Should throw if password is greater than 255 characters long', () => {
     password = faker.internet.password({ length: 256 })
     const errorMessage = 'Password must be less than or equal to 255 characters long'
     expectPromiseToThrow(errorMessage)
