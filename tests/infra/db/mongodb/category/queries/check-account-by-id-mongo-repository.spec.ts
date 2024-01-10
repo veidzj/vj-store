@@ -33,4 +33,11 @@ describe('CheckCategoryByIdMongoRepository', () => {
     const promise = sut.checkById(mockAddCategoryRepositoryInput().id)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return true if id exists', async() => {
+    const addCategoryRepositoryInput = mockAddCategoryRepositoryInput()
+    await categoryCollection.insertOne(addCategoryRepositoryInput)
+    const categoryExists = await sut.checkById(addCategoryRepositoryInput.id)
+    expect(categoryExists).toBe(true)
+  })
 })
