@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getCategoryCollection } from '@/tests/infra/db/mongodb/category'
 import { GetAllCategoriesMongoRepository } from '@/infra/db/mongodb/category/queries'
+import { mockAddCategoryRepositoryInput } from '@/tests/application/mocks/category/commands'
 
 let categoryCollection: Collection
 
@@ -36,5 +37,16 @@ describe('GetAllCategoriesMongoRepository', () => {
   test('Should return an empty array if there are no categories', async() => {
     const categories = await sut.getAll()
     expect(categories).toEqual([])
+  })
+
+  test('Should return all categories on success', async() => {
+    const addCategoryRepositoryInputs = [mockAddCategoryRepositoryInput(), mockAddCategoryRepositoryInput()]
+    await categoryCollection.insertMany(addCategoryRepositoryInputs)
+    const categories = await sut.getAll()
+    expect(categories.length).toBe(2)
+    expect(categories[0].id).toBe(addCategoryRepositoryInputs[0].id)
+    expect(categories[0].name).toBe(addCategoryRepositoryInputs[0].name)
+    expect(categories[1].id).toBe(addCategoryRepositoryInputs[1].id)
+    expect(categories[1].name).toBe(addCategoryRepositoryInputs[1].name)
   })
 })
