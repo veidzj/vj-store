@@ -53,4 +53,11 @@ describe('Product Entity', () => {
     sut.setName(newName)
     expect(sut.getName()).toBe(newName)
   })
+
+  test('Should change description on setter', () => {
+    const sut = makeSut()
+    const newDescription = faker.commerce.productDescription()
+    sut.setDescription(newDescription)
+    expect(sut.getDescription()).toBe(newDescription)
+  })
 })
