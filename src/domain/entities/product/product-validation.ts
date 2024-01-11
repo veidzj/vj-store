@@ -12,4 +12,10 @@ export class ProductValidation {
       throw new EntityValidationError('Name must contain only letters, numbers and spaces')
     }
   }
+
+  public static validateDescription(description: string): void {
+    if (description.length < 50) {
+      throw new EntityValidationError('Description must be at least 50 characters long')
+    }
+  }
 }

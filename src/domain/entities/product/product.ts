@@ -77,6 +77,7 @@ export class Product extends AggregateRoot {
   }
 
   public setDescription(description: string): void {
+    ProductValidation.validateDescription(description)
     this.description = description
   }
 
