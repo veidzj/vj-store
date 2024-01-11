@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Product } from '@/domain/entities/product'
+import { Product, ProductHelper } from '@/domain/entities/product'
 
 let name: string
 let description: string
@@ -42,6 +42,7 @@ describe('Product Entity', () => {
     expect(sut.getDiscountPercentage()).toBe(discountPercentage)
     expect(sut.getQuantity()).toBe(quantity)
     expect(sut.getCategory()).toBe(category)
+    expect(sut.getSlug()).toBe(ProductHelper.generateSlug(name))
     expect(sut.getImagesUrls()).toEqual([])
     expect(sut.getCreatedAt()).toEqual(currentDate)
     expect(sut.getUpdateHistory()).toEqual([])

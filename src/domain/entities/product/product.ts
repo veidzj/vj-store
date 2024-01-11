@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@/domain/seedwork'
-import { type ProductFields } from './product-fields'
 import { type UpdateLog } from '@/domain/common'
+import { type ProductFields, ProductHelper } from '@/domain/entities/product'
 
 export class Product extends AggregateRoot {
   private name: string
@@ -9,6 +9,7 @@ export class Product extends AggregateRoot {
   private discountPercentage: number
   private quantity: number
   private category: string
+  private slug: string
   private imagesUrls: string[] = []
   private updateHistory: UpdateLog<ProductFields> | [] = []
 
@@ -20,6 +21,7 @@ export class Product extends AggregateRoot {
     this.setDiscountPercentage(discountPercentage)
     this.setQuantity(quantity)
     this.setCategory(category)
+    this.setSlug(name)
     if (imageUrls) {
       this.setImagesUrls(imageUrls)
     }
@@ -51,6 +53,10 @@ export class Product extends AggregateRoot {
 
   public getCategory(): string {
     return this.category
+  }
+
+  public getSlug(): string {
+    return this.slug
   }
 
   public getImagesUrls(): string[] {
@@ -98,5 +104,9 @@ export class Product extends AggregateRoot {
       fields,
       updatedAt: new Date()
     }
+  }
+
+  private setSlug(name: string): void {
+    this.slug = ProductHelper.generateSlug(name)
   }
 }
