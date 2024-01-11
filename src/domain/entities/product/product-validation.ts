@@ -8,5 +8,8 @@ export class ProductValidation {
     if (name.length > 20) {
       throw new EntityValidationError('Name must be less than or equal to 20 characters long')
     }
+    if (!/^[A-Za-z]+(?: [A-Za-z0-9]+)*$/.test(name)) {
+      throw new EntityValidationError('Name must contain only letters, numbers and spaces')
+    }
   }
 }
