@@ -124,4 +124,11 @@ describe('Product Entity', () => {
     const errorMessage = 'Name must be less than or equal to 20 characters long'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if name contains special characters', () => {
+    const randomString = faker.string.sample({ min: 4, max: 19 })
+    name = faker.string.symbol() + randomString
+    const errorMessage = 'Name must contain only letters, numbers and spaces'
+    expectPromiseToThrow(errorMessage)
+  })
 })
