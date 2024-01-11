@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@/domain/seedwork'
 import { type UpdateLog } from '@/domain/common'
-import { type ProductFields, ProductHelper } from '@/domain/entities/product'
+import { type ProductFields, ProductHelper, ProductValidation } from '@/domain/entities/product'
 
 export class Product extends AggregateRoot {
   private name: string
@@ -72,6 +72,7 @@ export class Product extends AggregateRoot {
   }
 
   public setName(name: string): void {
+    ProductValidation.validateName(name)
     this.name = name
   }
 
