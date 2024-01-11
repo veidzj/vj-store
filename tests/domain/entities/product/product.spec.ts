@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Product, ProductHelper } from '@/domain/entities/product'
+import { Product, ProductFields, ProductHelper } from '@/domain/entities/product'
 
 let name: string
 let description: string
@@ -95,5 +95,15 @@ describe('Product Entity', () => {
     const newImagesUrls = [faker.internet.url(), faker.internet.url()]
     sut.setImagesUrls(newImagesUrls)
     expect(sut.getImagesUrls()).toBe(newImagesUrls)
+  })
+
+  test('Should change update history on setter', () => {
+    const sut = makeSut()
+    const productFields: ProductFields[] = [ProductFields.name]
+    sut.setUpdateHistory(productFields)
+    expect(sut.getUpdateHistory()).toEqual({
+      fields: productFields,
+      updatedAt: new Date()
+    })
   })
 })
