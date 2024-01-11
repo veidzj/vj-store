@@ -31,7 +31,7 @@ describe('Product Entity', () => {
 
   beforeEach(() => {
     name = faker.string.alpha({ length: { min: 3, max: 20 } })
-    description = faker.commerce.productDescription()
+    description = faker.string.alpha({ length: { min: 50, max: 300 } })
     price = faker.number.int({ min: 1, max: 99999 })
     discountPercentage = faker.number.int({ min: 0, max: 100 })
     quantity = faker.number.int({ min: 0, max: 999 })
@@ -129,6 +129,12 @@ describe('Product Entity', () => {
     const randomString = faker.string.sample({ min: 4, max: 19 })
     name = faker.string.symbol() + randomString
     const errorMessage = 'Name must contain only letters, numbers and spaces'
+    expectPromiseToThrow(errorMessage)
+  })
+
+  test('Should throw if description is less than 50 characters long', () => {
+    description = faker.string.alpha({ length: { min: 1, max: 49 } })
+    const errorMessage = 'Description must be at least 50 characters long'
     expectPromiseToThrow(errorMessage)
   })
 })
