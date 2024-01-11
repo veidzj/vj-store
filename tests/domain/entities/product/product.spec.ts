@@ -75,4 +75,11 @@ describe('Product Entity', () => {
     sut.setDiscountPercentage(newDiscountPercentage)
     expect(sut.getDiscountPercentage()).toBe(newDiscountPercentage)
   })
+
+  test('Should change quantity on setter', () => {
+    const sut = makeSut()
+    const newQuantity = faker.number.int({ min: 0, max: 999 })
+    sut.setQuantity(newQuantity)
+    expect(sut.getQuantity()).toBe(newQuantity)
+  })
 })
