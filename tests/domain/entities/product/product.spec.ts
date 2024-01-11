@@ -30,7 +30,7 @@ describe('Product Entity', () => {
   })
 
   beforeEach(() => {
-    name = faker.commerce.productName()
+    name = faker.string.alpha({ length: { min: 3, max: 20 } })
     description = faker.commerce.productDescription()
     price = faker.number.int({ min: 1, max: 99999 })
     discountPercentage = faker.number.int({ min: 0, max: 100 })
@@ -56,7 +56,7 @@ describe('Product Entity', () => {
 
   test('Should change name on setter', () => {
     const sut = makeSut()
-    const newName = faker.commerce.productName()
+    const newName = faker.string.alpha({ length: { min: 3, max: 20 } })
     sut.setName(newName)
     expect(sut.getName()).toBe(newName)
   })
@@ -116,6 +116,12 @@ describe('Product Entity', () => {
   test('Should throw if name is less than 3 characters long', () => {
     name = faker.string.alpha({ length: { min: 1, max: 2 } })
     const errorMessage = 'Name must be at least 3 characters long'
+    expectPromiseToThrow(errorMessage)
+  })
+
+  test('Should throw if name is more than 20 characters long', () => {
+    name = faker.string.alpha({ length: { min: 21, max: 22 } })
+    const errorMessage = 'Name must be less than or equal to 20 characters long'
     expectPromiseToThrow(errorMessage)
   })
 })
