@@ -89,4 +89,11 @@ describe('Product Entity', () => {
     sut.setCategory(newCategory)
     expect(sut.getCategory()).toBe(newCategory)
   })
+
+  test('Should change images urls on setter', () => {
+    const sut = makeSut()
+    const newImagesUrls = [faker.internet.url(), faker.internet.url()]
+    sut.setImagesUrls(newImagesUrls)
+    expect(sut.getImagesUrls()).toBe(newImagesUrls)
+  })
 })
