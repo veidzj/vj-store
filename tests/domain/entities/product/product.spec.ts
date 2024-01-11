@@ -2,6 +2,7 @@ import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
 import { Product, ProductFields, ProductHelper } from '@/domain/entities/product'
+import { EntityValidationError } from '@/domain/errors'
 
 let name: string
 let description: string
@@ -12,6 +13,11 @@ let category: string
 
 const makeSut = (): Product => {
   return new Product(name, description, price, discountPercentage, quantity, category)
+}
+
+const expectPromiseToThrow = (errorMessage: string): void => {
+  const sut = (): Product => makeSut()
+  expect(sut).toThrow(new EntityValidationError(errorMessage))
 }
 
 describe('Product Entity', () => {
@@ -105,5 +111,11 @@ describe('Product Entity', () => {
       fields: productFields,
       updatedAt: new Date()
     })
+  })
+
+  test('Should throw if name is less than 3 characters long', () => {
+    name = faker.string.alpha({ length: { min: 1, max: 2 } })
+    const errorMessage = 'Name must be at least 3 characters long'
+    expectPromiseToThrow(errorMessage)
   })
 })
