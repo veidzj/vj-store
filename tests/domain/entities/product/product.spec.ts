@@ -82,4 +82,11 @@ describe('Product Entity', () => {
     sut.setQuantity(newQuantity)
     expect(sut.getQuantity()).toBe(newQuantity)
   })
+
+  test('Should change category on setter', () => {
+    const sut = makeSut()
+    const newCategory = faker.commerce.department()
+    sut.setCategory(newCategory)
+    expect(sut.getCategory()).toBe(newCategory)
+  })
 })
