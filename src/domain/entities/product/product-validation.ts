@@ -1,4 +1,5 @@
 import { EntityValidationError } from '@/domain/errors'
+import isURL from 'validator/lib/isURL'
 
 export class ProductValidation {
   public static validateName(name: string): void {
@@ -20,5 +21,13 @@ export class ProductValidation {
     if (description.length > 300) {
       throw new EntityValidationError('Description must be less than or equal to 300 characters long')
     }
+  }
+
+  public static validateImagesUrls(imagesUrls: string[]): void {
+    imagesUrls.forEach((imageUrl) => {
+      if (!isURL(imageUrl)) {
+        throw new EntityValidationError('Image url must be a valid url')
+      }
+    })
   }
 }

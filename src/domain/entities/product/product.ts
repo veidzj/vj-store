@@ -98,6 +98,7 @@ export class Product extends AggregateRoot {
   }
 
   public setImagesUrls(imagesUrls: string[]): void {
+    ProductValidation.validateImagesUrls(imagesUrls)
     this.imagesUrls = imagesUrls
   }
 
