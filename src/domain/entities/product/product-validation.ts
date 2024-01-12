@@ -17,5 +17,8 @@ export class ProductValidation {
     if (description.length < 50) {
       throw new EntityValidationError('Description must be at least 50 characters long')
     }
+    if (description.length > 300) {
+      throw new EntityValidationError('Description must be less than or equal to 300 characters long')
+    }
   }
 }

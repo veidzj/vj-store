@@ -137,4 +137,10 @@ describe('Product Entity', () => {
     const errorMessage = 'Description must be at least 50 characters long'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if description is more than 300 characters long', () => {
+    description = faker.string.alpha({ length: { min: 301, max: 302 } })
+    const errorMessage = 'Description must be less than or equal to 300 characters long'
+    expectPromiseToThrow(errorMessage)
+  })
 })
