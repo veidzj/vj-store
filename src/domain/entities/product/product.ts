@@ -82,6 +82,7 @@ export class Product extends AggregateRoot {
   }
 
   public setPrice(price: number): void {
+    ProductValidation.validatePrice(price)
     this.price = price
   }
 

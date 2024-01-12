@@ -30,4 +30,10 @@ export class ProductValidation {
       }
     })
   }
+
+  public static validatePrice(price: number): void {
+    if (price < 1) {
+      throw new EntityValidationError('Price must be at least 1')
+    }
+  }
 }
