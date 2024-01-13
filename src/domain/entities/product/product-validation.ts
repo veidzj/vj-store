@@ -33,7 +33,10 @@ export class ProductValidation {
 
   public static validatePrice(price: number): void {
     if (price < 1) {
-      throw new EntityValidationError('Price must be at least 1')
+      throw new EntityValidationError('Price must be at least $1')
+    }
+    if (price > 99999) {
+      throw new EntityValidationError('Price must be less than or equal to $99.999')
     }
   }
 }
