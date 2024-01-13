@@ -39,4 +39,10 @@ export class ProductValidation {
       throw new EntityValidationError('Price must be less than or equal to $99.999')
     }
   }
+
+  public static validateQuantity(quantity: number): void {
+    if (quantity < 0) {
+      throw new EntityValidationError('Quantity must be at least 0')
+    }
+  }
 }

@@ -91,6 +91,7 @@ export class Product extends AggregateRoot {
   }
 
   public setQuantity(quantity: number): void {
+    ProductValidation.validateQuantity(quantity)
     this.quantity = quantity
   }
 
