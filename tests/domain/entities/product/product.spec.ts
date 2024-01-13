@@ -169,4 +169,10 @@ describe('Product Entity', () => {
     const errorMessage = 'Quantity must be at least 0'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if quantity is greater than 999', () => {
+    quantity = faker.number.int({ min: 1000, max: 1001 })
+    const errorMessage = 'Quantity must be less than or equal to 999'
+    expectPromiseToThrow(errorMessage)
+  })
 })

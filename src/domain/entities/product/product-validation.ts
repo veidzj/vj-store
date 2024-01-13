@@ -44,5 +44,8 @@ export class ProductValidation {
     if (quantity < 0) {
       throw new EntityValidationError('Quantity must be at least 0')
     }
+    if (quantity > 999) {
+      throw new EntityValidationError('Quantity must be less than or equal to 999')
+    }
   }
 }
