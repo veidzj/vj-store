@@ -53,5 +53,8 @@ export class ProductValidation {
     if (discountPercentage < 0) {
       throw new EntityValidationError('Discount percentage must be at least 0')
     }
+    if (discountPercentage > 100) {
+      throw new EntityValidationError('Discount percentage must be less than or equal to 100')
+    }
   }
 }
