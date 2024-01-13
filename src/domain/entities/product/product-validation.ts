@@ -48,4 +48,10 @@ export class ProductValidation {
       throw new EntityValidationError('Quantity must be less than or equal to 999')
     }
   }
+
+  public static validateDiscountPercentage(discountPercentage: number): void {
+    if (discountPercentage < 0) {
+      throw new EntityValidationError('Discount percentage must be at least 0')
+    }
+  }
 }

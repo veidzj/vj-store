@@ -87,6 +87,7 @@ export class Product extends AggregateRoot {
   }
 
   public setDiscountPercentage(discountPercentage: number): void {
+    ProductValidation.validateDiscountPercentage(discountPercentage)
     this.discountPercentage = discountPercentage
   }
 
