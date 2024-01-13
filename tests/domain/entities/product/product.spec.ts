@@ -181,4 +181,10 @@ describe('Product Entity', () => {
     const errorMessage = 'Discount percentage must be at least 0'
     expectPromiseToThrow(errorMessage)
   })
+
+  test('Should throw if discount percentage is greater than 100', () => {
+    discountPercentage = faker.number.int({ min: 101, max: 102 })
+    const errorMessage = 'Discount percentage must be less than or equal to 100'
+    expectPromiseToThrow(errorMessage)
+  })
 })
