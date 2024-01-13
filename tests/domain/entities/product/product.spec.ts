@@ -121,7 +121,7 @@ describe('Product Entity', () => {
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if name is more than 20 characters long', () => {
+  test('Should throw if name is greater than 20 characters long', () => {
     name = faker.string.alpha({ length: { min: 21, max: 22 } })
     const errorMessage = 'Name must be less than or equal to 20 characters long'
     expectPromiseToThrow(errorMessage)
@@ -140,7 +140,7 @@ describe('Product Entity', () => {
     expectPromiseToThrow(errorMessage)
   })
 
-  test('Should throw if description is more than 300 characters long', () => {
+  test('Should throw if description is greater than 300 characters long', () => {
     description = faker.string.alpha({ length: { min: 301, max: 302 } })
     const errorMessage = 'Description must be less than or equal to 300 characters long'
     expectPromiseToThrow(errorMessage)
@@ -154,7 +154,13 @@ describe('Product Entity', () => {
 
   test('Should throw if price is less than 1', () => {
     price = faker.number.int({ max: 0 })
-    const errorMessage = 'Price must be at least 1'
+    const errorMessage = 'Price must be at least $1'
+    expectPromiseToThrow(errorMessage)
+  })
+
+  test('Should throw if price is greater than 99.999', () => {
+    price = faker.number.int({ min: 100000, max: 100001 })
+    const errorMessage = 'Price must be less than or equal to $99.999'
     expectPromiseToThrow(errorMessage)
   })
 })
