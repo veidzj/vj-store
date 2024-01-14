@@ -10,7 +10,7 @@ export class AddProductController implements Controller {
   public async handle(request: AddProductController.Request): Promise<Response> {
     try {
       await this.addProduct.add(request)
-      return HttpHelper.ok({})
+      return HttpHelper.ok({ message: 'Product successfully added' })
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
