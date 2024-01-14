@@ -1,5 +1,8 @@
 import { AddProductController } from '@/presentation/controllers/product'
 import { type AddProduct } from '@/domain/usecases/product/commands'
+import { mockAddProductInput } from '@/tests/domain/mocks/product'
+
+const mockRequest = (): AddProductController.Request => mockAddProductInput()
 
 describe('AddProductController', () => {
   test('Should call AddProduct with correct values', async() => {
@@ -12,23 +15,8 @@ describe('AddProductController', () => {
     }
     const addProductSpy = new AddProductSpy()
     const sut = new AddProductController(addProductSpy)
-    await sut.handle({
-      name: '',
-      description: '',
-      price: 1,
-      discountPercentage: 0,
-      quantity: 1,
-      category: '',
-      imagesUrls: []
-    })
-    expect(addProductSpy.input).toEqual({
-      name: '',
-      description: '',
-      price: 1,
-      discountPercentage: 0,
-      quantity: 1,
-      category: '',
-      imagesUrls: []
-    })
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(addProductSpy.input).toEqual(request)
   })
 })
