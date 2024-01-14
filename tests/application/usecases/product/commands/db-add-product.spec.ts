@@ -1,3 +1,4 @@
+import { throwError } from '@/tests/test-helper'
 import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { mockAddProductInput } from '@/tests/domain/mocks/product'
 import { DbAddProduct } from '@/application/usecases/product/commands'
@@ -32,6 +33,13 @@ describe('DbAddProduct', () => {
       checkCategoryByNameRepositorySpy.output = false
       const promise = sut.add(mockAddProductInput())
       await expect(promise).rejects.toThrow(new CategoryNotFoundError())
+    })
+
+    test('Should throw if CheckCategoryByNameRepository throws', async() => {
+      const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      jest.spyOn(checkCategoryByNameRepositorySpy, 'checkByName').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
