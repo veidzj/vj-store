@@ -1,6 +1,9 @@
 import { AddProductSpy } from '@/tests/presentation/mocks/product'
 import { mockAddProductInput } from '@/tests/domain/mocks/product'
 import { AddProductController } from '@/presentation/controllers/product'
+import { EntityValidationError } from '@/domain/errors'
+import { faker } from '@faker-js/faker'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: AddProductController
@@ -24,5 +27,15 @@ describe('AddProductController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(addProductSpy.input).toEqual(request)
+  })
+
+  test('Should return badRequest if AddProduct throws EntityValidationError', async() => {
+    const { sut, addProductSpy } = makeSut()
+    const errorMessage = faker.word.words()
+    jest.spyOn(addProductSpy, 'add').mockImplementationOnce(() => {
+      throw new EntityValidationError(errorMessage)
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
   })
 })
