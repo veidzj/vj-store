@@ -14,7 +14,7 @@ export class AddProductController implements Controller {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
       }
-      return HttpHelper.ok({})
+      return HttpHelper.serverError(error as Error)
     }
   }
 }
