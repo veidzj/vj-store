@@ -75,5 +75,12 @@ describe('DbAddProduct', () => {
       expect(addProductRepositorySpy.input.createdAt).toEqual(new Date())
       expect(addProductRepositorySpy.input.updateHistory).toEqual([])
     })
+
+    test('Should throw if AddProductRepository throws', async() => {
+      const { sut, addProductRepositorySpy } = makeSut()
+      jest.spyOn(addProductRepositorySpy, 'add').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
