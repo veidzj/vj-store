@@ -7,6 +7,7 @@ import { UpdateProductController } from '@/presentation/controllers/product'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
 import { ProductNotFoundError } from '@/domain/errors/product'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: UpdateProductController
@@ -49,6 +50,15 @@ describe('UpdateProductController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.notFound(new ProductNotFoundError()))
+  })
+
+  test('Should return notFound if UpdateProduct throws CategoryNotFoundError', async() => {
+    const { sut, updateProductSpy } = makeSut()
+    jest.spyOn(updateProductSpy, 'update').mockImplementationOnce(() => {
+      throw new CategoryNotFoundError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.notFound(new CategoryNotFoundError()))
   })
 
   test('Should return serverError if UpdateProduct throws', async() => {
