@@ -1,6 +1,7 @@
 import MockDate from 'mockdate'
 
 import { throwError } from '@/tests/test-helper'
+import { CheckProductByNameRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { AddProductRepositorySpy } from '@/tests/application/mocks/product/commands'
 import { mockAddProductInput } from '@/tests/domain/mocks/product'
@@ -10,17 +11,20 @@ import { ProductHelper } from '@/domain/entities/product'
 
 interface Sut {
   sut: DbAddProduct
+  checkProductByNameRepository: CheckProductByNameRepositorySpy
   checkCategoryByNameRepositorySpy: CheckCategoryByNameRepositorySpy
   addProductRepositorySpy: AddProductRepositorySpy
 }
 
 const makeSut = (): Sut => {
+  const checkProductByNameRepository = new CheckProductByNameRepositorySpy()
   const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
   checkCategoryByNameRepositorySpy.output = true
   const addProductRepositorySpy = new AddProductRepositorySpy()
-  const sut = new DbAddProduct(checkCategoryByNameRepositorySpy, addProductRepositorySpy)
+  const sut = new DbAddProduct(checkProductByNameRepository, checkCategoryByNameRepositorySpy, addProductRepositorySpy)
   return {
     sut,
+    checkProductByNameRepository,
     checkCategoryByNameRepositorySpy,
     addProductRepositorySpy
   }
@@ -33,6 +37,15 @@ describe('DbAddProduct', () => {
 
   afterAll(() => {
     MockDate.reset()
+  })
+
+  describe('CheckProductByNameRepository', () => {
+    test('Should call CheckProductByNameRepository with correct name', async() => {
+      const { sut, checkProductByNameRepository } = makeSut()
+      const addProductInput = mockAddProductInput()
+      await sut.add(addProductInput)
+      expect(checkProductByNameRepository.name).toBe(addProductInput.name)
+    })
   })
 
   describe('CheckCategoryByNameRepository', () => {
