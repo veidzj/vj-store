@@ -30,8 +30,4 @@ export class AccountValidation {
       throw new EntityValidationError('Password must be less than or equal to 255 characters long')
     }
   }
-
-  public static formatUsername(username: string): string {
-    return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase()
-  }
 }

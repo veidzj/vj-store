@@ -14,8 +14,4 @@ export class CategoryValidation {
       throw new EntityValidationError('Name must contain only letters')
     }
   }
-
-  public static formatName(name: string): string {
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
-  }
 }

@@ -1,5 +1,5 @@
 import { apiKeyAuthSchema } from '@/main/docs/schemas/account'
-import { badRequest, unauthorized, notFound, conflict, serverError } from '@/main/docs/components/http'
+import { badRequest, unauthorized, forbidden, notFound, conflict, serverError } from '@/main/docs/components/http'
 
 export default {
   securitySchemes: {
@@ -7,6 +7,7 @@ export default {
   },
   badRequest,
   unauthorized,
+  forbidden,
   notFound,
   conflict,
   serverError

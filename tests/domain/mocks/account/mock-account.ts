@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { Account, AccountValidation } from '@/domain/entities/account'
+import { Account, AccountHelper } from '@/domain/entities/account'
 import { type AddAccount, type Authentication } from '@/domain/usecases/account/commands'
 
 export const mockAccount = (): Account => {
@@ -11,7 +11,7 @@ export const mockAccount = (): Account => {
 }
 
 export const mockAddAccountInput = (): AddAccount.Input => ({
-  username: AccountValidation.formatUsername(faker.string.alpha({ length: { min: 3, max: 12 } })),
+  username: AccountHelper.formatUsername(faker.string.alpha({ length: { min: 3, max: 12 } })),
   email: faker.internet.email(),
   password: faker.internet.password()
 })
