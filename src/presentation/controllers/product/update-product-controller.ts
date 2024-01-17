@@ -1,6 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type UpdateProduct } from '@/domain/usecases/product/commands'
+import { EntityValidationError } from '@/domain/errors'
 import { ProductNotFoundError } from '@/domain/errors/product'
 
 export class UpdateProductController implements Controller {
@@ -11,6 +12,9 @@ export class UpdateProductController implements Controller {
       await this.updateProduct.update(request)
       return HttpHelper.ok({})
     } catch (error) {
+      if (error instanceof EntityValidationError) {
+        return HttpHelper.badRequest(error)
+      }
       if (error instanceof ProductNotFoundError) {
         return HttpHelper.notFound(error)
       }
