@@ -1,6 +1,8 @@
+import { throwError } from '@/tests/test-helper'
 import { UpdateProductSpy } from '@/tests/presentation/mocks/product'
 import { mockUpdateProductInput } from '@/tests/domain/mocks/product'
 import { UpdateProductController } from '@/presentation/controllers/product'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: UpdateProductController
@@ -24,5 +26,12 @@ describe('UpdateProductController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(updateProductSpy.input).toEqual(request)
+  })
+
+  test('Should return serverError if UpdateProduct throws', async() => {
+    const { sut, updateProductSpy } = makeSut()
+    jest.spyOn(updateProductSpy, 'update').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 })
