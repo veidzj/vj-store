@@ -6,6 +6,7 @@ import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/cate
 import { AddProductRepositorySpy } from '@/tests/application/mocks/product/commands'
 import { mockAddProductInput } from '@/tests/domain/mocks/product'
 import { DbAddProduct } from '@/application/usecases/product/commands'
+import { ProductAlreadyExistsError } from '@/domain/errors/product'
 import { CategoryNotFoundError } from '@/domain/errors/category'
 import { ProductHelper } from '@/domain/entities/product'
 
@@ -45,6 +46,13 @@ describe('DbAddProduct', () => {
       const addProductInput = mockAddProductInput()
       await sut.add(addProductInput)
       expect(checkProductByNameRepository.name).toBe(addProductInput.name)
+    })
+
+    test('Should throw ProductAlreadyExistsError if CheckProductByNameRepository returns true', async() => {
+      const { sut, checkProductByNameRepository } = makeSut()
+      checkProductByNameRepository.output = true
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow(new ProductAlreadyExistsError())
     })
   })
 
