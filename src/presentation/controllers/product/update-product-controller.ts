@@ -3,6 +3,7 @@ import { HttpHelper } from '@/presentation/helpers'
 import { type UpdateProduct } from '@/domain/usecases/product/commands'
 import { EntityValidationError } from '@/domain/errors'
 import { ProductNotFoundError } from '@/domain/errors/product'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class UpdateProductController implements Controller {
   constructor(private readonly updateProduct: UpdateProduct) {}
@@ -15,7 +16,7 @@ export class UpdateProductController implements Controller {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
       }
-      if (error instanceof ProductNotFoundError) {
+      if (error instanceof ProductNotFoundError || error instanceof CategoryNotFoundError) {
         return HttpHelper.notFound(error)
       }
       return HttpHelper.serverError(error as Error)
