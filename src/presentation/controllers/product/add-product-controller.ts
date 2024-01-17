@@ -2,6 +2,7 @@ import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type AddProduct } from '@/domain/usecases/product/commands'
 import { EntityValidationError } from '@/domain/errors'
+import { ProductAlreadyExistsError } from '@/domain/errors/product'
 import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class AddProductController implements Controller {
@@ -14,6 +15,9 @@ export class AddProductController implements Controller {
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
+      }
+      if (error instanceof ProductAlreadyExistsError) {
+        return HttpHelper.conflict(error)
       }
       if (error instanceof CategoryNotFoundError) {
         return HttpHelper.notFound(error)
