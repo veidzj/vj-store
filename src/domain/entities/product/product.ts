@@ -13,7 +13,7 @@ export class Product extends AggregateRoot {
   private imagesUrls: string[] = []
   private updateHistory: UpdateLog<ProductFields> | [] = []
 
-  constructor(name: string, description: string, price: number, discountPercentage: number, quantity: number, category: string, imageUrls?: string[]) {
+  constructor(name: string, description: string, price: number, discountPercentage: number, quantity: number, category: string, imagesUrls?: string[]) {
     super()
     this.setName(name)
     this.setDescription(description)
@@ -22,8 +22,8 @@ export class Product extends AggregateRoot {
     this.setQuantity(quantity)
     this.setCategory(category)
     this.setSlug(name)
-    if (imageUrls) {
-      this.setImagesUrls(imageUrls)
+    if (imagesUrls) {
+      this.setImagesUrls(imagesUrls)
     }
   }
 
