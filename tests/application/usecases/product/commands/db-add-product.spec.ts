@@ -54,6 +54,13 @@ describe('DbAddProduct', () => {
       const promise = sut.add(mockAddProductInput())
       await expect(promise).rejects.toThrow(new ProductAlreadyExistsError())
     })
+
+    test('Should throw if CheckProductByNameRepository throws', async() => {
+      const { sut, checkProductByNameRepository } = makeSut()
+      jest.spyOn(checkProductByNameRepository, 'checkByName').mockImplementationOnce(throwError)
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).rejects.toThrow()
+    })
   })
 
   describe('CheckCategoryByNameRepository', () => {
