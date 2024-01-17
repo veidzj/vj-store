@@ -1,6 +1,7 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type UpdateProduct } from '@/domain/usecases/product/commands'
+import { ProductNotFoundError } from '@/domain/errors/product'
 
 export class UpdateProductController implements Controller {
   constructor(private readonly updateProduct: UpdateProduct) {}
@@ -10,6 +11,9 @@ export class UpdateProductController implements Controller {
       await this.updateProduct.update(request)
       return HttpHelper.ok({})
     } catch (error) {
+      if (error instanceof ProductNotFoundError) {
+        return HttpHelper.notFound(error)
+      }
       return HttpHelper.serverError(error as Error)
     }
   }
