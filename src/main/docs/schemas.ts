@@ -2,6 +2,7 @@ import { errorSchema } from '@/main/docs/schemas/error-schema'
 import { successSchema } from '@/main/docs/schemas/success-schema'
 import { accountSchema, signUpInputSchema, signInInputSchema } from '@/main/docs/schemas/account'
 import { categorySchema, addCategoryInputSchema, categoriesSchema } from '@/main/docs/schemas/category'
+import { productInputSchema } from '@/main/docs/schemas/product'
 
 export default {
   error: errorSchema,
@@ -11,5 +12,6 @@ export default {
   signInInput: signInInputSchema,
   category: categorySchema,
   categories: categoriesSchema,
-  addCategoryInput: addCategoryInputSchema
+  addCategoryInput: addCategoryInputSchema,
+  productInput: productInputSchema
 }
