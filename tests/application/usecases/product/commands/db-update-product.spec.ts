@@ -1,3 +1,4 @@
+import { throwError } from '@/tests/test-helper'
 import { CheckProductByIdRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { mockUpdateProductInput } from '@/tests/domain/mocks/product'
 import { DbUpdateProduct } from '@/application/usecases/product/commands'
@@ -23,6 +24,13 @@ describe('DbUpdateProduct', () => {
       const updateProductInput = mockUpdateProductInput()
       await sut.update(updateProductInput)
       expect(checkProductByIdRepositorySpy.id).toBe(updateProductInput.id)
+    })
+
+    test('Should throw if CheckProductByIdRepository throws', async() => {
+      const { sut, checkProductByIdRepositorySpy } = makeSut()
+      jest.spyOn(checkProductByIdRepositorySpy, 'checkById').mockImplementationOnce(throwError)
+      const promise = sut.update(mockUpdateProductInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
