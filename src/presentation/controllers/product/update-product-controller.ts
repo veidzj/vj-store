@@ -11,7 +11,7 @@ export class UpdateProductController implements Controller {
   public async handle(request: UpdateProductController.Request): Promise<Response> {
     try {
       await this.updateProduct.update(request)
-      return HttpHelper.ok({})
+      return HttpHelper.ok({ message: 'Product successfully updated' })
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
