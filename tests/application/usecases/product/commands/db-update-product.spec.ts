@@ -4,6 +4,7 @@ import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/cate
 import { mockUpdateProductInput } from '@/tests/domain/mocks/product'
 import { DbUpdateProduct } from '@/application/usecases/product/commands'
 import { ProductNotFoundError } from '@/domain/errors/product'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbUpdateProduct
@@ -14,6 +15,7 @@ interface Sut {
 const makeSut = (): Sut => {
   const checkProductByIdRepositorySpy = new CheckProductByIdRepositorySpy()
   const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
+  checkCategoryByNameRepositorySpy.output = true
   const sut = new DbUpdateProduct(checkProductByIdRepositorySpy, checkCategoryByNameRepositorySpy)
   return {
     sut,
@@ -52,6 +54,13 @@ describe('DbUpdateProduct', () => {
       const updateProductInput = mockUpdateProductInput()
       await sut.update(updateProductInput)
       expect(checkCategoryByNameRepositorySpy.name).toBe(updateProductInput.category)
+    })
+
+    test('Should throw CategoryNotFoundError if CheckCategoryByNameRepository returns false', async() => {
+      const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      checkCategoryByNameRepositorySpy.output = false
+      const promise = sut.update(mockUpdateProductInput())
+      await expect(promise).rejects.toThrow(new CategoryNotFoundError())
     })
 
     test('Should throw if CheckCategoryByNameRepository throws', async() => {
