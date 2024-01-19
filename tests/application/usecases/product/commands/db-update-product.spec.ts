@@ -1,5 +1,6 @@
 import { throwError } from '@/tests/test-helper'
 import { CheckProductByIdRepositorySpy } from '@/tests/application/mocks/product/queries'
+import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { mockUpdateProductInput } from '@/tests/domain/mocks/product'
 import { DbUpdateProduct } from '@/application/usecases/product/commands'
 import { ProductNotFoundError } from '@/domain/errors/product'
@@ -7,14 +8,17 @@ import { ProductNotFoundError } from '@/domain/errors/product'
 interface Sut {
   sut: DbUpdateProduct
   checkProductByIdRepositorySpy: CheckProductByIdRepositorySpy
+  checkCategoryByNameRepositorySpy: CheckCategoryByNameRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const checkProductByIdRepositorySpy = new CheckProductByIdRepositorySpy()
-  const sut = new DbUpdateProduct(checkProductByIdRepositorySpy)
+  const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
+  const sut = new DbUpdateProduct(checkProductByIdRepositorySpy, checkCategoryByNameRepositorySpy)
   return {
     sut,
-    checkProductByIdRepositorySpy
+    checkProductByIdRepositorySpy,
+    checkCategoryByNameRepositorySpy
   }
 }
 
@@ -39,6 +43,15 @@ describe('DbUpdateProduct', () => {
       jest.spyOn(checkProductByIdRepositorySpy, 'checkById').mockImplementationOnce(throwError)
       const promise = sut.update(mockUpdateProductInput())
       await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('CheckCategoryByNameRepository', () => {
+    test('Should call CheckCategoryByNameRepository with correct name', async() => {
+      const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      const updateProductInput = mockUpdateProductInput()
+      await sut.update(updateProductInput)
+      expect(checkCategoryByNameRepositorySpy.name).toBe(updateProductInput.category)
     })
   })
 })
