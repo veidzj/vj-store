@@ -2,6 +2,7 @@ import { type CheckProductByIdRepository } from '@/application/protocols/product
 import { type CheckCategoryByNameRepository } from '@/application/protocols/category/queries'
 import { type UpdateProduct } from '@/domain/usecases/product/commands'
 import { ProductNotFoundError } from '@/domain/errors/product'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class DbUpdateProduct implements UpdateProduct {
   constructor(
@@ -14,6 +15,9 @@ export class DbUpdateProduct implements UpdateProduct {
     if (!productExists) {
       throw new ProductNotFoundError()
     }
-    await this.checkCategoryByNameRepository.checkByName(input.category)
+    const categoryExists = await this.checkCategoryByNameRepository.checkByName(input.category)
+    if (!categoryExists) {
+      throw new CategoryNotFoundError()
+    }
   }
 }
