@@ -110,7 +110,7 @@ describe('DbAddAccount', () => {
       expect(addAccountRepositorySpy.input.role).toBe('user')
       expect(addAccountRepositorySpy.input.isActive).toBe(true)
       expect(addAccountRepositorySpy.input.createdAt).toEqual(new Date())
-      expect(addAccountRepositorySpy.input.updateHistory).toEqual([])
+      expect(addAccountRepositorySpy.input.updatedAt).toEqual(new Date())
     })
 
     test('Should not throw on success', async() => {

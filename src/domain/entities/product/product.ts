@@ -1,6 +1,5 @@
 import { AggregateRoot } from '@/domain/seedwork'
-import { type UpdateLog } from '@/domain/common'
-import { type ProductFields, ProductHelper, ProductValidation } from '@/domain/entities/product'
+import { ProductHelper, ProductValidation } from '@/domain/entities/product'
 
 export class Product extends AggregateRoot {
   private name: string
@@ -11,7 +10,6 @@ export class Product extends AggregateRoot {
   private category: string
   private slug: string
   private imagesUrls: string[] = []
-  private updateHistory: UpdateLog<ProductFields> | [] = []
 
   constructor(name: string, description: string, price: number, discountPercentage: number, quantity: number, category: string, imagesUrls?: string[]) {
     super()
@@ -67,8 +65,8 @@ export class Product extends AggregateRoot {
     return this.createdAt
   }
 
-  public getUpdateHistory(): UpdateLog<ProductFields> | [] {
-    return this.updateHistory
+  public getUpdatedAt(): Date {
+    return this.updatedAt
   }
 
   public setName(name: string): void {
@@ -103,13 +101,6 @@ export class Product extends AggregateRoot {
   public setImagesUrls(imagesUrls: string[]): void {
     ProductValidation.validateImagesUrls(imagesUrls)
     this.imagesUrls = imagesUrls
-  }
-
-  public setUpdateHistory(fields: ProductFields[]): void {
-    this.updateHistory = {
-      fields,
-      updatedAt: new Date()
-    }
   }
 
   private setSlug(name: string): void {

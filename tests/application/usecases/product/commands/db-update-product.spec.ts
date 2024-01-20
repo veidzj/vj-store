@@ -100,8 +100,7 @@ describe('DbUpdateProduct', () => {
       expect(updateProductRepositorySpy.input.category).toBe(updateProductInput.category)
       expect(updateProductRepositorySpy.input.slug).toBe(ProductHelper.generateSlug(updateProductInput.name))
       expect(updateProductRepositorySpy.input.imagesUrls).toBe(updateProductInput.imagesUrls)
-      expect(updateProductRepositorySpy.input.createdAt).toEqual(new Date())
-      expect(updateProductRepositorySpy.input.updateHistory).toEqual([])
+      expect(updateProductRepositorySpy.input.updatedAt).toEqual(new Date())
     })
 
     test('Should throw if UpdateProductRepository throws', async() => {

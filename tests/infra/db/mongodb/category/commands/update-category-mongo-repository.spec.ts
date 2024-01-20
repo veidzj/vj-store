@@ -46,6 +46,6 @@ describe('UpdateCategoryMongoRepository', () => {
     const updatedCategory = await categoryCollection.findOne({ id: updateCategoryRepositoryInput.id })
     expect(updatedCategory?.id).toBe(updateCategoryRepositoryInput.id)
     expect(updatedCategory?.name).toBe(updateCategoryRepositoryInput.name)
-    expect(updatedCategory?.updateHistory).toEqual([updateCategoryRepositoryInput.updateHistory])
+    expect(updatedCategory?.updatedAt).toEqual(updateCategoryRepositoryInput.updatedAt)
   })
 })

@@ -1,6 +1,5 @@
-import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
-import { type AccountFields, AccountValidation, AccountHelper } from '@/domain/entities/account'
+import { AccountValidation, AccountHelper } from '@/domain/entities/account'
 
 export class Account extends AggregateRoot {
   private username: string
@@ -8,7 +7,6 @@ export class Account extends AggregateRoot {
   private password: string
   private readonly role: string = 'user'
   private isActive: boolean = true
-  private updateHistory: UpdateLog<AccountFields> | [] = []
 
   constructor(username: string, email: string, password: string) {
     super()
@@ -45,8 +43,8 @@ export class Account extends AggregateRoot {
     return this.createdAt
   }
 
-  public getUpdateHistory(): UpdateLog<AccountFields> | [] {
-    return this.updateHistory
+  public getUpdatedAt(): Date {
+    return this.updatedAt
   }
 
   public setUsername(username: string): void {
@@ -62,13 +60,6 @@ export class Account extends AggregateRoot {
   public setPassword(password: string): void {
     AccountValidation.validatePassword(password)
     this.password = password
-  }
-
-  public setUpdateHistory(fields: AccountFields[]): void {
-    this.updateHistory = {
-      fields,
-      updatedAt: new Date()
-    }
   }
 
   public activate(): void {

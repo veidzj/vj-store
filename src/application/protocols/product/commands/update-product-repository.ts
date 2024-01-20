@@ -13,7 +13,6 @@ export namespace UpdateProductRepository {
     category: string
     slug: string
     imagesUrls: string[]
-    createdAt: Date
-    updateHistory: []
+    updatedAt: Date
   }
 }

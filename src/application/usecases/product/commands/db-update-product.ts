@@ -23,11 +23,11 @@ export class DbUpdateProduct implements UpdateProduct {
     if (!categoryExists) {
       throw new CategoryNotFoundError()
     }
-    const updateProductRepositoryInput = this.makeUpdateProductRepositoryInput(product, input.id)
+    const updateProductRepositoryInput = this.makeUpdateProductRepositoryInput(input.id, product)
     await this.updateProductRepository.update(updateProductRepositoryInput)
   }
 
-  private makeUpdateProductRepositoryInput(product: Product, id: string): UpdateProductRepository.Input {
+  private makeUpdateProductRepositoryInput(id: string, product: Product): UpdateProductRepository.Input {
     return {
       id,
       description: product.getDescription(),
@@ -38,8 +38,7 @@ export class DbUpdateProduct implements UpdateProduct {
       imagesUrls: product.getImagesUrls(),
       slug: product.getSlug(),
       name: product.getName(),
-      createdAt: product.getCreatedAt(),
-      updateHistory: []
+      updatedAt: product.getUpdatedAt()
     }
   }
 }

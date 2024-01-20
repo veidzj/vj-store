@@ -46,6 +46,6 @@ describe('AddAccountMongoRepository', () => {
     expect(account?.password).toBe(addAccountRepositoryInput.password)
     expect(account?.role).toBe(addAccountRepositoryInput.role)
     expect(account?.createdAt).toEqual(addAccountRepositoryInput.createdAt)
-    expect(account?.updateHistory).toEqual(addAccountRepositoryInput.updateHistory)
+    expect(account?.updatedAt).toEqual(addAccountRepositoryInput.updatedAt)
   })
 })

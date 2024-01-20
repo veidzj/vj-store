@@ -25,7 +25,7 @@ export class DbAddCategory implements AddCategory {
       id: category.getId(),
       name: category.getName(),
       createdAt: category.getCreatedAt(),
-      updateHistory: []
+      updatedAt: category.getUpdatedAt()
     }
   }
 }

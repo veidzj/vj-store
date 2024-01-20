@@ -6,7 +6,6 @@ import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
 import { CheckCategoryByIdRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { DbUpdateCategory } from '@/application/usecases/category/commands'
 import { CategoryNotFoundError } from '@/domain/errors/category'
-import { CategoryFields } from '@/domain/entities/category'
 
 interface Sut {
   sut: DbUpdateCategory
@@ -64,10 +63,7 @@ describe('DbUpdateCategory', () => {
       await sut.update(updateCategoryInput)
       expect(updateCategoryRepositorySpy.input).toEqual({
         ...updateCategoryInput,
-        updateHistory: {
-          fields: [CategoryFields.name],
-          updatedAt: new Date()
-        }
+        updatedAt: new Date()
       })
     })
 

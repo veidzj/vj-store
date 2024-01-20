@@ -10,7 +10,7 @@ export const mockAddAccountRepositoryInput = (): AddAccountRepository.Input => (
   role: faker.word.words(),
   isActive: faker.datatype.boolean(),
   createdAt: faker.date.anytime(),
-  updateHistory: []
+  updatedAt: faker.date.anytime()
 })
 
 export const mockUpdateAccessTokenInput = (): UpdateAccessTokenRepository.Input => ({

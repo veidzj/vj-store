@@ -14,6 +14,6 @@ export namespace AddProductRepository {
     slug: string
     imagesUrls: string[]
     createdAt: Date
-    updateHistory: []
+    updatedAt: Date
   }
 }

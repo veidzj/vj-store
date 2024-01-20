@@ -7,6 +7,6 @@ export namespace AddCategoryRepository {
     id: string
     name: string
     createdAt: Date
-    updateHistory: []
+    updatedAt: Date
   }
 }
