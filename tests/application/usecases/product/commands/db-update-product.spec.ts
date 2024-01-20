@@ -6,9 +6,9 @@ import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/cate
 import { UpdateProductRepositorySpy } from '@/tests/application/mocks/product/commands'
 import { mockUpdateProductInput } from '@/tests/domain/mocks/product'
 import { DbUpdateProduct } from '@/application/usecases/product/commands'
+import { ProductHelper } from '@/domain/entities/product'
 import { ProductNotFoundError } from '@/domain/errors/product'
 import { CategoryNotFoundError } from '@/domain/errors/category'
-import { ProductHelper } from '@/domain/entities/product'
 
 interface Sut {
   sut: DbUpdateProduct
@@ -102,6 +102,13 @@ describe('DbUpdateProduct', () => {
       expect(updateProductRepositorySpy.input.imagesUrls).toBe(updateProductInput.imagesUrls)
       expect(updateProductRepositorySpy.input.createdAt).toEqual(new Date())
       expect(updateProductRepositorySpy.input.updateHistory).toEqual([])
+    })
+
+    test('Should throw if UpdateProductRepository throws', async() => {
+      const { sut, updateProductRepositorySpy } = makeSut()
+      jest.spyOn(updateProductRepositorySpy, 'update').mockImplementationOnce(throwError)
+      const promise = sut.update(mockUpdateProductInput())
+      await expect(promise).rejects.toThrow()
     })
   })
 })
