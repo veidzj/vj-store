@@ -33,4 +33,11 @@ describe('CheckProductByNameMongoRepository', () => {
     const promise = sut.checkByName(mockAddProductRepositoryInput().name)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return true if name exists', async() => {
+    const addProductRepositoryInput = mockAddProductRepositoryInput()
+    await productCollection.insertOne(addProductRepositoryInput)
+    const productExists = await sut.checkByName(addProductRepositoryInput.name)
+    expect(productExists).toBe(true)
+  })
 })
