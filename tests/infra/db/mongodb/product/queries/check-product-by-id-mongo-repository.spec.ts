@@ -40,4 +40,9 @@ describe('CheckProductByIdMongoRepository', () => {
     const productExists = await sut.checkById(addProductRepositoryInput.id)
     expect(productExists).toBe(true)
   })
+
+  test('Should return false if id does not exists', async() => {
+    const productExists = await sut.checkById(mockAddProductRepositoryInput().id)
+    expect(productExists).toBe(false)
+  })
 })
