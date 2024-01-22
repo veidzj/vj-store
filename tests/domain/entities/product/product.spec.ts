@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Product, ProductFields, ProductHelper } from '@/domain/entities/product'
+import { Product, ProductHelper } from '@/domain/entities/product'
 import { EntityValidationError } from '@/domain/errors'
 
 let name: string
@@ -53,7 +53,7 @@ describe('Product Entity', () => {
     expect(sut.getSlug()).toBe(ProductHelper.generateSlug(name))
     expect(sut.getImagesUrls()).toEqual(imagesUrls)
     expect(sut.getCreatedAt()).toEqual(currentDate)
-    expect(sut.getUpdateHistory()).toEqual([])
+    expect(sut.getUpdatedAt()).toEqual(currentDate)
   })
 
   test('Should change name on setter', () => {
@@ -103,16 +103,6 @@ describe('Product Entity', () => {
     const newImagesUrls = [faker.internet.url(), faker.internet.url()]
     sut.setImagesUrls(newImagesUrls)
     expect(sut.getImagesUrls()).toBe(newImagesUrls)
-  })
-
-  test('Should change update history on setter', () => {
-    const sut = makeSut()
-    const productFields: ProductFields[] = [ProductFields.name]
-    sut.setUpdateHistory(productFields)
-    expect(sut.getUpdateHistory()).toEqual({
-      fields: productFields,
-      updatedAt: new Date()
-    })
   })
 
   test('Should throw if name is less than 3 characters long', () => {

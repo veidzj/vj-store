@@ -33,7 +33,7 @@ export class DbAddAccount implements AddAccount {
       role: account.getRole(),
       isActive: account.getIsActive(),
       createdAt: account.getCreatedAt(),
-      updateHistory: []
+      updatedAt: account.getUpdatedAt()
     }
   }
 }

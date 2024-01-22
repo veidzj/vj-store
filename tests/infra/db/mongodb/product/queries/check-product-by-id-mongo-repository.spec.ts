@@ -4,15 +4,15 @@ import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
-import { CheckProductByNameMongoRepository } from '@/infra/db/mongodb/product/queries'
+import { CheckProductByIdMongoRepository } from '@/infra/db/mongodb/product/queries'
 
 let productCollection: Collection
 
-const makeSut = (): CheckProductByNameMongoRepository => {
-  return new CheckProductByNameMongoRepository()
+const makeSut = (): CheckProductByIdMongoRepository => {
+  return new CheckProductByIdMongoRepository()
 }
 
-describe('CheckProductByNameMongoRepository', () => {
+describe('CheckProductByIdMongoRepository', () => {
   const sut = makeSut()
 
   beforeAll(async() => {
@@ -30,19 +30,19 @@ describe('CheckProductByNameMongoRepository', () => {
 
   test('Should throw if mongo throws', async() => {
     jest.spyOn(Collection.prototype, 'countDocuments').mockImplementationOnce(throwError)
-    const promise = sut.checkByName(mockAddProductRepositoryInput().name)
+    const promise = sut.checkById(mockAddProductRepositoryInput().name)
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return true if name exists', async() => {
+  test('Should return true if id exists', async() => {
     const addProductRepositoryInput = mockAddProductRepositoryInput()
     await productCollection.insertOne(addProductRepositoryInput)
-    const productExists = await sut.checkByName(addProductRepositoryInput.name)
+    const productExists = await sut.checkById(addProductRepositoryInput.id)
     expect(productExists).toBe(true)
   })
 
   test('Should return false if id does not exists', async() => {
-    const productExists = await sut.checkByName(mockAddProductRepositoryInput().name)
+    const productExists = await sut.checkById(mockAddProductRepositoryInput().id)
     expect(productExists).toBe(false)
   })
 })

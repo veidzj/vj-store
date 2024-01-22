@@ -65,7 +65,7 @@ describe('DbAddCategory', () => {
       expect(addCategoryRepositorySpy.input.id).toBeTruthy()
       expect(addCategoryRepositorySpy.input.name).toBe(CategoryHelper.formatName(addCategoryInput.name))
       expect(addCategoryRepositorySpy.input.createdAt).toEqual(new Date())
-      expect(addCategoryRepositorySpy.input.updateHistory).toEqual([])
+      expect(addCategoryRepositorySpy.input.updatedAt).toEqual(new Date())
     })
 
     test('Should throw if AddCategoryRepository throws', async() => {

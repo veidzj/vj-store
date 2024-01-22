@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Category, CategoryHelper, CategoryFields } from '@/domain/entities/category'
+import { Category, CategoryHelper } from '@/domain/entities/category'
 import { EntityValidationError } from '@/domain/errors'
 
 let name: string
@@ -38,7 +38,7 @@ describe('Category Entity', () => {
     expect(sut.getId()).toBeTruthy()
     expect(sut.getName()).toBe(CategoryHelper.formatName(name))
     expect(sut.getCreatedAt()).toEqual(currentDate)
-    expect(sut.getUpdateHistory()).toEqual([])
+    expect(sut.getUpdatedAt()).toEqual(currentDate)
   })
 
   test('Should change name on setter', () => {
@@ -46,16 +46,6 @@ describe('Category Entity', () => {
     const newName = makeName()
     sut.setName(newName)
     expect(sut.getName()).toBe(CategoryHelper.formatName(newName))
-  })
-
-  test('Should change updateHistory on setter', () => {
-    const sut = makeSut()
-    const categoryFields: CategoryFields[] = [CategoryFields.name]
-    sut.setUpdateHistory(categoryFields)
-    expect(sut.getUpdateHistory()).toEqual({
-      fields: categoryFields,
-      updatedAt: new Date()
-    })
   })
 
   test('Should throw if name is less than 3 characters long', () => {

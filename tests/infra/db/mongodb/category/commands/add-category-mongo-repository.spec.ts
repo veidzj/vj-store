@@ -43,6 +43,6 @@ describe('AddCategoryMongoRepository', () => {
     expect(account?.id).toBe(addCategoryRepositoryInput.id)
     expect(account?.name).toBe(addCategoryRepositoryInput.name)
     expect(account?.createdAt).toEqual(addCategoryRepositoryInput.createdAt)
-    expect(account?.updateHistory).toEqual(addCategoryRepositoryInput.updateHistory)
+    expect(account?.updatedAt).toEqual(addCategoryRepositoryInput.updatedAt)
   })
 })

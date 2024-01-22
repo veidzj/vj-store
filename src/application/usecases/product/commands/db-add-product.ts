@@ -39,7 +39,7 @@ export class DbAddProduct implements AddProduct {
       slug: product.getSlug(),
       name: product.getName(),
       createdAt: product.getCreatedAt(),
-      updateHistory: []
+      updatedAt: product.getUpdatedAt()
     }
   }
 }

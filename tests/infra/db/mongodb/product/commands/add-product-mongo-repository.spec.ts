@@ -49,6 +49,6 @@ describe('AddProductMongoRepository', () => {
     expect(account?.category).toBe(addProductRepositoryInput.category)
     expect(account?.slug).toBe(addProductRepositoryInput.slug)
     expect(account?.createdAt).toEqual(addProductRepositoryInput.createdAt)
-    expect(account?.updateHistory).toEqual(addProductRepositoryInput.updateHistory)
+    expect(account?.updatedAt).toEqual(addProductRepositoryInput.updatedAt)
   })
 })

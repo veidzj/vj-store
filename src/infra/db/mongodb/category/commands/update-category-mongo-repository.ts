@@ -10,10 +10,8 @@ export class UpdateCategoryMongoRepository implements UpdateCategoryRepository {
       id: input.id
     }, {
       $set: {
-        name: input.name
-      },
-      $push: {
-        updateHistory: input.updateHistory
+        name: input.name,
+        updatedAt: input.updatedAt
       }
     })
   }

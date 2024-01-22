@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { faker } from '@faker-js/faker'
 
-import { Account, AccountFields, AccountHelper } from '@/domain/entities/account'
+import { Account, AccountHelper } from '@/domain/entities/account'
 import { EntityValidationError } from '@/domain/errors'
 
 const role: string = 'user'
@@ -43,7 +43,7 @@ describe('Account Entity', () => {
     expect(sut.getRole()).toBe(role)
     expect(sut.getIsActive()).toBe(true)
     expect(sut.getCreatedAt()).toEqual(currentDate)
-    expect(sut.getUpdateHistory()).toEqual([])
+    expect(sut.getUpdatedAt()).toEqual(currentDate)
   })
 
   test('Should deactivate an active Account', () => {
@@ -78,16 +78,6 @@ describe('Account Entity', () => {
     const newPassword = faker.internet.password()
     sut.setPassword(newPassword)
     expect(sut.getPassword()).toBe(newPassword)
-  })
-
-  test('Should change updateHistory on setter', () => {
-    const sut = makeSut()
-    const accountFields: AccountFields[] = [AccountFields.username, AccountFields.email, AccountFields.password, AccountFields.isActive]
-    sut.setUpdateHistory(accountFields)
-    expect(sut.getUpdateHistory()).toEqual({
-      fields: accountFields,
-      updatedAt: new Date()
-    })
   })
 
   test('Should throw if username is less than 3 characters long', () => {

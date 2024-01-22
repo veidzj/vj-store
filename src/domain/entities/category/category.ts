@@ -1,10 +1,8 @@
-import { type UpdateLog } from '@/domain/common'
 import { AggregateRoot } from '@/domain/seedwork'
-import { type CategoryFields, CategoryValidation, CategoryHelper } from '@/domain/entities/category'
+import { CategoryValidation, CategoryHelper } from '@/domain/entities/category'
 
 export class Category extends AggregateRoot {
   private name: string
-  private updateHistory: UpdateLog<CategoryFields> | [] = []
 
   constructor(name: string) {
     super()
@@ -23,19 +21,12 @@ export class Category extends AggregateRoot {
     return this.createdAt
   }
 
-  public getUpdateHistory(): UpdateLog<CategoryFields> | [] {
-    return this.updateHistory
+  public getUpdatedAt(): Date {
+    return this.updatedAt
   }
 
   public setName(name: string): void {
     CategoryValidation.validateName(name)
     this.name = CategoryHelper.formatName(name)
-  }
-
-  public setUpdateHistory(fields: CategoryFields[]): void {
-    this.updateHistory = {
-      fields,
-      updatedAt: new Date()
-    }
   }
 }

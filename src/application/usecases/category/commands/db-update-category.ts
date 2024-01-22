@@ -1,6 +1,6 @@
 import { type CheckCategoryByIdRepository } from '@/application/protocols/category/queries'
 import { type UpdateCategoryRepository } from '@/application/protocols/category/commands'
-import { Category, CategoryFields } from '@/domain/entities/category'
+import { Category } from '@/domain/entities/category'
 import { type UpdateCategory } from '@/domain/usecases/category/commands'
 import { CategoryNotFoundError } from '@/domain/errors/category'
 
@@ -16,7 +16,6 @@ export class DbUpdateCategory implements UpdateCategory {
     if (!categoryExists) {
       throw new CategoryNotFoundError()
     }
-    category.setUpdateHistory([CategoryFields.name])
     const updateCategoryRepositoryInput = this.makeUpdateCategoryRepositoryInput(input.id, category)
     await this.updateCategoryRepository.update(updateCategoryRepositoryInput)
   }
@@ -25,7 +24,7 @@ export class DbUpdateCategory implements UpdateCategory {
     return {
       id,
       name: category.getName(),
-      updateHistory: category.getUpdateHistory()
+      updatedAt: category.getUpdatedAt()
     }
   }
 }

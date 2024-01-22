@@ -1,8 +1,8 @@
-export interface AddProductRepository {
-  add: (input: AddProductRepository.Input) => Promise<void>
+export interface UpdateProductRepository {
+  update: (input: UpdateProductRepository.Input) => Promise<void>
 }
 
-export namespace AddProductRepository {
+export namespace UpdateProductRepository {
   export interface Input {
     id: string
     name: string
@@ -13,7 +13,6 @@ export namespace AddProductRepository {
     category: string
     slug: string
     imagesUrls: string[]
-    createdAt: Date
     updatedAt: Date
   }
 }

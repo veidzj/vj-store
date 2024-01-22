@@ -11,6 +11,6 @@ export namespace AddAccountRepository {
     role: string
     isActive: boolean
     createdAt: Date
-    updateHistory: []
+    updatedAt: Date
   }
 }

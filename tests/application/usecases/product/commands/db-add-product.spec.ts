@@ -101,7 +101,7 @@ describe('DbAddProduct', () => {
       expect(addProductRepositorySpy.input.slug).toBe(ProductHelper.generateSlug(addProductInput.name))
       expect(addProductRepositorySpy.input.imagesUrls).toBe(addProductInput.imagesUrls)
       expect(addProductRepositorySpy.input.createdAt).toEqual(new Date())
-      expect(addProductRepositorySpy.input.updateHistory).toEqual([])
+      expect(addProductRepositorySpy.input.updatedAt).toEqual(new Date())
     })
 
     test('Should throw if AddProductRepository throws', async() => {
