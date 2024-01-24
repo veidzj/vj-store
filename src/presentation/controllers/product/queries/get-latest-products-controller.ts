@@ -7,10 +7,14 @@ export class GetLatestProductsController implements Controller {
   constructor(private readonly getLatestProducts: GetLatestProducts) {}
 
   public async handle(request: GetLatestProductsController.Request): Promise<Response> {
-    const page = Number(request.page) || DEFAULT_PAGE
-    const limit = Number(request.limit) || DEFAULT_LIMIT
-    await this.getLatestProducts.getLatest(page, limit)
-    return HttpHelper.ok({})
+    try {
+      const page = Number(request.page) || DEFAULT_PAGE
+      const limit = Number(request.limit) || DEFAULT_LIMIT
+      await this.getLatestProducts.getLatest(page, limit)
+      return HttpHelper.ok({})
+    } catch (error) {
+      return HttpHelper.serverError(error as Error)
+    }
   }
 }
 
