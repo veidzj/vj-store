@@ -1,22 +1,35 @@
+import { faker } from '@faker-js/faker'
+
+import { GetLatestProductsRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetLatestProducts } from '@/application/usecases/product/queries'
-import { type GetLatestProductsRepository } from '@/application/protocols/product/queries'
-import { type GetLatestProducts } from '@/domain/usecases/product/queries'
+
+interface Sut {
+  sut: DbGetLatestProducts
+  getLatestProductsRepositorySpy: GetLatestProductsRepositorySpy
+}
+
+const makeSut = (): Sut => {
+  const getLatestProductsRepositorySpy = new GetLatestProductsRepositorySpy()
+  const sut = new DbGetLatestProducts(getLatestProductsRepositorySpy)
+  return {
+    sut,
+    getLatestProductsRepositorySpy
+  }
+}
 
 describe('DbGetLatestProducts', () => {
-  test('Should call GetLatestProductsRepository with correct values', async() => {
-    class GetLatestProductsRepositorySpy implements GetLatestProductsRepository {
-      public page: number
-      public limit: number
-      public output: GetLatestProducts.Output
+  let page: number
+  let limit: number
 
-      public async getLatest(page: number, limit: number): Promise<GetLatestProducts.Output> {
-        this.page = page
-        this.limit = limit
-        return this.output
-      }
-    }
-    const getLatestProductsRepositorySpy = new GetLatestProductsRepositorySpy()
-    const sut = new DbGetLatestProducts(getLatestProductsRepositorySpy)
-    await sut.getLatest(1, 1)
+  beforeEach(() => {
+    page = faker.number.int({ min: 0, max: 100 })
+    limit = faker.number.int({ min: 0, max: 100 })
+  })
+
+  test('Should call GetLatestProductsRepository with correct values', async() => {
+    const { sut, getLatestProductsRepositorySpy } = makeSut()
+    await sut.getLatest(page, limit)
+    expect(getLatestProductsRepositorySpy.page).toBe(page)
+    expect(getLatestProductsRepositorySpy.limit).toBe(limit)
   })
 })
