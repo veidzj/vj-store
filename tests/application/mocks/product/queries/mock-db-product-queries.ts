@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker'
+
+import { mockProductsOutput } from '@/tests/domain/mocks/product'
 import { type CheckProductByNameRepository, type CheckProductByIdRepository, type GetLatestProductsRepository } from '@/application/protocols/product/queries'
 
 export class CheckProductByNameRepositorySpy implements CheckProductByNameRepository {
@@ -23,7 +26,12 @@ export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository
 export class GetLatestProductsRepositorySpy implements GetLatestProductsRepository {
   public page: number
   public limit: number
-  public output: GetLatestProductsRepository.Output
+  public output: GetLatestProductsRepository.Output = {
+    products: mockProductsOutput(),
+    currentPage: faker.number.int({ min: 0, max: 100 }),
+    totalPages: faker.number.int({ min: 0, max: 100 }),
+    totalItems: faker.number.int({ min: 0, max: 100 })
+  }
 
   public async getLatest(page: number, limit: number): Promise<GetLatestProductsRepository.Output> {
     this.page = page

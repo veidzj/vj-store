@@ -40,4 +40,13 @@ describe('DbGetLatestProducts', () => {
     const promise = sut.getLatest(page, limit)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return all data on success', async() => {
+    const { sut, getLatestProductsRepositorySpy } = makeSut()
+    const { products, currentPage, totalPages, totalItems } = await sut.getLatest(page, limit)
+    expect(products).toEqual(getLatestProductsRepositorySpy.output.products)
+    expect(currentPage).toEqual(getLatestProductsRepositorySpy.output.currentPage)
+    expect(totalPages).toEqual(getLatestProductsRepositorySpy.output.totalPages)
+    expect(totalItems).toEqual(getLatestProductsRepositorySpy.output.totalItems)
+  })
 })
