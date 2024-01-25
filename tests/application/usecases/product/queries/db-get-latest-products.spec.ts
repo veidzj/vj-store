@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { GetLatestProductsRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetLatestProducts } from '@/application/usecases/product/queries'
 
@@ -31,5 +32,12 @@ describe('DbGetLatestProducts', () => {
     await sut.getLatest(page, limit)
     expect(getLatestProductsRepositorySpy.page).toBe(page)
     expect(getLatestProductsRepositorySpy.limit).toBe(limit)
+  })
+
+  test('Should throw if GetLatestProductsRepository throws', async() => {
+    const { sut, getLatestProductsRepositorySpy } = makeSut()
+    jest.spyOn(getLatestProductsRepositorySpy, 'getLatest').mockImplementationOnce(throwError)
+    const promise = sut.getLatest(page, limit)
+    await expect(promise).rejects.toThrow()
   })
 })
