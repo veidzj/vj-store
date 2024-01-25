@@ -1,5 +1,8 @@
+import { faker } from '@faker-js/faker'
+
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { type GetLatestProducts } from '@/domain/usecases/product/queries'
+import { mockProductsOutput } from '@/tests/domain/mocks/product'
 
 export class AddProductSpy implements AddProduct {
   public input: AddProduct.Input
@@ -20,7 +23,12 @@ export class UpdateProductSpy implements UpdateProduct {
 export class GetLatestProductsSpy implements GetLatestProducts {
   public page: number
   public limit: number
-  public output: GetLatestProducts.Output
+  public output: GetLatestProducts.Output = {
+    products: mockProductsOutput(),
+    currentPage: faker.number.int({ min: 0, max: 100 }),
+    totalPages: faker.number.int({ min: 0, max: 100 }),
+    totalItems: faker.number.int({ min: 0, max: 100 })
+  }
 
   public async getLatest(page: number, limit: number): Promise<GetLatestProducts.Output> {
     this.page = page

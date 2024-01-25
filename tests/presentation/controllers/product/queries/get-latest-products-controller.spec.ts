@@ -53,4 +53,15 @@ describe('GetLatestProductsController', () => {
     const response = await sut.handle(mockRequestWithPagination())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getLatestProductsSpy } = makeSut()
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.ok({
+      products: getLatestProductsSpy.output.products,
+      currentPage: getLatestProductsSpy.output.currentPage,
+      totalPages: getLatestProductsSpy.output.totalPages,
+      totalItems: getLatestProductsSpy.output.totalItems
+    }))
+  })
 })
