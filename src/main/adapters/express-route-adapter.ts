@@ -6,9 +6,9 @@ export class ExpressRouteAdapter {
   public static adapt = (controller: Controller): (req: Request, res: Response) => Promise<void> => {
     return async(req: Request, res: Response): Promise<void> => {
       const request: object = {
-        ...(req.body || {}),
-        ...(req.params || {}),
-        ...(req.query || {})
+        ...(req.body ?? {}),
+        ...(req.params ?? {}),
+        ...(req.query ?? {})
       }
       const httpResponse = await controller.handle(request)
       const { statusCode, body } = httpResponse
