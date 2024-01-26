@@ -1,6 +1,7 @@
-import { type Collection } from 'mongodb'
+import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
@@ -61,5 +62,12 @@ describe('GetLatestProductsMongoRepository', () => {
     const sut = makeSut()
     const { products } = await sut.getLatest(randomPage, randomLimit)
     expect(products.length).toBe(0)
+  })
+
+  test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
+    jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+    const promise = sut.getLatest(randomPage, randomLimit)
+    await expect(promise).rejects.toThrow()
   })
 })
