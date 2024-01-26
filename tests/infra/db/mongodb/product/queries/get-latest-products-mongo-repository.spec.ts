@@ -14,6 +14,8 @@ const makeSut = (): GetLatestProductsMongoRepository => {
 
 const defaultLength: number = 30
 const randomDate: Date = faker.date.anytime()
+const defaultPage: number = 1
+const randomLimit: number = faker.number.int({ min: 5, max: 25 })
 
 describe('GetLatestProductsMongoRepository', () => {
   const sut = makeSut()
@@ -41,5 +43,13 @@ describe('GetLatestProductsMongoRepository', () => {
     for (let i = 0; i < products.length - 1; i++) {
       expect(products[i].createdAt.getTime()).toBeGreaterThanOrEqual(products[i + 1].createdAt.getTime())
     }
+  })
+
+  test('Should return only the limit of products of pagination', async() => {
+    const addProductsRepositoryInput = Array.from({ length: defaultLength }, () => mockAddProductRepositoryInput())
+    await productCollection.insertMany(addProductsRepositoryInput)
+    const sut = makeSut()
+    const { products } = await sut.getLatest(defaultPage, randomLimit)
+    expect(products.length).toBe(randomLimit)
   })
 })
