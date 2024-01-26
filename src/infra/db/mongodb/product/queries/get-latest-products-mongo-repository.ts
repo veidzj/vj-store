@@ -19,6 +19,8 @@ export class GetLatestProductsMongoRepository implements GetLatestProductsReposi
       .skip(skip)
       .limit(limit)
       .toArray()
+    const totalItems = await productCollection.countDocuments()
+    const totalPages = Math.ceil(totalItems / limit)
     return {
       products: productsDocument.map((product) => ({
         id: product?.id,
@@ -33,8 +35,8 @@ export class GetLatestProductsMongoRepository implements GetLatestProductsReposi
         createdAt: product?.createdAt
       })),
       currentPage: page,
-      totalPages: page,
-      totalItems: page
+      totalPages,
+      totalItems
     }
   }
 }
