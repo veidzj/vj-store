@@ -1,7 +1,7 @@
 import { throwError } from '@/tests/test-helper'
 import { UpdateCategorySpy } from '@/tests/presentation/mocks/category'
 import { mockUpdateCategoryInput } from '@/tests/domain/mocks/category'
-import { UpdateCategoryController } from '@/presentation/controllers/category/update-category-controller'
+import { UpdateCategoryController } from '@/presentation/controllers/category/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { CategoryNotFoundError } from '@/domain/errors/category'
 

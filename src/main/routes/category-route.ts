@@ -1,7 +1,8 @@
 import { type Router } from 'express'
 
 import { ExpressRouteAdapter } from '@/main/adapters'
-import { AddCategoryControllerFactory, GetAllCategoriesControllerFactory, UpdateCategoryControllerFactory } from '@/main/factories/controllers/category'
+import { AddCategoryControllerFactory, UpdateCategoryControllerFactory } from '@/main/factories/controllers/category/commands'
+import { GetAllCategoriesControllerFactory } from '@/main/factories/controllers/category/queries'
 import { adminAuth } from '@/main/middlewares/account'
 
 export default (router: Router): void => {

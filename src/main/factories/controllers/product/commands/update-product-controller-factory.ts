@@ -1,6 +1,6 @@
 import { UpdateProductFactory } from '@/main/factories/usecases/product/commands'
 import { type Controller } from '@/presentation/protocols'
-import { UpdateProductController } from '@/presentation/controllers/product'
+import { UpdateProductController } from '@/presentation/controllers/product/commands'
 
 export class UpdateProductControllerFactory {
   public static makeUpdateProductController = (): Controller => {
