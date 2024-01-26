@@ -56,4 +56,10 @@ describe('GetLatestProductsMongoRepository', () => {
     const { products } = await sut.getLatest(defaultPage, randomLimit)
     expect(products.length).toBe(randomLimit)
   })
+
+  test('Should return an empty list if there are no products', async() => {
+    const sut = makeSut()
+    const { products } = await sut.getLatest(randomPage, randomLimit)
+    expect(products.length).toBe(0)
+  })
 })
