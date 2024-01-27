@@ -5,11 +5,16 @@ import { type GetProductsWithDiscount } from '@/domain/usecases/product/queries'
 
 export class GetProductsWithDiscountController implements Controller {
   constructor(private readonly getProductsWithDiscount: GetProductsWithDiscount) {}
+
   public async handle(request: GetProductsWithDiscountController.Request): Promise<Response> {
-    const page = Number(request.page) || DEFAULT_PAGE
-    const limit = Number(request.limit) || DEFAULT_LIMIT
-    await this.getProductsWithDiscount.getWithDiscount(page, limit)
-    return HttpHelper.ok({})
+    try {
+      const page = Number(request.page) || DEFAULT_PAGE
+      const limit = Number(request.limit) || DEFAULT_LIMIT
+      await this.getProductsWithDiscount.getWithDiscount(page, limit)
+      return HttpHelper.ok({})
+    } catch (error) {
+      return HttpHelper.serverError(error as Error)
+    }
   }
 }
 
