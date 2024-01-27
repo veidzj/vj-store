@@ -21,13 +21,21 @@ const makeSut = (): Sut => {
   }
 }
 
+const mockRequest = (): object => ({
+  message: faker.word.words()
+})
+
 describe('LogErrorControllerDecorator', () => {
   test('Should call Controller with correct values', async() => {
     const { sut, controllerSpy } = makeSut()
-    const request = {
-      message: faker.word.words()
-    }
+    const request = mockRequest()
     await sut.handle(request)
     expect(controllerSpy.request).toEqual(request)
+  })
+
+  test('Should return the same result as the controller', async() => {
+    const { sut, controllerSpy } = makeSut()
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(controllerSpy.response)
   })
 })
