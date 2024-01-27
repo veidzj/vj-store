@@ -53,4 +53,15 @@ describe('GetProductsWithDiscountController', () => {
     const response = await sut.handle(mockRequestWithPagination())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getProductsWithDiscountSpy } = makeSut()
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.ok({
+      products: getProductsWithDiscountSpy.output.products,
+      currentPage: getProductsWithDiscountSpy.output.currentPage,
+      totalPages: getProductsWithDiscountSpy.output.totalPages,
+      totalItems: getProductsWithDiscountSpy.output.totalItems
+    }))
+  })
 })
