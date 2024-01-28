@@ -23,7 +23,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
       .skip(skip)
       .limit(limit)
       .toArray()
-    const totalItems = await productCollection.countDocuments()
+    const totalItems = await productCollection.countDocuments({ discountPercentage: { $gt: 0 } })
     const totalPages = Math.max(1, Math.ceil(totalItems / limit))
     return {
       products: productsDocument.map((product) => ({

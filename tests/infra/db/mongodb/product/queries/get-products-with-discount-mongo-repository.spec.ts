@@ -40,7 +40,7 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     const addProductsRepositoryInput = [mockProductWithNoDiscount, mockProductWithDiscount]
     await productCollection.insertMany(addProductsRepositoryInput)
     const sut = makeSut()
-    const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
+    const { products, currentPage, totalPages, totalItems } = await sut.getWithDiscount(defaultPage, randomLimit)
     expect(products.length).toBe(1)
     expect(products[0].id).toBeTruthy()
     expect(products[0].name).toBe(mockProductWithDiscount.name)
@@ -50,6 +50,9 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     expect(products[0].category).toBe(mockProductWithDiscount.category)
     expect(products[0].imagesUrls).toEqual(mockProductWithDiscount.imagesUrls)
     expect(products[0].quantity).toBe(mockProductWithDiscount.quantity)
+    expect(currentPage).toBe(defaultPage)
+    expect(totalPages).toBe(defaultPage)
+    expect(totalItems).toBe(1)
   })
 
   test('Should return products ordered by most discount percentage', async() => {
@@ -58,9 +61,12 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     const addProductsRepositoryInput = [mockProductWithLessDiscount, mockProductWithMoreDiscount]
     await productCollection.insertMany(addProductsRepositoryInput)
     const sut = makeSut()
-    const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
+    const { products, currentPage, totalPages, totalItems } = await sut.getWithDiscount(defaultPage, randomLimit)
     expect(products.length).toBe(2)
     expect(products[0].discountPercentage).toBeGreaterThan(products[1].discountPercentage)
+    expect(currentPage).toBe(defaultPage)
+    expect(totalPages).toBe(defaultPage)
+    expect(totalItems).toBe(2)
   })
 
   test('Should return only the limit of products of pagination', async() => {
