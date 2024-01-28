@@ -40,4 +40,13 @@ describe('DbGetProductsWithDiscount', () => {
     const promise = sut.getWithDiscount(page, limit)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return all data on success', async() => {
+    const { sut, getProductsWithDiscountRepositorySpy } = makeSut()
+    const { products, currentPage, totalPages, totalItems } = await sut.getWithDiscount(page, limit)
+    expect(products).toEqual(getProductsWithDiscountRepositorySpy.output.products)
+    expect(currentPage).toEqual(getProductsWithDiscountRepositorySpy.output.currentPage)
+    expect(totalPages).toEqual(getProductsWithDiscountRepositorySpy.output.totalPages)
+    expect(totalItems).toEqual(getProductsWithDiscountRepositorySpy.output.totalItems)
+  })
 })
