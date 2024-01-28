@@ -24,7 +24,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
       .limit(limit)
       .toArray()
     const totalItems = await productCollection.countDocuments()
-    const totalPages = Math.ceil(totalItems / limit)
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit))
     return {
       products: productsDocument.map((product) => ({
         id: product?.id,
