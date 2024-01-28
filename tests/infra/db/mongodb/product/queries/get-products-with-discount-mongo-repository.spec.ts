@@ -69,4 +69,13 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
     expect(products.length).toBe(randomLimit)
   })
+
+  test('Should return an empty list if there are no products', async() => {
+    const sut = makeSut()
+    const { products, currentPage, totalPages, totalItems } = await sut.getWithDiscount(defaultPage, randomLimit)
+    expect(products.length).toBe(0)
+    expect(currentPage).toBe(defaultPage)
+    expect(totalPages).toBe(defaultPage)
+    expect(totalItems).toBe(0)
+  })
 })
