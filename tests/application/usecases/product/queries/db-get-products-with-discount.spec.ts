@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { GetProductsWithDiscountRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductsWithDiscount } from '@/application/usecases/product/queries'
 
@@ -31,5 +32,12 @@ describe('DbGetProductsWithDiscount', () => {
     await sut.getWithDiscount(page, limit)
     expect(getProductsWithDiscountRepositorySpy.page).toBe(page)
     expect(getProductsWithDiscountRepositorySpy.limit).toBe(limit)
+  })
+
+  test('Should throw if GetProductsWithDiscountRepository throws', async() => {
+    const { sut, getProductsWithDiscountRepositorySpy } = makeSut()
+    jest.spyOn(getProductsWithDiscountRepositorySpy, 'getWithDiscount').mockImplementationOnce(throwError)
+    const promise = sut.getWithDiscount(page, limit)
+    await expect(promise).rejects.toThrow()
   })
 })
