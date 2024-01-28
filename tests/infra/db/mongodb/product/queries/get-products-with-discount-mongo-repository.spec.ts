@@ -15,7 +15,8 @@ const makeSut = (): GetProductsWithDiscountMongoRepository => {
 const defaultPage: number = 1
 const randomLimit: number = faker.number.int({ min: 5, max: 25 })
 const noDiscount: number = 0
-const moreDiscount: number = 50
+const lessDiscount: number = faker.number.int({ min: 1, max: 50 })
+const moreDiscount: number = faker.number.int({ min: 51, max: 100 })
 
 describe('GetProductsWithDiscountMongoRepository', () => {
   beforeAll(async() => {
@@ -47,5 +48,16 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     expect(products[0].category).toBe(mockProductWithDiscount.category)
     expect(products[0].imagesUrls).toEqual(mockProductWithDiscount.imagesUrls)
     expect(products[0].quantity).toBe(mockProductWithDiscount.quantity)
+  })
+
+  test('Should return products ordered by most discount percentage', async() => {
+    const mockProductWithLessDiscount = { ...mockAddProductRepositoryInput(), discountPercentage: lessDiscount }
+    const mockProductWithMoreDiscount = { ...mockAddProductRepositoryInput(), discountPercentage: moreDiscount }
+    const addProductsRepositoryInput = [mockProductWithLessDiscount, mockProductWithMoreDiscount]
+    await productCollection.insertMany(addProductsRepositoryInput)
+    const sut = makeSut()
+    const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
+    expect(products.length).toBe(2)
+    expect(products[0].discountPercentage).toBeGreaterThan(products[1].discountPercentage)
   })
 })
