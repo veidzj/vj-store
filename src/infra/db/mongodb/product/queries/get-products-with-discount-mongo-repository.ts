@@ -19,7 +19,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
         }
       }
       )
-      .sort({ createdAt: 'desc' })
+      .sort({ discountPercentage: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

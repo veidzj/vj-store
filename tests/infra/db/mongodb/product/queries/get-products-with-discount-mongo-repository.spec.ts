@@ -12,6 +12,7 @@ const makeSut = (): GetProductsWithDiscountMongoRepository => {
   return new GetProductsWithDiscountMongoRepository()
 }
 
+const defaultLength: number = 30
 const defaultPage: number = 1
 const randomLimit: number = faker.number.int({ min: 5, max: 25 })
 const noDiscount: number = 0
@@ -59,5 +60,13 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
     expect(products.length).toBe(2)
     expect(products[0].discountPercentage).toBeGreaterThan(products[1].discountPercentage)
+  })
+
+  test('Should return only the limit of products of pagination', async() => {
+    const addProductsRepositoryInput = Array.from({ length: defaultLength }, () => mockAddProductRepositoryInput())
+    await productCollection.insertMany(addProductsRepositoryInput)
+    const sut = makeSut()
+    const { products } = await sut.getWithDiscount(defaultPage, randomLimit)
+    expect(products.length).toBe(randomLimit)
   })
 })
