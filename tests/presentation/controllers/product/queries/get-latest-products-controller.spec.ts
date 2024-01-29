@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { GetLatestProductsSpy } from '@/tests/presentation/mocks/product'
 import { GetLatestProductsController } from '@/presentation/controllers/product/queries'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
-import { throwError } from '@/tests/test-helper'
 import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
