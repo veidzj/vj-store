@@ -1,8 +1,10 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { GetProductsByCategorySpy } from '@/tests/presentation/mocks/product'
 import { GetProductsByCategoryController } from '@/presentation/controllers/product/queries'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: GetProductsByCategoryController
@@ -43,5 +45,12 @@ describe('GetProductsByCategoryController', () => {
     expect(getProductsByCategorySpy.getByCategory).toHaveBeenCalledTimes(1)
     expect(getProductsByCategorySpy.page).toBe(Number(request.page))
     expect(getProductsByCategorySpy.limit).toBe(Number(request.limit))
+  })
+
+  test('Should return serverError if GetProductsByCategory throws', async() => {
+    const { sut, getProductsByCategorySpy } = makeSut()
+    jest.spyOn(getProductsByCategorySpy, 'getByCategory').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 })
