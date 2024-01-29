@@ -53,4 +53,15 @@ describe('GetProductsByCategoryController', () => {
     const response = await sut.handle(mockRequestWithPagination())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
+
+  test('Should return ok on success', async() => {
+    const { sut, getProductsByCategorySpy } = makeSut()
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.ok({
+      products: getProductsByCategorySpy.output.products,
+      currentPage: getProductsByCategorySpy.output.currentPage,
+      totalPages: getProductsByCategorySpy.output.totalPages,
+      totalItems: getProductsByCategorySpy.output.totalItems
+    }))
+  })
 })
