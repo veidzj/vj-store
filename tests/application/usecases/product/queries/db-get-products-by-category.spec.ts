@@ -40,4 +40,13 @@ describe('DbGetProductsByCategory', () => {
     const promise = sut.getByCategory(page, limit)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return all data on success', async() => {
+    const { sut, getProductsByCategoryRepositorySpy } = makeSut()
+    const { products, currentPage, totalPages, totalItems } = await sut.getByCategory(page, limit)
+    expect(products).toEqual(getProductsByCategoryRepositorySpy.output.products)
+    expect(currentPage).toEqual(getProductsByCategoryRepositorySpy.output.currentPage)
+    expect(totalPages).toEqual(getProductsByCategoryRepositorySpy.output.totalPages)
+    expect(totalItems).toEqual(getProductsByCategoryRepositorySpy.output.totalItems)
+  })
 })
