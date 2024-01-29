@@ -10,8 +10,13 @@ export class GetProductsByCategoryController implements Controller {
     try {
       const page = Number(request.page) || DEFAULT_PAGE
       const limit = Number(request.limit) || DEFAULT_LIMIT
-      await this.getProductsByCategory.getByCategory(page, limit)
-      return HttpHelper.ok({})
+      const { products, currentPage, totalPages, totalItems } = await this.getProductsByCategory.getByCategory(page, limit)
+      return HttpHelper.ok({
+        products,
+        currentPage,
+        totalPages,
+        totalItems
+      })
     } catch (error) {
       return HttpHelper.serverError(error as Error)
     }
