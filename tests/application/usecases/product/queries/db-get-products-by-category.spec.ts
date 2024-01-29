@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { GetProductsByCategoryRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductsByCategory } from '@/application/usecases/product/queries'
 
@@ -31,5 +32,12 @@ describe('DbGetProductsByCategory', () => {
     await sut.getByCategory(page, limit)
     expect(getProductsByCategoryRepositorySpy.page).toBe(page)
     expect(getProductsByCategoryRepositorySpy.limit).toBe(limit)
+  })
+
+  test('Should throw if GetProductsByCategoryRepository throws', async() => {
+    const { sut, getProductsByCategoryRepositorySpy } = makeSut()
+    jest.spyOn(getProductsByCategoryRepositorySpy, 'getByCategory').mockImplementationOnce(throwError)
+    const promise = sut.getByCategory(page, limit)
+    await expect(promise).rejects.toThrow()
   })
 })
