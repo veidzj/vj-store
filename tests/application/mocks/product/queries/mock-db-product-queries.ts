@@ -58,6 +58,7 @@ export class GetProductsWithDiscountRepositorySpy implements GetProductsWithDisc
 }
 
 export class GetProductsByCategoryRepositorySpy implements GetProductsByCategoryRepository {
+  public category: string
   public page: number
   public limit: number
   public output: GetProductsByCategoryRepository.Output = {
@@ -67,7 +68,8 @@ export class GetProductsByCategoryRepositorySpy implements GetProductsByCategory
     totalItems: faker.number.int({ min: 0, max: 100 })
   }
 
-  public async getByCategory(page: number, limit: number): Promise<GetProductsByCategoryRepository.Output> {
+  public async getByCategory(category: string, page: number, limit: number): Promise<GetProductsByCategoryRepository.Output> {
+    this.category = category
     this.page = page
     this.limit = limit
     return this.output
