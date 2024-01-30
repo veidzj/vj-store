@@ -12,6 +12,7 @@ const makeSut = (): GetProductsByCategoryMongoRepository => {
   return new GetProductsByCategoryMongoRepository()
 }
 
+const defaultLength: number = 30
 const defaultPage: number = 1
 const randomLimit: number = faker.number.int({ min: 5, max: 25 })
 
@@ -43,5 +44,17 @@ describe('GetProductsByCategoryMongoRepository', () => {
     expect(products[0].category).toBe(addProductsRepositoryInput[0].category)
     expect(products[0].imagesUrls).toEqual(addProductsRepositoryInput[0].imagesUrls)
     expect(products[0].quantity).toBe(addProductsRepositoryInput[0].quantity)
+  })
+
+  test('Should return only the limit of products of pagination', async() => {
+    const commonCategory = mockAddProductRepositoryInput().category
+    const addProductsRepositoryInput = Array.from({ length: defaultLength }, () => {
+      const addProductRepositoryInput = mockAddProductRepositoryInput()
+      return { ...addProductRepositoryInput, category: commonCategory }
+    })
+    await productCollection.insertMany(addProductsRepositoryInput)
+    const sut = makeSut()
+    const { products } = await sut.getByCategory(commonCategory, defaultPage, randomLimit)
+    expect(products.length).toBe(randomLimit)
   })
 })
