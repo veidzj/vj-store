@@ -20,9 +20,12 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequestWithoutPagination = (): GetProductsByCategoryController.Request => ({})
+const mockRequestWithoutPagination = (): GetProductsByCategoryController.Request => ({
+  category: faker.commerce.department()
+})
 
 const mockRequestWithPagination = (): GetProductsByCategoryController.Request => ({
+  category: faker.commerce.department(),
   page: faker.number.int().toString(),
   limit: faker.number.int().toString()
 })
@@ -31,8 +34,10 @@ describe('GetProductsByCategoryController', () => {
   test('Should call GetProductsByCategory with default pagination', async() => {
     const { sut, getProductsByCategorySpy } = makeSut()
     jest.spyOn(getProductsByCategorySpy, 'getByCategory')
-    await sut.handle(mockRequestWithoutPagination())
+    const request = mockRequestWithoutPagination()
+    await sut.handle(request)
     expect(getProductsByCategorySpy.getByCategory).toHaveBeenCalledTimes(1)
+    expect(getProductsByCategorySpy.category).toBe(request.category)
     expect(getProductsByCategorySpy.page).toBe(DEFAULT_PAGE)
     expect(getProductsByCategorySpy.limit).toBe(DEFAULT_LIMIT)
   })
@@ -43,6 +48,7 @@ describe('GetProductsByCategoryController', () => {
     const request = mockRequestWithPagination()
     await sut.handle(request)
     expect(getProductsByCategorySpy.getByCategory).toHaveBeenCalledTimes(1)
+    expect(getProductsByCategorySpy.category).toBe(request.category)
     expect(getProductsByCategorySpy.page).toBe(Number(request.page))
     expect(getProductsByCategorySpy.limit).toBe(Number(request.limit))
   })

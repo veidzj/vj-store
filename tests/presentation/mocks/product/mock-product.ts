@@ -55,6 +55,7 @@ export class GetProductsWithDiscountSpy implements GetProductsWithDiscount {
 }
 
 export class GetProductsByCategorySpy implements GetProductsByCategory {
+  public category: string
   public page: number
   public limit: number
   public output: GetProductsWithDiscount.Output = {
@@ -64,7 +65,8 @@ export class GetProductsByCategorySpy implements GetProductsByCategory {
     totalItems: faker.number.int({ min: 0, max: 100 })
   }
 
-  public async getByCategory(page: number, limit: number): Promise<GetProductsWithDiscount.Output> {
+  public async getByCategory(category: string, page: number, limit: number): Promise<GetProductsWithDiscount.Output> {
+    this.category = category
     this.page = page
     this.limit = limit
     return this.output
