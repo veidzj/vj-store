@@ -1,10 +1,11 @@
-import { type Collection } from 'mongodb'
+import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
 import { GetProductsByCategoryMongoRepository } from '@/infra/db/mongodb/product/queries'
+import { throwError } from '@/tests/test-helper'
 
 let productCollection: Collection
 
@@ -68,5 +69,12 @@ describe('GetProductsByCategoryMongoRepository', () => {
     expect(currentPage).toBe(defaultPage)
     expect(totalPages).toBe(defaultPage)
     expect(totalItems).toBe(0)
+  })
+
+  test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
+    jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+    const promise = sut.getByCategory(mockAddProductRepositoryInput().category, defaultPage, randomLimit)
+    await expect(promise).rejects.toThrow()
   })
 })
