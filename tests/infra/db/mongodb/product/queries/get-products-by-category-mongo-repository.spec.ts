@@ -34,7 +34,7 @@ describe('GetProductsByCategoryMongoRepository', () => {
     const addProductsRepositoryInput = [mockAddProductRepositoryInput(), mockAddProductRepositoryInput()]
     await productCollection.insertMany(addProductsRepositoryInput)
     const sut = makeSut()
-    const { products } = await sut.getByCategory(addProductsRepositoryInput[0].category, defaultPage, randomLimit)
+    const { products, currentPage, totalPages, totalItems } = await sut.getByCategory(addProductsRepositoryInput[0].category, defaultPage, randomLimit)
     expect(products.length).toBe(1)
     expect(products[0].id).toBeTruthy()
     expect(products[0].name).toBe(addProductsRepositoryInput[0].name)
@@ -44,6 +44,9 @@ describe('GetProductsByCategoryMongoRepository', () => {
     expect(products[0].category).toBe(addProductsRepositoryInput[0].category)
     expect(products[0].imagesUrls).toEqual(addProductsRepositoryInput[0].imagesUrls)
     expect(products[0].quantity).toBe(addProductsRepositoryInput[0].quantity)
+    expect(currentPage).toBe(defaultPage)
+    expect(totalPages).toBe(defaultPage)
+    expect(totalItems).toBe(1)
   })
 
   test('Should return only the limit of products of pagination', async() => {
@@ -56,5 +59,14 @@ describe('GetProductsByCategoryMongoRepository', () => {
     const sut = makeSut()
     const { products } = await sut.getByCategory(commonCategory, defaultPage, randomLimit)
     expect(products.length).toBe(randomLimit)
+  })
+
+  test('Should return an empty list if there are no products', async() => {
+    const sut = makeSut()
+    const { products, currentPage, totalPages, totalItems } = await sut.getByCategory(mockAddProductRepositoryInput().category, defaultPage, randomLimit)
+    expect(products.length).toBe(0)
+    expect(currentPage).toBe(defaultPage)
+    expect(totalPages).toBe(defaultPage)
+    expect(totalItems).toBe(0)
   })
 })
