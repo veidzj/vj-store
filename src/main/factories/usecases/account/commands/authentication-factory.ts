@@ -6,7 +6,7 @@ import { BcryptAdapter, JwtAdapter } from '@/infra/cryptography'
 import { UpdateAccessTokenMongoRepository } from '@/infra/db/mongodb/account/commands'
 
 export class AuthenticationFactory {
-  public static makeAuthentication = (): Authentication => {
+  public static readonly makeAuthentication = (): Authentication => {
     const salt = 12
     const getAccountByEmailRepository = new GetAccountByEmailMongoRepository()
     const hashComparer = new BcryptAdapter(salt)

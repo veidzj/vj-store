@@ -5,7 +5,7 @@ import { GetAccountIdByTokenMongoRepository } from '@/infra/db/mongodb/account/q
 import { JwtAdapter } from '@/infra/cryptography'
 
 export class GetAccountIdByTokenFactory {
-  public static makeGetAccountIdByToken = (): GetAccountIdByToken => {
+  public static readonly makeGetAccountIdByToken = (): GetAccountIdByToken => {
     const decrypter = new JwtAdapter(env.jwtSecret)
     const getAccountIdByTokenRepositroy = new GetAccountIdByTokenMongoRepository()
     return new DbGetAccountIdByToken(decrypter, getAccountIdByTokenRepositroy)

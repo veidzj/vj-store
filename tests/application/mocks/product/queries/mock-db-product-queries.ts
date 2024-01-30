@@ -1,7 +1,6 @@
-import { faker } from '@faker-js/faker'
-
 import { mockProductsOutput } from '@/tests/domain/mocks/product'
-import { type CheckProductByNameRepository, type CheckProductByIdRepository, type GetLatestProductsRepository, type GetProductsWithDiscountRepository } from '@/application/protocols/product/queries'
+import { type CheckProductByNameRepository, type CheckProductByIdRepository, type GetLatestProductsRepository, type GetProductsWithDiscountRepository, type GetProductsByCategoryRepository } from '@/application/protocols/product/queries'
+import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
 
 export class CheckProductByNameRepositorySpy implements CheckProductByNameRepository {
   public name: string
@@ -26,14 +25,9 @@ export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository
 export class GetLatestProductsRepositorySpy implements GetLatestProductsRepository {
   public page: number
   public limit: number
-  public output: GetLatestProductsRepository.Output = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsRepositoryOutput = mockProductsOutput()
 
-  public async getLatest(page: number, limit: number): Promise<GetLatestProductsRepository.Output> {
+  public async getLatest(page: number, limit: number): Promise<ProductsRepositoryOutput> {
     this.page = page
     this.limit = limit
     return this.output
@@ -43,14 +37,23 @@ export class GetLatestProductsRepositorySpy implements GetLatestProductsReposito
 export class GetProductsWithDiscountRepositorySpy implements GetProductsWithDiscountRepository {
   public page: number
   public limit: number
-  public output: GetProductsWithDiscountRepository.Output = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsRepositoryOutput = mockProductsOutput()
 
-  public async getWithDiscount(page: number, limit: number): Promise<GetProductsWithDiscountRepository.Output> {
+  public async getWithDiscount(page: number, limit: number): Promise<ProductsRepositoryOutput> {
+    this.page = page
+    this.limit = limit
+    return this.output
+  }
+}
+
+export class GetProductsByCategoryRepositorySpy implements GetProductsByCategoryRepository {
+  public category: string
+  public page: number
+  public limit: number
+  public output: ProductsRepositoryOutput = mockProductsOutput()
+
+  public async getByCategory(category: string, page: number, limit: number): Promise<ProductsRepositoryOutput> {
+    this.category = category
     this.page = page
     this.limit = limit
     return this.output

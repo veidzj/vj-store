@@ -1,14 +1,5 @@
-import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductsOutput } from '@/domain/usecases/product/common'
 
 export interface GetLatestProducts {
-  getLatest: (page: number, limit: number) => Promise<GetLatestProducts.Output>
-}
-
-export namespace GetLatestProducts {
-  export interface Output {
-    products: ProductOutput[]
-    currentPage: number
-    totalPages: number
-    totalItems: number
-  }
+  getLatest: (page: number, limit: number) => Promise<ProductsOutput>
 }

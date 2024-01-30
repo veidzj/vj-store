@@ -1,7 +1,6 @@
-import { faker } from '@faker-js/faker'
-
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
-import { type GetLatestProducts, type GetProductsWithDiscount } from '@/domain/usecases/product/queries'
+import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory } from '@/domain/usecases/product/queries'
+import { type ProductsOutput } from '@/domain/usecases/product/common'
 import { mockProductsOutput } from '@/tests/domain/mocks/product'
 
 export class AddProductSpy implements AddProduct {
@@ -23,14 +22,9 @@ export class UpdateProductSpy implements UpdateProduct {
 export class GetLatestProductsSpy implements GetLatestProducts {
   public page: number
   public limit: number
-  public output: GetLatestProducts.Output = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsOutput = mockProductsOutput()
 
-  public async getLatest(page: number, limit: number): Promise<GetLatestProducts.Output> {
+  public async getLatest(page: number, limit: number): Promise<ProductsOutput> {
     this.page = page
     this.limit = limit
     return this.output
@@ -40,14 +34,23 @@ export class GetLatestProductsSpy implements GetLatestProducts {
 export class GetProductsWithDiscountSpy implements GetProductsWithDiscount {
   public page: number
   public limit: number
-  public output: GetProductsWithDiscount.Output = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsOutput = mockProductsOutput()
 
-  public async getWithDiscount(page: number, limit: number): Promise<GetProductsWithDiscount.Output> {
+  public async getWithDiscount(page: number, limit: number): Promise<ProductsOutput> {
+    this.page = page
+    this.limit = limit
+    return this.output
+  }
+}
+
+export class GetProductsByCategorySpy implements GetProductsByCategory {
+  public category: string
+  public page: number
+  public limit: number
+  public output: ProductsOutput = mockProductsOutput()
+
+  public async getByCategory(category: string, page: number, limit: number): Promise<ProductsOutput> {
+    this.category = category
     this.page = page
     this.limit = limit
     return this.output

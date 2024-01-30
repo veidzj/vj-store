@@ -4,7 +4,7 @@ import { type Controller } from '@/presentation/protocols'
 import { AddProductController } from '@/presentation/controllers/product/commands'
 
 export class AddProductControllerFactory {
-  public static makeAddProductController = (): Controller => {
+  public static readonly makeAddProductController = (): Controller => {
     const controller = new AddProductController(AddProductFactory.makeAddProduct())
     return LogErrorControllerDecoratorFactory.makeLogErrorControllerDecorator(controller)
   }

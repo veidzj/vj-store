@@ -4,7 +4,7 @@ import { type Controller } from '@/presentation/protocols'
 import { GetAllCategoriesController } from '@/presentation/controllers/category/queries'
 
 export class GetAllCategoriesControllerFactory {
-  public static makeGetAllCategoriesController = (): Controller => {
+  public static readonly makeGetAllCategoriesController = (): Controller => {
     const controller = new GetAllCategoriesController(GetAllCategoriesFactory.makeGetAllCategories())
     return LogErrorControllerDecoratorFactory.makeLogErrorControllerDecorator(controller)
   }

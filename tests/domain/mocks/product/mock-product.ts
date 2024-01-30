@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { ProductHelper } from '@/domain/entities/product'
 import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductsOutput } from '@/domain/usecases/product/common'
 
 export const mockAddProductInput = (): AddProduct.Input => ({
   name: faker.string.alpha({ length: { min: 3, max: 20 } }),
@@ -38,7 +39,9 @@ export const mockProductOutput = (): ProductOutput => ({
   createdAt: faker.date.anytime()
 })
 
-export const mockProductsOutput = (): ProductOutput[] => [
-  mockProductOutput(),
-  mockProductOutput()
-]
+export const mockProductsOutput = (): ProductsOutput => ({
+  products: [mockProductOutput(), mockProductOutput()],
+  currentPage: faker.number.int({ min: 0, max: 100 }),
+  totalPages: faker.number.int({ min: 0, max: 100 }),
+  totalItems: faker.number.int({ min: 0, max: 100 })
+})

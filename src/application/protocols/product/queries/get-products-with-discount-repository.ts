@@ -1,9 +1,5 @@
-import { type GetProductsWithDiscount } from '@/domain/usecases/product/queries'
+import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
 
 export interface GetProductsWithDiscountRepository {
-  getWithDiscount: (page: number, limit: number) => Promise<GetProductsWithDiscountRepository.Output>
-}
-
-export namespace GetProductsWithDiscountRepository {
-  export type Output = GetProductsWithDiscount.Output
+  getWithDiscount: (page: number, limit: number) => Promise<ProductsRepositoryOutput>
 }

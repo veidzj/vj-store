@@ -1,10 +1,11 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type GetProductsWithDiscountRepository } from '@/application/protocols/product/queries'
+import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
 
 export class GetProductsWithDiscountMongoRepository implements GetProductsWithDiscountRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
 
-  public async getWithDiscount(page: number, limit: number): Promise<GetProductsWithDiscountRepository.Output> {
+  public async getWithDiscount(page: number, limit: number): Promise<ProductsRepositoryOutput> {
     const productCollection = this.mongoHelper.getCollection('products')
     const skip = (page - 1) * limit
     const productsDocument = await productCollection
@@ -26,18 +27,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
     const totalItems = await productCollection.countDocuments({ discountPercentage: { $gt: 0 } })
     const totalPages = Math.max(1, Math.ceil(totalItems / limit))
     return {
-      products: productsDocument.map((product) => ({
-        id: product?.id,
-        name: product?.name,
-        description: product?.description,
-        price: product?.price,
-        discountPercentage: product?.discountPercentage,
-        quantity: product?.quantity,
-        category: product?.category,
-        slug: product?.slug,
-        imagesUrls: product?.imagesUrls,
-        createdAt: product?.createdAt
-      })),
+      products: this.mongoHelper.mapCollection(productsDocument),
       currentPage: page,
       totalPages,
       totalItems

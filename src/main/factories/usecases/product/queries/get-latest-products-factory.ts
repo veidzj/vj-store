@@ -3,7 +3,7 @@ import { GetLatestProductsMongoRepository } from '@/infra/db/mongodb/product/que
 import { DbGetLatestProducts } from '@/application/usecases/product/queries'
 
 export class GetLatestProductsFactory {
-  public static makeGetLatestProducts = (): GetLatestProducts => {
+  public static readonly makeGetLatestProducts = (): GetLatestProducts => {
     const getLatestProductsRepository = new GetLatestProductsMongoRepository()
     return new DbGetLatestProducts(getLatestProductsRepository)
   }
