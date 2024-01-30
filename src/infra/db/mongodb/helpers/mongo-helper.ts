@@ -33,4 +33,8 @@ export class MongoHelper {
     }
     return this.client.db().collection(name)
   }
+
+  public mapCollection(collection: any[]): any {
+    return collection.map(c => c)
+  }
 }

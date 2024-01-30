@@ -1,9 +1,5 @@
-import { type GetLatestProducts } from '@/domain/usecases/product/queries'
+import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
 
 export interface GetLatestProductsRepository {
-  getLatest: (page: number, limit: number) => Promise<GetLatestProductsRepository.Output>
-}
-
-export namespace GetLatestProductsRepository {
-  export type Output = GetLatestProducts.Output
+  getLatest: (page: number, limit: number) => Promise<ProductsRepositoryOutput>
 }

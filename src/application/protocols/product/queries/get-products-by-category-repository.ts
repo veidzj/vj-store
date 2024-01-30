@@ -1,9 +1,5 @@
-import { type GetProductsByCategory } from '@/domain/usecases/product/queries'
+import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
 
 export interface GetProductsByCategoryRepository {
-  getByCategory: (category: string, page: number, limit: number) => Promise<GetProductsByCategoryRepository.Output>
-}
-
-export namespace GetProductsByCategoryRepository {
-  export type Output = GetProductsByCategory.Output
+  getByCategory: (category: string, page: number, limit: number) => Promise<ProductsRepositoryOutput>
 }
