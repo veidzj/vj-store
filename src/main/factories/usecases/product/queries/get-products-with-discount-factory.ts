@@ -3,7 +3,7 @@ import { GetProductsWithDiscountMongoRepository } from '@/infra/db/mongodb/produ
 import { DbGetProductsWithDiscount } from '@/application/usecases/product/queries'
 
 export class GetProductsWithDiscountFactory {
-  public static makeGetProductsWithDiscount = (): GetProductsWithDiscount => {
+  public static readonly makeGetProductsWithDiscount = (): GetProductsWithDiscount => {
     const getProductsWithDiscountRepository = new GetProductsWithDiscountMongoRepository()
     return new DbGetProductsWithDiscount(getProductsWithDiscountRepository)
   }

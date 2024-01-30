@@ -5,7 +5,7 @@ import { CheckProductByNameMongoRepository } from '@/infra/db/mongodb/product/qu
 import { AddProductMongoRepository } from '@/infra/db/mongodb/product/commands'
 
 export class AddProductFactory {
-  public static makeAddProduct = (): AddProduct => {
+  public static readonly makeAddProduct = (): AddProduct => {
     const checkProductByNameRepository = new CheckProductByNameMongoRepository()
     const checkCategoryByNameRepository = new CheckCategoryByNameMongoRepository()
     const addProductRepository = new AddProductMongoRepository()

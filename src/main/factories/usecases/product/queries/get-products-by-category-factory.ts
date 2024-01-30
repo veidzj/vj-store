@@ -3,7 +3,7 @@ import { GetProductsByCategoryMongoRepository } from '@/infra/db/mongodb/product
 import { DbGetProductsByCategory } from '@/application/usecases/product/queries'
 
 export class GetProductsByCategoryFactory {
-  public static makeGetProductsByCategory = (): GetProductsByCategory => {
+  public static readonly makeGetProductsByCategory = (): GetProductsByCategory => {
     const getProductsByCategoryRepository = new GetProductsByCategoryMongoRepository()
     return new DbGetProductsByCategory(getProductsByCategoryRepository)
   }

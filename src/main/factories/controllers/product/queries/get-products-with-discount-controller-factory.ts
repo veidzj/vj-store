@@ -4,7 +4,7 @@ import { type Controller } from '@/presentation/protocols'
 import { GetProductsWithDiscountController } from '@/presentation/controllers/product/queries'
 
 export class GetProductsWithDiscountControllerFactory {
-  public static makeGetProductsWithDiscountController = (): Controller => {
+  public static readonly makeGetProductsWithDiscountController = (): Controller => {
     const controller = new GetProductsWithDiscountController(GetProductsWithDiscountFactory.makeGetProductsWithDiscount())
     return LogErrorControllerDecoratorFactory.makeLogErrorControllerDecorator(controller)
   }

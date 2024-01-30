@@ -5,7 +5,7 @@ import { BcryptAdapter } from '@/infra/cryptography'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
 
 export class AddAccountFactory {
-  public static makeAddAccount = (): AddAccount => {
+  public static readonly makeAddAccount = (): AddAccount => {
     const salt = 12
     const checkAccountByEmailRepository = new CheckAccountByEmailMongoRepository()
     const hasher = new BcryptAdapter(salt)

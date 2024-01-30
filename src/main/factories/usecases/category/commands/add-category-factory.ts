@@ -4,7 +4,7 @@ import { CheckCategoryByNameMongoRepository } from '@/infra/db/mongodb/category/
 import { AddCategoryMongoRepository } from '@/infra/db/mongodb/category/commands'
 
 export class AddCategoryFactory {
-  public static makeAddCategory = (): AddCategory => {
+  public static readonly makeAddCategory = (): AddCategory => {
     const checkCategoryByNameRepository = new CheckCategoryByNameMongoRepository()
     const addCategoryRepository = new AddCategoryMongoRepository()
     return new DbAddCategory(checkCategoryByNameRepository, addCategoryRepository)

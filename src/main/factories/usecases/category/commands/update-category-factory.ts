@@ -4,7 +4,7 @@ import { CheckCategoryByIdMongoRepository } from '@/infra/db/mongodb/category/qu
 import { UpdateCategoryMongoRepository } from '@/infra/db/mongodb/category/commands'
 
 export class UpdateCategoryFactory {
-  public static makeUpdateCategory = (): UpdateCategory => {
+  public static readonly makeUpdateCategory = (): UpdateCategory => {
     const checkCategoryByIdRepository = new CheckCategoryByIdMongoRepository()
     const addCategoryRepository = new UpdateCategoryMongoRepository()
     return new DbUpdateCategory(checkCategoryByIdRepository, addCategoryRepository)
