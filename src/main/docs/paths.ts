@@ -1,6 +1,6 @@
 import { signUpPath, signInPath } from '@/main/docs/paths/account'
 import { categoryPath } from '@/main/docs/paths/category'
-import { addProductPath, updateProductPath, getLatestProductsPath, getProductsWithDiscountPath } from '@/main/docs/paths/product'
+import { addProductPath, updateProductPath, getLatestProductsPath, getProductsWithDiscountPath, getProductsByCategoryPath } from '@/main/docs/paths/product'
 
 export default {
   '/signup': signUpPath,
@@ -9,5 +9,6 @@ export default {
   '/product': addProductPath,
   '/product/{id}': updateProductPath,
   '/product/latest': getLatestProductsPath,
-  '/product/discount': getProductsWithDiscountPath
+  '/product/discount': getProductsWithDiscountPath,
+  '/product/category/{category}': getProductsByCategoryPath
 }
