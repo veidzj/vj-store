@@ -27,18 +27,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
     const totalItems = await productCollection.countDocuments({ discountPercentage: { $gt: 0 } })
     const totalPages = Math.max(1, Math.ceil(totalItems / limit))
     return {
-      products: productsDocument.map((product) => ({
-        id: product?.id,
-        name: product?.name,
-        description: product?.description,
-        price: product?.price,
-        discountPercentage: product?.discountPercentage,
-        quantity: product?.quantity,
-        category: product?.category,
-        slug: product?.slug,
-        imagesUrls: product?.imagesUrls,
-        createdAt: product?.createdAt
-      })),
+      products: this.mongoHelper.mapCollection(productsDocument),
       currentPage: page,
       totalPages,
       totalItems
