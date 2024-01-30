@@ -1,4 +1,4 @@
-import { type ProductsOutput } from '@/domain/usecases/product/common'
+import { type ProductsOutput } from '@/domain/entities/product/dto'
 
 export interface GetProductsWithDiscount {
   getWithDiscount: (page: number, limit: number) => Promise<ProductsOutput>

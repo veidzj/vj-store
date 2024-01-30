@@ -1,6 +1,6 @@
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/usecases/product/common'
+import { type ProductsOutput } from '@/domain/entities/product/dto'
 import { mockProductsOutput } from '@/tests/domain/mocks/product'
 
 export class AddProductSpy implements AddProduct {

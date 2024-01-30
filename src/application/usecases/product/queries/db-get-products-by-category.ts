@@ -1,6 +1,6 @@
 import { type GetProductsByCategoryRepository } from '@/application/protocols/product/queries'
 import { type GetProductsByCategory } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/usecases/product/common'
+import { type ProductsOutput } from '@/domain/entities/product/dto'
 
 export class DbGetProductsByCategory implements GetProductsByCategory {
   constructor(private readonly getProductsByCategoryRepository: GetProductsByCategoryRepository) {}

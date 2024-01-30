@@ -1,6 +1,6 @@
 import { type GetLatestProductsRepository } from '@/application/protocols/product/queries'
 import { type GetLatestProducts } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/usecases/product/common'
+import { type ProductsOutput } from '@/domain/entities/product/dto'
 
 export class DbGetLatestProducts implements GetLatestProducts {
   constructor(private readonly getLatestProductsRepository: GetLatestProductsRepository) {}
