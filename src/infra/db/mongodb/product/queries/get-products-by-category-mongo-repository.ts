@@ -30,7 +30,7 @@ export class GetProductsByCategoryMongoRepository implements GetProductsByCatego
         $options: 'i'
       }
     })
-    const totalPages = Math.ceil(totalItems / limit)
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit))
     return {
       products: productsDocument.map((product) => ({
         id: product?.id,
