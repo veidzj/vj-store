@@ -1,5 +1,3 @@
-import { faker } from '@faker-js/faker'
-
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory } from '@/domain/usecases/product/queries'
 import { type ProductsOutput } from '@/domain/usecases/product/common'
@@ -24,12 +22,7 @@ export class UpdateProductSpy implements UpdateProduct {
 export class GetLatestProductsSpy implements GetLatestProducts {
   public page: number
   public limit: number
-  public output: ProductsOutput = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsOutput = mockProductsOutput()
 
   public async getLatest(page: number, limit: number): Promise<ProductsOutput> {
     this.page = page
@@ -41,12 +34,7 @@ export class GetLatestProductsSpy implements GetLatestProducts {
 export class GetProductsWithDiscountSpy implements GetProductsWithDiscount {
   public page: number
   public limit: number
-  public output: ProductsOutput = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsOutput = mockProductsOutput()
 
   public async getWithDiscount(page: number, limit: number): Promise<ProductsOutput> {
     this.page = page
@@ -59,12 +47,7 @@ export class GetProductsByCategorySpy implements GetProductsByCategory {
   public category: string
   public page: number
   public limit: number
-  public output: ProductsOutput = {
-    products: mockProductsOutput(),
-    currentPage: faker.number.int({ min: 0, max: 100 }),
-    totalPages: faker.number.int({ min: 0, max: 100 }),
-    totalItems: faker.number.int({ min: 0, max: 100 })
-  }
+  public output: ProductsOutput = mockProductsOutput()
 
   public async getByCategory(category: string, page: number, limit: number): Promise<ProductsOutput> {
     this.category = category
