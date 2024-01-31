@@ -2,6 +2,7 @@ import { type CheckCategoryByNameRepository } from '@/application/protocols/cate
 import { type GetProductsByCategoryRepository } from '@/application/protocols/product/queries'
 import { type GetProductsByCategory } from '@/domain/usecases/product/queries'
 import { type ProductsOutput } from '@/domain/entities/product/dto'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class DbGetProductsByCategory implements GetProductsByCategory {
   constructor(
@@ -10,7 +11,10 @@ export class DbGetProductsByCategory implements GetProductsByCategory {
   ) {}
 
   public async getByCategory(category: string, page: number, limit: number): Promise<ProductsOutput> {
-    await this.checkCategoryByNameRepository.checkByName(category)
+    const categoryExists = await this.checkCategoryByNameRepository.checkByName(category)
+    if (!categoryExists) {
+      throw new CategoryNotFoundError()
+    }
     const { products, currentPage, totalPages, totalItems } = await this.getProductsByCategoryRepository.getByCategory(category, page, limit)
     return {
       products,
