@@ -1,9 +1,10 @@
-import { type CheckProductBySlugRepository } from '@/application/protocols/product/queries'
+import { type CheckProductBySlugRepository, type GetProductBySlugRepository } from '@/application/protocols/product/queries'
 import { ProductNotFoundError } from '@/domain/errors/product'
 
 export class DbGetProductBySlug {
   constructor(
-    private readonly checkProductBySlugRepository: CheckProductBySlugRepository
+    private readonly checkProductBySlugRepository: CheckProductBySlugRepository,
+    private readonly getProductBySlugRepository: GetProductBySlugRepository
   ) {}
 
   public async getBySlug(slug: string): Promise<void> {
@@ -11,5 +12,6 @@ export class DbGetProductBySlug {
     if (!productExists) {
       throw new ProductNotFoundError()
     }
+    await this.getProductBySlugRepository.getBySlug(slug)
   }
 }
