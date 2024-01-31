@@ -54,4 +54,11 @@ describe('DbGetProductBySlug', () => {
     await sut.getBySlug(slug)
     expect(getProductBySlugRepositorySpy.slug).toBe(slug)
   })
+
+  test('Should throw if GetProductBySlugRepository throws', async() => {
+    const { sut, getProductBySlugRepositorySpy } = makeSut()
+    jest.spyOn(getProductBySlugRepositorySpy, 'getBySlug').mockImplementationOnce(throwError)
+    const promise = sut.getBySlug(slug)
+    await expect(promise).rejects.toThrow()
+  })
 })
