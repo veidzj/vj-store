@@ -1,5 +1,5 @@
-import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductRepositoryOutput } from '@/application/dtos/product'
 
 export interface GetProductBySlugRepository {
-  getBySlug: (slug: string) => Promise<ProductOutput>
+  getBySlug: (slug: string) => Promise<ProductRepositoryOutput>
 }

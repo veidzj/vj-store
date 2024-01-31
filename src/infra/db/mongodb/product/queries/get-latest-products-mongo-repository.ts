@@ -1,6 +1,6 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type GetLatestProductsRepository } from '@/application/protocols/product/queries'
-import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
+import { type ProductsRepositoryOutput } from '@/application/dtos/product'
 
 export class GetLatestProductsMongoRepository implements GetLatestProductsRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()

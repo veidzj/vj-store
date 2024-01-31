@@ -1,4 +1,4 @@
-import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
+import { type ProductsRepositoryOutput } from '@/application/dtos/product'
 
 export interface GetProductsWithDiscountRepository {
   getWithDiscount: (page: number, limit: number) => Promise<ProductsRepositoryOutput>

@@ -1,5 +1,5 @@
 import { mockProductOutput, mockProductsOutput } from '@/tests/domain/mocks/product'
-import { type ProductOutput, type ProductsOutput } from '@/domain/entities/product/dto'
+import { type ProductOutput, type ProductsOutput } from '@/domain/dtos/product'
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory, type GetProductBySlug } from '@/domain/usecases/product/queries'
 

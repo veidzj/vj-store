@@ -1,7 +1,7 @@
 import { type CheckCategoryByNameRepository } from '@/application/protocols/category/queries'
 import { type GetProductsByCategoryRepository } from '@/application/protocols/product/queries'
 import { type GetProductsByCategory } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/entities/product/dto'
+import { type ProductsOutput } from '@/domain/dtos/product'
 import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class DbGetProductsByCategory implements GetProductsByCategory {

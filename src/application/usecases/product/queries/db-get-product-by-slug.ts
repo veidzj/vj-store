@@ -1,5 +1,5 @@
 import { type CheckProductBySlugRepository, type GetProductBySlugRepository } from '@/application/protocols/product/queries'
-import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductOutput } from '@/domain/dtos/product'
 import { type GetProductBySlug } from '@/domain/usecases/product/queries'
 import { ProductNotFoundError } from '@/domain/errors/product'
 

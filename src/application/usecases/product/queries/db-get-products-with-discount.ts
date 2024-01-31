@@ -1,6 +1,6 @@
 import { type GetProductsWithDiscountRepository } from '@/application/protocols/product/queries'
 import { type GetProductsWithDiscount } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/entities/product/dto'
+import { type ProductsOutput } from '@/domain/dtos/product'
 
 export class DbGetProductsWithDiscount implements GetProductsWithDiscount {
   constructor(private readonly getProductsWithDiscountRepository: GetProductsWithDiscountRepository) {}

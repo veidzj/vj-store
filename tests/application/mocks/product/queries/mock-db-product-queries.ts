@@ -8,8 +8,8 @@ import {
   type GetProductsByCategoryRepository,
   type GetProductBySlugRepository
 } from '@/application/protocols/product/queries'
-import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
-import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductsRepositoryOutput } from '@/application/dtos/product'
+import { type ProductOutput } from '@/domain/dtos/product'
 
 export class CheckProductByNameRepositorySpy implements CheckProductByNameRepository {
   public name: string
