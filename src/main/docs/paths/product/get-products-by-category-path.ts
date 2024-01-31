@@ -35,6 +35,9 @@ export const getProductsByCategoryPath = {
           }
         }
       },
+      404: {
+        $ref: '#/components/notFound'
+      },
       500: {
         $ref: '#/components/serverError'
       }
