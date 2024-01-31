@@ -5,6 +5,7 @@ import { GetProductsByCategorySpy } from '@/tests/presentation/mocks/product'
 import { GetProductsByCategoryController } from '@/presentation/controllers/product/queries'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
 import { HttpHelper } from '@/presentation/helpers'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: GetProductsByCategoryController
@@ -51,6 +52,15 @@ describe('GetProductsByCategoryController', () => {
     expect(getProductsByCategorySpy.category).toBe(request.category)
     expect(getProductsByCategorySpy.page).toBe(Number(request.page))
     expect(getProductsByCategorySpy.limit).toBe(Number(request.limit))
+  })
+
+  test('Should return notFound if GetProductsByCategory throws CategoryNotFoundError', async() => {
+    const { sut, getProductsByCategorySpy } = makeSut()
+    jest.spyOn(getProductsByCategorySpy, 'getByCategory').mockImplementationOnce(() => {
+      throw new CategoryNotFoundError()
+    })
+    const response = await sut.handle(mockRequestWithPagination())
+    expect(response).toEqual(HttpHelper.notFound(new CategoryNotFoundError()))
   })
 
   test('Should return serverError if GetProductsByCategory throws', async() => {
