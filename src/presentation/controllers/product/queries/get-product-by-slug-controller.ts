@@ -8,8 +8,8 @@ export class GetProductBySlugController implements Controller {
 
   public async handle(request: GetProductBySlugController.Request): Promise<Response> {
     try {
-      await this.getProductBySlug.getBySlug(request.slug)
-      return HttpHelper.ok({})
+      const product = await this.getProductBySlug.getBySlug(request.slug)
+      return HttpHelper.ok({ product })
     } catch (error) {
       if (error instanceof ProductNotFoundError) {
         return HttpHelper.notFound(error)
