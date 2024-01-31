@@ -1,13 +1,15 @@
-import { mockProductsOutput } from '@/tests/domain/mocks/product'
+import { mockProductOutput, mockProductsOutput } from '@/tests/domain/mocks/product'
 import {
   type CheckProductByNameRepository,
   type CheckProductByIdRepository,
   type CheckProductBySlugRepository,
   type GetLatestProductsRepository,
   type GetProductsWithDiscountRepository,
-  type GetProductsByCategoryRepository
+  type GetProductsByCategoryRepository,
+  type GetProductBySlugRepository
 } from '@/application/protocols/product/queries'
 import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
+import { type ProductOutput } from '@/domain/entities/product/dto'
 
 export class CheckProductByNameRepositorySpy implements CheckProductByNameRepository {
   public name: string
@@ -73,6 +75,16 @@ export class GetProductsByCategoryRepositorySpy implements GetProductsByCategory
     this.category = category
     this.page = page
     this.limit = limit
+    return this.output
+  }
+}
+
+export class GetProductBySlugRepositorySpy implements GetProductBySlugRepository {
+  public slug: string
+  public output: ProductOutput = mockProductOutput()
+
+  public async getBySlug(slug: string): Promise<ProductOutput> {
+    this.slug = slug
     return this.output
   }
 }
