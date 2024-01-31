@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { CheckProductBySlugRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductBySlug } from '@/application/usecases/product/queries'
 import { ProductNotFoundError } from '@/domain/errors/product'
@@ -36,5 +37,12 @@ describe('DbGetProductBySlug', () => {
     checkProductBySlugRepositorySpy.output = false
     const promise = sut.getBySlug(slug)
     await expect(promise).rejects.toThrow(new ProductNotFoundError())
+  })
+
+  test('Should throw if CheckProductBySlugRepository throws', async() => {
+    const { sut, checkProductBySlugRepositorySpy } = makeSut()
+    jest.spyOn(checkProductBySlugRepositorySpy, 'checkBySlug').mockImplementationOnce(throwError)
+    const promise = sut.getBySlug(slug)
+    await expect(promise).rejects.toThrow()
   })
 })
