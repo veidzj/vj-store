@@ -1,7 +1,7 @@
+import { mockProductOutput, mockProductsOutput } from '@/tests/domain/mocks/product'
+import { type ProductOutput, type ProductsOutput } from '@/domain/entities/product/dto'
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
-import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory } from '@/domain/usecases/product/queries'
-import { type ProductsOutput } from '@/domain/entities/product/dto'
-import { mockProductsOutput } from '@/tests/domain/mocks/product'
+import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory, type GetProductBySlug } from '@/domain/usecases/product/queries'
 
 export class AddProductSpy implements AddProduct {
   public input: AddProduct.Input
@@ -53,6 +53,16 @@ export class GetProductsByCategorySpy implements GetProductsByCategory {
     this.category = category
     this.page = page
     this.limit = limit
+    return this.output
+  }
+}
+
+export class GetProductBySlugSpy implements GetProductBySlug {
+  public slug: string
+  public output: ProductOutput = mockProductOutput()
+
+  public async getBySlug(slug: string): Promise<ProductOutput> {
+    this.slug = slug
     return this.output
   }
 }
