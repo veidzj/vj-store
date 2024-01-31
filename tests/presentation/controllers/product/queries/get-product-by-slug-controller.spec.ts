@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { GetProductBySlugSpy } from '@/tests/presentation/mocks/product'
 import { GetProductBySlugController } from '@/presentation/controllers/product/queries'
 import { HttpHelper } from '@/presentation/helpers'
+import { ProductNotFoundError } from '@/domain/errors/product'
 
 interface Sut {
   sut: GetProductBySlugController
@@ -29,6 +30,15 @@ describe('GetProductBySlugController', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(getProductBySlugSpy.slug).toBe(request.slug)
+  })
+
+  test('Should return notFound if GetProductBySlug throws ProductNotFoundError', async() => {
+    const { sut, getProductBySlugSpy } = makeSut()
+    jest.spyOn(getProductBySlugSpy, 'getBySlug').mockImplementationOnce(() => {
+      throw new ProductNotFoundError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.notFound(new ProductNotFoundError()))
   })
 
   test('Should return serverError if GetProductBySlug throws', async() => {
