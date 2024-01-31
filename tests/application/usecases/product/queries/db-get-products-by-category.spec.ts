@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { GetProductsByCategoryRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductsByCategory } from '@/application/usecases/product/queries'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbGetProductsByCategory
@@ -14,6 +15,7 @@ interface Sut {
 const makeSut = (): Sut => {
   const getProductsByCategoryRepositorySpy = new GetProductsByCategoryRepositorySpy()
   const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
+  checkCategoryByNameRepositorySpy.output = true
   const sut = new DbGetProductsByCategory(checkCategoryByNameRepositorySpy, getProductsByCategoryRepositorySpy)
   return {
     sut,
@@ -37,6 +39,13 @@ describe('DbGetProductsByCategory', () => {
     const { sut, checkCategoryByNameRepositorySpy } = makeSut()
     await sut.getByCategory(category, page, limit)
     expect(checkCategoryByNameRepositorySpy.name).toBe(category)
+  })
+
+  test('Should throw CategoryNotFoundError if CheckCategoryByNameRepository returns false', async() => {
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    checkCategoryByNameRepositorySpy.output = false
+    const promise = sut.getByCategory(category, page, limit)
+    await expect(promise).rejects.toThrow(new CategoryNotFoundError())
   })
 
   test('Should call GetProductsByCategoryRepository with correct values', async() => {
