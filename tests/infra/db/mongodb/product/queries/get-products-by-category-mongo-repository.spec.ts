@@ -1,11 +1,11 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
 import { GetProductsByCategoryMongoRepository } from '@/infra/db/mongodb/product/queries'
-import { throwError } from '@/tests/test-helper'
 
 let productCollection: Collection
 
