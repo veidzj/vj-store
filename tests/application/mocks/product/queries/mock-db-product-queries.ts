@@ -7,8 +7,7 @@ import {
   type GetProductsByCategoryRepository,
   type GetProductBySlugRepository
 } from '@/application/protocols/product/queries'
-import { type ProductsRepositoryOutput } from '@/application/dtos/product'
-import { type ProductOutput } from '@/domain/dtos/product'
+import { type ProductRepositoryOutput, type ProductsRepositoryOutput } from '@/application/dtos/product'
 
 export class CheckProductByNameRepositorySpy implements CheckProductByNameRepository {
   public name: string
@@ -70,9 +69,9 @@ export class GetProductsByCategoryRepositorySpy implements GetProductsByCategory
 
 export class GetProductBySlugRepositorySpy implements GetProductBySlugRepository {
   public slug: string
-  public output: ProductOutput = mockProductOutput()
+  public output: ProductRepositoryOutput | null = mockProductOutput()
 
-  public async getBySlug(slug: string): Promise<ProductOutput> {
+  public async getBySlug(slug: string): Promise<ProductRepositoryOutput | null> {
     this.slug = slug
     return this.output
   }

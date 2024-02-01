@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/test-helper'
 import { GetProductBySlugRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductBySlug } from '@/application/usecases/product/queries'
+import { ProductNotFoundError } from '@/domain/errors/product'
 
 interface Sut {
   sut: DbGetProductBySlug
@@ -29,6 +30,13 @@ describe('DbGetProductBySlug', () => {
     const { sut, getProductBySlugRepositorySpy } = makeSut()
     await sut.getBySlug(slug)
     expect(getProductBySlugRepositorySpy.slug).toBe(slug)
+  })
+
+  test('Should throw ProductNotFoundError if GetProductBySlugRepository returns null', async() => {
+    const { sut, getProductBySlugRepositorySpy } = makeSut()
+    getProductBySlugRepositorySpy.output = null
+    const promise = sut.getBySlug(slug)
+    await expect(promise).rejects.toThrow(new ProductNotFoundError())
   })
 
   test('Should throw if GetProductBySlugRepository throws', async() => {
