@@ -41,4 +41,10 @@ describe('GetProductBySlugMongoRepository', () => {
     expect(product?.imagesUrls).toEqual(addProductRepositoryInput.imagesUrls)
     expect(product?.createdAt).toEqual(addProductRepositoryInput.createdAt)
   })
+
+  test('Should return null if there is no product', async() => {
+    const sut = makeSut()
+    const product = await sut.getBySlug(mockAddProductRepositoryInput().slug)
+    expect(product).toBeNull()
+  })
 })
