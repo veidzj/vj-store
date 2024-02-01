@@ -40,4 +40,9 @@ describe('CheckProductBySlugMongoRepository', () => {
     const productExists = await sut.checkBySlug(addProductRepositoryInput.slug)
     expect(productExists).toBe(true)
   })
+
+  test('Should return false if slug does not exists', async() => {
+    const productExists = await sut.checkBySlug(mockAddProductRepositoryInput().slug)
+    expect(productExists).toBe(false)
+  })
 })
