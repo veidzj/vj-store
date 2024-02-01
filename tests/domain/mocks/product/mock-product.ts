@@ -35,7 +35,8 @@ export const mockProductOutput = (): ProductOutput => ({
   category: faker.commerce.department(),
   slug: ProductHelper.generateSlug(faker.string.alpha({ length: { min: 3, max: 20 } })),
   imagesUrls: [faker.internet.url(), faker.internet.url()],
-  createdAt: faker.date.anytime()
+  createdAt: faker.date.anytime(),
+  updatedAt: faker.date.anytime()
 })
 
 export const mockProductsOutput = (): ProductsOutput => ({

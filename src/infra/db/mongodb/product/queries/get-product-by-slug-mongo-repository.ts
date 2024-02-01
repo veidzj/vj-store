@@ -11,8 +11,7 @@ export class GetProductBySlugMongoRepository implements GetProductBySlugReposito
       slug
     }, {
       projection: {
-        _id: 0,
-        updatedAt: 0
+        _id: 0
       }
     })
     return product && this.mongoHelper.map<ProductRepositoryOutput>(product)

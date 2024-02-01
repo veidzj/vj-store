@@ -16,8 +16,7 @@ export class GetProductsByCategoryMongoRepository implements GetProductsByCatego
         }
       }, {
         projection: {
-          _id: 0,
-          updatedAt: 0
+          _id: 0
         }
       }
       )

@@ -9,4 +9,5 @@ export interface ProductOutput {
   slug: string
   imagesUrls: string[]
   createdAt: Date
+  updatedAt: Date
 }

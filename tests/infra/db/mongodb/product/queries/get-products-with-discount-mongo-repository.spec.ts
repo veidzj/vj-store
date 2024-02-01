@@ -50,6 +50,8 @@ describe('GetProductsWithDiscountMongoRepository', () => {
     expect(products[0].category).toBe(mockProductWithDiscount.category)
     expect(products[0].imagesUrls).toEqual(mockProductWithDiscount.imagesUrls)
     expect(products[0].quantity).toBe(mockProductWithDiscount.quantity)
+    expect(products[0].createdAt).toEqual(mockProductWithDiscount.createdAt)
+    expect(products[0].updatedAt).toEqual(mockProductWithDiscount.updatedAt)
     expect(currentPage).toBe(defaultPage)
     expect(totalPages).toBe(defaultPage)
     expect(totalItems).toBe(1)

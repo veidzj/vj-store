@@ -41,6 +41,7 @@ describe('GetProductBySlugMongoRepository', () => {
     expect(product?.slug).toBe(addProductRepositoryInput.slug)
     expect(product?.imagesUrls).toEqual(addProductRepositoryInput.imagesUrls)
     expect(product?.createdAt).toEqual(addProductRepositoryInput.createdAt)
+    expect(product?.updatedAt).toEqual(addProductRepositoryInput.updatedAt)
   })
 
   test('Should return null if there is no product', async() => {

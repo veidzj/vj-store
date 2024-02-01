@@ -11,8 +11,7 @@ export class GetLatestProductsMongoRepository implements GetLatestProductsReposi
     const productsDocument = await productCollection
       .find({}, {
         projection: {
-          _id: 0,
-          updatedAt: 0
+          _id: 0
         }
       }
       )
