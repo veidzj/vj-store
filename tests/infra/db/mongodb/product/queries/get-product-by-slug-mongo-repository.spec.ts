@@ -1,5 +1,6 @@
-import { type Collection } from 'mongodb'
+import { Collection } from 'mongodb'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
@@ -46,5 +47,12 @@ describe('GetProductBySlugMongoRepository', () => {
     const sut = makeSut()
     const product = await sut.getBySlug(mockAddProductRepositoryInput().slug)
     expect(product).toBeNull()
+  })
+
+  test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
+    jest.spyOn(Collection.prototype, 'findOne').mockImplementationOnce(throwError)
+    const promise = sut.getBySlug(mockAddProductRepositoryInput().slug)
+    await expect(promise).rejects.toThrow()
   })
 })
