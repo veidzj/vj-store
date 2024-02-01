@@ -2,7 +2,6 @@ import { mockProductOutput, mockProductsOutput } from '@/tests/domain/mocks/prod
 import {
   type CheckProductByNameRepository,
   type CheckProductByIdRepository,
-  type CheckProductBySlugRepository,
   type GetLatestProductsRepository,
   type GetProductsWithDiscountRepository,
   type GetProductsByCategoryRepository,
@@ -27,16 +26,6 @@ export class CheckProductByIdRepositorySpy implements CheckProductByIdRepository
 
   public async checkById(id: string): Promise<boolean> {
     this.id = id
-    return this.output
-  }
-}
-
-export class CheckProductBySlugRepositorySpy implements CheckProductBySlugRepository {
-  public slug: string
-  public output: boolean = true
-
-  public async checkBySlug(slug: string): Promise<boolean> {
-    this.slug = slug
     return this.output
   }
 }
