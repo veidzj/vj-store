@@ -1,4 +1,4 @@
-export const productOutputSchema = {
+export const productsSchema = {
   type: 'object',
   properties: {
     products: {

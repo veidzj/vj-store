@@ -23,7 +23,7 @@ export const getLatestProductsPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/productOutput'
+              $ref: '#/schemas/products'
             }
           }
         }
