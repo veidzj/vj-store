@@ -18,6 +18,10 @@ export default {
   }],
   tags: [{
     name: 'Account'
+  }, {
+    name: 'Category'
+  }, {
+    name: 'Product'
   }],
   paths,
   schemas,
