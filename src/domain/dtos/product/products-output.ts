@@ -1,4 +1,4 @@
-import { type ProductOutput } from '@/domain/entities/product/dto'
+import { type ProductOutput } from '@/domain/dtos/product'
 
 export interface ProductsOutput {
   products: ProductOutput[]

@@ -30,10 +30,13 @@ export const getProductsByCategoryPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/productOutput'
+              $ref: '#/schemas/products'
             }
           }
         }
+      },
+      404: {
+        $ref: '#/components/notFound'
       },
       500: {
         $ref: '#/components/serverError'

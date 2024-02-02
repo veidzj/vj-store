@@ -1,11 +1,11 @@
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
 import { getProductCollection } from '@/tests/infra/db/mongodb/product'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
 import { GetProductsByCategoryMongoRepository } from '@/infra/db/mongodb/product/queries'
-import { throwError } from '@/tests/test-helper'
 
 let productCollection: Collection
 
@@ -45,6 +45,8 @@ describe('GetProductsByCategoryMongoRepository', () => {
     expect(products[0].category).toBe(addProductsRepositoryInput[0].category)
     expect(products[0].imagesUrls).toEqual(addProductsRepositoryInput[0].imagesUrls)
     expect(products[0].quantity).toBe(addProductsRepositoryInput[0].quantity)
+    expect(products[0].createdAt).toEqual(addProductsRepositoryInput[0].createdAt)
+    expect(products[0].updatedAt).toEqual(addProductsRepositoryInput[0].updatedAt)
     expect(currentPage).toBe(defaultPage)
     expect(totalPages).toBe(defaultPage)
     expect(totalItems).toBe(1)

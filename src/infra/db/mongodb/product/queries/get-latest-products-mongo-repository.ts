@@ -1,6 +1,6 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type GetLatestProductsRepository } from '@/application/protocols/product/queries'
-import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
+import { type ProductsRepositoryOutput } from '@/application/dtos/product'
 
 export class GetLatestProductsMongoRepository implements GetLatestProductsRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
@@ -11,8 +11,7 @@ export class GetLatestProductsMongoRepository implements GetLatestProductsReposi
     const productsDocument = await productCollection
       .find({}, {
         projection: {
-          _id: 0,
-          updatedAt: 0
+          _id: 0
         }
       }
       )

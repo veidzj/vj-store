@@ -2,6 +2,7 @@ import { type Controller, type Response } from '@/presentation/protocols'
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/presentation/constants'
 import { HttpHelper } from '@/presentation/helpers'
 import { type GetProductsByCategory } from '@/domain/usecases/product/queries'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 export class GetProductsByCategoryController implements Controller {
   constructor(private readonly getProductsByCategory: GetProductsByCategory) {}
@@ -18,6 +19,9 @@ export class GetProductsByCategoryController implements Controller {
         totalItems
       })
     } catch (error) {
+      if (error instanceof CategoryNotFoundError) {
+        return HttpHelper.notFound(error)
+      }
       return HttpHelper.serverError(error as Error)
     }
   }

@@ -1,19 +1,25 @@
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
+import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { GetProductsByCategoryRepositorySpy } from '@/tests/application/mocks/product/queries'
 import { DbGetProductsByCategory } from '@/application/usecases/product/queries'
+import { CategoryNotFoundError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbGetProductsByCategory
+  checkCategoryByNameRepositorySpy: CheckCategoryByNameRepositorySpy
   getProductsByCategoryRepositorySpy: GetProductsByCategoryRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const getProductsByCategoryRepositorySpy = new GetProductsByCategoryRepositorySpy()
-  const sut = new DbGetProductsByCategory(getProductsByCategoryRepositorySpy)
+  const checkCategoryByNameRepositorySpy = new CheckCategoryByNameRepositorySpy()
+  checkCategoryByNameRepositorySpy.output = true
+  const sut = new DbGetProductsByCategory(checkCategoryByNameRepositorySpy, getProductsByCategoryRepositorySpy)
   return {
     sut,
+    checkCategoryByNameRepositorySpy,
     getProductsByCategoryRepositorySpy
   }
 }
@@ -27,6 +33,19 @@ describe('DbGetProductsByCategory', () => {
     category = faker.commerce.department()
     page = faker.number.int({ min: 0, max: 100 })
     limit = faker.number.int({ min: 0, max: 100 })
+  })
+
+  test('Should call CheckCategoryByNameRepository with correct value', async() => {
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    await sut.getByCategory(category, page, limit)
+    expect(checkCategoryByNameRepositorySpy.name).toBe(category)
+  })
+
+  test('Should throw CategoryNotFoundError if CheckCategoryByNameRepository returns false', async() => {
+    const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+    checkCategoryByNameRepositorySpy.output = false
+    const promise = sut.getByCategory(category, page, limit)
+    await expect(promise).rejects.toThrow(new CategoryNotFoundError())
   })
 
   test('Should call GetProductsByCategoryRepository with correct values', async() => {

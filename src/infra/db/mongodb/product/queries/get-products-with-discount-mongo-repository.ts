@@ -1,6 +1,6 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { type GetProductsWithDiscountRepository } from '@/application/protocols/product/queries'
-import { type ProductsRepositoryOutput } from '@/application/protocols/product/common'
+import { type ProductsRepositoryOutput } from '@/application/dtos/product'
 
 export class GetProductsWithDiscountMongoRepository implements GetProductsWithDiscountRepository {
   private readonly mongoHelper: MongoHelper = MongoHelper.getInstance()
@@ -15,8 +15,7 @@ export class GetProductsWithDiscountMongoRepository implements GetProductsWithDi
         }
       }, {
         projection: {
-          _id: 0,
-          updatedAt: 0
+          _id: 0
         }
       }
       )

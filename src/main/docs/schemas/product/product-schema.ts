@@ -33,7 +33,10 @@ export const productSchema = {
     },
     createdAt: {
       type: 'string'
+    },
+    updatedAt: {
+      type: 'string'
     }
   },
-  required: ['id', 'name', 'description', 'price', 'discountPercentage', 'quantity', 'category', 'slug', 'imageUrls', 'createdAt']
+  required: ['id', 'name', 'description', 'price', 'discountPercentage', 'quantity', 'category', 'slug', 'imageUrls', 'createdAt', 'updatedAt']
 }

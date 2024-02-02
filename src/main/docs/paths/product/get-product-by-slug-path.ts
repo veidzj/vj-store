@@ -1,18 +1,11 @@
-export const getLatestProductsPath = {
+export const getProductBySlugPath = {
   get: {
     tags: ['Product'],
-    summary: 'List all products ordered by recent date',
+    summary: 'List one product by slug',
     parameters: [{
-      in: 'query',
-      name: 'page',
-      required: false,
-      schema: {
-        type: 'string'
-      }
-    }, {
-      in: 'query',
-      name: 'limit',
-      required: false,
+      in: 'path',
+      name: 'slug',
+      required: true,
       schema: {
         type: 'string'
       }
@@ -23,10 +16,13 @@ export const getLatestProductsPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/products'
+              $ref: '#/schemas/product'
             }
           }
         }
+      },
+      404: {
+        $ref: '#/components/notFound'
       },
       500: {
         $ref: '#/components/serverError'

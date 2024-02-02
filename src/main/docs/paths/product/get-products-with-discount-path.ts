@@ -23,7 +23,7 @@ export const getProductsWithDiscountPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/productOutput'
+              $ref: '#/schemas/products'
             }
           }
         }

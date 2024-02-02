@@ -2,8 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { ProductHelper } from '@/domain/entities/product'
-import { type ProductOutput } from '@/domain/entities/product/dto'
-import { type ProductsOutput } from '@/domain/usecases/product/common'
+import { type ProductOutput, type ProductsOutput } from '@/domain/dtos/product'
 
 export const mockAddProductInput = (): AddProduct.Input => ({
   name: faker.string.alpha({ length: { min: 3, max: 20 } }),
@@ -36,7 +35,8 @@ export const mockProductOutput = (): ProductOutput => ({
   category: faker.commerce.department(),
   slug: ProductHelper.generateSlug(faker.string.alpha({ length: { min: 3, max: 20 } })),
   imagesUrls: [faker.internet.url(), faker.internet.url()],
-  createdAt: faker.date.anytime()
+  createdAt: faker.date.anytime(),
+  updatedAt: faker.date.anytime()
 })
 
 export const mockProductsOutput = (): ProductsOutput => ({
