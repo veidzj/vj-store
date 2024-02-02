@@ -1,6 +1,6 @@
 {
   "name": "vj-store",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "E-Commerce API using TypeScript, DDD, TDD and Clean Architecture",
   "author": "João Victor Veidz",
   "license": "GPL-3.0",
