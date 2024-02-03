@@ -8,7 +8,6 @@ export class DbChangeEmail implements ChangeEmail {
   public async change(currentEmail: string, newEmail: string): Promise<void> {
     AccountValidation.validateEmail(currentEmail)
     AccountValidation.validateEmail(newEmail)
-
     await this.changeEmailRepository.change(currentEmail, newEmail)
   }
 }
