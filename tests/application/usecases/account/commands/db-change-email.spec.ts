@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { ChangeEmailRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeEmail } from '@/application/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
+import { throwError } from '@/tests/test-helper'
 
 interface Sut {
   sut: DbChangeEmail
@@ -46,5 +47,12 @@ describe('DbChangeEmail', () => {
     await sut.change(currentEmail, newEmail)
     expect(changeEmailRepositorySpy.currentEmail).toBe(currentEmail)
     expect(changeEmailRepositorySpy.newEmail).toBe(newEmail)
+  })
+
+  test('Should throw if ChangeEmailRepository throws', async() => {
+    const { sut, changeEmailRepositorySpy } = makeSut()
+    jest.spyOn(changeEmailRepositorySpy, 'change').mockImplementationOnce(throwError)
+    const promise = sut.change(currentEmail, newEmail)
+    await expect(promise).rejects.toThrow()
   })
 })
