@@ -12,4 +12,10 @@ describe('DbChangeEmail', () => {
     const promise = sut.change(invalidEmail, validEmail)
     await expect(promise).rejects.toThrow(new EntityValidationError('Email must be valid'))
   })
+
+  test('Should throw EntityValidationError if newEmail is invalid', async() => {
+    const sut = new DbChangeEmail()
+    const promise = sut.change(validEmail, invalidEmail)
+    await expect(promise).rejects.toThrow(new EntityValidationError('Email must be valid'))
+  })
 })
