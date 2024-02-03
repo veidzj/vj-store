@@ -3,7 +3,7 @@ import { type Request, type Response } from 'express'
 import { type Controller } from '@/presentation/protocols'
 
 export class ExpressRouteAdapter {
-  public static adapt = (controller: Controller): (req: Request, res: Response) => Promise<void> => {
+  public static readonly adapt = (controller: Controller): (req: Request, res: Response) => Promise<void> => {
     return async(req: Request, res: Response): Promise<void> => {
       const request: object = {
         ...(req.body ?? {}),
