@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker'
 
 import { ChangeEmailSpy } from '@/tests/presentation/mocks/account'
 import { ChangeEmailController } from '@/presentation/controllers/account/commands'
+import { throwError } from '@/tests/test-helper'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: ChangeEmailController
@@ -29,5 +31,12 @@ describe('ChangeEmailController', () => {
     await sut.handle(request)
     expect(changeEmailSpy.currentEmail).toBe(request.currentEmail)
     expect(changeEmailSpy.newEmail).toBe(request.newEmail)
+  })
+
+  test('Should return serverError if ChangeEmail throws', async() => {
+    const { sut, changeEmailSpy } = makeSut()
+    jest.spyOn(changeEmailSpy, 'change').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 })
