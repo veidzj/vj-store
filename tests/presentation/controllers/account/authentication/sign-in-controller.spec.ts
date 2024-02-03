@@ -1,7 +1,7 @@
 import { throwError } from '@/tests/test-helper'
 import { AuthenticationSpy } from '@/tests/presentation/mocks/account'
 import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
-import { SignInController } from '@/presentation/controllers/account'
+import { SignInController } from '@/presentation/controllers/account/authentication'
 import { HttpHelper } from '@/presentation/helpers'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 

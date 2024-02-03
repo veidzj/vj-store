@@ -1,7 +1,7 @@
 import { AddAccountFactory, AuthenticationFactory } from '@/main/factories/usecases/account/commands'
 import { LogErrorControllerDecoratorFactory } from '@/main/factories/decorators/log'
 import { type Controller } from '@/presentation/protocols'
-import { SignUpController } from '@/presentation/controllers/account'
+import { SignUpController } from '@/presentation/controllers/account/authentication'
 
 export class SignUpControllerFactory {
   public static readonly makeSignUpController = (): Controller => {
