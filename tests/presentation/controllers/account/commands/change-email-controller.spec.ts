@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { ChangeEmailSpy } from '@/tests/presentation/mocks/account'
 import { ChangeEmailController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
+import { EntityValidationError } from '@/domain/errors'
 import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
@@ -32,6 +33,16 @@ describe('ChangeEmailController', () => {
     await sut.handle(request)
     expect(changeEmailSpy.currentEmail).toBe(request.currentEmail)
     expect(changeEmailSpy.newEmail).toBe(request.newEmail)
+  })
+
+  test('Should return badRequest if ChangeEmail throws EntityValidationError', async() => {
+    const { sut, changeEmailSpy } = makeSut()
+    const errorMessage = faker.word.words()
+    jest.spyOn(changeEmailSpy, 'change').mockImplementationOnce(() => {
+      throw new EntityValidationError(errorMessage)
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
   })
 
   test('Should return notFound if ChangeEmail throws AccountNotFoundError', async() => {
