@@ -55,4 +55,10 @@ describe('DbChangeEmail', () => {
     const promise = sut.change(currentEmail, newEmail)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should not throw on success', async() => {
+    const { sut } = makeSut()
+    const promise = sut.change(currentEmail, newEmail)
+    await expect(promise).resolves.not.toThrow()
+  })
 })
