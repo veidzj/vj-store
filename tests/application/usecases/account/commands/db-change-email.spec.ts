@@ -53,6 +53,13 @@ describe('DbChangeEmail', () => {
     expect(checkAccountByEmailRepositorySpy.email).toBe(currentEmail)
   })
 
+  test('Should throw if CheckAccountByEmailRepository throws', async() => {
+    const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+    jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
+    const promise = sut.change(currentEmail, newEmail)
+    await expect(promise).rejects.toThrow()
+  })
+
   test('Should call ChangeEmailRepository with correct values', async() => {
     const { sut, changeEmailRepositorySpy } = makeSut()
     await sut.change(currentEmail, newEmail)
