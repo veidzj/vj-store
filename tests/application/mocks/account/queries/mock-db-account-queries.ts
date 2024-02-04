@@ -5,10 +5,11 @@ import { type CheckAccountByEmailRepository, type GetAccountByEmailRepository, t
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   public email: string
+  public output: boolean = false
 
   public async checkByEmail(email: string): Promise<boolean> {
     this.email = email
-    return false
+    return this.output
   }
 }
 

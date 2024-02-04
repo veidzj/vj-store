@@ -1,20 +1,25 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
+import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { ChangeEmailRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeEmail } from '@/application/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
-import { throwError } from '@/tests/test-helper'
 
 interface Sut {
   sut: DbChangeEmail
+  checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
   changeEmailRepositorySpy: ChangeEmailRepositorySpy
 }
 
 const makeSut = (): Sut => {
+  const checkAccountByEmailRepositorySpy = new CheckAccountByEmailRepositorySpy()
+  checkAccountByEmailRepositorySpy.output = true
   const changeEmailRepositorySpy = new ChangeEmailRepositorySpy()
-  const sut = new DbChangeEmail(changeEmailRepositorySpy)
+  const sut = new DbChangeEmail(checkAccountByEmailRepositorySpy, changeEmailRepositorySpy)
   return {
     sut,
+    checkAccountByEmailRepositorySpy,
     changeEmailRepositorySpy
   }
 }
@@ -40,6 +45,12 @@ describe('DbChangeEmail', () => {
     const { sut } = makeSut()
     const promise = sut.change(currentEmail, invalidEmail)
     await expect(promise).rejects.toThrow(new EntityValidationError('Email must be valid'))
+  })
+
+  test('Should call CheckAccountByEmailRepository with correct email', async() => {
+    const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+    await sut.change(currentEmail, newEmail)
+    expect(checkAccountByEmailRepositorySpy.email).toBe(currentEmail)
   })
 
   test('Should call ChangeEmailRepository with correct values', async() => {
