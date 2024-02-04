@@ -57,7 +57,7 @@ describe('DbGetAccountIdByToken', () => {
 
     test('Should throw AccessDeniedError if GetAccountIdByTokenRepository returns null', async() => {
       const { sut, getAccountIdByTokenRepositorySpy } = makeSut()
-      getAccountIdByTokenRepositorySpy.accountId = null
+      getAccountIdByTokenRepositorySpy.output = null
       const promise = sut.getByToken(token, role)
       await expect(promise).rejects.toThrow(new AccessDeniedError())
     })
@@ -72,7 +72,7 @@ describe('DbGetAccountIdByToken', () => {
     test('Should return an accountId on success', async() => {
       const { sut, getAccountIdByTokenRepositorySpy } = makeSut()
       const accountId = await sut.getByToken(token, role)
-      expect(accountId).toBe(getAccountIdByTokenRepositorySpy.accountId)
+      expect(accountId).toBe(getAccountIdByTokenRepositorySpy.output)
     })
   })
 })
