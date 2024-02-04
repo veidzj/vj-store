@@ -5,6 +5,7 @@ import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/acco
 import { ChangeEmailRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeEmail } from '@/application/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
+import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
   sut: DbChangeEmail
@@ -51,6 +52,13 @@ describe('DbChangeEmail', () => {
     const { sut, checkAccountByEmailRepositorySpy } = makeSut()
     await sut.change(currentEmail, newEmail)
     expect(checkAccountByEmailRepositorySpy.email).toBe(currentEmail)
+  })
+
+  test('Should throw AccountNotFoundError if CheckAccountByEmailRepository returns false', async() => {
+    const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+    checkAccountByEmailRepositorySpy.output = false
+    const promise = sut.change(currentEmail, newEmail)
+    await expect(promise).rejects.toThrow(new AccountNotFoundError())
   })
 
   test('Should throw if CheckAccountByEmailRepository throws', async() => {
