@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { ChangeAccountPasswordSpy } from '@/tests/presentation/mocks/account'
 import { ChangeAccountPasswordController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
+import { EntityValidationError } from '@/domain/errors'
 
 interface Sut {
   sut: ChangeAccountPasswordController
@@ -33,6 +34,16 @@ describe('ChangeAccountPasswordController', () => {
     expect(changeAccountPasswordSpy.accountEmail).toBe(request.accountEmail)
     expect(changeAccountPasswordSpy.currentPassword).toBe(request.currentPassword)
     expect(changeAccountPasswordSpy.newPassword).toBe(request.newPassword)
+  })
+
+  test('Should return badRequest if ChangeAccountPassword throws EntityValidationError', async() => {
+    const { sut, changeAccountPasswordSpy } = makeSut()
+    const errorMessage = faker.word.words()
+    jest.spyOn(changeAccountPasswordSpy, 'changePassword').mockImplementationOnce(() => {
+      throw new EntityValidationError(errorMessage)
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
   })
 
   test('Should return serverError if ChangeAccountPassword throws', async() => {

@@ -1,6 +1,7 @@
 import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
+import { EntityValidationError } from '@/domain/errors'
 
 export class ChangeAccountPasswordController implements Controller {
   constructor(private readonly changeAccountPassword: ChangeAccountPassword) {}
@@ -10,6 +11,9 @@ export class ChangeAccountPasswordController implements Controller {
       await this.changeAccountPassword.changePassword(request.accountEmail, request.currentPassword, request.newPassword)
       return HttpHelper.ok({})
     } catch (error) {
+      if (error instanceof EntityValidationError) {
+        return HttpHelper.badRequest(error)
+      }
       return HttpHelper.serverError(error as Error)
     }
   }
