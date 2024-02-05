@@ -1,11 +1,11 @@
 import { type Middleware, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type GetAccountIdByToken } from '@/domain/usecases/account/queries'
+import { type GetAccountEmailByToken } from '@/domain/usecases/account/queries'
 import { InvalidCredentialsError, TokenError, AccessDeniedError } from '@/domain/errors/account'
 
 export class AuthMiddleware implements Middleware {
   constructor(
-    private readonly getAccountIdByToken: GetAccountIdByToken,
+    private readonly getAccountEmailByToken: GetAccountEmailByToken,
     private readonly role: string
   ) {}
 
@@ -16,8 +16,8 @@ export class AuthMiddleware implements Middleware {
         return HttpHelper.unauthorized(new InvalidCredentialsError())
       }
 
-      const accountId = await this.getAccountIdByToken.getByToken(accessToken, this.role)
-      return HttpHelper.ok({ accountId })
+      const accountEmail = await this.getAccountEmailByToken.getByToken(accessToken, this.role)
+      return HttpHelper.ok({ accountEmail })
     } catch (error) {
       if (error instanceof TokenError) {
         return HttpHelper.unauthorized(error)

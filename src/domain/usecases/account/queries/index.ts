@@ -1,1 +1,1 @@
-export * from './get-account-id-by-token'
+export * from './get-account-email-by-token'

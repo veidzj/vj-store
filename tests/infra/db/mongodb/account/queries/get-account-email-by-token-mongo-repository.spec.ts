@@ -3,15 +3,15 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
-import { GetAccountIdByTokenMongoRepository } from '@/infra/db/mongodb/account/queries'
+import { GetAccountEmailByTokenMongoRepository } from '@/infra/db/mongodb/account/queries'
 
 let accountCollection: Collection
 
-const makeSut = (): GetAccountIdByTokenMongoRepository => {
-  return new GetAccountIdByTokenMongoRepository()
+const makeSut = (): GetAccountEmailByTokenMongoRepository => {
+  return new GetAccountEmailByTokenMongoRepository()
 }
 
-describe('GetAccountIdByTokenMongoRepository', () => {
+describe('GetAccountEmailByTokenMongoRepository', () => {
   const sut = makeSut()
   const userRole: string = 'user'
   const adminRole: string = 'admin'
@@ -53,8 +53,8 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       password,
       accessToken
     })
-    const accountId = await sut.getByToken(accessToken, faker.word.words())
-    expect(accountId).toBeNull()
+    const accountEmail = await sut.getByToken(accessToken, faker.word.words())
+    expect(accountEmail).toBeNull()
   })
 
   test('Should return null if role is user and provided role is admin', async() => {
@@ -66,11 +66,11 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       accessToken,
       role: userRole
     })
-    const accountId = await sut.getByToken(accessToken, adminRole)
-    expect(accountId).toBeNull()
+    const accountEmail = await sut.getByToken(accessToken, adminRole)
+    expect(accountEmail).toBeNull()
   })
 
-  test('Should return an accountId with user role on success', async() => {
+  test('Should return an email with user role on success', async() => {
     const sut = makeSut()
     await accountCollection.insertOne({
       id,
@@ -80,11 +80,11 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       accessToken,
       role: userRole
     })
-    const accountId = await sut.getByToken(accessToken, userRole)
-    expect(accountId).toBe(id)
+    const accountEmail = await sut.getByToken(accessToken, userRole)
+    expect(accountEmail).toBe(email)
   })
 
-  test('Should return an accountId with admin role on success', async() => {
+  test('Should return an email with admin role on success', async() => {
     const sut = makeSut()
     await accountCollection.insertOne({
       id,
@@ -94,11 +94,11 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       accessToken,
       role: adminRole
     })
-    const accountId = await sut.getByToken(accessToken, adminRole)
-    expect(accountId).toBe(id)
+    const accountEmail = await sut.getByToken(accessToken, adminRole)
+    expect(accountEmail).toBe(email)
   })
 
-  test('Should return an accountId if role is admin and provided role is user', async() => {
+  test('Should return an email if role is admin and provided role is user', async() => {
     const sut = makeSut()
     await accountCollection.insertOne({
       id,
@@ -108,7 +108,7 @@ describe('GetAccountIdByTokenMongoRepository', () => {
       accessToken,
       role: adminRole
     })
-    const accountId = await sut.getByToken(accessToken, userRole)
-    expect(accountId).toBe(id)
+    const accountEmail = await sut.getByToken(accessToken, userRole)
+    expect(accountEmail).toBe(email)
   })
 })

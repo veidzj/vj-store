@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { type AddAccount, type Authentication, type ChangeEmail } from '@/domain/usecases/account/commands'
-import { type GetAccountIdByToken } from '@/domain/usecases/account/queries'
+import { type GetAccountEmailByToken } from '@/domain/usecases/account/queries'
 
 export class AddAccountSpy implements AddAccount {
   public input: AddAccount.Input
@@ -21,7 +21,7 @@ export class AuthenticationSpy implements Authentication {
   }
 }
 
-export class GetAccountIdByTokenSpy implements GetAccountIdByToken {
+export class GetAccountEmailByTokenSpy implements GetAccountEmailByToken {
   public accessToken: string
   public role?: string
   public output = faker.string.uuid()
