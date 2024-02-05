@@ -5,7 +5,7 @@ import { ChangeEmailSpy } from '@/tests/presentation/mocks/account'
 import { ChangeEmailController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: ChangeEmailController
@@ -21,13 +21,23 @@ const makeSut = (): Sut => {
   }
 }
 
-const mockRequest = (): ChangeEmailController.Request => ({
-  currentEmail: faker.internet.email(),
-  newEmail: faker.internet.email(),
-  accountId: faker.string.uuid()
-})
+const mockRequest = (): ChangeEmailController.Request => {
+  const email = faker.internet.email()
+  return {
+    currentEmail: email,
+    newEmail: faker.internet.email(),
+    accountEmail: email
+  }
+}
 
 describe('ChangeEmailController', () => {
+  test('Should return unauthorized if currentEmail is not equal to accountEmail', async() => {
+    const { sut } = makeSut()
+    const request = { ...mockRequest(), accountEmail: faker.internet.email() }
+    const response = await sut.handle(request)
+    expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
+  })
+
   test('Should call ChangeEmail with correct values', async() => {
     const { sut, changeEmailSpy } = makeSut()
     const request = mockRequest()
