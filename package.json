@@ -18,7 +18,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:changed": "npm test -- --changedSince=origin/main",
     "test:ci": "npm test -- --coverage",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",
