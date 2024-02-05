@@ -65,7 +65,7 @@ describe('AuthMiddleware', () => {
     const { sut, getAccountIdByTokenSpy } = makeSut()
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.ok({
-      accountId: getAccountIdByTokenSpy.accountId
+      accountId: getAccountIdByTokenSpy.output
     }))
   })
 })

@@ -2,8 +2,7 @@ import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { GetAccountIdByTokenMongoRepository } from '@/infra/db/mongodb/account/queries'
 
 let accountCollection: Collection
@@ -36,7 +35,7 @@ describe('GetAccountIdByTokenMongoRepository', () => {
     email = faker.internet.email()
     password = faker.internet.password()
     accessToken = faker.string.uuid()
-    accountCollection = await getAccountCollection()
+    accountCollection = await getCollection('accounts')
     await clearCollection(accountCollection)
   })
 

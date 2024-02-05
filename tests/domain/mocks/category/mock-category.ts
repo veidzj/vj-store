@@ -13,12 +13,12 @@ export const mockUpdateCategoryInput = (): UpdateCategory.Input => ({
   name: CategoryHelper.formatName(faker.string.alpha({ length: { min: 3, max: 20 } }))
 })
 
-export const mockCategoryOutput = (): GetAllCategories.Output => ({
-  id: faker.string.uuid(),
-  name: CategoryHelper.formatName(faker.string.alpha({ length: { min: 3, max: 20 } }))
-})
-
 export const mockCategoriesOutput = (): GetAllCategories.Output[] => [
   mockCategoryOutput(),
   mockCategoryOutput()
 ]
+
+const mockCategoryOutput = (): GetAllCategories.Output => ({
+  id: faker.string.uuid(),
+  name: CategoryHelper.formatName(faker.string.alpha({ length: { min: 3, max: 20 } }))
+})

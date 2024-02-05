@@ -1,8 +1,7 @@
 import { Collection } from 'mongodb'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getProductCollection } from '@/tests/infra/db/mongodb/product'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
 import { GetProductBySlugMongoRepository } from '@/infra/db/mongodb/product/queries'
 
@@ -22,7 +21,7 @@ describe('GetProductBySlugMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    productCollection = await getProductCollection()
+    productCollection = await getCollection('products')
     await clearCollection(productCollection)
   })
 

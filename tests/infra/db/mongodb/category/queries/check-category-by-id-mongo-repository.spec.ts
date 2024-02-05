@@ -1,8 +1,7 @@
 import { Collection } from 'mongodb'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getCategoryCollection } from '@/tests/infra/db/mongodb/category'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddCategoryRepositoryInput } from '@/tests/application/mocks/category/commands'
 import { CheckCategoryByIdMongoRepository } from '@/infra/db/mongodb/category/queries'
 
@@ -24,7 +23,7 @@ describe('CheckCategoryByIdMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    categoryCollection = await getCategoryCollection()
+    categoryCollection = await getCollection('categories')
     await clearCollection(categoryCollection)
   })
 

@@ -13,23 +13,23 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   public input: Authentication.Input
-  public accessToken: string = faker.string.uuid()
+  public output: string = faker.string.uuid()
 
   public async auth(input: Authentication.Input): Promise<string> {
     this.input = input
-    return await Promise.resolve(this.accessToken)
+    return await Promise.resolve(this.output)
   }
 }
 
 export class GetAccountIdByTokenSpy implements GetAccountIdByToken {
   public accessToken: string
   public role?: string
-  public accountId = faker.string.uuid()
+  public output = faker.string.uuid()
 
   public getByToken = async(accessToken: string, role?: string): Promise<string> => {
     this.accessToken = accessToken
     this.role = role
-    return this.accountId
+    return this.output
   }
 }
 

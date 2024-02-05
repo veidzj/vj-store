@@ -2,8 +2,7 @@ import { type Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 import MockDate from 'mockdate'
 
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getErrorCollection } from '@/tests/infra/db/mongodb/log'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { LogErrorMongoRepository } from '@/infra/db/mongodb/log'
 
 let errorCollection: Collection
@@ -24,7 +23,7 @@ describe('LogErrorMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    errorCollection = await getErrorCollection()
+    errorCollection = await getCollection('errors')
     await clearCollection(errorCollection)
   })
 

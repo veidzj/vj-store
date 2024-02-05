@@ -2,8 +2,7 @@ import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { GetAccountByEmailMongoRepository } from '@/infra/db/mongodb/account/queries'
 
@@ -25,7 +24,7 @@ describe('GetAccountByEmailMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    accountCollection = await getAccountCollection()
+    accountCollection = await getCollection('accounts')
     await clearCollection(accountCollection)
   })
 
