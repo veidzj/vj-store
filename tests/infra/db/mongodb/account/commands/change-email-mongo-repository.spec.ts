@@ -1,6 +1,7 @@
-import { type Collection } from 'mongodb'
+import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { ChangeEmailMongoRepository } from '@/infra/db/mongodb/account/commands'
@@ -12,7 +13,6 @@ const makeSut = (): ChangeEmailMongoRepository => {
 }
 
 describe('ChangeEmailMongoRepository', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let currentEmail: string
   let newEmail: string
 
@@ -29,6 +29,13 @@ describe('ChangeEmailMongoRepository', () => {
     newEmail = faker.internet.email()
     accountCollection = await getCollection('accounts')
     await clearCollection(accountCollection)
+  })
+
+  test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
+    jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
+    const promise = sut.change(currentEmail, newEmail)
+    await expect(promise).rejects.toThrow()
   })
 
   test('Should change an email on success', async() => {
