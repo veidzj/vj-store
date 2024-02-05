@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type AddAccount, type Authentication, type ChangeEmail } from '@/domain/usecases/account/commands'
+import { type AddAccount, type Authentication, type ChangeAccountEmail } from '@/domain/usecases/account/commands'
 import { type GetAccountEmailByToken } from '@/domain/usecases/account/queries'
 
 export class AddAccountSpy implements AddAccount {
@@ -33,11 +33,11 @@ export class GetAccountEmailByTokenSpy implements GetAccountEmailByToken {
   }
 }
 
-export class ChangeEmailSpy implements ChangeEmail {
+export class ChangeAccountEmailSpy implements ChangeAccountEmail {
   public currentEmail: string
   public newEmail: string
 
-  public async change(currentEmail: string, newEmail: string): Promise<void> {
+  public async changeEmail(currentEmail: string, newEmail: string): Promise<void> {
     this.currentEmail = currentEmail
     this.newEmail = newEmail
   }

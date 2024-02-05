@@ -2,30 +2,30 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
-import { ChangeEmailRepositorySpy } from '@/tests/application/mocks/account/commands'
-import { DbChangeEmail } from '@/application/usecases/account/commands'
+import { ChangeAccountEmailRepositorySpy } from '@/tests/application/mocks/account/commands'
+import { DbChangeAccountEmail } from '@/application/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
 import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
-  sut: DbChangeEmail
+  sut: DbChangeAccountEmail
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
-  changeEmailRepositorySpy: ChangeEmailRepositorySpy
+  changeAccountEmailRepositorySpy: ChangeAccountEmailRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const checkAccountByEmailRepositorySpy = new CheckAccountByEmailRepositorySpy()
   checkAccountByEmailRepositorySpy.output = true
-  const changeEmailRepositorySpy = new ChangeEmailRepositorySpy()
-  const sut = new DbChangeEmail(checkAccountByEmailRepositorySpy, changeEmailRepositorySpy)
+  const changeAccountEmailRepositorySpy = new ChangeAccountEmailRepositorySpy()
+  const sut = new DbChangeAccountEmail(checkAccountByEmailRepositorySpy, changeAccountEmailRepositorySpy)
   return {
     sut,
     checkAccountByEmailRepositorySpy,
-    changeEmailRepositorySpy
+    changeAccountEmailRepositorySpy
   }
 }
 
-describe('DbChangeEmail', () => {
+describe('DbChangeAccountEmail', () => {
   let currentEmail: string
   let newEmail: string
 
@@ -38,7 +38,7 @@ describe('DbChangeEmail', () => {
     test('Should throw if AccountValidation.validateEmail throws', async() => {
       const { sut } = makeSut()
       jest.spyOn(AccountValidation, 'validateEmail').mockImplementationOnce(throwError)
-      const promise = sut.change(currentEmail, newEmail)
+      const promise = sut.changeEmail(currentEmail, newEmail)
       await expect(promise).rejects.toThrow()
     })
   })
@@ -46,43 +46,43 @@ describe('DbChangeEmail', () => {
   describe('CheckAccountByEmailRepository', () => {
     test('Should call CheckAccountByEmailRepository with correct email', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-      await sut.change(currentEmail, newEmail)
+      await sut.changeEmail(currentEmail, newEmail)
       expect(checkAccountByEmailRepositorySpy.email).toBe(currentEmail)
     })
 
     test('Should throw AccountNotFoundError if CheckAccountByEmailRepository returns false', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       checkAccountByEmailRepositorySpy.output = false
-      const promise = sut.change(currentEmail, newEmail)
+      const promise = sut.changeEmail(currentEmail, newEmail)
       await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
 
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
-      const promise = sut.change(currentEmail, newEmail)
+      const promise = sut.changeEmail(currentEmail, newEmail)
       await expect(promise).rejects.toThrow()
     })
   })
 
-  describe('ChangeEmailRepository', () => {
-    test('Should call ChangeEmailRepository with correct values', async() => {
-      const { sut, changeEmailRepositorySpy } = makeSut()
-      await sut.change(currentEmail, newEmail)
-      expect(changeEmailRepositorySpy.currentEmail).toBe(currentEmail)
-      expect(changeEmailRepositorySpy.newEmail).toBe(newEmail)
+  describe('ChangeAccountEmailRepository', () => {
+    test('Should call ChangeAccountEmailRepository with correct values', async() => {
+      const { sut, changeAccountEmailRepositorySpy } = makeSut()
+      await sut.changeEmail(currentEmail, newEmail)
+      expect(changeAccountEmailRepositorySpy.currentEmail).toBe(currentEmail)
+      expect(changeAccountEmailRepositorySpy.newEmail).toBe(newEmail)
     })
 
-    test('Should throw if ChangeEmailRepository throws', async() => {
-      const { sut, changeEmailRepositorySpy } = makeSut()
-      jest.spyOn(changeEmailRepositorySpy, 'change').mockImplementationOnce(throwError)
-      const promise = sut.change(currentEmail, newEmail)
+    test('Should throw if ChangeAccountEmailRepository throws', async() => {
+      const { sut, changeAccountEmailRepositorySpy } = makeSut()
+      jest.spyOn(changeAccountEmailRepositorySpy, 'changeEmail').mockImplementationOnce(throwError)
+      const promise = sut.changeEmail(currentEmail, newEmail)
       await expect(promise).rejects.toThrow()
     })
 
     test('Should not throw on success', async() => {
       const { sut } = makeSut()
-      const promise = sut.change(currentEmail, newEmail)
+      const promise = sut.changeEmail(currentEmail, newEmail)
       await expect(promise).resolves.not.toThrow()
     })
   })

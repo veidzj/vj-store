@@ -1,18 +1,18 @@
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type ChangeEmail } from '@/domain/usecases/account/commands'
+import { type ChangeAccountEmail } from '@/domain/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 export class ChangeEmailController implements Controller {
-  constructor(private readonly changeEmail: ChangeEmail) {}
+  constructor(private readonly changeAccountEmail: ChangeAccountEmail) {}
 
   public async handle(request: ChangeEmailController.Request): Promise<Response> {
     try {
       if (request.currentEmail !== request.accountEmail) {
         return HttpHelper.unauthorized(new InvalidCredentialsError())
       }
-      await this.changeEmail.change(request.currentEmail, request.newEmail)
+      await this.changeAccountEmail.changeEmail(request.currentEmail, request.newEmail)
       return HttpHelper.ok({ message: 'Email successfully changed' })
     } catch (error) {
       if (error instanceof EntityValidationError) {

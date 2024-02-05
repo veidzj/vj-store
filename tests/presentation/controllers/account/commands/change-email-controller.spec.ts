@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
-import { ChangeEmailSpy } from '@/tests/presentation/mocks/account'
+import { ChangeAccountEmailSpy } from '@/tests/presentation/mocks/account'
 import { ChangeEmailController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
@@ -9,15 +9,15 @@ import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/a
 
 interface Sut {
   sut: ChangeEmailController
-  changeEmailSpy: ChangeEmailSpy
+  changeAccountEmailSpy: ChangeAccountEmailSpy
 }
 
 const makeSut = (): Sut => {
-  const changeEmailSpy = new ChangeEmailSpy()
-  const sut = new ChangeEmailController(changeEmailSpy)
+  const changeAccountEmailSpy = new ChangeAccountEmailSpy()
+  const sut = new ChangeEmailController(changeAccountEmailSpy)
   return {
     sut,
-    changeEmailSpy
+    changeAccountEmailSpy
   }
 }
 
@@ -38,36 +38,36 @@ describe('ChangeEmailController', () => {
     expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
-  test('Should call ChangeEmail with correct values', async() => {
-    const { sut, changeEmailSpy } = makeSut()
+  test('Should call ChangeAccountEmail with correct values', async() => {
+    const { sut, changeAccountEmailSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
-    expect(changeEmailSpy.currentEmail).toBe(request.currentEmail)
-    expect(changeEmailSpy.newEmail).toBe(request.newEmail)
+    expect(changeAccountEmailSpy.currentEmail).toBe(request.currentEmail)
+    expect(changeAccountEmailSpy.newEmail).toBe(request.newEmail)
   })
 
-  test('Should return badRequest if ChangeEmail throws EntityValidationError', async() => {
-    const { sut, changeEmailSpy } = makeSut()
+  test('Should return badRequest if ChangeAccountEmail throws EntityValidationError', async() => {
+    const { sut, changeAccountEmailSpy } = makeSut()
     const errorMessage = faker.word.words()
-    jest.spyOn(changeEmailSpy, 'change').mockImplementationOnce(() => {
+    jest.spyOn(changeAccountEmailSpy, 'changeEmail').mockImplementationOnce(() => {
       throw new EntityValidationError(errorMessage)
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
   })
 
-  test('Should return notFound if ChangeEmail throws AccountNotFoundError', async() => {
-    const { sut, changeEmailSpy } = makeSut()
-    jest.spyOn(changeEmailSpy, 'change').mockImplementationOnce(() => {
+  test('Should return notFound if ChangeAccountEmail throws AccountNotFoundError', async() => {
+    const { sut, changeAccountEmailSpy } = makeSut()
+    jest.spyOn(changeAccountEmailSpy, 'changeEmail').mockImplementationOnce(() => {
       throw new AccountNotFoundError()
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.notFound(new AccountNotFoundError()))
   })
 
-  test('Should return serverError if ChangeEmail throws', async() => {
-    const { sut, changeEmailSpy } = makeSut()
-    jest.spyOn(changeEmailSpy, 'change').mockImplementationOnce(throwError)
+  test('Should return serverError if ChangeAccountEmail throws', async() => {
+    const { sut, changeAccountEmailSpy } = makeSut()
+    jest.spyOn(changeAccountEmailSpy, 'changeEmail').mockImplementationOnce(throwError)
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.serverError(new Error()))
   })

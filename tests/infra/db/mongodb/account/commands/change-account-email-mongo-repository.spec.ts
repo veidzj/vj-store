@@ -4,15 +4,15 @@ import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
-import { ChangeEmailMongoRepository } from '@/infra/db/mongodb/account/commands'
+import { ChangeAccountEmailMongoRepository } from '@/infra/db/mongodb/account/commands'
 
 let accountCollection: Collection
 
-const makeSut = (): ChangeEmailMongoRepository => {
-  return new ChangeEmailMongoRepository()
+const makeSut = (): ChangeAccountEmailMongoRepository => {
+  return new ChangeAccountEmailMongoRepository()
 }
 
-describe('ChangeEmailMongoRepository', () => {
+describe('ChangeAccountEmailMongoRepository', () => {
   let currentEmail: string
   let newEmail: string
 
@@ -34,7 +34,7 @@ describe('ChangeEmailMongoRepository', () => {
   test('Should throw if mongo throws', async() => {
     const sut = makeSut()
     jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
-    const promise = sut.change(currentEmail, newEmail)
+    const promise = sut.changeEmail(currentEmail, newEmail)
     await expect(promise).rejects.toThrow()
   })
 
@@ -42,7 +42,7 @@ describe('ChangeEmailMongoRepository', () => {
     const sut = makeSut()
     const insertResult = await accountCollection.insertOne(mockAddAccountRepositoryInput())
     const fakeAccount = await accountCollection.findOne({ _id: insertResult.insertedId })
-    await sut.change(fakeAccount?.email as string, newEmail)
+    await sut.changeEmail(fakeAccount?.email as string, newEmail)
     const account = await accountCollection.findOne({ email: newEmail })
     expect(account).toBeTruthy()
     expect(account?.email).toBe(newEmail)
