@@ -2,26 +2,26 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { ChangeAccountEmailSpy } from '@/tests/presentation/mocks/account'
-import { ChangeEmailController } from '@/presentation/controllers/account/commands'
+import { ChangeAccountEmailController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
-  sut: ChangeEmailController
+  sut: ChangeAccountEmailController
   changeAccountEmailSpy: ChangeAccountEmailSpy
 }
 
 const makeSut = (): Sut => {
   const changeAccountEmailSpy = new ChangeAccountEmailSpy()
-  const sut = new ChangeEmailController(changeAccountEmailSpy)
+  const sut = new ChangeAccountEmailController(changeAccountEmailSpy)
   return {
     sut,
     changeAccountEmailSpy
   }
 }
 
-const mockRequest = (): ChangeEmailController.Request => {
+const mockRequest = (): ChangeAccountEmailController.Request => {
   const email = faker.internet.email()
   return {
     currentEmail: email,
@@ -30,7 +30,7 @@ const mockRequest = (): ChangeEmailController.Request => {
   }
 }
 
-describe('ChangeEmailController', () => {
+describe('ChangeAccountEmailController', () => {
   test('Should return unauthorized if currentEmail is not equal to accountEmail', async() => {
     const { sut } = makeSut()
     const request = { ...mockRequest(), accountEmail: faker.internet.email() }

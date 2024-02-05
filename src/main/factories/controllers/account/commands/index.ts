@@ -1,1 +1,1 @@
-export * from './change-email-controller-factory'
+export * from './change-account-email-controller-factory'

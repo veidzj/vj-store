@@ -4,10 +4,10 @@ import { type ChangeAccountEmail } from '@/domain/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
-export class ChangeEmailController implements Controller {
+export class ChangeAccountEmailController implements Controller {
   constructor(private readonly changeAccountEmail: ChangeAccountEmail) {}
 
-  public async handle(request: ChangeEmailController.Request): Promise<Response> {
+  public async handle(request: ChangeAccountEmailController.Request): Promise<Response> {
     try {
       if (request.currentEmail !== request.accountEmail) {
         return HttpHelper.unauthorized(new InvalidCredentialsError())
@@ -26,7 +26,7 @@ export class ChangeEmailController implements Controller {
   }
 }
 
-export namespace ChangeEmailController {
+export namespace ChangeAccountEmailController {
   export interface Request {
     currentEmail: string
     newEmail: string
