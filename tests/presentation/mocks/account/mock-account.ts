@@ -44,10 +44,12 @@ export class ChangeAccountEmailSpy implements ChangeAccountEmail {
 }
 
 export class ChangeAccountPasswordSpy implements ChangeAccountPassword {
+  public accountEmail: string
   public currentPassword: string
   public newPassword: string
 
-  public async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+  public async changePassword(accountEmail: string, currentPassword: string, newPassword: string): Promise<void> {
+    this.accountEmail = accountEmail
     this.currentPassword = currentPassword
     this.newPassword = newPassword
   }

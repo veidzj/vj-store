@@ -18,6 +18,7 @@ const makeSut = (): Sut => {
 }
 
 const mockRequest = (): ChangeAccountPasswordController.Request => ({
+  accountEmail: faker.internet.email(),
   currentPassword: faker.internet.password(),
   newPassword: faker.internet.password()
 })
@@ -27,6 +28,7 @@ describe('ChangeAccountPasswordController', () => {
     const { sut, changeAccountPasswordSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
+    expect(changeAccountPasswordSpy.accountEmail).toBe(request.accountEmail)
     expect(changeAccountPasswordSpy.currentPassword).toBe(request.currentPassword)
     expect(changeAccountPasswordSpy.newPassword).toBe(request.newPassword)
   })
