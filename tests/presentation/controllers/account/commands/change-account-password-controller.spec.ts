@@ -5,6 +5,7 @@ import { ChangeAccountPasswordSpy } from '@/tests/presentation/mocks/account'
 import { ChangeAccountPasswordController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
+import { InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: ChangeAccountPasswordController
@@ -44,6 +45,15 @@ describe('ChangeAccountPasswordController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.badRequest(new EntityValidationError(errorMessage)))
+  })
+
+  test('Should return unauthorized if ChangeAccountPassword throws InvalidCredentialsError', async() => {
+    const { sut, changeAccountPasswordSpy } = makeSut()
+    jest.spyOn(changeAccountPasswordSpy, 'changePassword').mockImplementationOnce(() => {
+      throw new InvalidCredentialsError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.unauthorized(new InvalidCredentialsError()))
   })
 
   test('Should return serverError if ChangeAccountPassword throws', async() => {
