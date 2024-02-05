@@ -1,7 +1,21 @@
 import { faker } from '@faker-js/faker'
 
+import { ChangeAccountPasswordSpy } from '@/tests/presentation/mocks/account'
 import { ChangeAccountPasswordController } from '@/presentation/controllers/account/commands'
-import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
+
+interface Sut {
+  sut: ChangeAccountPasswordController
+  changeAccountPasswordSpy: ChangeAccountPasswordSpy
+}
+
+const makeSut = (): Sut => {
+  const changeAccountPasswordSpy = new ChangeAccountPasswordSpy()
+  const sut = new ChangeAccountPasswordController(changeAccountPasswordSpy)
+  return {
+    sut,
+    changeAccountPasswordSpy
+  }
+}
 
 const mockRequest = (): ChangeAccountPasswordController.Request => ({
   currentPassword: faker.internet.password(),
@@ -10,17 +24,7 @@ const mockRequest = (): ChangeAccountPasswordController.Request => ({
 
 describe('ChangeAccountPasswordController', () => {
   test('Should call ChangeAccountPassword with correct values', async() => {
-    class ChangeAccountPasswordSpy implements ChangeAccountPassword {
-      public currentPassword: string
-      public newPassword: string
-
-      public async changePassword(currentPassword: string, newPassword: string): Promise<void> {
-        this.currentPassword = currentPassword
-        this.newPassword = newPassword
-      }
-    }
-    const changeAccountPasswordSpy = new ChangeAccountPasswordSpy()
-    const sut = new ChangeAccountPasswordController(changeAccountPasswordSpy)
+    const { sut, changeAccountPasswordSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     expect(changeAccountPasswordSpy.currentPassword).toBe(request.currentPassword)
