@@ -27,5 +27,6 @@ export namespace ChangeEmailController {
   export interface Request {
     currentEmail: string
     newEmail: string
+    accountId: string
   }
 }

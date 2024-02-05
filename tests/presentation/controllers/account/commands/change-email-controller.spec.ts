@@ -23,7 +23,8 @@ const makeSut = (): Sut => {
 
 const mockRequest = (): ChangeEmailController.Request => ({
   currentEmail: faker.internet.email(),
-  newEmail: faker.internet.email()
+  newEmail: faker.internet.email(),
+  accountId: faker.string.uuid()
 })
 
 describe('ChangeEmailController', () => {
