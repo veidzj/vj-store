@@ -1,3 +1,3 @@
 export interface ChangeAccountPassword {
-  changePassword: (currentPassword: string, newPassword: string) => Promise<void>
+  changePassword: (accountEmail: string, currentPassword: string, newPassword: string) => Promise<void>
 }
