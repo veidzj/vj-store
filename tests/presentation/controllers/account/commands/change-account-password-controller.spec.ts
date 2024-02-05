@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { ChangeAccountPasswordSpy } from '@/tests/presentation/mocks/account'
 import { ChangeAccountPasswordController } from '@/presentation/controllers/account/commands'
+import { HttpHelper } from '@/presentation/helpers'
 
 interface Sut {
   sut: ChangeAccountPasswordController
@@ -31,5 +33,12 @@ describe('ChangeAccountPasswordController', () => {
     expect(changeAccountPasswordSpy.accountEmail).toBe(request.accountEmail)
     expect(changeAccountPasswordSpy.currentPassword).toBe(request.currentPassword)
     expect(changeAccountPasswordSpy.newPassword).toBe(request.newPassword)
+  })
+
+  test('Should return serverError if ChangeAccountPassword throws', async() => {
+    const { sut, changeAccountPasswordSpy } = makeSut()
+    jest.spyOn(changeAccountPasswordSpy, 'changePassword').mockImplementationOnce(throwError)
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.serverError(new Error()))
   })
 })
