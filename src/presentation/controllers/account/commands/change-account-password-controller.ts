@@ -10,7 +10,7 @@ export class ChangeAccountPasswordController implements Controller {
   public async handle(request: ChangeAccountPasswordController.Request): Promise<Response> {
     try {
       await this.changeAccountPassword.changePassword(request.accountEmail, request.currentPassword, request.newPassword)
-      return HttpHelper.ok({})
+      return HttpHelper.ok({ message: 'Password successfully changed' })
     } catch (error) {
       if (error instanceof EntityValidationError) {
         return HttpHelper.badRequest(error)
