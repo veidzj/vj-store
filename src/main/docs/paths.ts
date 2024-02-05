@@ -3,8 +3,8 @@ import { categoryPath } from '@/main/docs/paths/category'
 import { addProductPath, updateProductPath, getLatestProductsPath, getProductsWithDiscountPath, getProductsByCategoryPath, getProductBySlugPath } from '@/main/docs/paths/product'
 
 export default {
-  '/signup': signUpPath,
-  '/signin': signInPath,
+  '/account/signup': signUpPath,
+  '/account/signin': signInPath,
   '/category': categoryPath,
   '/product': addProductPath,
   '/product/{id}': updateProductPath,

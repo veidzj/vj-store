@@ -5,7 +5,7 @@ import { SignUpControllerFactory, SignInControllerFactory } from '@/main/factori
 import { ChangeEmailControllerFactory } from '@/main/factories/controllers/account/commands'
 
 export default (router: Router): void => {
-  router.post('/signup', ExpressRouteAdapter.adapt(SignUpControllerFactory.makeSignUpController()))
-  router.post('/signin', ExpressRouteAdapter.adapt(SignInControllerFactory.makeSignInController()))
-  router.put('/change-email', ExpressRouteAdapter.adapt(ChangeEmailControllerFactory.makeChangeEmailController()))
+  router.post('/account/signup', ExpressRouteAdapter.adapt(SignUpControllerFactory.makeSignUpController()))
+  router.post('/account/signin', ExpressRouteAdapter.adapt(SignInControllerFactory.makeSignInController()))
+  router.put('/account/change-email', ExpressRouteAdapter.adapt(ChangeEmailControllerFactory.makeChangeEmailController()))
 }
