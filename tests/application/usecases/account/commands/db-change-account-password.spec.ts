@@ -113,10 +113,10 @@ describe('DbChangeAccountPassword', () => {
 
   describe('ChangeAccountPasswordRepository', () => {
     test('Should call ChangeAccountPasswordRepository with correct values', async() => {
-      const { sut, changeAccountPasswordRepositorySpy } = makeSut()
+      const { sut, changeAccountPasswordRepositorySpy, hasherSpy } = makeSut()
       await sut.changePassword(accountEmail, currentPassword, newPassword)
       expect(changeAccountPasswordRepositorySpy.accountEmail).toBe(accountEmail)
-      expect(changeAccountPasswordRepositorySpy.newPassword).toBe(newPassword)
+      expect(changeAccountPasswordRepositorySpy.newPassword).toBe(hasherSpy.digest)
     })
 
     test('Should throw if ChangeAccountPasswordRepository throws', async() => {
