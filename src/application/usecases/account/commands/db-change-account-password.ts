@@ -1,12 +1,14 @@
 import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
+import { type HashComparer } from '@/application/protocols/cryptography'
 import { type ChangeAccountPasswordRepository } from '@/application/protocols/account/commands'
 import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
-import { AccountNotFoundError } from '@/domain/errors/account'
 import { AccountValidation } from '@/domain/entities/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 export class DbChangeAccountPassword implements ChangeAccountPassword {
   constructor(
     private readonly getAccountByEmailRepository: GetAccountByEmailRepository,
+    private readonly hashComparer: HashComparer,
     private readonly changeAccountPasswordRepository: ChangeAccountPasswordRepository
   ) {}
 
@@ -14,6 +16,10 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
     const account = await this.getAccountByEmailRepository.getByEmail(accountEmail)
     if (!account) {
       throw new AccountNotFoundError()
+    }
+    const isMatch = await this.hashComparer.compare(currentPassword, account.password)
+    if (!isMatch) {
+      throw new InvalidCredentialsError()
     }
     AccountValidation.validatePassword(newPassword)
     await this.changeAccountPasswordRepository.changePassword(accountEmail, newPassword)
