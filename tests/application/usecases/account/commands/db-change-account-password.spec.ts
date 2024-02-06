@@ -72,7 +72,6 @@ describe('DbChangeAccountPassword', () => {
       const { sut, changeAccountPasswordRepositorySpy } = makeSut()
       await sut.changePassword(accountEmail, currentPassword, newPassword)
       expect(changeAccountPasswordRepositorySpy.accountEmail).toBe(accountEmail)
-      expect(changeAccountPasswordRepositorySpy.currentPassword).toBe(currentPassword)
       expect(changeAccountPasswordRepositorySpy.newPassword).toBe(newPassword)
     })
 

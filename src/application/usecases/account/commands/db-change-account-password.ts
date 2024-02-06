@@ -16,6 +16,6 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
       throw new AccountNotFoundError()
     }
     AccountValidation.validatePassword(newPassword)
-    await this.changeAccountPasswordRepository.changePassword(accountEmail, currentPassword, newPassword)
+    await this.changeAccountPasswordRepository.changePassword(accountEmail, newPassword)
   }
 }
