@@ -2,7 +2,7 @@ import { errorSchema } from '@/main/docs/schemas/error-schema'
 import { successSchema } from '@/main/docs/schemas/success-schema'
 
 import { accountSchema, signUpInputSchema, signInInputSchema } from '@/main/docs/schemas/account/authentication'
-import { changeEmailInputSchema } from '@/main/docs/schemas/account/commands'
+import { changeEmailInputSchema, changePasswordInputSchema } from '@/main/docs/schemas/account/commands'
 
 import { categorySchema, categoriesSchema } from '@/main/docs/schemas/category/queries'
 import { addCategoryInputSchema } from '@/main/docs/schemas/category/commands'
@@ -17,6 +17,7 @@ export default {
   signUpInput: signUpInputSchema,
   signInInput: signInInputSchema,
   changeEmailInput: changeEmailInputSchema,
+  changePasswordInput: changePasswordInputSchema,
   category: categorySchema,
   categories: categoriesSchema,
   addCategoryInput: addCategoryInputSchema,
