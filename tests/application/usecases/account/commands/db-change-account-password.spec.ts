@@ -72,5 +72,11 @@ describe('DbChangeAccountPassword', () => {
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow()
     })
+
+    test('Should not throw on success', async() => {
+      const { sut } = makeSut()
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).resolves.not.toThrow()
+    })
   })
 })
