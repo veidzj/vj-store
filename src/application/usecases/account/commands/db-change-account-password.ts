@@ -1,5 +1,5 @@
 import { type GetAccountByEmailRepository } from '@/application/protocols/account/queries'
-import { type HashComparer } from '@/application/protocols/cryptography'
+import { type HashComparer, type Hasher } from '@/application/protocols/cryptography'
 import { type ChangeAccountPasswordRepository } from '@/application/protocols/account/commands'
 import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
@@ -9,6 +9,7 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
   constructor(
     private readonly getAccountByEmailRepository: GetAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
+    private readonly hasher: Hasher,
     private readonly changeAccountPasswordRepository: ChangeAccountPasswordRepository
   ) {}
 
@@ -22,6 +23,7 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
       throw new InvalidCredentialsError()
     }
     AccountValidation.validatePassword(newPassword)
+    await this.hasher.hash(newPassword)
     await this.changeAccountPasswordRepository.changePassword(accountEmail, newPassword)
   }
 }
