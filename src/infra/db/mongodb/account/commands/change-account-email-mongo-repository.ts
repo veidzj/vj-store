@@ -10,7 +10,8 @@ export class ChangeAccountEmailMongoRepository implements ChangeAccountEmailRepo
       email: curentEmail
     }, {
       $set: {
-        email: newEmail
+        email: newEmail,
+        updatedAt: new Date()
       }
     })
   }

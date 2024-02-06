@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
@@ -18,10 +19,12 @@ describe('ChangeAccountPasswordMongoRepository', () => {
 
   beforeAll(async() => {
     await connectToDatabase()
+    MockDate.set(new Date())
   })
 
   afterAll(async() => {
     await disconnectFromDatabase()
+    MockDate.reset()
   })
 
   beforeEach(async() => {
@@ -46,5 +49,6 @@ describe('ChangeAccountPasswordMongoRepository', () => {
     const account = await accountCollection.findOne({ email: fakeAccount?.email })
     expect(account).toBeTruthy()
     expect(account?.password).toBe(newPassword)
+    expect(account?.updatedAt).toEqual(new Date())
   })
 })

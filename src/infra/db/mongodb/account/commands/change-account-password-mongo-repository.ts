@@ -10,7 +10,8 @@ export class ChangeAccountPasswordMongoRepository implements ChangeAccountPasswo
       email: accountEmail
     }, {
       $set: {
-        password: newPassword
+        password: newPassword,
+        updatedAt: new Date()
       }
     })
   }
