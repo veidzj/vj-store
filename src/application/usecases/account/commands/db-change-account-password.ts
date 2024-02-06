@@ -23,7 +23,7 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
       throw new InvalidCredentialsError()
     }
     AccountValidation.validatePassword(newPassword)
-    await this.hasher.hash(newPassword)
-    await this.changeAccountPasswordRepository.changePassword(accountEmail, newPassword)
+    const hashedPassword = await this.hasher.hash(newPassword)
+    await this.changeAccountPasswordRepository.changePassword(accountEmail, hashedPassword)
   }
 }
