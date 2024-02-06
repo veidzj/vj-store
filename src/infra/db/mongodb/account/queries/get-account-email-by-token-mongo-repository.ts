@@ -19,6 +19,6 @@ export class GetAccountEmailByTokenMongoRepository implements GetAccountEmailByT
         email: 1
       }
     })
-    return account && account?.email
+    return account?.email || null
   }
 }
