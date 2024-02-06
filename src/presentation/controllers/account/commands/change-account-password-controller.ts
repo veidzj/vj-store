@@ -2,7 +2,7 @@ import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
 import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
-import { InvalidCredentialsError } from '@/domain/errors/account'
+import { InvalidCredentialsError, AccountNotFoundError } from '@/domain/errors/account'
 
 export class ChangeAccountPasswordController implements Controller {
   constructor(private readonly changeAccountPassword: ChangeAccountPassword) {}
@@ -17,6 +17,9 @@ export class ChangeAccountPasswordController implements Controller {
       }
       if (error instanceof InvalidCredentialsError) {
         return HttpHelper.unauthorized(error)
+      }
+      if (error instanceof AccountNotFoundError) {
+        return HttpHelper.notFound(error)
       }
       return HttpHelper.serverError(error as Error)
     }
