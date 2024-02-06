@@ -4,6 +4,7 @@ import { throwError } from '@/tests/test-helper'
 import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { ChangeAccountPasswordRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
+import { AccountValidation } from '@/domain/entities/account'
 import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
@@ -52,6 +53,15 @@ describe('DbChangeAccountPassword', () => {
     test('Should throw if CheckAccountByEmailRepository throws', async() => {
       const { sut, checkAccountByEmailRepositorySpy } = makeSut()
       jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('AccountValidation', () => {
+    test('Should throw if AccountValidation.validatePassword throws', async() => {
+      const { sut } = makeSut()
+      jest.spyOn(AccountValidation, 'validatePassword').mockImplementationOnce(throwError)
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow()
     })
