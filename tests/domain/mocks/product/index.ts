@@ -1,1 +1,2 @@
-export * from './mock-product'
+export * from './mock-product-commands'
+export * from './mock-product-queries'

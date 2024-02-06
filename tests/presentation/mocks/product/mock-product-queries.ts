@@ -1,23 +1,6 @@
 import { mockProductOutput, mockProductsOutput } from '@/tests/domain/mocks/product'
 import { type ProductOutput, type ProductsOutput } from '@/domain/dtos/product'
-import { type AddProduct, type UpdateProduct } from '@/domain/usecases/product/commands'
 import { type GetLatestProducts, type GetProductsWithDiscount, type GetProductsByCategory, type GetProductBySlug } from '@/domain/usecases/product/queries'
-
-export class AddProductSpy implements AddProduct {
-  public input: AddProduct.Input
-
-  public async add(input: AddProduct.Input): Promise<void> {
-    this.input = input
-  }
-}
-
-export class UpdateProductSpy implements UpdateProduct {
-  public input: UpdateProduct.Input
-
-  public async update(input: UpdateProduct.Input): Promise<void> {
-    this.input = input
-  }
-}
 
 export class GetLatestProductsSpy implements GetLatestProducts {
   public page: number

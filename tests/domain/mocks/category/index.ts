@@ -1,1 +1,2 @@
-export * from './mock-category'
+export * from './mock-category-comands'
+export * from './mock-category-queries'
