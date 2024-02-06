@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { throwError } from '@/tests/test-helper'
 import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
 import { AccountNotFoundError } from '@/domain/errors/account'
@@ -29,5 +30,13 @@ describe('DbChangeAccountPassword', () => {
     const sut = new DbChangeAccountPassword(checkAccountByEmailRepositorySpy)
     const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
     await expect(promise).rejects.toThrow(new AccountNotFoundError())
+  })
+
+  test('Should throw if CheckAccountByEmailRepository throws', async() => {
+    const checkAccountByEmailRepositorySpy = new CheckAccountByEmailRepositorySpy()
+    jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
+    const sut = new DbChangeAccountPassword(checkAccountByEmailRepositorySpy)
+    const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+    await expect(promise).rejects.toThrow()
   })
 })
