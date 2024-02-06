@@ -1,4 +1,4 @@
-import { type AddAccountRepository, type UpdateAccessTokenRepository, type ChangeAccountEmailRepository } from '@/application/protocols/account/commands'
+import { type AddAccountRepository, type UpdateAccessTokenRepository, type ChangeAccountEmailRepository, type ChangeAccountPasswordRepository } from '@/application/protocols/account/commands'
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   public input: AddAccountRepository.Input
@@ -23,5 +23,17 @@ export class ChangeAccountEmailRepositorySpy implements ChangeAccountEmailReposi
   public async changeEmail(currentEmail: string, newEmail: string): Promise<void> {
     this.currentEmail = currentEmail
     this.newEmail = newEmail
+  }
+}
+
+export class ChangeAccountPasswordRepositorySpy implements ChangeAccountPasswordRepository {
+  public accountEmail: string
+  public currentPassword: string
+  public newPassword: string
+
+  public async changePassword(accountEmail: string, currentPassword: string, newPassword: string): Promise<void> {
+    this.accountEmail = accountEmail
+    this.currentPassword = currentPassword
+    this.newPassword = newPassword
   }
 }
