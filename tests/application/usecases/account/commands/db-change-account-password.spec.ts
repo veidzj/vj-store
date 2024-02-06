@@ -6,7 +6,7 @@ import { HashComparerSpy } from '@/tests/application/mocks/cryptography'
 import { ChangeAccountPasswordRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {
   sut: DbChangeAccountPassword
@@ -67,6 +67,13 @@ describe('DbChangeAccountPassword', () => {
       await sut.changePassword(accountEmail, currentPassword, newPassword)
       expect(hashComparerSpy.plainText).toBe(currentPassword)
       expect(hashComparerSpy.digest).toBe(getAccountByEmailRepositorySpy.output?.password)
+    })
+
+    test('Should throw InvalidCredentialsError if HashComparer returns false', async() => {
+      const { sut, hashComparerSpy } = makeSut()
+      hashComparerSpy.isMatch = false
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).rejects.toThrow(new InvalidCredentialsError())
     })
   })
 
