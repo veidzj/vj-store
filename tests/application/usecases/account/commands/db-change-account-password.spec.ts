@@ -102,6 +102,13 @@ describe('DbChangeAccountPassword', () => {
       await sut.changePassword(accountEmail, currentPassword, newPassword)
       expect(hasherSpy.plainText).toBe(newPassword)
     })
+
+    test('Should throw if Hasher throws', async() => {
+      const { sut, hasherSpy } = makeSut()
+      jest.spyOn(hasherSpy, 'hash').mockImplementationOnce(throwError)
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).rejects.toThrow()
+    })
   })
 
   describe('ChangeAccountPasswordRepository', () => {
