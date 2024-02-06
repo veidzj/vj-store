@@ -11,11 +11,11 @@ export class DbChangeAccountEmail implements ChangeAccountEmail {
   ) {}
 
   public async changeEmail(currentEmail: string, newEmail: string): Promise<void> {
-    AccountValidation.validateEmail(newEmail)
     const accountWithCurrentEmailExists = await this.checkAccountByEmailRepository.checkByEmail(currentEmail)
     if (!accountWithCurrentEmailExists) {
       throw new AccountNotFoundError()
     }
+    AccountValidation.validateEmail(newEmail)
     const accountWithNewEmailExists = await this.checkAccountByEmailRepository.checkByEmail(newEmail)
     if (accountWithNewEmailExists) {
       throw new EmailInUseError()
