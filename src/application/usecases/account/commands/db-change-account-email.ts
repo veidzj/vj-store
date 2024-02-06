@@ -2,7 +2,7 @@ import { type CheckAccountByEmailRepository } from '@/application/protocols/acco
 import { type ChangeAccountEmailRepository } from '@/application/protocols/account/commands'
 import { type ChangeAccountEmail } from '@/domain/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
-import { AccountNotFoundError } from '@/domain/errors/account'
+import { AccountNotFoundError, EmailInUseError } from '@/domain/errors/account'
 
 export class DbChangeAccountEmail implements ChangeAccountEmail {
   constructor(
@@ -13,9 +13,13 @@ export class DbChangeAccountEmail implements ChangeAccountEmail {
   public async changeEmail(currentEmail: string, newEmail: string): Promise<void> {
     AccountValidation.validateEmail(currentEmail)
     AccountValidation.validateEmail(newEmail)
-    const accountExists = await this.checkAccountByEmailRepository.checkByEmail(currentEmail)
-    if (!accountExists) {
+    const accountWithCurrentEmailExists = await this.checkAccountByEmailRepository.checkByEmail(currentEmail)
+    if (!accountWithCurrentEmailExists) {
       throw new AccountNotFoundError()
+    }
+    const accountWithNewEmailExists = await this.checkAccountByEmailRepository.checkByEmail(newEmail)
+    if (accountWithNewEmailExists) {
+      throw new EmailInUseError()
     }
     await this.changeAccountEmailRepository.changeEmail(currentEmail, newEmail)
   }
