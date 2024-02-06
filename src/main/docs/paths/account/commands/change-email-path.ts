@@ -31,11 +31,11 @@ export const changeEmailPath = {
       401: {
         $ref: '#/components/unauthorized'
       },
-      403: {
-        $ref: '#/components/forbidden'
-      },
       404: {
         $ref: '#/components/notFound'
+      },
+      409: {
+        $ref: '#/components/conflict'
       },
       500: {
         $ref: '#/components/serverError'
