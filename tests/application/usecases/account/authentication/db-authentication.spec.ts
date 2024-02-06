@@ -3,7 +3,7 @@ import { mockAuthenticationInput } from '@/tests/domain/mocks/account'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { HashComparerSpy, EncrypterSpy } from '@/tests/application/mocks/cryptography'
 import { UpdateAccessTokenRepositorySpy } from '@/tests/application/mocks/account/commands'
-import { DbAuthentication } from '@/application/usecases/account/commands'
+import { DbAuthentication } from '@/application/usecases/account/authentication'
 import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 
 interface Sut {

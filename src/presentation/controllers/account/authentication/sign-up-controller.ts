@@ -1,6 +1,6 @@
 import { type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
-import { type AddAccount, type Authentication } from '@/domain/usecases/account/commands'
+import { type AddAccount, type Authentication } from '@/domain/usecases/account/authentication'
 import { EntityValidationError } from '@/domain/errors'
 import { EmailInUseError, AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
 

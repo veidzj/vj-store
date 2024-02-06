@@ -2,7 +2,7 @@ import { type CheckAccountByEmailRepository } from '@/application/protocols/acco
 import { type Hasher } from '@/application/protocols/cryptography'
 import { type AddAccountRepository } from '@/application/protocols/account/commands'
 import { Account } from '@/domain/entities/account'
-import { type AddAccount } from '@/domain/usecases/account/commands'
+import { type AddAccount } from '@/domain/usecases/account/authentication'
 import { EmailInUseError } from '@/domain/errors/account'
 
 export class DbAddAccount implements AddAccount {
