@@ -5,7 +5,7 @@ import { ChangeAccountEmailSpy } from '@/tests/presentation/mocks/account'
 import { ChangeAccountEmailController } from '@/presentation/controllers/account/commands'
 import { HttpHelper } from '@/presentation/helpers'
 import { EntityValidationError } from '@/domain/errors'
-import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
+import { InvalidCredentialsError, AccountNotFoundError, EmailInUseError } from '@/domain/errors/account'
 
 interface Sut {
   sut: ChangeAccountEmailController
@@ -63,6 +63,15 @@ describe('ChangeAccountEmailController', () => {
     })
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(HttpHelper.notFound(new AccountNotFoundError()))
+  })
+
+  test('Should return conflict if ChangeAccountEmail throws EmailInUseError', async() => {
+    const { sut, changeAccountEmailSpy } = makeSut()
+    jest.spyOn(changeAccountEmailSpy, 'changeEmail').mockImplementationOnce(() => {
+      throw new EmailInUseError()
+    })
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(HttpHelper.conflict(new EmailInUseError()))
   })
 
   test('Should return serverError if ChangeAccountEmail throws', async() => {
