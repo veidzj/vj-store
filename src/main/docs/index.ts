@@ -7,7 +7,7 @@ export default {
   info: {
     title: 'VJ Store',
     description: 'E-Commerce API using TypeScript, DDD, TDD and Clean Architecture',
-    version: '0.24.0'
+    version: '0.24.1'
   },
   license: {
     name: 'GNU General Public License v3.0',
