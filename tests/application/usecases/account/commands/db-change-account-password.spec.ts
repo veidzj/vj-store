@@ -75,6 +75,13 @@ describe('DbChangeAccountPassword', () => {
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow(new InvalidCredentialsError())
     })
+
+    test('Should throw if HashComparer throws', async() => {
+      const { sut, hashComparerSpy } = makeSut()
+      jest.spyOn(hashComparerSpy, 'compare').mockImplementationOnce(throwError)
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).rejects.toThrow()
+    })
   })
 
   describe('AccountValidation', () => {
