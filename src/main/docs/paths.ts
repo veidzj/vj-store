@@ -1,10 +1,12 @@
-import { signUpPath, signInPath, changeEmailPath } from '@/main/docs/paths/account'
+import { signUpPath, signInPath } from '@/main/docs/paths/account/authentication'
+import { changeEmailPath } from '@/main/docs/paths/account/commands'
 import { categoryPath } from '@/main/docs/paths/category'
-import { addProductPath, updateProductPath, getLatestProductsPath, getProductsWithDiscountPath, getProductsByCategoryPath, getProductBySlugPath } from '@/main/docs/paths/product'
+import { addProductPath, updateProductPath } from '@/main/docs/paths/product/commands'
+import { getLatestProductsPath, getProductsWithDiscountPath, getProductsByCategoryPath, getProductBySlugPath } from '@/main/docs/paths/product/queries'
 
 export default {
-  '/account/signup': signUpPath,
-  '/account/signin': signInPath,
+  '/account/sign-up': signUpPath,
+  '/account/sign-in': signInPath,
   '/account/change-email': changeEmailPath,
   '/category': categoryPath,
   '/product': addProductPath,
