@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
+import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { ChangeAccountPasswordMongoRepository } from '@/infra/db/mongodb/account/commands'
 
 let accountCollection: Collection
@@ -35,5 +36,15 @@ describe('ChangeAccountPasswordMongoRepository', () => {
     jest.spyOn(Collection.prototype, 'updateOne').mockImplementationOnce(throwError)
     const promise = sut.changePassword(accountEmail, newPassword)
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should change a password on success', async() => {
+    const sut = makeSut()
+    const insertResult = await accountCollection.insertOne(mockAddAccountRepositoryInput())
+    const fakeAccount = await accountCollection.findOne({ _id: insertResult.insertedId })
+    await sut.changePassword(fakeAccount?.email as string, newPassword)
+    const account = await accountCollection.findOne({ email: fakeAccount?.email })
+    expect(account).toBeTruthy()
+    expect(account?.password).toBe(newPassword)
   })
 })
