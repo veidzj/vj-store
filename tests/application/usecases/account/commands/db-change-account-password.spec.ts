@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
-import { CheckAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
+import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
 import { ChangeAccountPasswordRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
@@ -9,18 +9,17 @@ import { AccountNotFoundError } from '@/domain/errors/account'
 
 interface Sut {
   sut: DbChangeAccountPassword
-  checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
+  getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
   changeAccountPasswordRepositorySpy: ChangeAccountPasswordRepositorySpy
 }
 
 const makeSut = (): Sut => {
-  const checkAccountByEmailRepositorySpy = new CheckAccountByEmailRepositorySpy()
-  checkAccountByEmailRepositorySpy.output = true
+  const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
   const changeAccountPasswordRepositorySpy = new ChangeAccountPasswordRepositorySpy()
-  const sut = new DbChangeAccountPassword(checkAccountByEmailRepositorySpy, changeAccountPasswordRepositorySpy)
+  const sut = new DbChangeAccountPassword(getAccountByEmailRepositorySpy, changeAccountPasswordRepositorySpy)
   return {
     sut,
-    checkAccountByEmailRepositorySpy,
+    getAccountByEmailRepositorySpy,
     changeAccountPasswordRepositorySpy
   }
 }
@@ -36,23 +35,23 @@ describe('DbChangeAccountPassword', () => {
     newPassword = faker.internet.password()
   })
 
-  describe('CheckAccountByEmailRepository', () => {
-    test('Should call CheckAccountByEmailRepository with correct email', async() => {
-      const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+  describe('GetAccountByEmailRepository', () => {
+    test('Should call GetAccountByEmailRepository with correct email', async() => {
+      const { sut, getAccountByEmailRepositorySpy } = makeSut()
       await sut.changePassword(accountEmail, currentPassword, newPassword)
-      expect(checkAccountByEmailRepositorySpy.email).toBe(accountEmail)
+      expect(getAccountByEmailRepositorySpy.email).toBe(accountEmail)
     })
 
-    test('Should throw AccountNotFoundError if CheckAccountByEmailRepository returns false', async() => {
-      const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-      checkAccountByEmailRepositorySpy.output = false
+    test('Should throw AccountNotFoundError if GetAccountByEmailRepository returns null', async() => {
+      const { sut, getAccountByEmailRepositorySpy } = makeSut()
+      getAccountByEmailRepositorySpy.output = null
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow(new AccountNotFoundError())
     })
 
-    test('Should throw if CheckAccountByEmailRepository throws', async() => {
-      const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-      jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(throwError)
+    test('Should throw if GetAccountByEmailRepository throws', async() => {
+      const { sut, getAccountByEmailRepositorySpy } = makeSut()
+      jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(throwError)
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow()
     })
