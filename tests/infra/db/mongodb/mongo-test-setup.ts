@@ -16,3 +16,7 @@ export async function disconnectFromDatabase(): Promise<void> {
 export async function clearCollection(collection: Collection): Promise<void> {
   await collection.deleteMany({})
 }
+
+export async function getCollection(collection: string): Promise<Collection> {
+  return mongoHelper.getCollection(collection)
+}

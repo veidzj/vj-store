@@ -2,8 +2,7 @@ import { Collection } from 'mongodb'
 import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getProductCollection } from '@/tests/infra/db/mongodb/product'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddProductRepositoryInput } from '@/tests/application/mocks/product/commands'
 import { GetProductsByCategoryMongoRepository } from '@/infra/db/mongodb/product/queries'
 
@@ -27,8 +26,15 @@ describe('GetProductsByCategoryMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    productCollection = await getProductCollection()
+    productCollection = await getCollection('products')
     await clearCollection(productCollection)
+  })
+
+  test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
+    jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
+    const promise = sut.getByCategory(mockAddProductRepositoryInput().category, defaultPage, randomLimit)
+    await expect(promise).rejects.toThrow()
   })
 
   test('Should return all products on success', async() => {
@@ -71,12 +77,5 @@ describe('GetProductsByCategoryMongoRepository', () => {
     expect(currentPage).toBe(defaultPage)
     expect(totalPages).toBe(defaultPage)
     expect(totalItems).toBe(0)
-  })
-
-  test('Should throw if mongo throws', async() => {
-    const sut = makeSut()
-    jest.spyOn(Collection.prototype, 'find').mockImplementationOnce(throwError)
-    const promise = sut.getByCategory(mockAddProductRepositoryInput().category, defaultPage, randomLimit)
-    await expect(promise).rejects.toThrow()
   })
 })

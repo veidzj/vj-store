@@ -3,7 +3,7 @@ import { type Request, type Response, type NextFunction } from 'express'
 import { type Middleware } from '@/presentation/protocols'
 
 export class ExpressMiddlewareAdapter {
-  public static adapt = (middleware: Middleware): (req: Request, res: Response, next: NextFunction) => Promise<void> => {
+  public static readonly adapt = (middleware: Middleware): (req: Request, res: Response, next: NextFunction) => Promise<void> => {
     return async(req: Request, res: Response, next: NextFunction): Promise<void> => {
       const request = {
         accessToken: req.headers?.['x-access-token'],
@@ -11,7 +11,7 @@ export class ExpressMiddlewareAdapter {
       }
       const httpResponse = await middleware.handle(request)
       if (httpResponse.statusCode === 200) {
-        Object.assign(req, httpResponse.body)
+        Object.assign(req.body, httpResponse.body)
         next()
       } else {
         res.status(httpResponse.statusCode).json({

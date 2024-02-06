@@ -5,8 +5,8 @@ import { AddCategoryRepositorySpy } from '@/tests/application/mocks/category/com
 import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/category/queries'
 import { mockAddCategoryInput } from '@/tests/domain/mocks/category'
 import { DbAddCategory } from '@/application/usecases/category/commands'
-import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 import { CategoryHelper } from '@/domain/entities/category'
+import { CategoryAlreadyExistsError } from '@/domain/errors/category'
 
 interface Sut {
   sut: DbAddCategory
@@ -36,8 +36,8 @@ describe('DbAddCategory', () => {
 
   describe('CheckCategoryByNameRepositorySpy', () => {
     test('Should call CheckCategoryByNameRepositorySpy with correct name', async() => {
-      const addCategoryInput = mockAddCategoryInput()
       const { sut, checkCategoryByNameRepositorySpy } = makeSut()
+      const addCategoryInput = mockAddCategoryInput()
       await sut.add(addCategoryInput)
       expect(checkCategoryByNameRepositorySpy.name).toBe(CategoryHelper.formatName(addCategoryInput.name))
     })
@@ -59,8 +59,8 @@ describe('DbAddCategory', () => {
 
   describe('AddCategoryRepository', () => {
     test('Should call AddCategoryRepository with correct values', async() => {
-      const addCategoryInput = mockAddCategoryInput()
       const { sut, addCategoryRepositorySpy } = makeSut()
+      const addCategoryInput = mockAddCategoryInput()
       await sut.add(addCategoryInput)
       expect(addCategoryRepositorySpy.input.id).toBeTruthy()
       expect(addCategoryRepositorySpy.input.name).toBe(CategoryHelper.formatName(addCategoryInput.name))

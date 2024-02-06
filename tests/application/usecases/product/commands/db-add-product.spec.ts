@@ -6,9 +6,9 @@ import { CheckCategoryByNameRepositorySpy } from '@/tests/application/mocks/cate
 import { AddProductRepositorySpy } from '@/tests/application/mocks/product/commands'
 import { mockAddProductInput } from '@/tests/domain/mocks/product'
 import { DbAddProduct } from '@/application/usecases/product/commands'
+import { ProductHelper } from '@/domain/entities/product'
 import { ProductAlreadyExistsError } from '@/domain/errors/product'
 import { CategoryNotFoundError } from '@/domain/errors/category'
-import { ProductHelper } from '@/domain/entities/product'
 
 interface Sut {
   sut: DbAddProduct
@@ -109,6 +109,12 @@ describe('DbAddProduct', () => {
       jest.spyOn(addProductRepositorySpy, 'add').mockImplementationOnce(throwError)
       const promise = sut.add(mockAddProductInput())
       await expect(promise).rejects.toThrow()
+    })
+
+    test('Should not throw on success', async() => {
+      const { sut } = makeSut()
+      const promise = sut.add(mockAddProductInput())
+      await expect(promise).resolves.not.toThrow()
     })
   })
 })

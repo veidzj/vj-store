@@ -1,8 +1,7 @@
 import { Collection } from 'mongodb'
 
 import { throwError } from '@/tests/test-helper'
-import { connectToDatabase, disconnectFromDatabase, clearCollection } from '@/tests/infra/db/mongodb'
-import { getAccountCollection } from '@/tests/infra/db/mongodb/account'
+import { connectToDatabase, disconnectFromDatabase, clearCollection, getCollection } from '@/tests/infra/db/mongodb'
 import { mockAddAccountRepositoryInput } from '@/tests/application/mocks/account/commands'
 import { AddAccountMongoRepository } from '@/infra/db/mongodb/account/commands'
 
@@ -13,8 +12,6 @@ const makeSut = (): AddAccountMongoRepository => {
 }
 
 describe('AddAccountMongoRepository', () => {
-  const sut = makeSut()
-
   beforeAll(async() => {
     await connectToDatabase()
   })
@@ -24,17 +21,19 @@ describe('AddAccountMongoRepository', () => {
   })
 
   beforeEach(async() => {
-    accountCollection = await getAccountCollection()
+    accountCollection = await getCollection('accounts')
     await clearCollection(accountCollection)
   })
 
   test('Should throw if mongo throws', async() => {
+    const sut = makeSut()
     jest.spyOn(Collection.prototype, 'insertOne').mockImplementationOnce(throwError)
     const promise = sut.add(mockAddAccountRepositoryInput())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should add an Account on success', async() => {
+    const sut = makeSut()
     const addAccountRepositoryInput = mockAddAccountRepositoryInput()
     await sut.add(addAccountRepositoryInput)
     const count = await accountCollection.countDocuments()
