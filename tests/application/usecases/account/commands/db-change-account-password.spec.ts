@@ -65,5 +65,12 @@ describe('DbChangeAccountPassword', () => {
       expect(changeAccountPasswordRepositorySpy.currentPassword).toBe(currentPassword)
       expect(changeAccountPasswordRepositorySpy.newPassword).toBe(newPassword)
     })
+
+    test('Should throw if ChangeAccountPasswordRepository throws', async() => {
+      const { sut, changeAccountPasswordRepositorySpy } = makeSut()
+      jest.spyOn(changeAccountPasswordRepositorySpy, 'changePassword').mockImplementationOnce(throwError)
+      const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
