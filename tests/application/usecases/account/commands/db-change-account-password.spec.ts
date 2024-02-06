@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
-import { HashComparerSpy } from '@/tests/application/mocks/cryptography'
+import { HashComparerSpy, HasherSpy } from '@/tests/application/mocks/cryptography'
 import { ChangeAccountPasswordRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
@@ -12,18 +12,21 @@ interface Sut {
   sut: DbChangeAccountPassword
   getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
   hashComparerSpy: HashComparerSpy
+  hasherSpy: HasherSpy
   changeAccountPasswordRepositorySpy: ChangeAccountPasswordRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
   const hashComparerSpy = new HashComparerSpy()
+  const hasherSpy = new HasherSpy()
   const changeAccountPasswordRepositorySpy = new ChangeAccountPasswordRepositorySpy()
-  const sut = new DbChangeAccountPassword(getAccountByEmailRepositorySpy, hashComparerSpy, changeAccountPasswordRepositorySpy)
+  const sut = new DbChangeAccountPassword(getAccountByEmailRepositorySpy, hashComparerSpy, hasherSpy, changeAccountPasswordRepositorySpy)
   return {
     sut,
     getAccountByEmailRepositorySpy,
     hashComparerSpy,
+    hasherSpy,
     changeAccountPasswordRepositorySpy
   }
 }
@@ -90,6 +93,14 @@ describe('DbChangeAccountPassword', () => {
       jest.spyOn(AccountValidation, 'validatePassword').mockImplementationOnce(throwError)
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('Hasher', () => {
+    test('Should call Hasher with correct password', async() => {
+      const { sut, hasherSpy } = makeSut()
+      await sut.changePassword(accountEmail, currentPassword, newPassword)
+      expect(hasherSpy.plainText).toBe(newPassword)
     })
   })
 
