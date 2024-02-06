@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { throwError } from '@/tests/test-helper'
 import { GetAccountByEmailRepositorySpy } from '@/tests/application/mocks/account/queries'
+import { HashComparerSpy } from '@/tests/application/mocks/cryptography'
 import { ChangeAccountPasswordRepositorySpy } from '@/tests/application/mocks/account/commands'
 import { DbChangeAccountPassword } from '@/application/usecases/account/commands'
 import { AccountValidation } from '@/domain/entities/account'
@@ -10,16 +11,19 @@ import { AccountNotFoundError } from '@/domain/errors/account'
 interface Sut {
   sut: DbChangeAccountPassword
   getAccountByEmailRepositorySpy: GetAccountByEmailRepositorySpy
+  hashComparerSpy: HashComparerSpy
   changeAccountPasswordRepositorySpy: ChangeAccountPasswordRepositorySpy
 }
 
 const makeSut = (): Sut => {
   const getAccountByEmailRepositorySpy = new GetAccountByEmailRepositorySpy()
+  const hashComparerSpy = new HashComparerSpy()
   const changeAccountPasswordRepositorySpy = new ChangeAccountPasswordRepositorySpy()
-  const sut = new DbChangeAccountPassword(getAccountByEmailRepositorySpy, changeAccountPasswordRepositorySpy)
+  const sut = new DbChangeAccountPassword(getAccountByEmailRepositorySpy, hashComparerSpy, changeAccountPasswordRepositorySpy)
   return {
     sut,
     getAccountByEmailRepositorySpy,
+    hashComparerSpy,
     changeAccountPasswordRepositorySpy
   }
 }
@@ -54,6 +58,15 @@ describe('DbChangeAccountPassword', () => {
       jest.spyOn(getAccountByEmailRepositorySpy, 'getByEmail').mockImplementationOnce(throwError)
       const promise = sut.changePassword(accountEmail, currentPassword, newPassword)
       await expect(promise).rejects.toThrow()
+    })
+  })
+
+  describe('HashComparer', () => {
+    test('Should call HashComparer with correct values', async() => {
+      const { sut, hashComparerSpy, getAccountByEmailRepositorySpy } = makeSut()
+      await sut.changePassword(accountEmail, currentPassword, newPassword)
+      expect(hashComparerSpy.plainText).toBe(currentPassword)
+      expect(hashComparerSpy.digest).toBe(getAccountByEmailRepositorySpy.output?.password)
     })
   })
 
