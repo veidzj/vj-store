@@ -2,7 +2,7 @@ import { type Controller, type Response } from '@/presentation/protocols'
 import { HttpHelper } from '@/presentation/helpers'
 import { type ChangeAccountEmail } from '@/domain/usecases/account/commands'
 import { EntityValidationError } from '@/domain/errors'
-import { AccountNotFoundError, InvalidCredentialsError } from '@/domain/errors/account'
+import { InvalidCredentialsError, AccountNotFoundError, EmailInUseError } from '@/domain/errors/account'
 
 export class ChangeAccountEmailController implements Controller {
   constructor(private readonly changeAccountEmail: ChangeAccountEmail) {}
@@ -20,6 +20,9 @@ export class ChangeAccountEmailController implements Controller {
       }
       if (error instanceof AccountNotFoundError) {
         return HttpHelper.notFound(error)
+      }
+      if (error instanceof EmailInUseError) {
+        return HttpHelper.conflict(error)
       }
       return HttpHelper.serverError(error as Error)
     }
