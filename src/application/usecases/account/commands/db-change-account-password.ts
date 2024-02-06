@@ -1,5 +1,6 @@
 import { type CheckAccountByEmailRepository } from '@/application/protocols/account/queries'
 import { type ChangeAccountPassword } from '@/domain/usecases/account/commands'
+import { AccountNotFoundError } from '@/domain/errors/account'
 
 export class DbChangeAccountPassword implements ChangeAccountPassword {
   constructor(
@@ -7,6 +8,9 @@ export class DbChangeAccountPassword implements ChangeAccountPassword {
   ) {}
 
   public async changePassword(accountEmail: string, currentPassword: string, newPassword: string): Promise<void> {
-    await this.checkAccountByEmailRepository.checkByEmail(accountEmail)
+    const accountExists = await this.checkAccountByEmailRepository.checkByEmail(accountEmail)
+    if (!accountExists) {
+      throw new AccountNotFoundError()
+    }
   }
 }
